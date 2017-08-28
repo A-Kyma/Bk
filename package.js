@@ -24,12 +24,12 @@ Package.onUse(function(api) {
   api.use('accounts-base');
   api.use('accounts-password');
   api.use('jagi:astronomy@2.4.8');
-  api.mainModule('bk.js');
+  api.mainModule('lib/bk.js');
 });
 
 Package.onTest(function(api) {
   api.use('ecmascript');
   api.use('tinytest');
   api.use('a-kyma:bk');
-  api.mainModule('bk-tests.js');
+  api.mainModule('test/bk-tests.js');
 });
