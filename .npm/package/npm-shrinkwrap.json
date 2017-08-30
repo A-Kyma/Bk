@@ -20,6 +20,11 @@
       "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-1.0.1.tgz",
       "from": "jsonfile@>=1.0.1 <1.1.0"
     },
+    "lodash": {
+      "version": "4.17.4",
+      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.4.tgz",
+      "from": "lodash@4.17.4"
+    },
     "mkdirp": {
       "version": "0.3.5",
       "resolved": "https://registry.npmjs.org/mkdirp/-/mkdirp-0.3.5.tgz",
