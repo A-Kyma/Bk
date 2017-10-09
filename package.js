@@ -21,9 +21,10 @@ Package.onUse(function(api) {
   api.use('tracker', 'client');
   api.use('meteor');
   api.use('mongo');
+  api.use('check');
   api.use('accounts-base');
   api.use('accounts-password');
-  api.use('jagi:astronomy@2.4.8');
+  api.use('jagi:astronomy@2.5.2');
   api.mainModule('lib/bk.js');
 });
 
