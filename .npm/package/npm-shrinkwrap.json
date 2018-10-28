@@ -1,54 +1,55 @@
 {
+  "lockfileVersion": 1,
   "dependencies": {
     "forEachAsync": {
       "version": "2.2.1",
       "resolved": "https://registry.npmjs.org/forEachAsync/-/forEachAsync-2.2.1.tgz",
-      "from": "forEachAsync@>=2.2.0 <2.3.0"
+      "integrity": "sha1-43I/AJA5EOHrSx2zrVG1xkoxn+w="
     },
     "fs-extra": {
       "version": "0.6.4",
       "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-0.6.4.tgz",
-      "from": "fs-extra@>=0.6.1 <0.7.0"
+      "integrity": "sha1-9G8MdbeEH40gCzNIzU1pHVoJnRU="
     },
     "fs.extra": {
       "version": "1.2.1",
       "resolved": "https://registry.npmjs.org/fs.extra/-/fs.extra-1.2.1.tgz",
-      "from": "fs.extra@1.2.1"
+      "integrity": "sha1-BgvyAmTzXjmtJH5enSEhoqdaFzM="
     },
     "jsonfile": {
       "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-1.0.1.tgz",
-      "from": "jsonfile@>=1.0.1 <1.1.0"
+      "resolved": "http://registry.npmjs.org/jsonfile/-/jsonfile-1.0.1.tgz",
+      "integrity": "sha1-6l7+QLg2kLmGZ2FKc5L8YOhCwN0="
     },
     "lodash": {
       "version": "4.17.4",
-      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.4.tgz",
-      "from": "lodash@4.17.4"
+      "resolved": "http://registry.npmjs.org/lodash/-/lodash-4.17.4.tgz",
+      "integrity": "sha1-eCA6TRwyiuHYbcpkYONptX9AVa4="
     },
     "mkdirp": {
       "version": "0.3.5",
-      "resolved": "https://registry.npmjs.org/mkdirp/-/mkdirp-0.3.5.tgz",
-      "from": "mkdirp@>=0.3.5 <0.4.0"
+      "resolved": "http://registry.npmjs.org/mkdirp/-/mkdirp-0.3.5.tgz",
+      "integrity": "sha1-3j5fiWHIjHh+4TaN+EmsRBPsqNc="
     },
     "ncp": {
       "version": "0.4.2",
-      "resolved": "https://registry.npmjs.org/ncp/-/ncp-0.4.2.tgz",
-      "from": "ncp@>=0.4.2 <0.5.0"
+      "resolved": "http://registry.npmjs.org/ncp/-/ncp-0.4.2.tgz",
+      "integrity": "sha1-q8xsvT7C7Spyn/bnwfqPAXhKhXQ="
     },
     "rimraf": {
       "version": "2.2.8",
-      "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-2.2.8.tgz",
-      "from": "rimraf@>=2.2.0 <2.3.0"
+      "resolved": "http://registry.npmjs.org/rimraf/-/rimraf-2.2.8.tgz",
+      "integrity": "sha1-5Dm+Kq7jJzIZUnMPmaiSnk/FBYI="
     },
     "sequence": {
       "version": "2.2.1",
       "resolved": "https://registry.npmjs.org/sequence/-/sequence-2.2.1.tgz",
-      "from": "sequence@>=2.0.0 <3.0.0"
+      "integrity": "sha1-f1YXiV1ENRwKBH52RGdpBJChawM="
     },
     "walk": {
       "version": "2.2.1",
       "resolved": "https://registry.npmjs.org/walk/-/walk-2.2.1.tgz",
-      "from": "walk@>=2.2.1 <2.3.0"
+      "integrity": "sha1-WtofjknkfUt0Rdi+ei4eYxq0MBY="
     }
   }
 }

@@ -25,7 +25,6 @@ Package.onUse(function(api) {
   api.use('check');
   api.use('accounts-base');
   api.use('accounts-password');
-  api.use('dynamic-import');
   api.use('jagi:astronomy@2.6.2');
   api.mainModule('lib/bk.js');
 });
