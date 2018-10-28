@@ -11,7 +11,8 @@ Package.describe({
 });
 
 Npm.depends({
-  "fs.extra": "1.2.1"
+  "fs.extra": "1.2.1",
+  lodash: '4.17.4'
 });
 
 Package.onUse(function(api) {
@@ -24,7 +25,8 @@ Package.onUse(function(api) {
   api.use('check');
   api.use('accounts-base');
   api.use('accounts-password');
-  api.use('jagi:astronomy@2.5.2');
+  api.use('dynamic-import');
+  api.use('jagi:astronomy@2.6.2');
   api.mainModule('lib/bk.js');
 });
 
