@@ -25,7 +25,7 @@ Package.onUse(function(api) {
   api.use('check');
   api.use('accounts-base');
   api.use('accounts-password');
-  api.use('jagi:astronomy@2.6.2');
+  api.use('jagi:astronomy@2.7.2');
   api.mainModule('lib/bk.js');
 });
 
