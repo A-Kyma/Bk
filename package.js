@@ -16,7 +16,7 @@ Npm.depends({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.5.1');
+  api.versionsFrom('1.8.1');
   api.use('ecmascript');
   api.use('deps', 'client');
   api.use('tracker', 'client');
@@ -25,7 +25,7 @@ Package.onUse(function(api) {
   api.use('check');
   api.use('accounts-base');
   api.use('accounts-password');
-  api.use('jagi:astronomy@2.7.2');
+  api.use('jagi:astronomy@2.7.3');
   api.mainModule('lib/bk.js');
 });
 
