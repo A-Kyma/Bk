@@ -15,6 +15,7 @@ Npm.depends({
   lodash: '4.17.4'
 });
 
+// See https://guide.meteor.com/writing-atmosphere-packages.html
 Package.onUse(function(api) {
   api.versionsFrom('1.8.1');
   api.use('ecmascript');
@@ -27,6 +28,10 @@ Package.onUse(function(api) {
   api.use('accounts-password');
   api.use('jagi:astronomy@2.7.3');
   api.mainModule('lib/bk.js');
+  //api.addFiles('%.css','client');
+  //api.addAssets(['%.eot','%.svg','%.ttf','%.woff'],'client');
+  api.mainModule('client/client.js','client');
+  api.mainModule('server/server.js','server');
 });
 
 Package.onTest(function(api) {
