@@ -27,11 +27,12 @@ Package.onUse(function(api) {
   api.use('accounts-base');
   api.use('accounts-password');
   api.use('jagi:astronomy@2.7.3');
-  api.mainModule('lib/bk.js');
+
   //api.addFiles('%.css','client');
   //api.addAssets(['%.eot','%.svg','%.ttf','%.woff'],'client');
   api.mainModule('client/client.js','client');
   api.mainModule('server/server.js','server');
+  api.mainModule('lib/bk.js');
 });
 
 Package.onTest(function(api) {
