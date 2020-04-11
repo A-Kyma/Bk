@@ -1,0 +1,20 @@
+<template name="fieldList">
+    {{#if eq for "view"}}
+        {{#each fieldsArray}}
+            {{> view model=../model field=. noLabel=../noLabel labelClass=../labelClass}}
+        {{/each}}
+    {{else}}
+        {{#each fieldsArray}}
+            {{#if in . ../noEdit}}
+                {{> view model=../model field=. noLabel=../noLabel labelClass=../labelClass}}
+            {{else}}
+                {{> input model=../model field=. for=../for noLabel=../noLabel labelClass=../labelClass validClass=../validClass hint=../hint  tagInLine=../tagInLine}}
+            {{/if}}
+        {{/each}}
+    {{/if}}
+</template>
+
+
+
+
+

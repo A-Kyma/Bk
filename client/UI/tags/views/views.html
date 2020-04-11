@@ -1,0 +1,145 @@
+<template name="noHtml">
+    {{getViewValue}}
+</template>
+
+<template name="_view">
+    {{#if noDiv}}
+        {{> _viewInner}}
+    {{else}}
+        {{#if noFormGroup}}
+            <div class="{{_row}}">
+                {{> _viewInner}}
+            </div>
+        {{else}}
+            <div class="form-group is-focused {{_row}}">
+                {{> _viewInner}}
+            </div>
+        {{/if}}
+
+    {{/if}}
+</template>
+
+<template name="_viewInner">
+    {{#unless noLabel}}
+        {{> _label}}
+    {{/unless}}
+    {{#if _editable}}
+        {{#if eq _pref.type "image"}}
+            {{> _viewCleanUrl}}
+        {{else}}
+            {{#clickToEdit}}
+                {{> _viewCleanUrl}}
+            {{else}}
+                {{> input}}
+            {{/clickToEdit}}
+        {{/if}}
+    {{else}}
+        {{> _viewCleanUrl}}
+    {{/if}}
+</template>
+
+<template name="_viewCleanUrl">
+    {{#if _url}}
+        <a href="{{_url}}">
+            {{> _viewClean}}
+        </a>
+    {{else}}
+        {{> _viewClean}}
+    {{/if}}
+</template>
+
+<template name="_viewClean">
+    {{#if iconClass}}
+        <i class="{{iconClass}}"></i>
+    {{/if}}
+    {{> _viewType}}
+</template>
+
+<template name="_viewDefault">
+    {{#if eq fieldType 'array'}}
+        {{#if eq fieldSubType 'strings'}}
+            {{#each getViewValue}}
+                {{> _view_ArrayStrings_actions}}
+            {{/each}}
+        {{/if}}
+    {{else}}
+        <span class="no-padding view-{{model._type}}-content view-{{field}}-content {{class}}">{{getViewValue}}</span>
+    {{/if}}
+</template>
+
+<template name="_viewBoolean">
+    <span class="no-padding view-{{model._type}}-content view-{{field}}-content {{class}} ">
+        {{#if getViewValue}}
+            <input name="boolean" type="checkbox" disabled checked/>
+        {{else}}
+            <input name="boolean" type="checkbox" disabled/>
+        {{/if}}
+    </span>
+</template>
+
+<template name="_viewI18n">
+    <span class="no-padding view-{{model._type}}-content view-{{field}}-content {{class}}">{{t getViewValue}}</span>
+</template>
+
+<template name="_viewMarkdown">
+    <span class="no-padding {{_editable}} view-{{model._type}}-content view-{{field}}-content {{class}}">{{{getViewValue}}}</span>
+</template>
+
+<template name="_viewWysiwyg">
+    <span class="no-padding view-{{model._type}}-content view-{{field}}-content {{class}}">{{{getViewValue}}}</span>
+</template>
+
+<template name="_viewEditor">
+    <span class="no-padding {{_editable}} view-{{model._type}}-content view-{{field}}-content {{class}}">{{{getViewValue}}}</span>
+</template>
+
+<template name="_viewHash">
+    <div class="well">
+        {{#each getViewValue}}
+            {{> view model=../model field=. for=../for noLabel=../noLabel labelClass=../labelClass hint=../hint}}
+        {{/each}}
+    </div>
+</template>
+
+<template name="_viewEnumstringMany">
+  <span class="no-padding view-{{model._type}}-content view-{{field}}-content {{class}}">
+      {{#each getViewValue}}
+          {{#if selected}}
+              {{t this.label}}&nbsp;
+          {{/if}}
+      {{/each}}
+  </span>
+</template>
+<template name="_viewBelongsToMany">
+  <span class="no-padding view-{{model._type}}-content view-{{field}}-content {{class}}">
+      {{#if count}}
+          {{getViewValue}}
+      {{else}}
+          [
+          {{#each getViewValue}}
+              {{#if eq this.seq 0}}
+                  {{#if url}}
+                      <a href={{this.url}}>{{this.name}}</a>
+                  {{else}}
+                      {{this.name}}
+                  {{/if}}
+              {{else}}
+                  {{#if url}}
+                      ,&nbsp;<a href={{this.url}}>{{this.name}}</a>
+                  {{else}}
+                      ,&nbsp;{{this.name}}
+                  {{/if}}
+              {{/if}}
+          {{else}}
+              &nbsp;
+          {{/each}}
+          ]
+      {{/if}}
+  </span>
+</template>
+<template name="_view_ArrayStrings_actions">
+    <div>
+        <div class="strings-in-array">{{this}}
+        </div>
+    </div>
+</template>

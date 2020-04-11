@@ -1,0 +1,24 @@
+<template name="button">
+    {{#if canDoAction}}
+        <span class="clickToActionButton">
+            {{#if Template.contentBlock}}
+                {{> Template.contentBlock}}
+            {{else}}
+                <button class="btn {{class}}"><i class="material-icons">
+            {{#if view}}
+                pageview
+            {{/if}}
+                    {{#if edit}}
+                        edit
+                    {{/if}}
+                    {{#if delete}}
+                        delete
+                    {{/if}}
+                    {{#if new}}
+                        add
+                    {{/if}}
+            </i><div class="ripple-container"></div></button>
+            {{/if}}
+        </span>
+    {{/if}}
+</template>

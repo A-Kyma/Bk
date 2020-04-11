@@ -16,6 +16,7 @@ Npm.depends({
 });
 
 // See https://guide.meteor.com/writing-atmosphere-packages.html
+// Do a meteor update on the project while adding this package
 Package.onUse(function(api) {
   api.versionsFrom('1.8.1');
   api.use('ecmascript');
@@ -27,6 +28,16 @@ Package.onUse(function(api) {
   api.use('accounts-base');
   api.use('accounts-password');
   api.use('jagi:astronomy@2.7.3');
+  api.use('tap:i18n@1.8.2');
+  api.use('tap:i18n-ui@0.8.0','client');
+  api.use('tap:i18n-db@0.4.0');
+  api.use('templating','client'); // to be able to create tag in package
+  api.use('reactive-var'); // For clickTo... components
+
+  // Import UI tags and routes
+  api.addFiles([
+    'client/UI/ui.js'
+  ],'client');
 
   //api.addFiles('%.css','client');
   //api.addAssets(['%.eot','%.svg','%.ttf','%.woff'],'client');

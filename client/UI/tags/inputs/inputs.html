@@ -1,0 +1,498 @@
+<template name="_input">
+    {{#if this._pref.inline}}
+        {{#if eq this._pref.type 'files'}}
+            {{#if this._pref.viewFilesBeforeInput}}
+                {{> view model=this.model field=this.field noLabel=1}}
+            {{/if}}
+        {{/if}}
+        <div class="form-group {{errorClass}} {{validatedClass}} {{_hasFeedback}}">
+            {{> _inlineLabel}}
+            {{> _innerInputType}}
+        </div>
+        {{#if eq this._pref.type 'files'}}
+            {{#if this._pref.viewFilesAfterInput}}
+                {{> view model=this.model field=this.field noLabel=1}}
+            {{/if}}
+        {{/if}}
+    {{else}}
+        {{#if eq this._pref.type 'boolean'}}
+            {{#if inline}}
+                <span class="{{errorClass}} {{validatedClass}}">
+                    {{> _innerInputType}}
+                </span>
+            {{else}}
+                <div class="form-group {{errorClass}} {{validatedClass}}">
+                    {{> _innerInputType}}
+                </div>
+            {{/if}}
+        {{else}}
+            {{#if eq this._pref.type 'files'}}
+                {{#if this._pref.viewFilesBeforeInput}}
+                    {{> view model=this.model field=this.field dimension=this.dimension noLabel=1}}
+                {{/if}}
+            {{/if}}
+            <div class="form-group {{errorClass}} {{validatedClass}} {{_hasFeedback}}">
+                {{#unless tagInLine}}
+                    <div class="{{mainClass}}">
+                        {{> _label}}
+                        {{> _innerInputType}}
+                    </div>
+                {{else}}
+                    {{> _label}}
+                    {{#if noLabel}}
+                        <div class="{{mainClass}}">
+                            {{> _innerInputType}}
+                        </div>
+                    {{else}}
+                        {{#if labelSize}}
+                            <div class="{{_tagScreen}}-{{_tagResize}}">
+                                {{> _innerInputType}}
+                            </div>
+                        {{else}}
+                            <div class="col-sm-9">
+                                {{> _innerInputType}}
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                {{/unless}}
+            </div>
+            {{#if eq this._pref.type 'files'}}
+                {{#if this._pref.viewFilesAfterInput}}
+                    {{> view model=this.model field=this.field dimension=this.dimension noLabel=1}}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+    {{/if}}
+</template>
+
+
+<template name="_innerInputType">
+    {{#if _beforeAfterInput}}
+        <div class="input-group">
+            {{> _beforeInput}}
+            {{> _inputType}}
+            {{> _afterInput}}
+        </div>
+        {{> _afterInputGroup}}
+    {{else}}
+        {{> _inputType}}
+        {{> _afterInputGroup}}
+    {{/if}}
+    {{> _hint}}
+    {{> _inputError}}
+    {{#if conflict}}
+        {{#with conflict}}
+            {{> _inputConflict}}
+        {{/with}}
+    {{/if}}
+    {{> _inputInlineEditSubmit}}
+</template>
+
+<template name="_outerInputType">
+    <span class="editable-container editable-inline" style="">
+        <div>
+          <div class="control-group">
+            <div>
+              <div class="editable-input">
+                <div class="input-group">
+                    {{> _innerInputType}}
+                </div>
+              </div>
+                {{> _inputInlineEditSubmit}}
+            </div>
+          </div>
+        </div>
+    </span>
+</template>
+
+
+<template name="_beforeInput">
+    {{#if _pref.beforeAddon}}
+        {{#if _beforeAddonIcon}}
+            <span class="input-group-addon"><span class="glyphicon {{_pref.beforeAddon}}" aria-hidden="true"></span></span>
+        {{else}}
+            {{#if _beforeAddonTranslate}}
+                <span class="input-group-addon">{{t _pref.beforeAddon}}</span>
+            {{else}}
+                <span class="input-group-addon">{{_pref.beforeAddon}}</span>
+            {{/if}}
+        {{/if}}
+    {{/if}}
+</template>
+
+<template name="_inputConflict">
+    <div class="alert alert-warning input-conflict">
+        <p>
+            <strong>{{t "app.warning"}} <i class="fa fa-exclamation-triangle"></i></strong>
+            {{t "app.conflict.user"}}<br>
+            {{t "app.conflict.choose"}}&nbsp;
+            <strong>{{>view model=../model field=../field noLabel=1 noDiv=1 value=oldValue}}</strong>
+        </p>
+        <hr>
+        <div class='center'>
+            <a href='#' class="yes btn btn-success">{{t "app.yes"}}</a>
+            <a href='#' class="no btn btn-danger">{{t "app.no"}}</a>
+        </div>
+    </div>
+</template>
+
+<template name="_afterInput">
+    {{#if inlineEdit}}
+        <span class="editable-clear-x"></span>
+    {{/if}}
+    {{#if _pref.afterAddon}}
+        <span class = "input-group-addon">{{_pref.afterAddon}}</span>
+    {{/if}}
+    {{#if _pref.afterButtonAddon}}
+        {{#if isMaterial}}
+            <span class="input-group-btn">
+                <button type="button" class="oneClickAction btn btn-fab btn-fab-mini">
+                    <i class="material-icons">{{_pref.afterButtonAddon}}</i>
+                    <div class="ripple-container"></div>
+                </button>
+            </span>
+        {{/if}}
+    {{/if}}
+    {{#if eq _pref.type "array"}}
+        <span class = "input-group-addon">
+            <button type="button" class="btn btn-primary btn-fab btn-fab-mini addToArray add-{{field}}">
+                <!--<i class="material-icons">add</i>-->
+                <i class="glyphicon glyphicon-plus"></i>
+            <div class="ripple-container"></div>
+            </button>
+        </span>
+    {{/if}}
+</template>
+
+<template name="_afterInputGroup">
+    {{#if _pref.afterIconClass}}
+        <span class="{{_pref.type}}-form-control-feedback glyphicon glyphicon-{{_errorClass}}{{_validatedClass}} form-control-feedback" aria-hidden="true"></span>
+    {{/if}}
+</template>
+
+
+<template name="_inputError">
+    {{#if hasError}}
+        {{> _inputErrorInner}}
+    {{/if}}
+</template>
+
+<template name="_inputErrorInner">
+    <div class="text-danger">
+        {{#each msg in msgs}}
+            {{msg}}<br/>
+        {{/each}}
+    </div>
+</template>
+
+<template name="_inputInlineEditSubmit">
+    {{#if inlineEdit}}
+        {{#unless eq _pref.type "color"}}
+            {{> _innerInputInlineEditSubmit}}
+        {{/unless}}
+    {{/if}}
+</template>
+
+<template name="_innerInputInlineEditSubmit">
+    <div class="editable-buttons">
+        <button class="btn btn-info editable-submit" type="submit">
+            <i class="fa fa-check icon-white"></i>
+        </button>
+        <button class="btn editable-cancel toggleLinkToEdit">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+</template>
+
+<!--
+###############################################################################################################
+                                        AVAILABLE INPUT TAGS
+###############################################################################################################
+-->
+
+<template name="_inputFilter">
+    {{#if iconClass}}
+        <i class="{{iconClass}}"></i>
+    {{/if}}
+    {{> _inputType}}
+</template>
+
+<template name="_inputText">
+    {{#if eq fieldType 'array'}}
+        {{#if eq fieldSubType 'strings'}}
+            {{#each getInputValue}}
+                {{> _input_ArrayStrings_actions}}
+            {{/each}}
+            <input class= "form-control {{_inputSize}} {{class}}" name="{{field}}" type="text" value="{{getInputValue}}" placeholder="{{placeholder}}" autocomplete="off">
+        {{/if}}
+    {{else}}
+        <input class= "form-control {{_inputSize}} {{class}}" name="{{field}}" type="text" value="{{getInputValue}}" placeholder="{{placeholder}}" autocomplete="off">
+    {{/if}}
+
+</template>
+
+<template name="_inputUrl">
+    <input class="form-control {{_inputSize}} {{class}}" name="{{field}}" type="url" value="{{getInputValue}}" placeholder= "{{placeholder}}">
+</template>
+
+<template name="_inputPhone">
+    <input class="form-control {{_inputSize}} {{class}}" name="{{field}}" type="tel" value="{{getInputValue}}" placeholder= "{{placeholder}}">
+</template>
+
+<template name="_inputPassword">
+    <input class="form-control {{_inputSize}} {{class}}" name="{{field}}" type="password" value="{{getInputValue}}" placeholder="{{placeholder}}">
+</template>
+
+<template name="_inputEmail">
+    {{#if eq fieldType 'array'}}
+        {{#if eq fieldSubType 'strings'}}
+            {{#each getInputValue}}
+                {{> _input_ArrayStrings_actions}}
+            {{/each}}
+            <input class="form-control {{_inputSize}} {{class}}" name="{{field}}" type="email" value="" placeholder= "{{placeholder}}" autocomplete="off">
+        {{else}}
+            <input class="form-control {{_inputSize}} {{class}}" name="{{field}}" type="email" value="{{getInputValue}}" placeholder= "{{placeholder}}" autocomplete="off">
+        {{/if}}
+    {{else}}
+        <input class="form-control {{_inputSize}} {{class}}" name="{{field}}" type="email" value="{{getInputValue}}" placeholder= "{{placeholder}}" autocomplete="off">
+    {{/if}}
+</template>
+
+<template name="_inputNumber">
+    <input class="form-control spinner-input {{class}}" name="{{field}}" type="number" step="any" value="{{getInputValue}}" placeholder= "{{placeholder}}">
+</template>
+
+<template name="_inputTextarea">
+    <textarea class="form-control {{class}}" name="{{field}}" type="text" data-provide="markdown" rows="5" placeholder= "{{placeholder}}">{{getInputValue}}</textarea>
+</template>
+
+<template name="_inputDate">
+    <input name="{{field}}" value="{{getInputValue}}" class="form-control {{_datePicker}}" type="date" data-date-format="dd-mm-yyyy" placeholder= "{{placeholder}}">
+</template>
+
+<template name="_inputDatetime">
+    <input name="{{field}}" value="{{getInputValue}}" class="form-control {{_dateTimePicker}}" type="datetime-local" data-format="YYYY-MM-DD HH:mm" placeholder= "{{placeholder}}">
+</template>
+
+<template name="_inputTime">
+    <input name="{{field}}" value="{{getInputValue}}" class="form-control {{_clockPicker}}" type="time" data-format="hh:mm" placeholder= "{{placeholder}}">
+</template>
+
+<template name="_inputEnumstring">
+    <select class="form-control select {{this.class}}" data-placeholder="{{this.placeholder}}" name="{{this.field}}">
+        {{#each context in getInputValue}}
+            {{#if context.selected}}
+                <option selected='true' value='{{context.value}}'>{{t context.label}}</option>
+            {{else}}
+                <option value='{{context.value}}'>{{t context.label}}</option>
+            {{/if}}
+        {{/each}}
+    </select>
+</template>
+
+<template name="_inputEnumstring_many">
+    {{#each context in getInputValue}}
+        <div class="form-control checkbox" style="float: left">
+            <label>
+                <input name="{{this.field}}" value="{{context.value}}" type="checkbox" class="ace" checked={{context.selected}}>
+                <span class="lbl">{{t context.label}}</span>
+            </label>
+        </div>
+    {{/each}}
+</template>
+
+<template name="_inputLifecycle">
+    <select class="form-control select {{this.class}}" data-placeholder="{{this.placeholder}}" id="{{this.field}}" name="{{this.field}}">
+        {{#each context in getInputValue}}
+            {{#if context.selected}}
+                <option selected='true' value='{{context.value}}'>{{context.label}}</option>
+            {{else}}
+                <option value='{{context.value}}'>{{context.label}}</option>
+            {{/if}}
+        {{/each}}
+    </select>
+</template>
+
+<template name="_inputBoolean">
+    {{#if inline}}
+        <label class="{{_inline}}">
+            {{#if getViewValue}}
+                <input class= "{{class}}" name="{{field}}" type="checkbox" checked placeholder= "{{placeholder}}">{{> _labelClean}}
+            {{else}}
+                <input class= "{{class}}" name="{{field}}" type="checkbox" placeholder= "{{placeholder}}">{{> _labelClean}}
+            {{/if}}
+        </label>
+    {{else}}
+        <div class="{{_mainClass}}">
+            <div class="checkbox">
+                <label class="{{_inline}}">
+                    {{#if getViewValue}}
+                        <input class= "{{class}}" name="{{field}}" type="checkbox" checked placeholder= "{{placeholder}}">
+                    {{else}}
+                        <input class= "{{class}}" name="{{field}}" type="checkbox" placeholder= "{{placeholder}}">
+                    {{/if}}
+                    <span class="checkbox-material"><span class="check"></span></span>
+                    {{> _labelClean}}
+                </label>
+            </div>
+        </div>
+    {{/if}}
+</template>
+
+<template name="_inputRadio">
+    {{#each context in getInputValue}}
+        {{#if this.inline}}
+            <label class="{{this.radioLabelClass}}">
+                {{#if context.selected}}
+                    <input class= "{{this.inputClass}}" name="{{this.field}}" type="radio" value="{{context.value}}" checked>&nbsp;{{t context.label}}
+                {{else}}
+                    <input class= "{{this.inputClass}}" name="{{this.field}}" type="radio" value="{{context.value}}">&nbsp;{{t context.label}}
+                {{/if}}
+            </label>
+        {{else}}
+            <div class="{{this.mainClass}}">
+                <div class="radio">
+                    <label class="{{this.radioLabelClass}}">
+                        {{#if this.selected}}
+                            <input class= "{{this.inputClass}}" name="{{this.field}}" type="radio" value="{{context.value}}" checked>{{t context.label}}
+                        {{else}}
+                            <input class= "{{this.inputClass}}" name="{{this.field}}" type="radio" value="{{context.value}}">{{t context.label}}
+                        {{/if}}
+                    </label>
+                </div>
+            </div>
+        {{/if}}
+    {{/each}}
+</template>
+
+<template name="_inputWysiwyg">
+    <div class="wysiwyg-editor" name="{{field}}">{{{getInputValue}}}</div>
+</template>
+
+<template name = "_inputEditor">
+    <textarea class="markdown-editor {{class}}" name="{{field}}" rows="10">{{getInputValue}}</textarea>
+</template>
+
+<template name="_viewColor">
+    <span class="btn-colorpicker color-picker {{class}}" style="background-color: {{_.value}}"></span>
+</template>
+
+<template name="_inputColor">
+    <input name="{{this.field}}" type="text" value="{{this._.value}}" hidden>
+    {{#if getInputValue}}
+        <select class="color-picker hidden">
+            {{#each context in getInputValue}}
+                {{#if eq this._.value this}}
+                    <option value="{{context}}" selected>{{context}}</option>
+                {{else}}
+                    <option value="{{context}}">{{context}}</option>
+                {{/if}}
+            {{/each}}
+        </select>
+    {{else}}
+        {{> _viewColor}}
+    {{/if}}
+</template>
+
+<template name="_inputHash">
+    <div class="well">
+        {{#each getInputValue}}
+            {{> input model=../model field=. for=../for noLabel=../noLabel labelClass=../labelClass validClass=../validClass hint=../hint}}
+        {{/each}}
+    </div>
+</template>
+
+<template name="_inputArray">
+    {{#if eq fieldSubType 'strings'}}
+        {{#each getInputValue}}
+            <div>
+                <div class="strings-in-array">
+                    {{>view model=../model field=. noLabel=1 noHtml=1}}
+                    {{#if ../_pref.deleteLabel}}
+                        <button data='{{this}}' class="removeFromArray btn btn-danger btn-xs" type="button">{{t "input.array.strings.delete"}}<div class="ripple-container"></div></button>
+                    {{else}}
+                        <button data = '{{this}}' class="removeFromArray btn btn-danger btn-xs" type="button"><i class="glyphicon glyphicon-trash"></i><div class="ripple-container"></div></button>
+                    {{/if}}
+                </div>
+            </div>
+        {{/each}}
+        <input class="form-control {{_inputSize}} {{class}}" name="{{field}}" type="email" value="" placeholder= "{{placeholder}}" autocomplete="off">
+    {{else}}
+        {{#each getInputValue}}
+            {{> view model=../model field=. noLabel=../noLabel labelClass=../labelClass}}
+        {{/each}}
+        <input class="form-control {{_inputSize}} {{class}}" name="{{field}}" type="email" value="{{getInputValue}}" placeholder= "{{placeholder}}" autocomplete="off">
+    {{/if}}
+
+
+</template>
+
+<template name="_inputBelongs_to">
+    {{#if noAutocomplete}}
+        <select class="form-control select {{this._inputSize}} {{this.class}}" data-placeholder="{{this.placeholder}}" id="{{this.field}}" name="{{this.field}}" model="{{this.model._type}}">
+            {{#each context in getInputValue}}
+                {{#if context.selected}}
+                    <option selected='selected' value='{{context.value}}'>{{context.label}}</option>
+                {{else}}
+                    <option value='{{context.value}}'>{{context.label}}</option>
+                {{/if}}
+            {{/each}}
+        </select>
+    {{else}}
+        <select class="form-control select chosen-select {{this._generateReference}} {{this.class}}" data-placeholder="{{this.placeholder}}" id="{{this.field}}" name="{{this.field}}" model="{{this.model._type}}">
+            {{#each context in getInputValue}}
+                {{#if context.selected}}
+                    <option selected='selected' value='{{context.value}}'>{{context.label}}</option>
+                {{else}}
+                    <option value='{{context.value}}'>{{context.label}}</option>
+                {{/if}}
+            {{/each}}
+        </select>
+    {{/if}}
+</template>
+
+<template name="_inputAutoCompleteBelongs_to">
+    <input class="form-control {{class}} typeahead col-md-12 col-xs-12" name="{{field}}-autocomplete" autocomplete="off" data-provide="typeahead" type="text" placeholder="{{placeholder}}" value="{{getInputValue}}">
+</template>
+
+<template name="_inputBelongs_toRadio">
+    {{#each context in getInputValue}}
+        <div class="radio">
+            <label>
+                {{#if context.selected}}
+                    <input type="radio" name="field" class="ace" value="{{context.value}}" checked>
+                {{else}}
+                    <input type="radio" name="field" class="ace" value="{{context.value}}">
+                {{/if}}
+                <span class="lbl">{{context.label}}</span>
+            </label>
+        </div>
+    {{/each}}
+</template>
+
+<template name="_inputBelongs_to_many">
+    <input class= "form-control {{class}} typeahead" name="{{field}}" type="text" placeholder="{{placeholder}}" autocomplete="off">
+</template>
+
+<template name="_inputHas_many">
+    <select multiple class="chosen-select-multi col-xs-6 {{this.class}}" data-placeholder="{{this.placeholder}}" id="{{this.field}}" name="{{this.field}}" model="{{this.model._type}}">
+        {{#each context in getInputValue}}
+            {{#if context.selected}}
+                <option selected='selected' value='{{context.value}}'>{{context.label}}</option>
+            {{else}}
+                <option value='{{context.value}}'>{{context.label}}</option>
+            {{/if}}
+        {{/each}}
+    </select>
+</template>
+<template name="_input_ArrayStrings_actions">
+    <div>
+        <div class="strings-in-array">{{this}}
+            {{#if ../_pref.deleteLabel}}
+                <button data='{{this}}' class="removeFromArray btn btn-danger btn-xs" type="button">{{t "input.array.strings.delete"}}<div class="ripple-container"></div></button>
+            {{else}}
+                <button data = '{{this}}' class="removeFromArray btn btn-danger btn-xs" type="button"><i class="glyphicon glyphicon-trash"></i><div class="ripple-container"></div></button>
+            {{/if}}
+        </div>
+    </div>
+</template>

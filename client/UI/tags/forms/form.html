@@ -1,0 +1,11 @@
+<template name="form">
+    {{#if inline}}
+        <form class="form-inline">
+            {{> Template.contentBlock inline=1}}
+        </form>
+    {{else}}
+        <form class="form-horizontal">
+            {{> Template.contentBlock}}
+        </form>
+    {{/if}}
+</template>

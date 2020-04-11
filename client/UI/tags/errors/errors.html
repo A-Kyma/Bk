@@ -1,0 +1,109 @@
+<!--
+###############################################################################################################
+                                         ERRORS TAGS
+###############################################################################################################
+-->
+<template name="errors">
+    <div class="col-lg-6 col-lg-offset-3 col-sm-12 col-xs-12 errors">
+        {{#each errors}}
+            {{> error}}
+        {{/each}}
+    </div>
+    <div style="clear:both"></div>
+</template>
+
+<template name="modalErrors">
+    <div class="col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12 errors">
+        {{#each errors}}
+            {{> error}}
+        {{/each}}
+    </div>
+    <div style="clear:both"></div>
+</template>
+
+<template name="error">
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times bigger-140"></i></button>
+        {{t message}}
+    </div>
+</template>
+
+<template name="notFound">
+    <div class="error-container">
+
+        <div class="well">
+            <h1 class="grey lighter smaller">
+                <span class="blue bigger-125"><i class="ace-icon fa fa-sitemap"></i> 404</span> {{t "router.notFound.title"}}
+            </h1>
+            <hr />
+            <h3 class="lighter smaller">{{t "router.notFound.exist"}}</h3>
+
+            <div>
+
+                <div class="space"></div>
+
+                <h4 class="smaller">{{t "router.notFound.try"}}:</h4>
+                <ul class="list-unstyled spaced inline bigger-110 margin-15">
+                    <li><i class="ace-icon fa fa-hand-o-right blue"></i> {{t "router.notFound.checkUrl"}}</li>
+                    <li><i class="ace-icon fa fa-hand-o-right blue"></i> {{t "router.notFound.checkRights"}}</li>
+                    <li><i class="ace-icon fa fa-hand-o-right blue"></i> {{t "router.notFound.tellUs"}}</li>
+                </ul>
+            </div>
+
+            <hr />
+            <div class="space"></div>
+
+            <div class="center">
+                <a href="javascript:history.back()" class="btn btn-grey"><i class="ace-icon fa fa-arrow-left"></i> {{t "router.goBack"}}</a>
+                <a href="/" class="btn btn-primary"><i class="ace-icon fa fa-tachometer"></i> {{t "router.dashboard"}}</a>
+            </div>
+        </div>
+
+    </div>
+</template>
+
+<template name="_tagParamError">
+    <div class="">
+        ERROR: The PARAM "{{field}}" is mandatory when calling tag "{{tag}}"
+    </div>
+</template>
+
+<template name="_tagParamsError">
+    <div class="">
+        ERROR: The PARAMs "{{this.field}}" for the tag "{{this.tag}}" are mutually exclusive.
+    </div>
+</template>
+
+<template name="_tagMandatory">
+    <div class="">
+        ERROR: The PARAMs "{{field}}" for the tag "{{tag}}" are mandatory.
+    </div>
+</template>
+
+<template name="_tagUnknown">
+    <div class="">
+        ERROR: The field "{{this.field}}" has an unknown type "{{this.type}}".
+    </div>
+</template>
+
+<template name="_tagMissingArgument">
+    <div class="">
+        ERROR: Argument "{{this.tag}} is missing for field "{{this.field}}".
+    </div>
+</template>
+
+<template name="_nullTemplate">
+    ERROR: template "{{this.tag}}" render nothing !!! Argument: {{this.value}}".
+</template>
+
+<template name="_tagMissing">
+    <div class="">
+        Template "{{tag}}" is missing some mandatory arguments.
+    </div>
+</template>
+
+<template name="_tagFieldError">
+    <div class="">
+        The field "{{field}}" used in the tag "{{tag}}" is missing in the model "{{type}}".
+    </div>
+</template>

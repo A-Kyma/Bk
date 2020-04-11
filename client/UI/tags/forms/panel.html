@@ -1,0 +1,17 @@
+<template name="panel">
+    {{#if this.title}}
+        <div class="col-xs-12 {{this.width}}">
+            <div class="panel panel-default">
+                <div class="panel-heading {{this.headerClass}}">
+                    {{t this.title}}
+                </div>
+                <div class="panel-body">
+                    <p>{{> Template.contentBlock}}</p>
+                    {{#if this.link}}
+                        <a href="{{this.link}}" class="btn {{this.btnClass}}">{{t this.button}}</a>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    {{/if}}
+</template>

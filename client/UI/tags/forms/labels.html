@@ -1,0 +1,34 @@
+<template name="_label">
+    {{#unless noLabel}}
+        {{#if noHtml}}
+            {{t key}}
+        {{else}}
+            {{#if labelSize}}
+                <label class="{{labelSize}} control-label view-{{model._type}}-label view-{{field}}-label">{{t key}}</label>
+            {{else}}
+                {{#unless tagInLine}}
+                    <label class="control-label view-{{model._type}}-label view-{{field}}-label">{{t key}}</label>
+                {{else}}
+                    <label class="col-sm-3 control-label view-{{model._type}}-label view-{{field}}-label">{{t key}}</label>
+                {{/unless}}
+            {{/if}}
+        {{/if}}
+    {{/unless}}
+</template>
+<template name="_inlineLabel">
+    {{#unless noLabel}}
+        {{#if noHtml}}
+            {{t key}}
+        {{else}}
+            <label class="view-{{model._type}}-label view-{{field}}-label">{{t key}}</label>
+        {{/if}}
+    {{/unless}}
+</template>
+
+<template name="_labelClean">
+    {{#if _pref.bold}}
+        <strong>{{t key}}</strong>
+    {{else}}
+        {{t key}}
+    {{/if}}
+</template>

@@ -1,0 +1,46 @@
+
+<template name="firstLoad">
+    <div style=" overflow: hidden; height: 100vh; width: 100vw">
+        <div class="firstLoad" style="height: inherit; width: inherit;  background: url(/client/assets/img/firstLoad.jpg) no-repeat">
+            <div class="main-container">
+                <div class="main-content" style="padding-top: 13%;">
+                    <div class="row">
+                        <div class="col-sm-10 col-sm-offset-1">
+                            <div class="login-container">
+                                <div class="center">
+                                    <h1>
+                                        <i class="ace-icon fa fa-leaf green"></i>
+                                        <span class="red">
+                                            {{#if application}}
+                                                {{application}}
+                                            {{else}}
+                                                {{t "project.name"}}
+                                            {{/if}}
+                                        </span>
+                                        <span class="light-grey" id="id-text2">Application</span>
+                                    </h1>
+                                    <h4 class="light-blue" id="id-company-text">© A-Kyma</h4>
+                                </div>
+
+                                <div class="space-6"></div>
+
+                                <div class="position-relative">
+                                    <div id="login-box" class="login-box visible widget-box no-border">
+                                        <div class="widget-body">
+                                            <div class="widget-main">
+                                                <h4 class="header blue lighter">
+                                                    <i class="ace-icon fa fa-coffee green"></i>
+                                                    LOADING YOUR INTERFACE <span  style="padding-left: 15%"><i class="fa fa-spinner fa-spin orange bigger-130"></i></span>
+                                                </h4>
+                                            </div><!-- /.widget-main -->
+                                        </div><!-- /.widget-body -->
+                                    </div><!-- /.login-box -->
+                                </div><!-- /.position-relative -->
+                            </div>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.main-content -->
+            </div><!-- /.main-container -->
+        </div>
+    </div>
+</template>

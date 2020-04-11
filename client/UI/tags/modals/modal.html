@@ -1,0 +1,92 @@
+
+<!-- Create new modal for model specified. args :
+ - model: model to use
+ - for : action (new, edit, view)
+ - title: I18n key for the title to display. By default: <model._type>.<action>.<title>
+ - class: class to append to tag <a> used for title
+ - icon: icon class to append to link
+ - linkLabel: boolean to show button label as title
+ - actionType - used for datatable and lifecycle:
+    - btn implies class on link
+    - lib implies linkLabel and class on icon
+    - empty implies class on icyon and no linkLabel
+ - contentBlock will be the content of the link to modal
+ - elseBlock will be in the content of the modal
+-->
+<template name="clickToModal">
+    {{#if canAccess}}
+        <a href="#" title="{{t title}}" id="{{id}}" class="toggleView {{class}}">
+            {{#if icon}}
+                <i class="material-icons {{icon}}"></i>
+            {{/if}}
+            {{#if linkLabel}}
+                {{t title}}
+            {{/if}}
+            {{> Template.contentBlock}}
+        </a>
+        {{#if modalView}}
+            {{#if Template.elseBlock}}
+                {{#_clickToModalInner}}
+                    {{> Template.elseBlock}}
+                {{/_clickToModalInner}}
+            {{else}}
+                {{#with getModalContext}}
+                    {{#_clickToModalInner}}
+                        {{> fieldList}}
+                    {{/_clickToModalInner}}
+                {{/with}}
+            {{/if}}
+        {{/if}}
+    {{/if}}
+</template>
+
+<template name="_clickToModalInner">
+    <div id="clickToModal" class="modal fade">
+        <div class="modal-dialog {{this.size}}" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{{t title}}</h4>
+                </div>
+                <div class="modal-body">
+                    {{#if eq for "view"}}
+                        {{#if Template.contentBlock}}
+                            {{> Template.contentBlock}}
+                        {{else}}
+                            {{> fieldList}}
+                        {{/if}}
+                    {{else}}
+                        {{> modalErrors}}
+                        <div class="row">
+                            <div style="margin: 15px">
+                                <form class="form-horizontal">
+                                    {{#if Template.contentBlock}}
+                                        {{> Template.contentBlock}}
+                                    {{else}}
+                                        {{#if this.validClass}}
+                                            {{> fieldList validClass=1}}
+                                        {{else}}
+                                            {{> fieldList}}
+                                        {{/if}}
+                                    {{/if}}
+                                </form>
+                            </div>
+                        </div>
+                    {{/if}}
+                </div>
+                <div class="modal-footer">
+                    {{> cancelModal}}
+                    {{#if neq for "view"}}
+                        {{> submit model=model for=for modal="clickToModal" remote=remote redirect_to=redirect_to transition=transition}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="cancelModal">
+    <span class="cancel-pull">
+        <input type="button" value="{{t 'modal.cancel'}}" class="btn btn-primary cancel-modal"/>
+    </span>
+</template>
