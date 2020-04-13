@@ -40,7 +40,7 @@ Package.onUse(function(api) {
   //api.addAssets(['%.eot','%.svg','%.ttf','%.woff'],'client');
   api.mainModule('client/client.js','client');
   api.mainModule('server/server.js','server');
-  api.mainModule('lib/bk.js');
+  api.mainModule('lib/lib.js');
 });
 
 Package.onTest(function(api) {
