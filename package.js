@@ -28,9 +28,6 @@ Package.onUse(function(api) {
   api.use('accounts-base');
   api.use('accounts-password');
   api.use('jagi:astronomy@2.7.3');
-  api.use('tap:i18n@1.8.2');
-  api.use('tap:i18n-ui@0.8.0','client');
-  api.use('tap:i18n-db@0.4.0');
   api.use('templating','client'); // to be able to create tag in package
   api.use('reactive-var'); // For clickTo... components
 

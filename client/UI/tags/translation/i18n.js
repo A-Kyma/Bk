@@ -1,4 +1,4 @@
-import I18n from "../../../../lib/modules/i18n/module.js";
+import I18n from "../../../../lib/classes/i18n";
 
 Template.registerHelper("t", function(key, options) {
   options = options || {};
