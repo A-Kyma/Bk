@@ -15,10 +15,10 @@ Optional arguments
 */
 Template.registerHelper('label', function() {
 
-  if (typeof this.model === "string") {
-    this.model = Class.get(this.model) && new (Class.get(this.model))();
-  }
-  if (Class.includes(this.model.constructor) && this.field) {
+  // Get model if this.model is a String. Return undefined if model not known
+  this.model = Class.getModel(this.model);
+
+  if (this.model && this.field) {
     //if (!this.model.canView(this.field)) { return null; }
     return Template["_label"];
   } else {
