@@ -1,8 +1,9 @@
 import './fieldlist.html';
+import Bk from "../../../../lib/modules/core/utils/Bk";
 
 Template.fieldList.helpers({
   fieldsArray() {
-    return BkCore.getFieldsArray(this);
+    return Bk.getFieldsArray(this);
   }
 });
 
