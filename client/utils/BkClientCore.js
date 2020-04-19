@@ -137,7 +137,7 @@ Bk.callFieldValidation = function (event, template, silent) {
                 img.src = res;
                 return img.onload = function () {
                   let activeFile, data_size, fileHash;
-                  const data_url = BkClientCore.getResizedPicture(img, profile);
+                  const data_url = Bk.getResizedPicture(img, profile);
                   if (profile) {
                     fileHash = {
                       binary: data_url
@@ -453,14 +453,14 @@ Bk.getValueForField = function (context, tag) {
 
   let valueType = pref.type.name;
 
-  const value = context.value || model.get(field, true);
+  const value = context.value || model.get(field);
 
   //Set old value in template instance (_innerInput) during template rendering
   if (Template.instance()) {
     currentView = Template.instance().view;
     const innerInputTypeView = Blaze.getView(currentView, "Template._innerInputType");
-    if (model.isPersisted() && currentView && !currentView.isRendered && innerInputTypeView && innerInputTypeView._templateInstance) {
-      innerInputTypeView._templateInstance.oldValue = value;
+    if (model.isPersisted() && currentView && !currentView.isRendered && innerInputTypeView && innerInputTypeView.templateInstance()) {
+      innerInputTypeView.templateInstance().oldValue = value;
     }
   }
   if (_.isFunction(valueType) && valueType._fields && _.isUndefined(pref.embedded)) {
@@ -471,7 +471,7 @@ Bk.getValueForField = function (context, tag) {
       if (tag === 'view') {
         res = I18n.t(model._type + ".lifecycle." + value);
       } else {
-        res = BkClientCore.getLifeCycleValues(model, field, value, context);
+        res = Bk.getLifeCycleValues(model, field, value, context);
       }
       break;
     case 'version':
@@ -490,8 +490,8 @@ Bk.getValueForField = function (context, tag) {
       res = (value && I18n.getTime(value)) || "";
       break;
     case 'datetime':
-      var isMobile = BkClientCore._device.isMobile();
-      var isDatetimeCompatible = BkClientCore._device.isDatetimeCompatible();
+      var isMobile = Bk._device.isMobile();
+      var isDatetimeCompatible = Bk._device.isDatetimeCompatible();
       if (tag === "view") {
         //check if format forced in model field
         if (isMobile || isDatetimeCompatible) {
@@ -523,20 +523,20 @@ Bk.getValueForField = function (context, tag) {
       break;
     case 'enumstring':
       if (tag === "view") {
-        res = BkClientCore.getValueForEnumStr(model._type, value, field);
+        res = Bk.getValueForEnumStr(model._type, value, field);
       } else {
-        res = BkClientCore.getEnumStringValues(model, field, value, context);
+        res = Bk.getEnumStringValues(model, field, value, context);
       }
       break;
     case 'radio':
       if (tag === "view") {
-        res = BkClientCore.getValueForEnumStr(model._type, value, field);
+        res = Bk.getValueForEnumStr(model._type, value, field);
       } else {
-        res = BkClientCore.getRadioValues(model, field, value, context);
+        res = Bk.getRadioValues(model, field, value, context);
       }
       break;
     case 'enumstring_many':
-      res = BkClientCore.getEnumStringManyValues(model, field, value, context);
+      res = Bk.getEnumStringManyValues(model, field, value, context);
       break;
     case 'markdown':
       if ((typeof value === "string") && (tag === "view")) {
@@ -574,9 +574,9 @@ Bk.getValueForField = function (context, tag) {
       break;
     case 'belongs_to':
       if ((tag === "view") || pref.autocomplete) {
-        res = BkClientCore.getValueForBelongsTo(model, field, value, context);
+        res = Bk.getValueForBelongsTo(model, field, value, context);
       } else {
-        res = BkClientCore.getBelongsToStringValues(model, field, value, context);
+        res = Bk.getBelongsToStringValues(model, field, value, context);
         // When value change after rendered, it implies dependency or conflict, then index forced
         if (currentView.isRendered) {
           const select = Template.instance().find("select");
@@ -595,15 +595,15 @@ Bk.getValueForField = function (context, tag) {
 
     case 'belongs_to_many':
       if (tag === "view") {
-        res = BkClientCore.getValueForBelongsToMany(model, field, value, context);
+        res = Bk.getValueForBelongsToMany(model, field, value, context);
       }
       break;
 
     case 'has_many':
       if (tag === "view") {
-        res = BkClientCore.getValueForBelongsTo(model, field, value, context);
+        res = Bk.getValueForBelongsTo(model, field, value, context);
       } else {
-        res = BkClientCore.getHasManyToStringValues(model, field, value, context);
+        res = Bk.getHasManyToStringValues(model, field, value, context);
       }
       break;
     default:
