@@ -1,5 +1,8 @@
 import './views.html';
 import { Class } from 'meteor/jagi:astronomy';
+import { _ } from 'lodash';
+import { Bk } from '../../../client';
+
 
 /*
 View tag: give the value of the field, with label (if needed)
@@ -26,13 +29,14 @@ TODO => Take into account any "tree" field like department.company.name or user.
 - _url transform the view into a link (passed by pref)
 */
 Template.registerHelper('view', function() {
-  if (typeof this.model === "string") { this.model = global[this.model] && global[this.model].new(); }
-  if (this.model && this.model._type && this.field) {
+  this.model = Class.getModel(this.model);
+
+  if (this.model && this.field) {
 //    if @field.indexOf(".") > 0
 //      field = @field.substring(0,@field.indexOf("."))
 //    else
 //      field = @field
-    let pref = (this._pref = this.model.getPreferenceForField(this.field));
+    let pref = this.model.getDefinition(this.field);
 
     if (pref) {
       if (!this.model.canView(this.field)) { return null; }
@@ -78,7 +82,7 @@ Template._viewCleanUrl.helpers({
     if (this._pref != null) {
       pref = this._pref;
     } else {
-      pref = (this._pref = this.model.getPreferenceForField(this.field)); // BkCore.getPreferenceFields(@model,@field)
+      pref = (this._pref = this.model.getDefinition(this.field));
     }
     if (!pref) { return; }
     if (pref.type === "belongs_to") {
@@ -110,14 +114,12 @@ Template.registerHelper('_viewType', function() {
   if (this._pref != null) {
     pref = this._pref;
   } else {
-    pref = (this._pref = this.model.getPreferenceForField(this.field)); // BkCore.getPreferenceFields(@model,@field)
+    pref = (this._pref = this.model.getDefinition(this.field));
   }
-  const {
-    type
-  } = pref;
-  if (_.contains(['color', 'editor', 'markdown', 'wysiwyg', 'image', 'lifecycle', 'boolean'],type)) {
+  let type = pref.type.name;
+  if (_.includes(['color', 'editor', 'markdown', 'wysiwyg', 'image', 'lifecycle', 'boolean'],type)) {
     templateName = "_view" + Bk.capitalize(type);
-  } else if (_.contains(['enumstring', 'i18n'],type)) {
+  } else if (_.includes(['enumstring', 'i18n'],type)) {
     templateName = "_viewI18n";
   } else if (type === "enumstring_many") {
     templateName = "_viewEnumstringMany";
@@ -143,5 +145,5 @@ Template.registerHelper('markdownToHTML', function(value,options) {
 
 Template.registerHelper('getViewValue', function() {
   if (!this.model || !this.field || !this._pref) { return; }
-  return BkClientCore.getValueForField(this,"view");
+  return Bk.getValueForField(this,"view");
 });
