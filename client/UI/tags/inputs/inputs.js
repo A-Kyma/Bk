@@ -1,5 +1,6 @@
 import './inputs.html';
-
+import { Class } from 'meteor/jagi:astronomy';
+import _ from 'lodash';
 /*
 Input tag: give the value of the field, with label (if needed)
 Mandatory arguments:
@@ -40,16 +41,34 @@ TODO => Take into account any "tree" field like department.company.name or user.
 - _url transform the view into a link (passed by pref)
 */
 Template.registerHelper('input', function() {
-  if (typeof this.model === "string") { this.model = global[this.model] && global[this.model].new(); }
-  if (this.model && this.model._type && this.field) {
-    let field;
-    if (this.field.indexOf(".") > 0) {
-      field = this.field.substring(0,this.field.indexOf("."));
-    } else {
-      ({
-        field
-      } = this);
-    }
+  this.model = Class.getModel(this.model);
+
+  if (!this.model || !this.field) {
+    this.tag = "input";
+    return Template["_tagMissing"];
+  }
+
+  let pref = this._pref = this.model.getDefinition(this.field);
+
+  if (!pref) {
+    this.tag = "view"
+    this.type = this.model.constructor.name;
+    return Template["_tagFieldError"];
+  }
+
+  let type = this.type = pref.type.name;
+
+  if (!this.model.canView(this.field)) { return null; }
+
+  if (!this.model.canEdit(this.field)) {
+    this.for = "view";
+    return Template["view"];
+  }
+
+  if (this.inlineEdit) { this._editable = "inline-editable"; }
+
+
+
     if (_.has(this.model.constructor._fields, field)) {
       if (!this.model.canView(this.field)) { return null; }
       //   Add new values in the context
@@ -91,10 +110,6 @@ Template.registerHelper('input', function() {
       this.type = this.model._type;
       return Template["_tagFieldError"];
     }
-  } else {
-    this.tag = "input";
-    return Template["_tagMissing"];
-  }
 });
 Template._beforeInput.helpers({
   _beforeAddonIcon() {
@@ -227,7 +242,7 @@ Template._input.onRendered(function() {
 Template.registerHelper('getInputValue', function() {
   if (this.value && this.value["$regex"]) { return this.value["$regex"]; }
   if (!this.model || !this.field || !this._pref) { return; }
-  return BkClientCore.getValueForField(this,"input");
+  return Bk.getValueForField(this,"input");
 });
 
 Template._inputBelongs_to.helpers({
@@ -319,7 +334,7 @@ Template._inputConflict.events({
 Template._innerInputType.events({
   'click input[type="radio"],input[type="checkbox"]'(event, template) {
     if (!_.isArray(template.data.model.constructor._fields[template.data.field])) {
-      return BkClientCore.callFieldValidation(event,template);
+      return Bk.callFieldValidation(event,template);
     }
   },
   'blur select,textarea,input[type="text"],input[type="password"],input[type="number"],input[type="email"],input[type="url"],input[type="search"],input[type="tel"]'(event, template) {
@@ -334,17 +349,17 @@ Template._innerInputType.events({
       }
     }
     if (makeValidation) {
-      return BkClientCore.callFieldValidation(event,template);
+      return Bk.callFieldValidation(event,template);
     }
   },
   'change input[type="date"],input[type="week"],input[type="month"], input[type="color"]'(event, template) {
     if (!_.isArray(template.data.model.constructor._fields[template.data.field])) {
-      return BkClientCore.callFieldValidation(event,template);
+      return Bk.callFieldValidation(event,template);
     }
   },
   'click .addToArray'(event, template) {
     if (this._pref.type === "array") {
-      return BkClientCore.callFieldValidation($(event.currentTarget).parent().prev('input').get(0),template);
+      return Bk.callFieldValidation($(event.currentTarget).parent().prev('input').get(0),template);
     }
   },
 //  Tag _input_ArrayStrings_actions
@@ -355,7 +370,7 @@ Template._innerInputType.events({
 
 Template._inputFilter.events({
   'change select,input,textarea'(event, template) {
-    return BkClientCore.callFieldValidation(event,template);
+    return Bk.callFieldValidation(event,template);
   }
 });
 
@@ -407,7 +422,7 @@ Template._inputBoolean.helpers({
 
 Template._inputDate.helpers({
   _datePicker() {
-    if (!BkClientCore._device.isMobile()) {
+    if (!Bk._device.isMobile()) {
       return 'date-picker';
     }
   }
@@ -430,7 +445,7 @@ Template._inputDate.onRendered(function() {
 
 Template._inputDatetime.helpers({
   _dateTimePicker() {
-    if (!BkClientCore._device.isMobile()) {
+    if (!Bk._device.isMobile()) {
       return 'datetime-picker';
     }
   }
@@ -439,7 +454,7 @@ Template._inputDatetime.helpers({
 Template._inputDatetime.events({
   'blur input'(event, template) {
     const self = template.data;
-    if (BkClientCore._device.isMobile()) {
+    if (Bk._device.isMobile()) {
       const d = moment(event.target.value);
       if (_.isDate(d._d)) {
         self.model.set(self.field,d._d);
@@ -497,7 +512,7 @@ Template._inputDatetime.onRendered(function() {
 
 Template._inputTime.helpers({
   _clockPicker() {
-    if (!BkClientCore._device.isMobile()) {
+    if (!Bk._device.isMobile()) {
       return 'clock-picker';
     }
   }
@@ -509,7 +524,7 @@ Template._inputTime.events({
     const {
       value
     } = event.target;
-    if (BkClientCore._device.isMobile()) {
+    if (Bk._device.isMobile()) {
       self.model.set(self.field, value);
       return self.model.isValid(self.field);
     }

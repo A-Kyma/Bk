@@ -35,25 +35,28 @@ Template.registerHelper('view', function() {
   this.model = Class.getModel(this.model);
 
   if (!this.model || !this.field) {
-    return null
+    this.tag = "view";
+    return Template["_tagMissing"];
   }
 
-  let pref = this.model.getDefinition(this.field);
-  this._pref = pref;
-  let type = pref.type.name;
+  if (!this.model.canView(this.field)) { return null; }
+
+  let pref = this._pref = this.model.getDefinition(this.field);
+  this.for = "view";
 
   if (!pref) {
     this.tag = "view"
-    this.type = type;
+    this.type = this.model.constructor.name;
     return Template["_tagFieldError"];
   }
+
+  let type = this.type = pref.type.name;
 
   if (this.inlineEdit) { this._editable = "inline-editable"; }
 
   if (this.noHtml) {
     return Template["noHtml"]
   }
-  ;
 
   return Template["_view"];
 });
