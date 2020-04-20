@@ -1,5 +1,5 @@
 import './views.html';
-import { Class } from 'meteor/jagi:astronomy';
+import { Class,Type } from 'meteor/jagi:astronomy';
 import { _ } from 'lodash';
 import { Bk } from '../../../client';
 
@@ -28,20 +28,39 @@ TODO => Take into account any "tree" field like department.company.name or user.
 - _type is the type of the field (passed by class._fields preferences)
 - _url transform the view into a link (passed by pref)
 */
+
+
+
 Template.registerHelper('view', function() {
   this.model = Class.getModel(this.model);
 
-  if (this.model && this.field) {
-//    if @field.indexOf(".") > 0
-//      field = @field.substring(0,@field.indexOf("."))
-//    else
-//      field = @field
-    let pref = this.model.getDefinition(this.field);
+  if (!this.model || !this.field) {
+    return null
+  }
 
-    if (pref) {
-      if (!this.model.canView(this.field)) { return null; }
+  let pref = this.model.getDefinition(this.field);
+  this._pref = pref;
+  let type = pref.type.name;
+
+  if (!pref) {
+    this.tag = "view"
+    this.type = type;
+    return Template["_tagFieldError"];
+  }
+
+  if (this.inlineEdit) { this._editable = "inline-editable"; }
+
+  if (this.noHtml) {
+    return Template["noHtml"]
+  }
+  ;
+
+  return Template["_view"];
+});
+
+/*
       //   Add new values in the context
-      if (pref.type === "array") {
+      if (type === "array") {
         this.fieldType = "array";
         pref = pref[0];
         if (_.isString(pref.type) && (pref.embedded === undefined) && (pref.type !== "hash")) {
@@ -58,17 +77,8 @@ Template.registerHelper('view', function() {
       }
       if (this.inlineEdit) { this._editable = "inline-editable"; }
       if (this.noHtml) { return Template["noHtml"]; } else { return Template["_view"]; }
-    } else {
-      this.field = field;
-      this.tag = "view";
-      this.type = this.model._type;
-      return Template["_tagFieldError"];
     }
-  } else {
-    this.tag = "view";
-    return Template["_tagMissing"];
-  }
-});
+});*/
 
 Template._view.helpers({
   _row() {
@@ -114,9 +124,50 @@ Template.registerHelper('_viewType', function() {
   if (this._pref != null) {
     pref = this._pref;
   } else {
-    pref = (this._pref = this.model.getDefinition(this.field));
+    pref = this._pref = this.model.getDefinition(this.field);
   }
   let type = pref.type.name;
+  let definitionClass = pref.constructor.name;
+  this.value = this.model.get(this.field);
+
+
+  switch (definitionClass) {
+    case 'ObjectField':
+      templateName = "_viewHash";
+      break;
+
+    case 'ListField':
+      let classType = pref.type.class.name;
+      // it's a new class object
+      if (classType === "Class") {
+        templateName = '_viewArrayClass';
+      } else {
+        this.value = this.value.join(", ");
+        templateName = '_viewArrayType';
+      }
+      break;
+
+    case 'ScalarField':
+      if (pref.type.templateName && pref.type.templateName()) {
+        templateName = pref.type.templateName();
+        break;
+      }
+      templateName = "_view" + type;
+      if (Template[templateName]) {
+        break;
+      }
+      templateName = "_viewDefault";
+      break;
+
+    default:
+      this.tag = "_viewType";
+      this.type = type;
+      templateName = "_tagFieldError";
+  }
+
+  return Template[templateName] || null;
+});
+/*
   if (_.includes(['color', 'editor', 'markdown', 'wysiwyg', 'image', 'lifecycle', 'boolean'],type)) {
     templateName = "_view" + Bk.capitalize(type);
   } else if (_.includes(['enumstring', 'i18n'],type)) {
@@ -127,16 +178,16 @@ Template.registerHelper('_viewType', function() {
     templateName = "_viewBelongsToMany";
   } else if (type === "files") {
     templateName = "_viewFiles";
-  } else if (type === "hash") {
+  } else if (type === "hash" || definitionClass === "ObjectField") {
     templateName = "_viewHash";
-  } else if (type === "array") {
+  } else if (type === "array" || definitionClass === "ListField") {
     templateName = "_viewArray";
   } else {
     templateName = "_viewDefault";
   }
   return Template[templateName] || null;
 });
-
+*/
 
 Template.registerHelper('markdownToHTML', function(value,options) {
   if (_.isUndefined(value)) { return ""; }

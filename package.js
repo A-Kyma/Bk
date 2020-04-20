@@ -29,7 +29,8 @@ Package.onUse(function(api) {
   api.use('accounts-password');
   api.use('ejson');
   api.use('jagi:astronomy@2.7.3');
-  api.use('templating','client'); // to be able to create tag in package
+  //api.use('templating','client'); // to be able to create tag in package
+  api.use('peerlibrary:blaze-components');
   api.use('reactive-var'); // For clickTo... components
 
   // Import UI tags and routes

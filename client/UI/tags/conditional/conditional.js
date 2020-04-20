@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 Template.registerHelper("hasRoute", function(model, page) {
   const path = model._type.toLowerCase() + page;
   const pathDep = FlowRouter._routesMap[path];
@@ -128,5 +130,11 @@ Template.registerHelper("canAccess", function(field) {
 });
 
 Template.registerHelper("concat", (v1, v2) => _.extend(v1, v2.hash));
+
+Template.registerHelper("extendContext",function(data) {
+  result = {};
+  result = _.extend(result,this,data.hash);
+  return result;
+})
 
 Template.registerHelper("isCordova", () => Meteor.isCordova);

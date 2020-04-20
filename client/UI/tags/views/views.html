@@ -95,10 +95,20 @@
 
 <template name="_viewHash">
     <div class="well">
-        {{#each getViewValue}}
-            {{> view model=../model field=. for=../for noLabel=../noLabel labelClass=../labelClass hint=../hint}}
-        {{/each}}
+        {{> fieldList extendContext for="view" model=value}}
     </div>
+</template>
+
+<template name="_viewArrayType">
+    {{value}}
+</template>
+
+<template name="_viewArrayClass">
+    {{#each value}}
+        <div>
+            {{> fieldList extendContext model=.}}
+        </div>
+    {{/each}}
 </template>
 
 <template name="_viewEnumstringMany">
