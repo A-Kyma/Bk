@@ -50,7 +50,7 @@ Template.registerHelper('view', function() {
     return Template["_tagFieldError"];
   }
 
-  let type = this.type = pref.type.name;
+  let type = this._type = pref.type.name;
 
   if (this.inlineEdit) { this._editable = "inline-editable"; }
 

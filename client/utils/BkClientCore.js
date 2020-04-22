@@ -915,3 +915,5 @@ Bk.getColor = function (letter, colorsHash) {
   return colorsHash[letter];
 
 }
+
+export default Bk;

@@ -63,12 +63,12 @@
             {{/each}}
         {{/if}}
     {{else}}
-        <span class="no-padding view-{{model._type}}-content view-{{field}}-content {{class}}">{{getViewValue}}</span>
+        <span class="no-padding view-{{this._type}}-content view-{{field}}-content {{class}}">{{getViewValue}}</span>
     {{/if}}
 </template>
 
 <template name="_viewBoolean">
-    <span class="no-padding view-{{model._type}}-content view-{{field}}-content {{class}} ">
+    <span class="no-padding view-{{this._type}}-content view-{{field}}-content {{class}} ">
         {{#if getViewValue}}
             <input name="boolean" type="checkbox" disabled checked/>
         {{else}}
@@ -78,19 +78,19 @@
 </template>
 
 <template name="_viewI18n">
-    <span class="no-padding view-{{model._type}}-content view-{{field}}-content {{class}}">{{t getViewValue}}</span>
+    <span class="no-padding view-{{this._type}}-content view-{{field}}-content {{class}}">{{t getViewValue}}</span>
 </template>
 
 <template name="_viewMarkdown">
-    <span class="no-padding {{_editable}} view-{{model._type}}-content view-{{field}}-content {{class}}">{{{getViewValue}}}</span>
+    <span class="no-padding {{_editable}} view-{{this._type}}-content view-{{field}}-content {{class}}">{{{getViewValue}}}</span>
 </template>
 
 <template name="_viewWysiwyg">
-    <span class="no-padding view-{{model._type}}-content view-{{field}}-content {{class}}">{{{getViewValue}}}</span>
+    <span class="no-padding view-{{this._type}}-content view-{{field}}-content {{class}}">{{{getViewValue}}}</span>
 </template>
 
 <template name="_viewEditor">
-    <span class="no-padding {{_editable}} view-{{model._type}}-content view-{{field}}-content {{class}}">{{{getViewValue}}}</span>
+    <span class="no-padding {{_editable}} view-{{this._type}}-content view-{{field}}-content {{class}}">{{{getViewValue}}}</span>
 </template>
 
 <template name="_viewHash">
@@ -112,7 +112,7 @@
 </template>
 
 <template name="_viewEnumstringMany">
-  <span class="no-padding view-{{model._type}}-content view-{{field}}-content {{class}}">
+  <span class="no-padding view-{{this._type}}-content view-{{field}}-content {{class}}">
       {{#each getViewValue}}
           {{#if selected}}
               {{t this.label}}&nbsp;
@@ -121,7 +121,7 @@
   </span>
 </template>
 <template name="_viewBelongsToMany">
-  <span class="no-padding view-{{model._type}}-content view-{{field}}-content {{class}}">
+  <span class="no-padding view-{{this._type}}-content view-{{field}}-content {{class}}">
       {{#if count}}
           {{getViewValue}}
       {{else}}

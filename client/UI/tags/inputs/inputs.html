@@ -1,6 +1,6 @@
 <template name="_input">
     {{#if this._pref.inline}}
-        {{#if eq this._pref.type 'files'}}
+        {{#if eq this._type 'File'}}
             {{#if this._pref.viewFilesBeforeInput}}
                 {{> view model=this.model field=this.field noLabel=1}}
             {{/if}}
@@ -9,13 +9,13 @@
             {{> _inlineLabel}}
             {{> _innerInputType}}
         </div>
-        {{#if eq this._pref.type 'files'}}
+        {{#if eq this._type 'File'}}
             {{#if this._pref.viewFilesAfterInput}}
                 {{> view model=this.model field=this.field noLabel=1}}
             {{/if}}
         {{/if}}
     {{else}}
-        {{#if eq this._pref.type 'boolean'}}
+        {{#if eq this._type 'Boolean'}}
             {{#if inline}}
                 <span class="{{errorClass}} {{validatedClass}}">
                     {{> _innerInputType}}
@@ -26,7 +26,7 @@
                 </div>
             {{/if}}
         {{else}}
-            {{#if eq this._pref.type 'files'}}
+            {{#if eq this._type 'File'}}
                 {{#if this._pref.viewFilesBeforeInput}}
                     {{> view model=this.model field=this.field dimension=this.dimension noLabel=1}}
                 {{/if}}
@@ -56,7 +56,7 @@
                     {{/if}}
                 {{/unless}}
             </div>
-            {{#if eq this._pref.type 'files'}}
+            {{#if eq this._type 'File'}}
                 {{#if this._pref.viewFilesAfterInput}}
                     {{> view model=this.model field=this.field dimension=this.dimension noLabel=1}}
                 {{/if}}

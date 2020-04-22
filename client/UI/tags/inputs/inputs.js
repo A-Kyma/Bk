@@ -1,6 +1,7 @@
 import './inputs.html';
 import { Class } from 'meteor/jagi:astronomy';
 import _ from 'lodash';
+import Bk from "../../../utils/BkClientCore";
 /*
 Input tag: give the value of the field, with label (if needed)
 Mandatory arguments:
@@ -56,7 +57,7 @@ Template.registerHelper('input', function() {
     return Template["_tagFieldError"];
   }
 
-  let type = this.type = pref.type.name;
+  let type = this._type = pref.type.name;
 
   if (!this.model.canView(this.field)) { return null; }
 
@@ -65,33 +66,13 @@ Template.registerHelper('input', function() {
     return Template["view"];
   }
 
-  if (this.inlineEdit) { this._editable = "inline-editable"; }
+  if (this.inlineEdit && this.model.canEdit(this.field)) { this._editable = "inline-editable"; }
 
+  let definitionClass = pref.constructor.name;
+  this.value = this.model.get(this.field);
+  let templateName;
 
-
-    if (_.has(this.model.constructor._fields, field)) {
-      if (!this.model.canView(this.field)) { return null; }
-      //   Add new values in the context
-      //TODO : check if _pref will contain type, necessary for tags !
-      this._pref = this.model.getPreferenceForField(this.field);
-      //@_pref = BkCore.getPreferenceFields(@model,@field)
-      if (_.isArray(this.model.constructor._fields[field])) {
-        this.fieldType = "array";
-        const pref = this.model.constructor._fields[field][0];
-        if (_.isString(pref.type) && (pref.embedded === undefined) && (pref.type !== "hash")) {
-          this.fieldSubType = "strings";
-        }
-        if (_.isString(pref.type) && (pref.embedded === undefined) && (pref.type === "hash")) {
-          this.fieldSubType = "hash";
-        }
-        if (_.isObject(pref.type) || (_.isString(pref.type) && (pref.embedded !== undefined))) {
-          this.fieldSubType = "model";
-        }
-      } else {
-        this.fieldType = this.model.constructor._fields[field].type;
-      }
-      if (this.inlineEdit && this.model.canEdit(this.field)) { this._editable = "inline-editable"; }
-
+  /*
       //If type belongs_to and only one argument, we show the view tag and force the value
       if ((this._pref.type === "belongs_to") && this._pref.mandatory) {
         let relations = this.model.relations[this.field+'All']();
@@ -104,12 +85,9 @@ Template.registerHelper('input', function() {
           return Template["_view"];
         }
       }
-      if (this.model.canEdit(this.field)) { return Template["_input"]; } else { return Template["_view"]; }
-    } else {
-      this.tag = "input";
-      this.type = this.model._type;
-      return Template["_tagFieldError"];
-    }
+  */
+  if (this.model.canEdit(this.field)) { return Template["_input"]; } else { return Template["_view"]; }
+
 });
 Template._beforeInput.helpers({
   _beforeAddonIcon() {
@@ -166,7 +144,7 @@ Template._afterInputGroup.helpers({
   },
   _validatedClass() {
     if (!this._pref.noValidClass && !this._pref.afterAddon) {
-      if (this.model.getValidated(this.field)) {
+      if (_.isEmpty(this.model.getError(this.field))) {
         return "ok";
       } else {
         return undefined;
@@ -223,7 +201,7 @@ Template._input.helpers({
     if (this._pref.noValidClass) {
       return "";
     } else {
-      if (this.model.getValidated(this.field)) {
+      if (_.isEmpty(this.model.getError(this.field))) {
         return "has-success";
       } else {
         return "";
@@ -257,16 +235,16 @@ Template._inputBelongs_to.helpers({
 
 Template.registerHelper('_inputType', function() {
   let templateName;
-  const pref = this._pref;
-  //if pref.type is "belongs_to"
-  if (_.isString(pref.type) && global[pref.type] && global[pref.type]._fields) { pref.type = global[pref.type]; }
-  if (!pref.type) { return Template["_tagMissing"]; }
+  let pref = this._pref = this.model.getDefinition(this.field);
+  let type = this._type;
+
+  //TODO
   if (pref.type && pref.type._fields) {
     templateName = "_inputBelongs_to";
     if (pref.autocomplete) { templateName = "_inputAutoCompleteBelongs_to"; }
     if (pref.radio) { templateName = "_inputBelongs_toRadio"; }
   } else {
-    templateName = "_input" + Bk.capitalize(pref.type);
+    templateName = "_input" + Bk.capitalize(type);
   }
   return Template[templateName] || null;
 });
@@ -304,8 +282,8 @@ Template._innerInputType.helpers({
     return false;
   },
   _beforeAfterInput() {
-    const parentPref = this.model.constructor._fields[this.field];
-    if (this._pref.beforeAddon || this._pref.afterAddon || this._pref.afterButtonAddon || this.inlineEdit || _.isArray(parentPref)) {
+    const parentPref = this.model.getDefinition(this.field);
+    if (this._pref.beforeAddon || this._pref.afterAddon || this._pref.afterButtonAddon || this.inlineEdit || parentPref.constructor.name === 'ListField') {
       return true;
     } else {
       return false;

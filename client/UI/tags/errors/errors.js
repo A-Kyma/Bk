@@ -1,5 +1,6 @@
 import './errors.html';
 import './../inputs/inputs.html';
+import _ from 'lodash';
 
 //Helper for global errors
 Template.errors.helpers({
