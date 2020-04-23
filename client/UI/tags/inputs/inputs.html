@@ -217,6 +217,10 @@
     {{> _inputType}}
 </template>
 
+<template name="_inputString">
+        <input class= "form-control {{_inputSize}} {{class}}" name="{{field}}" type="text" value="{{getInputValue}}" placeholder="{{placeholder}}" autocomplete="off">
+</template>
+
 <template name="_inputText">
     {{#if eq fieldType 'array'}}
         {{#if eq fieldSubType 'strings'}}

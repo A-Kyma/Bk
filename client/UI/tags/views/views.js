@@ -39,6 +39,8 @@ Template.registerHelper('view', function() {
     return Template["_tagMissing"];
   }
 
+  this.modelName = this.model.constructor.getName();
+
   if (!this.model.canView(this.field)) { return null; }
 
   let pref = this._pref = this.model.getDefinition(this.field);

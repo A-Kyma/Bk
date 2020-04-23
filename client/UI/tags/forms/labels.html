@@ -4,12 +4,12 @@
             {{t key}}
         {{else}}
             {{#if labelSize}}
-                <label class="{{labelSize}} control-label view-{{model._type}}-label view-{{field}}-label">{{t key}}</label>
+                <label class="{{labelSize}} control-label view-{{modelName}}-label view-{{field}}-label">{{t key}}</label>
             {{else}}
                 {{#unless tagInLine}}
-                    <label class="control-label view-{{model._type}}-label view-{{field}}-label">{{t key}}</label>
+                    <label class="control-label view-{{modelName}}-label view-{{field}}-label">{{t key}}</label>
                 {{else}}
-                    <label class="col-sm-3 control-label view-{{model._type}}-label view-{{field}}-label">{{t key}}</label>
+                    <label class="col-sm-3 control-label view-{{modelName}}-label view-{{field}}-label">{{t key}}</label>
                 {{/unless}}
             {{/if}}
         {{/if}}
@@ -20,7 +20,7 @@
         {{#if noHtml}}
             {{t key}}
         {{else}}
-            <label class="view-{{model._type}}-label view-{{field}}-label">{{t key}}</label>
+            <label class="view-{{modelName}}-label view-{{field}}-label">{{t key}}</label>
         {{/if}}
     {{/unless}}
 </template>

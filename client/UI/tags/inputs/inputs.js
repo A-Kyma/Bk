@@ -49,6 +49,8 @@ Template.registerHelper('input', function() {
     return Template["_tagMissing"];
   }
 
+  this.modelName = this.model.constructor.getName();
+
   let pref = this._pref = this.model.getDefinition(this.field);
 
   if (!pref) {
@@ -236,7 +238,7 @@ Template._inputBelongs_to.helpers({
 Template.registerHelper('_inputType', function() {
   let templateName;
   let pref = this._pref = this.model.getDefinition(this.field);
-  let type = this._type;
+  let type = this._type = pref.type.name;
 
   //TODO
   if (pref.type && pref.type._fields) {

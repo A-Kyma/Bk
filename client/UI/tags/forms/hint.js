@@ -1,4 +1,5 @@
 import './hint.html';
+import I18n from "../../../../lib/classes/i18n";
 
 Template._hint.helpers({
   hint() {

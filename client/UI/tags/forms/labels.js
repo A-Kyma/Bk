@@ -17,6 +17,7 @@ Template.registerHelper('label', function() {
 
   // Get model if this.model is a String. Return undefined if model not known
   this.model = Class.getModel(this.model);
+  this.modelName = this.model.constructor.getName();
 
   if (this.model && this.field) {
     //if (!this.model.canView(this.field)) { return null; }
