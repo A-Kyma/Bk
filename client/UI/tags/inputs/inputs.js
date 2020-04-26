@@ -318,7 +318,7 @@ Template._innerInputType.events({
     }
   },
   'blur select,textarea,input[type="text"],input[type="password"],input[type="number"],input[type="email"],input[type="url"],input[type="search"],input[type="tel"]'(event, template) {
-    const pref = template.data.model.constructor._fields[template.data.field];
+    const pref = this._pref || template.data.model.constructor.getDefinition(template.data.field);
     let makeValidation = true;
     if (_.isArray(pref)) {
       makeValidation = false;

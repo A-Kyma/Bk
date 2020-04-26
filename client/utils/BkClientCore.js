@@ -76,22 +76,18 @@ Bk.callDom = function (e, DomId, options, parentDom) {
 Bk.callFieldValidation = function (event, template, silent) {
   let value;
   const context = template.data;
-  const {
-    model
-  } = context;
-  const {
-    field
-  } = context;
+  let model = context.model;
+  let field = context.field;
+
   const pref = context._pref;
-  const {
-    fieldType
-  } = context;
+  let fieldType = pref.type.name;
+
   if (context.inlineEdit) {
     return;
   }
   if (true) {
     let checked;
-    switch (pref.type) {
+    switch (fieldType) {
       case "wysiwyg":
         value = $(template.find(".wysiwyg-editor")).html();
         break;
@@ -215,32 +211,33 @@ Bk.callFieldValidation = function (event, template, silent) {
         break;
       default:
         if (fieldType === 'array') {
-          ({
-            value
-          } = event);
+          value = event.value;
         } else {
-          ({
-            value
-          } = event.target);
+          value = event.target.value;
         }
     }
     if (pref.type === "enumstring_many") {
       checked = $(event.target).prop("checked");
     }
+    //TODO - silent shouldn't be used
     if (silent) {
       //This works only for first level field. TODO: This should be implemented in Minimongoid "set" function
       model.attributes[field] = value;
     } else {
-      if (pref.type !== 'files') {
-        model.set(field, value, checked);
+      if (fieldType !== 'files') {
+        //todo : manage checked argument
+        model.set(field, value); //,checked
       }
     }
   }
   if (model.isPersisted()) {
     template.userValue = model.get(field);
   }
+
+  //TODO add errors
   if (!context.noValidation) {
-    if (model.isValid(field)) {
+    //if (model.isValid(field)) {
+    if (model.validate({fields: [field]})) {
       //must empty input if model valid for array
       if (fieldType === 'array') {
         return event.value = "";
