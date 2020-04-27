@@ -219,6 +219,11 @@ Bk.callFieldValidation = function (event, template, silent) {
     if (pref.type === "enumstring_many") {
       checked = $(event.target).prop("checked");
     }
+
+    if (typeof(value) === "string" && value === "") {
+      value = undefined;
+    }
+
     //TODO - silent shouldn't be used
     if (silent) {
       //This works only for first level field. TODO: This should be implemented in Minimongoid "set" function
@@ -226,7 +231,7 @@ Bk.callFieldValidation = function (event, template, silent) {
     } else {
       if (fieldType !== 'files') {
         //todo : manage checked argument
-        model.set(field, value); //,checked
+        model.set(field, value, {cast: true}); //,checked
       }
     }
   }
@@ -236,8 +241,7 @@ Bk.callFieldValidation = function (event, template, silent) {
 
   //TODO add errors
   if (!context.noValidation) {
-    //if (model.isValid(field)) {
-    if (model.validate({fields: [field]})) {
+    if (model.isValid(field)) {
       //must empty input if model valid for array
       if (fieldType === 'array') {
         return event.value = "";

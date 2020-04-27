@@ -23,7 +23,13 @@ Template._input.helpers({
 });
 
 Template._inputError.helpers({
-  hasError() { return !_.isEmpty(this.model.getError(this.field)); }});
+  hasError() {
+    return !_.isEmpty(this.model.getError(this.field));
+  }
+});
 
 Template._inputErrorInner.helpers({
-  msgs() { return this.model.getError(this.field); }});
+  msgs() {
+    return this.model.getError(this.field);
+  }
+});

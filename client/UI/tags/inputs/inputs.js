@@ -1,5 +1,5 @@
 import './inputs.html';
-import { Class } from 'meteor/jagi:astronomy';
+import { Class, ListField, ObjectField } from 'meteor/jagi:astronomy';
 import _ from 'lodash';
 import Bk from "../../../utils/BkClientCore";
 /*
@@ -203,7 +203,7 @@ Template._input.helpers({
     if (this._pref.noValidClass) {
       return "";
     } else {
-      if (_.isEmpty(this.model.getError(this.field))) {
+      if (_.isEmpty(this.model.getError(this.field)) && this.model.isModified(this.field)) {
         return "has-success";
       } else {
         return "";
@@ -320,13 +320,11 @@ Template._innerInputType.events({
   'blur select,textarea,input[type="text"],input[type="password"],input[type="number"],input[type="email"],input[type="url"],input[type="search"],input[type="tel"]'(event, template) {
     const pref = this._pref || template.data.model.constructor.getDefinition(template.data.field);
     let makeValidation = true;
-    if (_.isArray(pref)) {
+    if (pref instanceof ListField) {
       makeValidation = false;
     }
-    if (_.isObject(pref)) {
-      if (_.isFunction(pref.type) && pref.autocomplete) {
-        makeValidation = false;
-      }
+    if (pref instanceof ObjectField && pref.autocomplete) {
+      makeValidation = false;
     }
     if (makeValidation) {
       return Bk.callFieldValidation(event,template);
