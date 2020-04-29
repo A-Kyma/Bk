@@ -12,7 +12,11 @@ Package.describe({
 
 Npm.depends({
   "fs.extra": "1.2.1",
-  lodash: '4.17.4'
+  lodash: '4.17.4',
+  "bootstrap-vue": "2.13.0",
+  "vue": "2.6.11",
+  "vue-meteor-tracker": "2.0.0-beta.5",
+  "vue-router": "2.3.0"
 });
 
 // See https://guide.meteor.com/writing-atmosphere-packages.html

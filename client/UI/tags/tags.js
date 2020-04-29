@@ -1,3 +1,5 @@
+import Vue from '../ui';
+
 import './conditional/conditional.js';
 import './datatable/datatable';
 import './errors/debug.js';
@@ -10,6 +12,7 @@ import './forms/panel.js';
 import './forms/placeholder.js';
 import './forms/submit.js';
 import './inputs/inputs.js';
+//import BkInput from './inputs/BkInput.vue';
 import './lifecycles/lifecycle.js';
 import './links/a.js';
 import './links/up.js';
