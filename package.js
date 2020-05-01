@@ -13,17 +13,13 @@ Package.describe({
 Npm.depends({
   "fs.extra": "1.2.1",
   lodash: '4.17.4',
-  "bootstrap-vue": "2.13.0",
-  "vue": "2.6.11",
-  "vue-meteor-tracker": "2.0.0-beta.5",
-  "vue-router": "2.3.0"
 });
 
 // See https://guide.meteor.com/writing-atmosphere-packages.html
 // Do a meteor update on the project while adding this package
 Package.onUse(function(api) {
   api.versionsFrom('1.8.1');
-  api.use('ecmascript');
+  api.use('ecmascript'); // For ES6 javascript
   api.use('deps', 'client');
   api.use('tracker', 'client');
   api.use('meteor');
@@ -31,19 +27,26 @@ Package.onUse(function(api) {
   api.use('check');
   api.use('accounts-base');
   api.use('accounts-password');
-  api.use('ejson');
-  api.use('jagi:astronomy@2.7.3');
-  api.use('jagi:reactive-map@2.0.0');
-  api.use('templating','client'); // to be able to create tag in package
-  api.use('reactive-var'); // For clickTo... components
+  api.use('ejson'); // Needed to .json files
+  api.use('jagi:astronomy@2.7.3'); // Model management
+  api.use('jagi:reactive-map@2.0.0'); // Used in errors management
+  api.use('reactive-var'); // For clickTo... components and other thinks
 
-  // Import UI tags and routes
+  // VueJS
+  //api.use('akryum:vue'); // Vue and imported in NPM
+  api.use('akryum:vue-component');
+  //api.use('akryum:vue-ssr');
+
+  //Blaze
+  api.use('templating','client'); // to be able to create tag in package
+  // Import Blaze UI tags and routes
   api.addFiles([
-    'client/UI/ui.js'
+    'client/UI/ui.js',
   ],'client');
 
-  //api.addFiles('%.css','client');
-  //api.addAssets(['%.eot','%.svg','%.ttf','%.woff'],'client');
+  //api.addFiles('%.css','client'); For CSS or SCSS files
+  //api.addAssets(['%.eot','%.svg','%.ttf','%.woff'],'client'); // For other types of files
+
   api.mainModule('client/client.js','client');
   api.mainModule('server/server.js','server');
   api.mainModule('lib/lib.js');

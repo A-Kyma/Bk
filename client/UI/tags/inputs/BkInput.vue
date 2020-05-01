@@ -10,9 +10,10 @@
 </template>
 
 <script>
-  import { Class } from 'meteor/jagi:astronomy';
+  import {Class} from 'meteor/jagi:astronomy';
+
   export default {
-    name: "BkInput",
+    name: "bk-input",
     props: {
       model: Class,
       field: String
@@ -23,27 +24,32 @@
       }
     },
     beforeUpdate() {
-        this.componentLoaded = true;
+      this.componentLoaded = true;
     },
-    meteor: {
-      placeholder() { return "Enter " + this.field},
-      label() { return this.model.constructor.getLabelKey(this.field) },
+    /* Use of meteor instead of computed here implies version 2+ of vue-meteor-tracker */
+    computed: {
       state() {
         if (!this.componentLoaded) {
           return null;
         }
         if (this.model.isPersisted() && !this.model.isModified(this.field)) {
           return null;
-        };
+        }
         return this.model.isValid(this.field);
+      },
+      placeholder() {
+        return "Enter " + this.field
+      },
+      label() {
+        return this.model.constructor.getLabelKey(this.field)
       },
       validFeedback() {
         return "Ok"
       },
       invalidFeedback() {
-        let errors=this.model.getError(this.field);
+        let errors = this.model.getError(this.field);
         if (errors) {
-          return errors.map((value,key) => value.message).join('<br>');
+          return errors.map((value, key) => value.message).join('<br>');
         } else {
           return "";
         }
