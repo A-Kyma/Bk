@@ -27,15 +27,21 @@ import configure from "./configure";
     el: '#app',
     ...App,
   })
+
+ See also https://github.com/meteor-vue/guide
 ***/
 
 /*
 All tags has to be imported here and should begins with "Bk".
 
  */
+import BkFieldList from "./tags/forms/BkFieldList";
+import BkForm from "./tags/forms/BkForm";
 import BkInput from "./tags/inputs/BkInput";
 
 const BkUI = {
+  BkFieldList,
+  BkForm,
   BkInput
 }
 
