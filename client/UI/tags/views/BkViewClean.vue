@@ -1,5 +1,5 @@
 <template>
-    <bk-inner-input :model="model" :field="field" :for="view" plaintext/>
+    <bk-inner-input v-bind="{...$props, ...$attrs}" :for="view" plaintext/>
 </template>
 
 <script>

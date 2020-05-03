@@ -1,6 +1,9 @@
 <template>
     <div>
-        <bk-input :model="model" :field="field" :label-cols="$props['label-cols']" v-for="field in fieldsArray"/>
+        <bk-input v-bind="{...$props, ...$attrs}"
+                  :model="model"
+                  :field="field"
+                  v-for="field in fieldsArray"/>
     </div>
 </template>
 
@@ -16,7 +19,6 @@
       exclude: [Array,String],
       for: String,
       noEdit: [String,Array],
-      "label-cols": String,
     },
     computed: {
       fieldsArray() {
@@ -24,7 +26,6 @@
           model: this.model,
           fields: this.fields
         });
-        console.log("Fields: " + fieldsArray);
         return fieldsArray;
       }
     },

@@ -1,10 +1,9 @@
 <template>
-    <b-form-group
+    <b-form-group v-bind="{...$props, ...$attrs}"
                   :valid-feedback="validFeedback"
-                  :label-cols="$props['label-cols']"
     >
         <template v-if="!noLabel" #label>{{label}}</template>
-        <bk-inner-input v-model="model[field]" :model="model" :field="field" :for="$props.for" :state="state"/>
+        <bk-inner-input v-bind="{...$props, ...$attrs}" v-model="model[field]"/>
         <b-form-invalid-feedback :state="state">
             <span v-html="invalidFeedback"/>
         </b-form-invalid-feedback>
@@ -24,7 +23,6 @@
       for: String,
       //plaintext: Boolean,
       noLabel: Boolean,
-      "label-cols": String,
     },
     data() {
       return {
@@ -51,16 +49,6 @@
       },
       validFeedback() {
         return "Ok"
-      },
-      inputComponent() {
-        // Check if field really exists :
-        let fieldDefinition = this.model.getDefinition(this.field);
-        if (!fieldDefinition) {
-          return null;
-        }
-
-        // Then return the right input form
-        return "b-form-input";
       }
     },
     /* Needed to be put in Meteor side since we use Meteor reactivity */

@@ -1,10 +1,7 @@
 <template>
     <b-form :inline="inline">
-        <slot :model="getModel" :for="$props.for">
-            <bk-field-list :model="getModel"
-                           :for="$props.for"
-                           :fields="$props.fields"
-                           :label-cols="$props['label-cols']"
+        <slot v-bind="{...$props, ...$attrs}" :model="getModel">
+            <bk-field-list v-bind="{...$props, ...$attrs}" :model="getModel"
             />
         </slot>
     </b-form>
@@ -24,7 +21,6 @@
       exclude: [String,Array],
       noEdit: [String,Array],
       inline: Boolean,
-      "label-cols": String,
     },
     meteor: {
       getModel() {

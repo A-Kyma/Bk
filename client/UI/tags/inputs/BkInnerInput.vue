@@ -1,11 +1,13 @@
 <template>
     <component
-            :is="inputComponent"
+            v-bind="{...$props, ...$attrs}"
+            :is="inputComponent.template"
             v-model="model[field]"
             :placeholder="placeholder"
             :state="state"
             :name="field"
             :plaintext="plaintext"
+            :type="inputComponent.type"
     />
 </template>
 
@@ -48,11 +50,47 @@
         // Check if field really exists :
         let fieldDefinition = this.model.getDefinition(this.field);
         if (!fieldDefinition) {
-          return null;
+          return { template: null } ;
         }
+        let fieldType = fieldDefinition.type.name;
+        let definitionClass = fieldDefinition.constructor.name;
+        let templateName;
 
+        switch (definitionClass) {
+          case 'ObjectField':
+            templateName = "BkInputHash";
+            break;
+
+          case 'ListField':
+            // it's a new class object
+            if (fieldType === "Class") {
+              templateName = 'BkInputArrayClass';
+            } else {
+              //this.value = this.value.join(", ");
+              templateName = 'BkInputArrayType';
+            }
+            break;
+
+          case 'ScalarField':
+            if (fieldDefinition.type.templateName && fieldDefinition.type.templateName()) {
+              templateName = fieldDefinition.type.templateName();
+              break;
+            }
+            templateName = "BkInput" + fieldType;
+            if (Template[templateName]) {
+              break;
+            }
+            templateName = "BFormInput";
+            break;
+
+          default:
+            this.tag = "_viewType";
+            this.type = type;
+            templateName = "_tagFieldError";
+        }
+        console.log("Template: " + templateName + " for field " + this.field);
         // Then return the right input form
-        return "b-form-input";
+        return { template: "BFormInput", type: undefined };
       }
     },
     /* Needed to be put in Meteor side since we use Meteor reactivity */
