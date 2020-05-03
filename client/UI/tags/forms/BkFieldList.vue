@@ -1,12 +1,12 @@
 <template>
     <div>
-        <bk-input :model="model" :field="field" v-for="field in fieldsArray"/>
+        <bk-input :model="model" :field="field" :label-cols="$props['label-cols']" v-for="field in fieldsArray"/>
     </div>
 </template>
 
 <script>
   import Class from "meteor/jagi:astronomy"
-  import Bk from "../../../../lib/utils/BkCore"
+  import { Bk } from "../../../../lib/lib.js"
 
   export default {
     name: "BkFieldList",
@@ -15,7 +15,8 @@
       fields: [Array,String],
       exclude: [Array,String],
       for: String,
-      noEdit: Array,
+      noEdit: [String,Array],
+      "label-cols": String,
     },
     computed: {
       fieldsArray() {

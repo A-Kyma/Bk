@@ -35,14 +35,23 @@ import configure from "./configure";
 All tags has to be imported here and should begins with "Bk".
 
  */
+
 import BkFieldList from "./tags/forms/BkFieldList";
 import BkForm from "./tags/forms/BkForm";
 import BkInput from "./tags/inputs/BkInput";
+import BkInnerInput from "./tags/inputs/BkInnerInput";
+import BkView from "./tags/views/BkView";
+import BkViewInner from "./tags/views/BkViewInner";
+import BkViewClean from "./tags/views/BkViewClean";
 
 const BkUI = {
   BkFieldList,
   BkForm,
-  BkInput
+  BkInput,
+  BkInnerInput,
+  BkView,
+  BkViewInner,
+  BkViewClean
 }
 
 BkUI.install = function (Vue, config = {}) {

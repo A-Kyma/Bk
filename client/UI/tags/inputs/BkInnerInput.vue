@@ -1,31 +1,27 @@
 <template>
-    <b-form-group
-                  :valid-feedback="validFeedback"
-                  :label-cols="$props['label-cols']"
-    >
-        <template v-if="!noLabel" #label>{{label}}</template>
-        <bk-inner-input v-model="model[field]" :model="model" :field="field" :for="$props.for" :state="state"/>
-        <b-form-invalid-feedback :state="state">
-            <span v-html="invalidFeedback"/>
-        </b-form-invalid-feedback>
-    </b-form-group>
+    <component
+            :is="inputComponent"
+            v-model="model[field]"
+            :placeholder="placeholder"
+            :state="state"
+            :name="field"
+            :plaintext="plaintext"
+    />
 </template>
 
 <script>
   import {Class} from 'meteor/jagi:astronomy';
   import I18n from "../../../../lib/classes/i18n";
 
-
   export default {
-    name: "BkInput",
-    props: {
-      model: Class,
-      field: String,
-      for: String,
-      //plaintext: Boolean,
-      noLabel: Boolean,
-      "label-cols": String,
-    },
+    name: "BkInnerInput",
+      props: {
+        model: Class,
+        field: String,
+        for: String,
+        state: Boolean
+        //plaintext: Boolean,
+      },
     data() {
       return {
         componentLoaded: false,
@@ -34,7 +30,6 @@
     beforeUpdate() {
       this.componentLoaded = true;
     },
-    /* Use of meteor instead of computed here implies version 2+ of vue-meteor-tracker */
     computed: {
       // If for view or if readonly field, return true
       plaintext() {
@@ -49,9 +44,6 @@
       placeholder() {
         return "Enter " + this.field
       },
-      validFeedback() {
-        return "Ok"
-      },
       inputComponent() {
         // Check if field really exists :
         let fieldDefinition = this.model.getDefinition(this.field);
@@ -65,10 +57,6 @@
     },
     /* Needed to be put in Meteor side since we use Meteor reactivity */
     meteor: {
-      label() {
-        if (this.noLabel) { return }
-        return I18n.t(this.model.constructor.getLabelKey(this.field))
-      },
       state() {
         if (!this.componentLoaded) {
           return null;
@@ -77,14 +65,6 @@
           return null;
         }
         return this.model.isValid(this.field);
-      },
-      invalidFeedback() {
-        let errors = this.model.getError(this.field);
-        if (errors) {
-          return errors.map((value, key) => value.message).join('<br/>');
-        } else {
-          return "";
-        }
       }
     }
   }
