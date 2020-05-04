@@ -40,6 +40,7 @@ import BkFieldList from "./tags/forms/BkFieldList";
 import BkForm from "./tags/forms/BkForm";
 import BkInput from "./tags/inputs/BkInput";
 import BkInnerInput from "./tags/inputs/BkInnerInput";
+import BkLabel from "./tags/forms/BkLabel";
 import BkView from "./tags/views/BkView";
 import BkViewInner from "./tags/views/BkViewInner";
 import BkViewClean from "./tags/views/BkViewClean";
@@ -49,6 +50,7 @@ const BkUI = {
   BkForm,
   BkInput,
   BkInnerInput,
+  BkLabel,
   BkView,
   BkViewInner,
   BkViewClean

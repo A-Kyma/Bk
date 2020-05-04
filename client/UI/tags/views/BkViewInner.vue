@@ -5,6 +5,7 @@
         <a v-if="url !== undefined" :href="url">
             <bk-view-clean v-bind="{...$props, ...$attrs}"/>
         </a>
+        <bk-view-clean v-else v-bind="{...$props, ...$attrs}"/>
     </span>
 </template>
 
@@ -20,8 +21,7 @@
     },
     computed: {
       url() {
-        let fieldDefinition = this.model.getDefinition(this.field);
-        return fieldDefinition && fieldDefinition.url;
+        return this.model.getDefinition(this.field,"url");
       }
     },
   }

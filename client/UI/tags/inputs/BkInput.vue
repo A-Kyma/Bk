@@ -2,8 +2,12 @@
     <b-form-group v-bind="{...$props, ...$attrs}"
                   :valid-feedback="validFeedback"
     >
-        <template v-if="!noLabel" #label>{{label}}</template>
-        <bk-inner-input v-bind="{...$props, ...$attrs}" v-model="model[field]"/>
+        <template
+                v-if="!noLabel"
+                #label>
+            {{label}}
+        </template>
+        <bk-inner-input v-bind="{...$props, ...$attrs}" :state="state" v-model="model[field]"/>
         <b-form-invalid-feedback :state="state">
             <span v-html="invalidFeedback"/>
         </b-form-invalid-feedback>
@@ -13,7 +17,7 @@
 <script>
   import {Class} from 'meteor/jagi:astronomy';
   import I18n from "../../../../lib/classes/i18n";
-
+  import _ from "lodash";
 
   export default {
     name: "BkInput",
@@ -26,8 +30,13 @@
     },
     data() {
       return {
+        oldValue: null,
         componentLoaded: false,
       }
+    },
+    created() {
+      // oldValue will be used to check value when component created and value in the screen
+      this.oldValue = _.cloneDeep(this.model.raw(this.field));
     },
     beforeUpdate() {
       this.componentLoaded = true;
@@ -61,10 +70,14 @@
         if (!this.componentLoaded) {
           return null;
         }
+        // Check if value when entering creating the component has changed
+        if (_.isEqual(this.model.raw(this.field),this.oldValue)) {
+          return null;
+        }
         if (this.model.isPersisted() && !this.model.isModified(this.field)) {
           return null;
         }
-        return this.model.isValid(this.field);
+        return this.model.isValid(this.field,{stopOnFirstError: false});
       },
       invalidFeedback() {
         let errors = this.model.getError(this.field);

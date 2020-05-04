@@ -27,7 +27,8 @@ Package.onUse(function(api) {
   api.use('check');
   api.use('accounts-base');
   api.use('accounts-password');
-  api.use('ejson'); // Needed to .json files
+  //api.use('ejson'); // Needed to .json files
+  api.use('slaivyn:yaml'); // Needed to manage .yml files (for I18n)
   api.use('jagi:astronomy@2.7.3'); // Model management
   api.use('jagi:reactive-map@2.0.0'); // Used in errors management
   api.use('reactive-var'); // For clickTo... components and other thinks
