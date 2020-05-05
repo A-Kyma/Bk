@@ -64,7 +64,10 @@
     },
     meteor: {
       submit() {
-        return I18n.t("app." + this.$props.for)
+        if (this.for) {
+          return I18n.t("app." + this.for);
+        }
+        return I18n.t("app.submit");
       },
       reset() {
         return I18n.t("app.reset");

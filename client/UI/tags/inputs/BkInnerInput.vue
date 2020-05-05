@@ -51,7 +51,7 @@
         return !this.model.getDefinition(this.field, "optional");
       },
       placeholder() {
-        return "Enter " + this.field
+        return I18n.t(this.model.constructor.getPlaceHolderKey(this.field));
       },
       inputComponent() {
         // Check if field really exists :

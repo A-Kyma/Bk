@@ -82,6 +82,7 @@
       invalidFeedback() {
         let errors = this.model.getError(this.field);
         if (errors) {
+          // TODO: errors should be managed by translations
           return errors.map((value, key) => value.message).join('<br/>');
         } else {
           return "";
