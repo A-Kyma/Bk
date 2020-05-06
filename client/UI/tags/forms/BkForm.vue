@@ -17,8 +17,8 @@
                 @dismissed="dismissCountDown=0">
             <t>app.success</t>
         </b-alert>
-        <slot v-bind="$props" :model="formModel.get()">
-            <bk-field-list v-bind="$props" :model="formModel.get()"
+        <slot v-bind="{...$props, ...$attrs}" :model="formModel.get()">
+            <bk-field-list v-bind="{...$props, ...$attrs}" :model="formModel.get()"
             />
         </slot>
         <bk-submit :for="submitFor" @cancel="onCancel"/>

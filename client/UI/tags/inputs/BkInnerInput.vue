@@ -1,6 +1,7 @@
 <template>
     <component
-            v-bind="$props"
+            v-if="definitionField === 'Scalar'"
+            v-bind="{...$props, ...$attrs}"
             :is="inputComponent.template"
             v-model="value"
             :placeholder="placeholder"
@@ -11,6 +12,25 @@
             :required="required"
             :model="model.constructor.getName()"
     />
+
+    <bk-field-list
+            v-else-if="definitionField === 'Object'"
+            v-bind="{...$props, ...$attrs}"
+            :model="model[field]"
+    />
+    <!-- TODO: Maybe use ul/li here ? We have an array of subclasses-->
+    <component v-else-if="definitionField === 'ListClass'">
+        <bk-inner-input
+                v-bind="{...$props, ...$attrs}"
+                v-for="innerModel in model[field]"
+                :model="innerModel"
+        />
+    </component>
+
+    <!-- TODO: is span OK ?-->
+    <span v-else-if="definitionField === 'ListValue'">
+        {{model[field].join(', ')}}
+    </span>
 </template>
 
 <script>
@@ -52,6 +72,27 @@
       },
       placeholder() {
         return I18n.t(this.model.constructor.getPlaceHolderKey(this.field));
+      },
+      definitionField() {
+        let fieldDefinition = this.model.getDefinition(this.field);
+        let definitionClass = fieldDefinition.constructor.name;
+        let fieldType = fieldDefinition.type.name;
+        switch (definitionClass) {
+          case 'ObjectField':
+            return "Object";
+
+          case 'ListField':
+            // it's a new class object
+            if (fieldType === "Class") {
+              return "ListClass";
+            } else {
+              //this.value = this.value.join(", ");
+              return "ListValue";
+            }
+
+          case 'ScalarField':
+            return "Scalar";
+        }
       },
       inputComponent() {
         // Check if field really exists :

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <bk-input v-bind="$props"
+        <bk-input v-bind="{...$props, ...$attrs}"
                   :model="model"
                   :field="field"
                   v-for="field in fieldsArray"/>
