@@ -1,5 +1,5 @@
 <template>
-    <bk-inner-input v-bind="{...$props, ...$attrs}" for="view"/>
+    <bk-inner-input v-bind="$props" for="view"/>
 </template>
 
 <script>

@@ -5,3 +5,5 @@ en:
     new: "Create"
     reset: "Reset"
     cancel: "Cancel"
+    success: "Form submitted successfully"
+    failed: "There is an error while submitting your form. Please, check below"

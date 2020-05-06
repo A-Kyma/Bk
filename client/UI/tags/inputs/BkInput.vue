@@ -1,5 +1,5 @@
 <template>
-    <b-form-group v-bind="{...$props, ...$attrs}"
+    <b-form-group v-bind="$props"
                   :valid-feedback="validFeedback"
     >
         <template
@@ -7,7 +7,7 @@
                 #label>
             {{label}}
         </template>
-        <bk-inner-input v-bind="{...$props, ...$attrs}" :state="state" v-model="model[field]"/>
+        <bk-inner-input v-bind="$props" :state="state" v-model="model[field]"/>
         <b-form-invalid-feedback :state="state">
             <span v-html="invalidFeedback"/>
         </b-form-invalid-feedback>
@@ -71,7 +71,7 @@
           return null;
         }
         // Check if value when entering creating the component has changed
-        if (_.isEqual(this.model.raw(this.field),this.oldValue)) {
+        if (_.isEqual(this.model.raw(this.field),this.oldValue) && !this.$parent.showAlert) {
           return null;
         }
         if (this.model.isPersisted() && !this.model.isModified(this.field)) {

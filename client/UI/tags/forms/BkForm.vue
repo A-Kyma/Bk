@@ -1,10 +1,27 @@
 <template>
-    <b-form :inline="inline">
-        <slot v-bind="{...$props, ...$attrs}" :model="formModel.get()">
-            <bk-field-list v-bind="{...$props, ...$attrs}" :model="formModel.get()"
+    <b-form :inline="inline" @submit="onSubmit" @reset="onReset">
+        <b-alert
+                :show="showAlert"
+                variant="danger"
+                fade
+                dismissible
+                @dismissed="showAlert=false">
+            <t>app.failed</t>
+        </b-alert>
+        <b-alert
+                :show="dismissCountDown"
+                variant="success"
+                fade
+                dismissible
+                @dismiss-count-down="countDownChanged"
+                @dismissed="dismissCountDown=0">
+            <t>app.success</t>
+        </b-alert>
+        <slot v-bind="$props" :model="formModel.get()">
+            <bk-field-list v-bind="$props" :model="formModel.get()"
             />
         </slot>
-        <bk-submit :formModel="formModel" :model="formModel.get()" :for="$props['for']"/>
+        <bk-submit :for="submitFor" @cancel="onCancel"/>
     </b-form>
 </template>
 
@@ -30,43 +47,60 @@
     data() {
       return {
         formModel: null,
-        astroModel: null
+        astroModel: null,
+        showAlert: false,
+        dismissSecs: 5,
+        dismissCountDown: 0
       }
     },
     computed: {
-
+        submitFor() {
+          let model = this.formModel.get();
+          return model.isPersisted() ? "update" : "new";
+        }
     },
     created() {
       this.formModel = new ReactiveVar(Class.getModel(this.model));
     },
     methods: {
+      countDownChanged(count) {
+        this.dismissCountDown = count;
+      },
+      showSuccess() {
+        this.dismissCountDown = this.dismissSecs;
+      },
       onSubmit(e) {
         e.preventDefault()
-        let model=this.getModel;
-        model.save({stopOnFirstError:false})
+        let self = this;
+        let model = this.formModel.get();
+        model.save({stopOnFirstError:false},function(err,id) {
+            if (err) {
+              model.setError(err);
+              self.showAlert = true;
+            } else {
+              self.showSuccess()
+            }
+        })
+        this.formModel.set(model);
       },
       onReset(e) {
         e.preventDefault()
-        console.log("reset");
-        console.log(this);
-        console.log(e);
-        let model=this.getModel;
+        let model = this.formModel.get();
         let newModel;
         if (model.isPersisted()) {
           newModel = model.constructor.findOne(model._id);
         } else {
           newModel = new (model.constructor)();
         }
-        this.model=newModel;
+        this.showAlert = false;
+        this.formModel.set(newModel);
       },
       onCancel(e) {
         // Needs to go back
+        console.log("cancel");
       }
     },
     meteor: {
-      topModel() {
-
-      },
       getModel() {
         return Class.getModel(this.model);
       },

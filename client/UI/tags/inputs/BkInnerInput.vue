@@ -1,6 +1,6 @@
 <template>
     <component
-            v-bind="{...$props, ...$attrs}"
+            v-bind="$props"
             :is="inputComponent.template"
             v-model="value"
             :placeholder="placeholder"
@@ -48,7 +48,7 @@
         return this.$props.plaintext;
       },
       required() {
-        return !this.model.getDefinition(this.field, "optional");
+        return false; //!this.model.getDefinition(this.field, "optional");
       },
       placeholder() {
         return I18n.t(this.model.constructor.getPlaceHolderKey(this.field));
