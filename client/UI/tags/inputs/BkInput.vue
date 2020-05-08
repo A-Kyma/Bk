@@ -28,16 +28,19 @@
     props: {
       model: Class,
       field: String,
+      formField: String,
       for: String,
       //plaintext: Boolean,
       noLabel: Boolean,
     },
+    inject: ["formModel"],
     data() {
       return {
         oldValue: null,
         componentLoaded: false,
       }
     },
+
     created() {
       // oldValue will be used to check value when component created and value in the screen
       this.oldValue = _.cloneDeep(this.model.raw(this.field));
@@ -78,10 +81,19 @@
         if (_.isEqual(this.model.raw(this.field),this.oldValue) && !this.$parent.showAlert) {
           return null;
         }
-        if (this.model.isPersisted() && !this.model.isModified(this.field)) {
+
+        // We need to know if form model has been modified
+        // Form model is the only one that have a storage ability, so isModified may apply
+        let formModel = this.formModel && this.formModel.get();
+        let formField = this.formField && this.formField + "." + this.field || this.field;
+        if (formModel && formModel.isPersisted() && !formModel.isModified(formField)) {
           return null;
         }
-        return this.model.isValid(this.field,{stopOnFirstError: false});
+        /***
+         * To correct, since doesn't work while in a List of Strings
+         ***/
+        //return this.model.isValid(this.field,{stopOnFirstError: false});
+        return formModel.isValid(formField,{stopOnFirstError: false});
       },
       invalidFeedback() {
         let errors = this.model.getError(this.field);

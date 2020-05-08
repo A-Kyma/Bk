@@ -46,7 +46,7 @@
     },
     data() {
       return {
-        formModel: null,
+        formModel: new ReactiveVar(Class.getModel(this.model)),
         astroModel: null,
         showAlert: false,
         dismissSecs: 5,
@@ -59,8 +59,16 @@
           return model.isPersisted() ? "update" : "new";
         }
     },
+    /*
     created() {
       this.formModel = new ReactiveVar(Class.getModel(this.model));
+    },
+     */
+    // provides formModel to all descendant, if necessary, and avoiding to add formModel as a property of each children
+    provide() {
+      return {
+        formModel: this.formModel
+      }
     },
     methods: {
       countDownChanged(count) {

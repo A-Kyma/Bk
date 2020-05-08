@@ -2,21 +2,22 @@
     <component
             v-if="definitionField === 'Scalar'"
             v-bind="{...$props, ...$attrs}"
-            :is="inputComponent.template"
+            :is="inputComponent"
+            :type="inputType"
+            :model="model.constructor.getName()"
             v-model="value"
-            :placeholder="placeholder"
             :state="state"
+            :placeholder="placeholder"
             :name="field"
             :plaintext="plaintextComputed"
-            :type="inputComponent.type"
-            :required="required"
-            :model="model.constructor.getName()"
     />
 
     <bk-field-list
             v-else-if="definitionField === 'Object'"
             v-bind="{...$props, ...$attrs}"
             :model="model[field]"
+            :form-field="formFieldComputed"
+            fields=""
     />
     <!-- TODO: Maybe use ul/li here ? We have an array of subclasses-->
     <component v-else-if="definitionField === 'ListClass'">
@@ -24,9 +25,19 @@
                 v-bind="{...$props, ...$attrs}"
                 v-for="innerModel in model[field]"
                 :model="innerModel"
+                :form-field="formFieldComputed"
         />
     </component>
 
+    <b-form-tags
+            v-else-if="definitionField === 'ListString'"
+            v-model="value"
+            :state="state"
+            remove-on-delete
+            separator=" "
+            :placeholder="placeholder"
+            :disabled="plaintextComputed"
+    />
     <!-- TODO: is span OK ?-->
     <span v-else-if="definitionField === 'ListValue'">
         {{model[field].join(', ')}}
@@ -37,12 +48,21 @@
   import {Class} from 'meteor/jagi:astronomy';
   import I18n from "../../../../lib/classes/i18n";
 
+  function isGenericInputType(originalFieldType="") {
+    let fieldType = originalFieldType.toLowerCase();
+    // Field Type is a generic Input Type
+    if (["text","number","email","password","search","url","tel","range","color"].includes(fieldType)) {
+      return true;
+    }
+    return false;
+  }
 
   export default {
     name: "BkInnerInput",
     props: {
       model: Class,
       field: String,
+      formField: String,
       for: String,
       state: Boolean,
       plaintext: Boolean,
@@ -57,6 +77,10 @@
           return this.model.get(this.field);
         }
       },
+      formFieldComputed() {
+         return this.formField && this.formField + "." + this.field || this.field;
+      },
+
       // If for view or if readonly field, return true
       plaintextComputed() {
         if (this.$props.for === "view") {
@@ -75,6 +99,9 @@
       },
       definitionField() {
         let fieldDefinition = this.model.getDefinition(this.field);
+        if (!fieldDefinition) {
+          return null;
+        }
         let definitionClass = fieldDefinition.constructor.name;
         let fieldType = fieldDefinition.type.name;
         switch (definitionClass) {
@@ -85,60 +112,63 @@
             // it's a new class object
             if (fieldType === "Class") {
               return "ListClass";
-            } else {
-              //this.value = this.value.join(", ");
-              return "ListValue";
             }
+            // We can have a form tag since we have string values
+            if (fieldDefinition.type.class.prototype instanceof String) {
+              //this.value = this.value.join(", ");
+              return "ListString"
+            }
+            return "ListValue";
 
           case 'ScalarField':
             return "Scalar";
         }
       },
+      inputType() {
+        if (this.inputComponent === "BFormInput") {
+          let fieldDefinition = this.model.getDefinition(this.field);
+          let fieldType = fieldDefinition.type.name;
+
+          if (fieldDefinition.ui && fieldDefinition.ui.type) {
+            return fieldDefinition.ui.type;
+          }
+
+          // Field Type is a generic Input Type
+          if (isGenericInputType(fieldType)) {
+            return fieldType.toLowerCase();;
+          }
+
+        }
+        return undefined;
+      },
       inputComponent() {
-        // Check if field really exists :
         let fieldDefinition = this.model.getDefinition(this.field);
+        // Check if field really exists :
         if (!fieldDefinition) {
           return {template: null};
         }
-        let fieldType = fieldDefinition.type.name;
-        let definitionClass = fieldDefinition.constructor.name;
-        let templateName;
 
-        switch (definitionClass) {
-          case 'ObjectField':
-            templateName = "BkInputHash";
-            break;
-
-          case 'ListField':
-            // it's a new class object
-            if (fieldType === "Class") {
-              templateName = 'BkInputArrayClass';
-            } else {
-              //this.value = this.value.join(", ");
-              templateName = 'BkInputArrayType';
-            }
-            break;
-
-          case 'ScalarField':
-            if (fieldDefinition.type.templateName && fieldDefinition.type.templateName()) {
-              templateName = fieldDefinition.type.templateName();
-              break;
-            }
-            templateName = "BkInput" + fieldType;
-            if (Template[templateName]) {
-              break;
-            }
-            templateName = "BFormInput";
-            break;
-
-          default:
-            this.tag = "_viewType";
-            this.type = type;
-            templateName = "_tagFieldError";
+        // Allow forcing template in field definition, ui part
+        if (fieldDefinition.ui && fieldDefinition.ui.template) {
+          return fieldDefinition.ui.template;
         }
-        console.log("Template: " + templateName + " for field " + this.field);
-        // Then return the right input form
-        return {template: "BFormInput", type: undefined};
+
+        let fieldType = fieldDefinition.type.name;
+        let templateType = fieldType.toLowerCase();
+
+        if (isGenericInputType(fieldType) || fieldType === "String") {
+          return "BFormInput";
+        }
+
+        if (fieldType === "Date") {
+          return "BFormDatepicker"
+        }
+
+        if (fieldType === "Time") {
+          return "BFormTimepicker"
+        }
+
+        return "BFormInput";
       }
     },
     /* Needed to be put in Meteor side since we use Meteor reactivity */
