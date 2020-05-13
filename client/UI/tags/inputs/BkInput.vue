@@ -1,5 +1,6 @@
+<!-- We added $parent.$attrs to get the "non-props" attributes from "bk-form" element -->
 <template>
-    <b-form-group v-bind="{...$props, ...$attrs}"
+    <b-form-group v-bind="{...$parent.$attrs,...$attrs}"
                   :valid-feedback="validFeedback"
     >
         <template
@@ -7,10 +8,11 @@
                 #label>
             {{label}}
         </template>
+
         <bk-inner-input
-                v-bind="{...$props, ...$attrs}"
-                :state="state"
-                v-model="model[field]"
+                v-bind="{...$parent.$attrs,...$props, ...$attrs}"
+                @state="onState"
+                :model="inputModel"
         />
         <b-form-invalid-feedback :state="state">
             <span v-html="invalidFeedback"/>
@@ -33,29 +35,35 @@
       //plaintext: Boolean,
       noLabel: Boolean,
     },
+    // Pay attention that injected objects are not reactive
     inject: ["formModel"],
     data() {
       return {
         oldValue: null,
         componentLoaded: false,
+        state: null,
       }
     },
 
     created() {
       // oldValue will be used to check value when component created and value in the screen
-      this.oldValue = _.cloneDeep(this.model.raw(this.field));
+      this.oldValue = _.cloneDeep(this.inputModel.raw(this.field));
     },
     beforeUpdate() {
       this.componentLoaded = true;
     },
     /* Use of meteor instead of computed here implies version 2+ of vue-meteor-tracker */
     computed: {
+      //
+      inputModel() {
+        return this.model || this.formModel;
+      },
       // If for view or if readonly field, return true
       plaintext() {
         if (this.$props.for === "view") {
           return true;
         }
-        if (!this.model.canEdit(this.field)) {
+        if (!this.inputModel.canEdit(this.field)) {
           return true;
         }
         return this.$props.plaintext;
@@ -65,38 +73,22 @@
       },
       validFeedback() {
         return "Ok"
+      },
+
+    },
+    methods: {
+      onState(state) {
+        this.state=state;
       }
     },
-    /* Needed to be put in Meteor side since we use Meteor reactivity */
+    /* Needed to be put in Meteor side since we use Meteor reactivity : ReactiveMap or ReactiveVar */
     meteor: {
       label() {
         if (this.noLabel) { return }
-        return I18n.t(this.model.constructor.getLabelKey(this.field))
-      },
-      state() {
-        if (!this.componentLoaded) {
-          return null;
-        }
-        // Check if value when entering creating the component has changed
-        if (_.isEqual(this.model.raw(this.field),this.oldValue) && !this.$parent.showAlert) {
-          return null;
-        }
-
-        // We need to know if form model has been modified
-        // Form model is the only one that have a storage ability, so isModified may apply
-        let formModel = this.formModel && this.formModel.get();
-        let formField = this.formField && this.formField + "." + this.field || this.field;
-        if (formModel && formModel.isPersisted() && !formModel.isModified(formField)) {
-          return null;
-        }
-        /***
-         * To correct, since doesn't work while in a List of Strings
-         ***/
-        //return this.model.isValid(this.field,{stopOnFirstError: false});
-        return formModel.isValid(formField,{stopOnFirstError: false});
+        return I18n.t(this.inputModel.constructor.getLabelKey(this.field))
       },
       invalidFeedback() {
-        let errors = this.model.getError(this.field);
+        let errors = this.inputModel.getError(this.field);
         if (errors) {
           // TODO: errors should be managed by translations
           return errors.map((value, key) => value.message).join('<br/>');
@@ -104,6 +96,7 @@
           return "";
         }
       }
+
     }
   }
 </script>

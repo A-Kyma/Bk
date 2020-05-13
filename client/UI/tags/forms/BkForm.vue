@@ -17,9 +17,8 @@
                 @dismissed="dismissCountDown=0">
             <t>app.success</t>
         </b-alert>
-        <slot v-bind="{...$props, ...$attrs}" :model="formModel.get()">
-            <bk-field-list v-bind="{...$props, ...$attrs}" :model="formModel.get()"
-            />
+        <slot v-bind="$attrs" :model="formModel">
+            <bk-field-list v-bind="$attrs"/>
         </slot>
         <bk-submit :for="submitFor" @cancel="onCancel"/>
     </b-form>
@@ -29,45 +28,35 @@
   import { Class } from "meteor/jagi:astronomy";
   import BkFieldList from "./BkFieldList";
   import I18n from "../../../../lib/classes/i18n";
-  import { ReactiveVar} from "meteor/reactive-var";
-
-  let rv = new ReactiveVar()
 
   export default {
     name: "BkForm",
     components: {BkFieldList},
     props: {
       model: [String,Class],
-      for: String,
-      fields: [String,Array],
-      exclude: [String,Array],
-      noEdit: [String,Array],
       inline: Boolean,
     },
     data() {
       return {
-        formModel: new ReactiveVar(Class.getModel(this.model)),
+        formModel: Class.getModel(this.model),
         astroModel: null,
         showAlert: false,
         dismissSecs: 5,
-        dismissCountDown: 0
+        dismissCountDown: 0,
+        validated: false,
       }
     },
     computed: {
         submitFor() {
-          let model = this.formModel.get();
+          let model = this.formModel;
           return model.isPersisted() ? "update" : "new";
-        }
+        },
     },
-    /*
-    created() {
-      this.formModel = new ReactiveVar(Class.getModel(this.model));
-    },
-     */
     // provides formModel to all descendant, if necessary, and avoiding to add formModel as a property of each children
     provide() {
       return {
-        formModel: this.formModel
+        formModel: this.formModel,
+        showAlert: this.showAlert,
       }
     },
     methods: {
@@ -80,11 +69,13 @@
       onSubmit(e) {
         e.preventDefault()
         let self = this;
-        let model = this.formModel.get();
+        let model = this.formModel;
+        //model.isValid();
         model.save({stopOnFirstError:false},function(err,id) {
             if (err) {
               model.setError(err);
               self.showAlert = true;
+              this.validated=true;
             } else {
               self.showSuccess()
             }
@@ -93,7 +84,7 @@
       },
       onReset(e) {
         e.preventDefault()
-        let model = this.formModel.get();
+        let model = this.formModel;
         let newModel;
         if (model.isPersisted()) {
           newModel = model.constructor.findOne(model._id);
@@ -101,7 +92,8 @@
           newModel = new (model.constructor)();
         }
         this.showAlert = false;
-        this.formModel.set(newModel);
+        this.validated=false;
+        this.formModel = newModel;
       },
       onCancel(e) {
         // Needs to go back
@@ -109,7 +101,7 @@
       }
     },
     meteor: {
-      getModel() {
+      originalModel() {
         return Class.getModel(this.model);
       },
       submit() {

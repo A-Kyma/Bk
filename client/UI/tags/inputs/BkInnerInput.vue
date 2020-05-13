@@ -1,10 +1,9 @@
 <template>
     <component
             v-if="definitionField === 'Scalar'"
-            v-bind="{...$props, ...$attrs}"
+            v-bind="$attrs"
             :is="inputComponent"
             :type="inputType"
-            :model="model.constructor.getName()"
             v-model="value"
             :state="state"
             :placeholder="placeholder"
@@ -14,7 +13,7 @@
 
     <bk-field-list
             v-else-if="definitionField === 'Object'"
-            v-bind="{...$props, ...$attrs}"
+            v-bind="$attrs"
             :model="model[field]"
             :form-field="formFieldComputed"
             fields=""
@@ -42,19 +41,20 @@
     <span v-else-if="definitionField === 'ListValue'">
         {{model[field].join(', ')}}
     </span>
+
+    <!-- TODO: enumstring is shown as form radios and list of enumstrings as checkboxes -->
 </template>
 
 <script>
   import {Class} from 'meteor/jagi:astronomy';
   import I18n from "../../../../lib/classes/i18n";
+  import _ from "lodash";
 
   function isGenericInputType(originalFieldType="") {
     let fieldType = originalFieldType.toLowerCase();
     // Field Type is a generic Input Type
-    if (["text","number","email","password","search","url","tel","range","color"].includes(fieldType)) {
-      return true;
-    }
-    return false;
+    return ["text", "number", "email", "password", "search", "url", "tel", "range", "color"].includes(fieldType);
+
   }
 
   export default {
@@ -64,8 +64,20 @@
       field: String,
       formField: String,
       for: String,
-      state: Boolean,
       plaintext: Boolean,
+      showAlert: Boolean
+    },
+
+    data() {
+      return {
+        state: null,
+      }
+    },
+
+    watch: {
+      value: function (newValue, oldValue) {
+          this.updateState()
+      }
     },
 
     computed: {
@@ -171,25 +183,14 @@
         return "BFormInput";
       }
     },
-    /* Needed to be put in Meteor side since we use Meteor reactivity */
-    meteor: {
-      /*
-      state() {
-        console.log("State inner input : " + this.field);
-        console.log(this);
-        if (!this.componentLoaded) {
-          return null;
-        }
-        // Check if value when entering creating the component has changed
-        if (_.isEqual(this.model.raw(this.field),this.oldValue)) {
-          return null;
-        }
-        if (this.model.isPersisted() && !this.model.isModified(this.field)) {
-          return null;
-        }
-        return this.model.isValid(this.field,{stopOnFirstError: false});
+
+    methods: {
+      updateState() {
+        let formModel=this.formContext && this.formContext.formModel
+        let state = this.model.isValid(this.field)
+        this.state = state
+        this.$emit("state",state)
       }
-      */
     }
   }
 </script>
