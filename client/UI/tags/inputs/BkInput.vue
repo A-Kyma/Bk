@@ -12,6 +12,7 @@
         <bk-inner-input
                 v-bind="{...$parent.$attrs,...$props, ...$attrs}"
                 @state="onState"
+                @validationError="onError"
                 :model="inputModel"
         />
         <b-form-invalid-feedback :state="state">
@@ -30,7 +31,6 @@
     props: {
       model: Class,
       field: String,
-      formField: String,
       for: String,
       //plaintext: Boolean,
       noLabel: Boolean,
@@ -39,19 +39,11 @@
     inject: ["formModel"],
     data() {
       return {
-        oldValue: null,
-        componentLoaded: false,
+        invalidFeedback: null,
         state: null,
       }
     },
 
-    created() {
-      // oldValue will be used to check value when component created and value in the screen
-      this.oldValue = _.cloneDeep(this.inputModel.raw(this.field));
-    },
-    beforeUpdate() {
-      this.componentLoaded = true;
-    },
     /* Use of meteor instead of computed here implies version 2+ of vue-meteor-tracker */
     computed: {
       //
@@ -78,7 +70,10 @@
     },
     methods: {
       onState(state) {
-        this.state=state;
+        this.state = state;
+      },
+      onError(error) {
+        this.invalidFeedback = error;
       }
     },
     /* Needed to be put in Meteor side since we use Meteor reactivity : ReactiveMap or ReactiveVar */
@@ -87,16 +82,6 @@
         if (this.noLabel) { return }
         return I18n.t(this.inputModel.constructor.getLabelKey(this.field))
       },
-      invalidFeedback() {
-        let errors = this.inputModel.getError(this.field);
-        if (errors) {
-          // TODO: errors should be managed by translations
-          return errors.map((value, key) => value.message).join('<br/>');
-        } else {
-          return "";
-        }
-      }
-
     }
   }
 </script>

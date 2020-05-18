@@ -46,7 +46,7 @@
 </template>
 
 <script>
-  import {Class} from 'meteor/jagi:astronomy';
+  import {Class, ValidationError} from 'meteor/jagi:astronomy';
   import I18n from "../../../../lib/classes/i18n";
   import _ from "lodash";
 
@@ -70,25 +70,26 @@
 
     data() {
       return {
-        state: null,
+        oldValue: null
       }
     },
 
-    watch: {
-      value: function (newValue, oldValue) {
-          this.updateState()
-      }
+    created() {
+      // oldValue will be used to check value when component created and value in the screen
+      this.oldValue = _.cloneDeep(this.model.raw(this.field));
     },
 
     computed: {
       value: {
         set: function (value) {
           this.model.set(this.field, value, {cast: true})
+          this.model.isValid(this.field);
         },
         get: function (value) {
           return this.model.get(this.field);
         }
       },
+
       formFieldComputed() {
          return this.formField && this.formField + "." + this.field || this.field;
       },
@@ -183,15 +184,30 @@
         return "BFormInput";
       }
     },
+    mounted() {
+      this.$startMeteor()
+    },
 
-    methods: {
-      updateState() {
-        let formModel=this.formContext && this.formContext.formModel
-        let state = this.model.isValid(this.field)
-        this.state = state
-        this.$emit("state",state)
+    meteor: {
+      state() {
+        let errors = this.model.getError(this.field);
+        if (errors) {
+          // TODO: errors should be managed by translations
+
+          this.$emit("validationError",errors.map((value, key) => value.message).join('<br/>'))
+          this.$emit("state", false);
+          return false
+        } else {
+          if (_.isEqual(this.value,this.oldValue)) {
+            this.$emit("state",null)
+            return null
+          } else {
+            this.$emit("state", true)
+            return true
+          }
+        }
       }
-    }
+    },
   }
 </script>
 
