@@ -11,6 +11,15 @@
             :plaintext="plaintextComputed"
     />
 
+    <b-form-radio-group
+            v-else-if="definitionField === 'Enum'"
+            v-bind="$attrs"
+            v-model="value"
+            :state="state"
+            :name="field"
+            :options="enumOptions"
+    />
+
     <bk-field-list
             v-else-if="definitionField === 'Object'"
             v-bind="$attrs"
@@ -25,8 +34,16 @@
                 v-for="innerModel in model[field]"
                 :model="innerModel"
                 :form-field="formFieldComputed"
-        />
+    />
     </component>
+
+    <b-form-checkbox-group
+        v-else-if="definitionField === 'ListEnum'"
+        v-model="value"
+        :state="state"
+        :options="enumOptions"
+        :name="field"
+    />
 
     <b-form-tags
             v-else-if="definitionField === 'ListString'"
@@ -42,15 +59,15 @@
         {{model[field].join(', ')}}
     </span>
 
-    <!-- TODO: enumstring is shown as form radios and list of enumstrings as checkboxes -->
 </template>
 
 <script>
   import {Class, ValidationError} from 'meteor/jagi:astronomy';
+  import Enum from "../../../../lib/modules/customFields/customs/Enum"
   import I18n from "../../../../lib/classes/i18n";
   import _ from "lodash";
 
-  function isGenericInputType(originalFieldType="") {
+  function isGenericInputType(originalFieldType = "") {
     let fieldType = originalFieldType.toLowerCase();
     // Field Type is a generic Input Type
     return ["text", "number", "email", "password", "search", "url", "tel", "range", "color"].includes(fieldType);
@@ -90,8 +107,24 @@
         }
       },
 
+      enumOptions() {
+        let fieldDefinition = this.model.getDefinition(this.field);
+        if (!fieldDefinition) {
+          return null;
+        }
+        let definitionClass = fieldDefinition.constructor.name;
+        let fieldType = fieldDefinition.type.name;
+        let Enum = fieldDefinition.type.class
+        let identifiers = Enum.getIdentifiers()
+
+        return _.map(identifiers, x => {
+            return {"text": I18n.t("Enum." + fieldType + "." + x + ".label"), "value": x}
+          }
+        )
+      },
+
       formFieldComputed() {
-         return this.formField && this.formField + "." + this.field || this.field;
+        return this.formField && this.formField + "." + this.field || this.field;
       },
 
       // If for view or if readonly field, return true
@@ -131,9 +164,15 @@
               //this.value = this.value.join(", ");
               return "ListString"
             }
+            if (fieldDefinition.type.class.name === "Enum") {
+              return "ListEnum"
+            }
             return "ListValue";
 
           case 'ScalarField':
+            if (fieldDefinition.type.class.name === "Enum") {
+              return "Enum";
+            }
             return "Scalar";
         }
       },
@@ -148,7 +187,7 @@
 
           // Field Type is a generic Input Type
           if (isGenericInputType(fieldType)) {
-            return fieldType.toLowerCase();;
+            return fieldType.toLowerCase()
           }
 
         }
@@ -194,12 +233,12 @@
         if (errors) {
           // TODO: errors should be managed by translations
 
-          this.$emit("validationError",errors.map((value, key) => value.message).join('<br/>'))
+          this.$emit("validationError", errors.map((value, key) => value.message).join('<br/>'))
           this.$emit("state", false);
           return false
         } else {
-          if (_.isEqual(this.value,this.oldValue)) {
-            this.$emit("state",null)
+          if (_.isEqual(this.value, this.oldValue)) {
+            this.$emit("state", null)
             return null
           } else {
             this.$emit("state", true)
