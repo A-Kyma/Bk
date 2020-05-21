@@ -51,6 +51,8 @@
             :state="state"
             remove-on-delete
             separator=" "
+            :tag-validator="tagValidator"
+            :invalid-tag-text="invalidTagText"
             :placeholder="placeholder"
             :disabled="plaintextComputed"
     />
@@ -87,7 +89,8 @@
 
     data() {
       return {
-        oldValue: null
+        oldValue: null,
+        invalidTagText: "Tag is invalid",
       }
     },
 
@@ -223,15 +226,29 @@
         return "BFormInput";
       }
     },
-    mounted() {
-      this.$startMeteor()
+
+    methods: {
+      tagValidator(tag) {
+        let model = new (this.model.constructor)();
+        model.set(this.field,[tag]); // tag is in an array
+        try {
+          model.validate({fields: this.field})
+        } catch(err) {
+          if (ValidationError.is(err)) {
+            //TODO should be managed by I18n
+            this.invalidTagText = err.details[0].message;
+            return false
+          }
+        }
+        return true;
+      }
     },
 
     meteor: {
       state() {
         let errors = this.model.getError(this.field);
         if (errors) {
-          // TODO: errors should be managed by translations
+          // TODO: errors should be managed by I18n translations
 
           this.$emit("validationError", errors.map((value, key) => value.message).join('<br/>'))
           this.$emit("state", false);
