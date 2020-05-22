@@ -39,11 +39,9 @@
     data() {
       return {
         formModel: Class.getModel(this.model),
-        astroModel: null,
         showAlert: false,
         dismissSecs: 5,
         dismissCountDown: 0,
-        validated: false,
       }
     },
     computed: {
@@ -75,7 +73,6 @@
             if (err) {
               model.setError(err);
               self.showAlert = true;
-              this.validated=true;
             } else {
               self.showSuccess()
             }
@@ -92,8 +89,8 @@
           newModel = new (model.constructor)();
         }
         this.showAlert = false;
-        this.validated=false;
-        this.formModel = newModel;
+        this.formModel.clearError();
+        this.formModel.set(newModel.raw());
       },
       onCancel(e) {
         // Needs to go back

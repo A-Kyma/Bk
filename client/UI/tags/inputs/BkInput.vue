@@ -2,6 +2,7 @@
 <template>
     <b-form-group v-bind="{...$parent.$attrs,...$attrs}"
                   :valid-feedback="validFeedback"
+                  v-if="canView"
     >
         <template
                 v-if="!noLabel"
@@ -46,7 +47,7 @@
 
     /* Use of meteor instead of computed here implies version 2+ of vue-meteor-tracker */
     computed: {
-      //
+      // model from props or injection
       inputModel() {
         return this.model || this.formModel;
       },
@@ -59,6 +60,9 @@
           return true;
         }
         return this.$props.plaintext;
+      },
+      canView() {
+        return this.inputModel.canView(this.field);
       },
       placeholder() {
         return "Enter " + this.field

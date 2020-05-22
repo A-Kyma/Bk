@@ -20,6 +20,15 @@
             :options="enumOptions"
     />
 
+    <b-form-checkbox
+        v-else-if="definitionField === 'Boolean'"
+        v-bind="$attrs"
+        v-model="value"
+        :state="state"
+        :name="field"
+        size="lg"
+        switch/>
+
     <bk-field-list
             v-else-if="definitionField === 'Object'"
             v-bind="$attrs"
@@ -176,6 +185,9 @@
             if (fieldDefinition.type.class.name === "Enum") {
               return "Enum";
             }
+            if (fieldDefinition.type.class.name === "Boolean") {
+              return "Boolean"
+            }
             return "Scalar";
         }
       },
@@ -254,7 +266,7 @@
           this.$emit("state", false);
           return false
         } else {
-          if (_.isEqual(this.value, this.oldValue)) {
+          if (_.isEqual(this.value, this.oldValue) || !this._isMounted) {
             this.$emit("state", null)
             return null
           } else {
