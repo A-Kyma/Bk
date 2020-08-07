@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import Class from "meteor/jagi:astronomy"
+  import { Class } from "meteor/jagi:astronomy";
   import {Bk} from "../../../../lib/lib.js"
   import I18n from "../../../../lib/classes/i18n";
   import Datatable from "../../../../lib/classes/datatable";
@@ -23,7 +23,7 @@
     props: {
       fields: Array,
       array: Array,
-      model: Class,
+      model: [String,Class],
       selector: {
         type: Object,
         default: function() { return {} }
@@ -32,7 +32,7 @@
     },
     data() {
       return {
-        datatable: undefined,//new Datatable(this.props),
+        datatable: new Datatable(this.$props),
       }
     },
     computed: {
