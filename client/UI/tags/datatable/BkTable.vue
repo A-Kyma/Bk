@@ -1,5 +1,9 @@
 <template>
     <b-table v-bind="$attrs" :fields="labeledFields" :items="items" responsive hover foot-clone>
+        <!-- header rendering and translation -->
+        <template v-slot:head()="data">
+          <t>Col {{data.label}}</t>
+        </template>
         <!-- default rendering -->
         <template v-slot:cell()="data">
             <bk-view-inner no-label :model="data.item" :field="data.field.key"/>
@@ -14,7 +18,6 @@
 
 <script>
   import { Class } from "meteor/jagi:astronomy";
-  import {Bk} from "../../../../lib/lib.js"
   import I18n from "../../../../lib/classes/i18n";
   import Datatable from "../../../../lib/classes/datatable";
 
@@ -37,15 +40,16 @@
     },
     computed: {
       labeledFields() {
-        return this.fields;
+        return this.datatable.fields;
       }
     },
     meteor: {
       items() {
-        let selection = this.model.find(this.selector).fetch();
-        return selection;
+        //let selection = this.model.find(this.selector).fetch();
+        //return selection;
+        return this.datatable.getArray();
       }
-    },
+    }
   }
 </script>
 
