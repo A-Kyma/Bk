@@ -2,7 +2,7 @@
     <b-table v-bind="$attrs" :fields="labeledFields" :items="items" responsive hover foot-clone>
         <!-- header rendering and translation -->
         <template v-slot:head()="data">
-          <t>Col {{data.label}}</t>
+          <t>{{data.label}}</t>
         </template>
         <!-- default rendering -->
         <template v-slot:cell()="data">
@@ -27,6 +27,8 @@
       fields: Array,
       array: Array,
       model: [String,Class],
+      actions: String,
+      customActions: String,
       selector: {
         type: Object,
         default: function() { return {} }
@@ -40,7 +42,8 @@
     },
     computed: {
       labeledFields() {
-        return this.datatable.fields;
+        let headers = this.datatable.getHeaders();
+        return headers;
       }
     },
     meteor: {
