@@ -1,5 +1,17 @@
 <template>
-    <b-table v-bind="$attrs" :fields="labeledFields" :items="items" responsive hover foot-clone>
+    <b-table
+        v-bind="$attrs"
+        :fields="labeledFields"
+        :items="items"
+        :sort-by.sync="sortBySync"
+        :sort-desc.sync="sortDescSync"
+        sort-icon-left
+        responsive
+        hover
+        foot-clone
+        @sort-changed="onSortChange"
+        no-local-sorting
+    >
         <!-- header rendering and translation -->
         <template v-slot:head()="data">
           <t>{{data.label}}</t>
@@ -25,6 +37,8 @@
     name: "BkTable",
     props: {
       fields: Array,
+      sortBy: String,
+      sortDesc: Boolean,
       array: Array,
       model: [String,Class],
       actions: String,
@@ -37,6 +51,8 @@
     },
     data() {
       return {
+        sortBySync: this.sortBy,
+        sortDescSync: this.sortDesc,
         datatable: new Datatable(this.$props),
       }
     },
@@ -44,6 +60,11 @@
       labeledFields() {
         let headers = this.datatable.getHeaders();
         return headers;
+      }
+    },
+    methods: {
+      onSortChange(context) {
+        this.datatable.setSort(context.sortBy,context.sortDesc)
       }
     },
     meteor: {

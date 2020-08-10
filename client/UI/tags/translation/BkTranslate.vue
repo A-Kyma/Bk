@@ -1,5 +1,5 @@
 <template>
-    <p>{{translation}}</p>
+    <span>{{translation}}</span>
 </template>
 
 <script>
