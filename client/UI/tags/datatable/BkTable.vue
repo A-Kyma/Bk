@@ -39,6 +39,7 @@
       fields: Array,
       sortBy: String,
       sortDesc: Boolean,
+      filter: Object,
       array: Array,
       model: [String,Class],
       actions: String,

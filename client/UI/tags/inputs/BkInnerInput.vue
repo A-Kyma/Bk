@@ -29,6 +29,7 @@
         size="lg"
         switch/>
 
+
     <bk-field-list
             v-else-if="definitionField === 'Object'"
             v-bind="$attrs"
@@ -36,6 +37,7 @@
             :form-field="formFieldComputed"
             fields=""
     />
+
     <!-- TODO: Maybe use ul/li here ? We have an array of subclasses-->
     <component v-else-if="definitionField === 'ListClass'">
         <bk-inner-input
