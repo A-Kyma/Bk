@@ -68,7 +68,7 @@
         return "Enter " + this.field
       },
       validFeedback() {
-        return "Ok"
+        return ""
       },
 
     },
