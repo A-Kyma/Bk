@@ -87,6 +87,13 @@
 
   }
 
+  function getInheritedFieldType(originalFieldType = "") {
+    let inheritedFieldType = {
+      "integer": "number"
+    }
+    return inheritedFieldType[originalFieldType.toLowerCase()];
+  }
+
   export default {
     name: "BkInnerInput",
     props: {
@@ -206,6 +213,8 @@
           if (isGenericInputType(fieldType)) {
             return fieldType.toLowerCase()
           }
+
+          return getInheritedFieldType(fieldType);
 
         }
         return undefined;
