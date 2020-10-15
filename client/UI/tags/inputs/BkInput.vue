@@ -1,5 +1,6 @@
 <!-- We added $parent.$attrs to get the "non-props" attributes from "bk-form" element -->
 <template>
+  <transition name="slide-fade">
     <b-form-group v-bind="{...$parent.$attrs,...$attrs}"
                   :valid-feedback="validFeedback"
                   v-if="canView"
@@ -20,6 +21,7 @@
             <span v-html="invalidFeedback"/>
         </b-form-invalid-feedback>
     </b-form-group>
+  </transition>
 </template>
 
 <script>
@@ -91,5 +93,17 @@
 </script>
 
 <style scoped>
-
-</style>
+  /* Les animations d'entrée (« enter ») et de sortie (« leave »)  */
+  /* peuvent utiliser différentes fonctions de durée et de temps.  */
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active below version 2.1.8 */ {
+    transform: translateX(10px);
+    opacity: 0;
+  }
+  </style>
