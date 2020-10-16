@@ -1,6 +1,6 @@
 <!-- We added $parent.$attrs to get the "non-props" attributes from "bk-form" element -->
 <template>
-  <transition name="slide-fade">
+  <transition name="slide-fade" appear>
     <b-form-group v-bind="{...$parent.$attrs,...$attrs}"
                   :valid-feedback="validFeedback"
                   v-if="canView"
