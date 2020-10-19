@@ -1,4 +1,5 @@
 <template>
+  <b-input-group :prepend="ui.prepend" :append="ui.append">
     <component
             v-if="definitionField === 'Scalar'"
             v-bind="$attrs"
@@ -71,7 +72,7 @@
     <span v-else-if="definitionField === 'ListValue'">
         {{model[field].join(', ')}}
     </span>
-
+  </b-input-group>
 </template>
 
 <script>
@@ -126,6 +127,14 @@
         get: function (value) {
           return this.model.get(this.field);
         }
+      },
+
+      ui() {
+        let fieldDefinition = this.model.getDefinition(this.field);
+        if (!fieldDefinition || !fieldDefinition.ui) {
+          return {};
+        }
+        return fieldDefinition.ui;
       },
 
       enumOptions() {
