@@ -76,7 +76,7 @@
 </template>
 
 <script>
-  import {Class, ValidationError} from 'meteor/jagi:astronomy';
+  import {Class, ValidationError, ObjectField, ListField} from 'meteor/jagi:astronomy';
   import Enum from "../../../../lib/modules/customFields/customs/Enum"
   import I18n from "../../../../lib/classes/i18n";
   import _ from "lodash";
@@ -182,9 +182,15 @@
         let fieldType = fieldDefinition.type.name;
         switch (definitionClass) {
           case 'ObjectField':
+            if (fieldDefinition.relation) {
+              return "Relation";
+            }
             return "Object";
 
           case 'ListField':
+            if (fieldDefinition.relation) {
+              return "ListRelation";
+            }
             // it's a new class object
             if (fieldType === "Class") {
               return "ListClass";

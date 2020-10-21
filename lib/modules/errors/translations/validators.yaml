@@ -1,0 +1,43 @@
+en:
+  Error:
+    required: "Field {{field}} is required"
+    string: "Field {{field}} must be a String"
+    number: "Field {{field}} must be a number"
+    integer: "Field {{field}} must be an integer"
+    boolean: "Field {{field}} must be a boolean"
+    array: "Field {{field}} must be an array"
+    object: "Field {{field}} must be an object"
+    date: "Field {{field}} is an invalid date"
+    null: "Field {{field}} must be null"
+    notNull: "Field {{field}} cannot be null"
+    length:
+      zero: "Length of field {{field}} must have {{count}} character"
+      one: "Length of field {{field}} must have {{count}} character"
+      other: "Length of field {{field}} must have {{count}} characters"
+    minLength:
+      zero: "Length of field {{field}} must have at least {{count}} character"
+      one: "Length of field {{field}} must have at least {{count}} character"
+      other: "Length of field {{field}} must have at least {{count}} characters"
+    maxLength:
+      zero: "Length of field {{field}} must have at most {{count}} character"
+      one: "Length of field {{field}} must have at most {{count}} character"
+      other: "Length of field {{field}} must have at most {{count}} characters"
+    gt: "Field {{field}} must be greater than {{param}}"
+    gte: "Field {{field}} must be greater than or equal {{param}}"
+    lt: "Field {{field}} must be less than {{param}}"
+    lte: "Field {{field}} must be less than or equal {{param}}"
+    min:
+      zero: "Field {{field}} must be have at least {{count}} character or be greater than or equal {{count}}"
+      one: "Field {{field}} must be have at least {{count}} character or be greater than or equal {{count}}"
+      other: "Field {{field}} must be have at least {{count}} characters or be greater than or equal {{count}}"
+    max:
+      zero: "Field {{field}} must be have at most {{count}} character or be less than or equal {{count}}"
+      one: "Field {{field}} must be have at most {{count}} character or be less than or equal {{count}}"
+      other: "Field {{field}} must be have at most {{count}} characters or be less than or equal {{count}}"
+    email: "Field {{field}} is not a valid email"
+    choice: "Field {{field}} must be one off {{param}}"
+    equal: "Field {{field}} must be equal to {{param}}"
+    regexp: "Field {{field}} must match regular expression {{param}}"
+    has: "Field {{field}} must have proprety {{param}} filled in"
+    includes: "Field {{field}} must includes {{param}}"
+
