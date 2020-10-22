@@ -68,6 +68,11 @@
             :placeholder="placeholder"
             :disabled="plaintextComputed"
     />
+    <bk-datalist-input
+        v-else-if="definitionField === 'Relation'"
+        :model="model[field]"
+        :state="state"
+    />
     <!-- TODO: is span OK ?-->
     <span v-else-if="definitionField === 'ListValue'">
         {{model[field].join(', ')}}
@@ -76,12 +81,13 @@
 </template>
 
 <script>
-  import {Class, ValidationError, ObjectField, ListField} from 'meteor/jagi:astronomy';
-  import Enum from "../../../../lib/modules/customFields/customs/Enum"
-  import I18n from "../../../../lib/classes/i18n";
-  import _ from "lodash";
+import {Class, ValidationError} from 'meteor/jagi:astronomy';
+import Enum from "../../../../lib/modules/customFields/customs/Enum"
+import I18n from "../../../../lib/classes/i18n";
+import _ from "lodash";
+import BkDatalistInput from "./BkDatalistInput";
 
-  function isGenericInputType(originalFieldType = "") {
+function isGenericInputType(originalFieldType = "") {
     let fieldType = originalFieldType.toLowerCase();
     // Field Type is a generic Input Type
     return ["text", "number", "email", "password", "search", "url", "tel", "range", "color"].includes(fieldType);
@@ -97,6 +103,7 @@
 
   export default {
     name: "BkInnerInput",
+    components: {BkDatalistInput},
     props: {
       model: Class,
       field: String,
@@ -124,7 +131,7 @@
           this.model.set(this.field, value, {cast: true})
           this.model.isValid(this.field);
         },
-        get: function (value) {
+        get: function () {
           return this.model.get(this.field);
         }
       },
