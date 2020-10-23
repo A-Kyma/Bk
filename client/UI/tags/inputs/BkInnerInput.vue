@@ -71,7 +71,6 @@
     <bk-datalist-input
         v-else-if="definitionField === 'Relation'"
         :model="model[field]"
-        :state="state"
     />
     <!-- TODO: is span OK ?-->
     <span v-else-if="definitionField === 'ListValue'">
@@ -293,8 +292,6 @@ function isGenericInputType(originalFieldType = "") {
       state() {
         let errors = this.model.getError(this.field);
         if (errors) {
-          // TODO: errors should be managed by I18n translations
-
           this.$emit("validationError", errors.map((value, key) => value.message).join('<br/>'))
           this.$emit("state", false);
           return false
