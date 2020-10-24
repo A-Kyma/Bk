@@ -1,7 +1,5 @@
 import './conditional/conditional.js';
 import './datatable/datatable';
-import './errors/debug.js';
-import './errors/errors.js';
 import './forms/fieldlist.js';
 import './forms/form.js';
 import './forms/hint.js';
