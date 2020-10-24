@@ -28,10 +28,13 @@
 <script>
 import {Class} from "meteor/jagi:astronomy";
 import {I18n} from "meteor/a-kyma:bk";
+import {_} from "lodash";
 
 export default {
   name: "BkDatalistInput",
   props: {
+    parent: Class,
+    parentField: String,
     model: Class,
   },
   data() {
@@ -48,7 +51,9 @@ export default {
   computed: {
     inputValue: {
       set(value) {
-        if (value === this.value) { return }
+        if (value === this.value) {
+          return
+        }
         if (value === "") {
           this.model._id = undefined;
           return;
@@ -62,15 +67,25 @@ export default {
     },
     dropDownId() {
       return "Dropdown_" + this.model.constructor.getName() + "_" + this._uid;
-    },
+    }
+  },
+  meteor: {
     state() {
-      if (this.oldValue === this.model._id) {
-        this.$emit("state", null);
-        return null;
+      // Similar has management found in BkInnerInput but value checked is model_id
+      let errors = this.parent.getError(this.parentField);
+      if (errors) {
+        this.$emit("validationError", errors.map((value, key) => value.message).join('<br/>'))
+        this.$emit("state", false);
+        return false
+      } else {
+        if (_.isEqual(this.model._id, this.oldValue) || !this._isMounted) {
+          this.$emit("state", null)
+          return null
+        } else {
+          this.$emit("state", true)
+          return true
+        }
       }
-      let state = (this.model_id === undefined || this.model_id === null);
-      this.$emit("state",state);
-      return state;
     }
   },
   methods: {
@@ -92,6 +107,8 @@ export default {
         }
         return;
       }
+
+      // Todo: we will have a more generic way to call external relation method
       this.model.callMethod("searchCityServer",value, I18n.getLanguage(),(err,result) => {
         self.options = result;
         if (result && !this.dropDownVisible) {
