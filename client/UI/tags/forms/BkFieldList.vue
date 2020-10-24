@@ -8,10 +8,10 @@
 </template>
 
 <script>
-  import Class from "meteor/jagi:astronomy"
-  import { Bk } from "../../../../lib/lib.js"
+import Class from "meteor/jagi:astronomy"
+import getFieldsArray from "../../utils/getFieldsArray";
 
-  export default {
+export default {
     name: "BkFieldList",
     props: {
       model: Class,
@@ -25,12 +25,11 @@
         return this.model || this.formModel;
       },
       fieldsArray() {
-        let fieldsArray = Bk.getFieldsArray({
+        return getFieldsArray({
           model: this.inputModel,
           fields: this.fields,
           exclude: this.exclude
         });
-        return fieldsArray;
       }
     },
   }

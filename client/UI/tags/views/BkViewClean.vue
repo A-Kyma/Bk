@@ -3,10 +3,9 @@
 </template>
 
 <script>
-  import Class from "meteor/jagi:astronomy"
-  import {Bk} from "../../../../lib/lib.js"
+import Class from "meteor/jagi:astronomy"
 
-  export default {
+export default {
     name: "BkViewClean",
     props: {
       model: Class,
