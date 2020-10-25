@@ -70,9 +70,8 @@
     />
     <bk-datalist-input
         v-else-if="definitionField === 'Relation'"
-        :parent="model"
-        :parent-field="field"
-        :model="model[field]"
+        :model="model"
+        :field="field"
     />
     <!-- TODO: is span OK ?-->
     <span v-else-if="definitionField === 'ListValue'">

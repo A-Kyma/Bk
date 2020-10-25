@@ -33,20 +33,20 @@ import {_} from "lodash";
 export default {
   name: "BkDatalistInput",
   props: {
-    parent: Class,
-    parentField: String,
     model: Class,
+    field: String,
   },
   data() {
     return {
       oldValue: null,
-      value: this.model.defaultName(),
+      value: this.model[this.field].defaultName(),
       options: [],
       dropDownVisible: false,
+      relation: this.model[this.field]
     }
   },
   created() {
-    this.oldValue = this.model._id;
+    this.oldValue = this.relation._id;
   },
   computed: {
     inputValue: {
@@ -55,7 +55,7 @@ export default {
           return
         }
         if (value === "") {
-          this.model._id = undefined;
+          this.relation._id = undefined;
           return;
         }
         this.fillOptions(value)
@@ -66,19 +66,19 @@ export default {
       }
     },
     dropDownId() {
-      return "Dropdown_" + this.model.constructor.getName() + "_" + this._uid;
+      return "Dropdown_" + this.relation.constructor.getName() + "_" + this._uid;
     }
   },
   meteor: {
     state() {
-      // Similar has management found in BkInnerInput but value checked is model_id
-      let errors = this.parent.getError(this.parentField);
+      // Similar has management found in BkInnerInput but value checked is relation_id
+      let errors = this.model.getError(this.field);
       if (errors) {
         this.$emit("validationError", errors.map((value, key) => value.message).join('<br/>'))
         this.$emit("state", false);
         return false
       } else {
-        if (_.isEqual(this.model._id, this.oldValue) || !this._isMounted) {
+        if (_.isEqual(this.relation._id, this.oldValue) || !this._isMounted) {
           this.$emit("state", null)
           return null
         } else {
@@ -94,7 +94,7 @@ export default {
       this.dropDownVisible = !this.dropDownVisible;
     },
     onSelectRow(row) {
-      this.model._id = row.value;
+      this.relation._id = row.value;
       this.inputValue = row.text;
       this.toggleDropDown();
     },
@@ -109,7 +109,7 @@ export default {
       }
 
       // Todo: we will have a more generic way to call external relation method
-      this.model.callMethod("searchCityServer",value, I18n.getLanguage(),(err,result) => {
+      this.relation.callMethod("searchCityServer",value, I18n.getLanguage(),(err,result) => {
         self.options = result;
         if (result && !this.dropDownVisible) {
           this.toggleDropDown();
