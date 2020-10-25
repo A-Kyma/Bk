@@ -1,53 +1,22 @@
 <template>
-  <b-input-group :prepend="ui.prepend" :append="ui.append">
-    <component
-            v-if="definitionField === 'Scalar'"
-            v-bind="$attrs"
-            :is="inputComponent"
-            :type="inputType"
-            v-model="value"
-            :state="state"
-            :placeholder="placeholder"
-            :name="field"
-            :plaintext="plaintextComputed"
-    />
-
-    <b-form-radio-group
-            v-else-if="definitionField === 'Enum'"
-            v-bind="$attrs"
-            v-model="value"
-            :state="state"
-            :name="field"
-            :options="enumOptions"
-    />
-
-    <b-form-checkbox
-        v-else-if="definitionField === 'Boolean'"
-        v-bind="$attrs"
-        v-model="value"
-        :state="state"
-        :name="field"
-        size="lg"
-        switch/>
-
+  <b-input-group v-bind="$attrs" :prepend="ui.prepend" :append="ui.append">
 
     <bk-field-list
-            v-else-if="definitionField === 'Object'"
+            v-if="definitionField === 'Object'"
             v-bind="$attrs"
             :model="model[field]"
             :form-field="formFieldComputed"
             fields=""
     />
 
-    <!-- TODO: Maybe use ul/li here ? We have an array of subclasses-->
-    <component v-else-if="definitionField === 'ListClass'">
-        <bk-inner-input
+    <b-card v-else-if="definitionField === 'ListClass'"
+            v-for="(innerModel,index) in model[field]">
+        <bk-field-list
                 v-bind="{...$props, ...$attrs}"
-                v-for="innerModel in model[field]"
                 :model="innerModel"
-                :form-field="formFieldComputed"
-    />
-    </component>
+                :form-field="formFieldComputed + '.' + index"
+        />
+    </b-card>
 
     <b-form-checkbox-group
         v-else-if="definitionField === 'ListEnum'"
@@ -55,6 +24,7 @@
         :state="state"
         :options="enumOptions"
         :name="field"
+        :plaintext="plaintextComputed"
     />
 
     <b-form-tags
@@ -68,8 +38,9 @@
             :placeholder="placeholder"
             :disabled="plaintextComputed"
     />
-    <bk-datalist-input
+    <bk-belongs-to-input
         v-else-if="definitionField === 'Relation'"
+        v-bind="$attrs"
         :model="model"
         :field="field"
     />
@@ -77,6 +48,22 @@
     <span v-else-if="definitionField === 'ListValue'">
         {{model[field].join(', ')}}
     </span>
+
+    <!-- inputText + radio + ... -->
+    <component
+        v-else
+        v-bind="$attrs"
+        :is="inputComponent"
+        :type="inputType"
+        v-model="value"
+        :state="state"
+        :placeholder="placeholder"
+        :name="field"
+        :plaintext="plaintextComputed"
+        :readonly="plaintextComputed"
+        :options="enumOptions"
+        switch
+    />
   </b-input-group>
 </template>
 
@@ -85,7 +72,8 @@ import {Class, ValidationError} from 'meteor/jagi:astronomy';
 import Enum from "../../../../lib/modules/customFields/customs/Enum"
 import I18n from "../../../../lib/classes/i18n";
 import _ from "lodash";
-import BkDatalistInput from "./BkDatalistInput";
+import BkBelongsToInput from "./BkBelongsToInput";
+import BkFieldList from "../forms/BkFieldList";
 
 function isGenericInputType(originalFieldType = "") {
     let fieldType = originalFieldType.toLowerCase();
@@ -103,7 +91,7 @@ function isGenericInputType(originalFieldType = "") {
 
   export default {
     name: "BkInnerInput",
-    components: {BkDatalistInput},
+    components: {BkBelongsToInput,BkFieldList},
     props: {
       model: Class,
       field: String,
@@ -112,7 +100,7 @@ function isGenericInputType(originalFieldType = "") {
       plaintext: Boolean,
       showAlert: Boolean
     },
-
+    inject: ["formModel"],
     data() {
       return {
         oldValue: null,
@@ -147,12 +135,13 @@ function isGenericInputType(originalFieldType = "") {
       enumOptions() {
         let fieldDefinition = this.model.getDefinition(this.field);
         if (!fieldDefinition) {
-          return null;
+          return ;
         }
         let definitionClass = fieldDefinition.constructor.name;
         let fieldType = fieldDefinition.type.name;
-        let Enum = fieldDefinition.type.class
-        let identifiers = Enum.getIdentifiers()
+        let EnumClass = fieldDefinition.type.class
+        if (! Enum.enums[fieldType]) { return }
+        let identifiers = EnumClass.getIdentifiers()
 
         return _.map(identifiers, x => {
             return {"text": I18n.t("Enum." + fieldType + "." + x + ".label"), "value": x}
@@ -169,7 +158,14 @@ function isGenericInputType(originalFieldType = "") {
         if (this.$props.for === "view") {
           return true;
         }
-        if (!this.model.canEdit(this.field)) {
+
+        // isNew is only known in the formModel, not in embedded models
+        let isNew = this.formModel.constructor.isNew(this.formModel);
+
+        // Check canEdit at model level instead of traversing formModel
+        // to avoid to much calculation. But, we could do this also
+        // !this.formModel.canEdit(this.formField)
+        if (!this.model.canEdit(this.field,isNew)) {
           return true;
         }
         return this.$props.plaintext;
@@ -186,6 +182,7 @@ function isGenericInputType(originalFieldType = "") {
           return null;
         }
         let definitionClass = fieldDefinition.constructor.name;
+        let fieldClass = fieldDefinition.type.class;
         let fieldType = fieldDefinition.type.name;
         switch (definitionClass) {
           case 'ObjectField':
@@ -199,7 +196,7 @@ function isGenericInputType(originalFieldType = "") {
               return "ListRelation";
             }
             // it's a new class object
-            if (fieldType === "Class") {
+            if (Class.includes(fieldClass)) {
               return "ListClass";
             }
             // We can have a form tag since we have string values
@@ -245,7 +242,7 @@ function isGenericInputType(originalFieldType = "") {
         let fieldDefinition = this.model.getDefinition(this.field);
         // Check if field really exists :
         if (!fieldDefinition) {
-          return {template: null};
+          return null;
         }
 
         // Allow forcing template in field definition, ui part
@@ -255,6 +252,7 @@ function isGenericInputType(originalFieldType = "") {
 
         let fieldType = fieldDefinition.type.name;
         let templateType = fieldType.toLowerCase();
+        let fieldClass = fieldDefinition.type.class.name;
 
         if (isGenericInputType(fieldType) || fieldType === "String") {
           return "BFormInput";
@@ -266,6 +264,15 @@ function isGenericInputType(originalFieldType = "") {
 
         if (fieldType === "Time") {
           return "BFormTimepicker"
+        }
+
+        // Only if Scalar field. ListEnum and ListBoolean treated differently
+        if (fieldClass === "Enum" && !this.plaintextComputed) {
+            return "BFormRadioGroup";
+        }
+
+        if (fieldClass === "Boolean") {
+          return "BFormCheckbox"
         }
 
         return "BFormInput";

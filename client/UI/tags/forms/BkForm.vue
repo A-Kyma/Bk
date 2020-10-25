@@ -1,5 +1,5 @@
 <template>
-    <b-form :inline="inline" @submit="onSubmit" @reset="onReset">
+    <b-form v-bind="$attrs" :inline="inline" @submit="onSubmit" @reset="onReset">
         <b-alert
                 :show="showAlert"
                 variant="danger"
@@ -25,11 +25,11 @@
 </template>
 
 <script>
-  import { Class } from "meteor/jagi:astronomy";
-  import BkFieldList from "./BkFieldList";
-  import I18n from "../../../../lib/classes/i18n";
+import {Class} from "meteor/jagi:astronomy";
+import BkFieldList from "./BkFieldList";
+import I18n from "../../../../lib/classes/i18n";
 
-  export default {
+export default {
     name: "BkForm",
     components: {BkFieldList},
     props: {

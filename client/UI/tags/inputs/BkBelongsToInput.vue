@@ -5,7 +5,6 @@
         v-model="inputValue"
         type="search"
         :state="state"
-        :list="datalistId"
     />
     <b-collapse :id="dropDownId" class="mt-2">
       <b-table
@@ -31,7 +30,7 @@ import {I18n} from "meteor/a-kyma:bk";
 import {_} from "lodash";
 
 export default {
-  name: "BkDatalistInput",
+  name: "BkBelongsToInput",
   props: {
     model: Class,
     field: String,
