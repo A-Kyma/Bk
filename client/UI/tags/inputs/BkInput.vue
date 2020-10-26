@@ -4,6 +4,8 @@
     <b-form-group v-bind="{...$parent.$attrs,...$attrs}"
                   :valid-feedback="validFeedback"
                   v-if="canView"
+                  :label-class="ui.labelClass"
+                  :label-size="ui.labelSize"
     >
         <template
                 v-if="!noLabel"
@@ -72,7 +74,14 @@
       validFeedback() {
         return ""
       },
-
+      ui() {
+        if (this.noUI) {return {}};
+        let fieldDefinition = this.model.getDefinition(this.field);
+        if (!fieldDefinition || !fieldDefinition.ui) {
+          return {};
+        }
+        return fieldDefinition.ui;
+      },
     },
     methods: {
       onState(state) {

@@ -1,5 +1,8 @@
 <template>
-  <b-input-group v-bind="$attrs" :prepend="ui.prepend" :append="ui.append">
+  <b-input-group
+      v-bind="$attrs"
+      :prepend="ui.prepend"
+      :append="ui.append">
 
     <bk-field-list
             v-if="definitionField === 'Object'"
@@ -56,6 +59,8 @@
         :is="inputComponent"
         :type="inputType"
         v-model="value"
+        :model="model"
+        :field="field"
         :state="state"
         :placeholder="placeholder"
         :name="field"
@@ -125,6 +130,7 @@ function isGenericInputType(originalFieldType = "") {
       },
 
       ui() {
+        if (this.noUI) {return {}};
         let fieldDefinition = this.model.getDefinition(this.field);
         if (!fieldDefinition || !fieldDefinition.ui) {
           return {};
@@ -143,10 +149,15 @@ function isGenericInputType(originalFieldType = "") {
         if (! Enum.enums[fieldType]) { return }
         let identifiers = EnumClass.getIdentifiers()
 
-        return _.map(identifiers, x => {
+        let options = _.map(identifiers, x => {
             return {"text": I18n.t("Enum." + fieldType + "." + x + ".label"), "value": x}
           }
         )
+
+        if (fieldDefinition.sort) {
+          return options.sort((x,y) => x.text.localeCompare(y.text))
+        }
+        return options;
       },
 
       formFieldComputed() {

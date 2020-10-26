@@ -26,6 +26,7 @@ en:
     gte: "Field {{field}} must be greater than or equal {{param}}"
     lt: "Field {{field}} must be less than {{param}}"
     lte: "Field {{field}} must be less than or equal {{param}}"
+    eq: "Field {{field}} must have 4 characters"
     min:
       zero: "Field {{field}} must be have at least {{count}} character or be greater than or equal {{count}}"
       one: "Field {{field}} must be have at least {{count}} character or be greater than or equal {{count}}"
