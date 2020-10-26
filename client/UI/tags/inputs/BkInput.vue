@@ -1,23 +1,44 @@
 <!-- We added $parent.$attrs to get the "non-props" attributes from "bk-form" element -->
 <template>
   <transition name="slide-fade" appear>
+    <b-card v-if="ui.collapsible || ui.accordion" no-body class="mb-1">
+      <b-card-header header-tag="header" class="p-1" role="tab">
+        <b-button block @click="toggleAccordion" variant="info">
+          {{label}}
+        </b-button>
+      </b-card-header>
+      <b-collapse
+          :id="accordionId"
+          visible
+          :accordion="accordionGroupId"
+          role="tabpanel">
+        <b-card-body>
+          <bk-inner-input
+              v-bind="{...$parent.$attrs,...$props, ...$attrs}"
+              @state="onState"
+              @validationError="onError"
+              :model="inputModel"
+          />
+          <b-form-invalid-feedback :state="state">
+            <span v-html="invalidFeedback"/>
+          </b-form-invalid-feedback>
+        </b-card-body>
+      </b-collapse>
+    </b-card>
     <b-form-group v-bind="{...$parent.$attrs,...$attrs}"
                   :valid-feedback="validFeedback"
-                  v-if="canView"
+                  v-else-if="canView"
                   :label-class="ui.labelClass"
                   :label-size="ui.labelSize"
     >
-        <template
-                v-if="!noLabel"
-                #label>
-            {{label}}
-        </template>
-
+      <template v-if="!noLabel && !ui.collapsible" #label>
+          {{label}}
+      </template>
         <bk-inner-input
-                v-bind="{...$parent.$attrs,...$props, ...$attrs}"
-                @state="onState"
-                @validationError="onError"
-                :model="inputModel"
+            v-bind="{...$parent.$attrs,...$props, ...$attrs}"
+            @state="onState"
+            @validationError="onError"
+            :model="inputModel"
         />
         <b-form-invalid-feedback :state="state">
             <span v-html="invalidFeedback"/>
@@ -76,12 +97,23 @@
       },
       ui() {
         if (this.noUI) {return {}};
-        let fieldDefinition = this.model.getDefinition(this.field);
-        if (!fieldDefinition || !fieldDefinition.ui) {
-          return {};
-        }
-        return fieldDefinition.ui;
+        return this.definition.ui || {};
       },
+      definition() {
+        return this.model.getDefinition(this.field) || {};
+      },
+      accordionId(){
+        return this.field + "_" + this._uid;
+      },
+      // If accordion, only one open
+      // if not, all will be opened at start
+      accordionGroupId() {
+        if (this.ui.accordion) {
+          return this.model.constructor.getName();
+        } else {
+          return this.model.constructor.getName()+'_' + this._uid;
+        }
+      }
     },
     methods: {
       onState(state) {
@@ -89,7 +121,10 @@
       },
       onError(error) {
         this.invalidFeedback = error;
-      }
+      },
+      toggleAccordion() {
+        this.$root.$emit('bv::toggle::collapse', this.accordionId)
+      },
     },
     /* Needed to be put in Meteor side since we use Meteor reactivity : ReactiveMap or ReactiveVar */
     meteor: {
