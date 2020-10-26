@@ -13,15 +13,13 @@
             fields=""
     />
 
-    <b-card v-else-if="definitionField === 'ListClass'"
-            class="col-12"
-            v-for="(innerModel,index) in model[field]">
-        <bk-field-list
-                v-bind="{...$props, ...$attrs}"
-                :model="innerModel"
-                :form-field="formFieldComputed + '.' + index"
-        />
-    </b-card>
+    <bk-card-list-class
+        v-else-if="definitionField === 'ListClass'"
+        v-bind="{...$props,...$attrs}"
+        :model="model"
+        :field="field"
+        :form-field="formFieldComputed"
+    />
 
     <b-form-checkbox-group
         v-else-if="definitionField === 'ListEnum'"
@@ -81,6 +79,7 @@ import I18n from "../../../../lib/classes/i18n";
 import _ from "lodash";
 import BkBelongsToInput from "./BkBelongsToInput";
 import BkFieldList from "../forms/BkFieldList";
+import BkCardListClass from "../forms/BkCardListClass";
 
 function isGenericInputType(originalFieldType = "") {
     let fieldType = originalFieldType.toLowerCase();
@@ -98,7 +97,7 @@ function isGenericInputType(originalFieldType = "") {
 
   export default {
     name: "BkInnerInput",
-    components: {BkBelongsToInput,BkFieldList},
+    components: {BkCardListClass, BkBelongsToInput,BkFieldList},
     props: {
       model: Class,
       field: String,
