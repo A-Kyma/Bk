@@ -3,7 +3,7 @@
   <transition name="slide-fade" appear>
     <b-card v-if="ui.collapsible || ui.accordion" no-body class="mb-1">
       <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-button block @click="toggleAccordion" variant="info">
+        <b-button block @click="toggleAccordion" v-bind="$attrs">
           {{label}}
         </b-button>
       </b-card-header>

@@ -3,19 +3,19 @@
         <b-button
                 v-if="$props['for'] !== 'view'"
                 type="submit"
-                variant="primary">
+                variant="outline-primary">
             {{submit}}
         </b-button>
         <b-button
                 v-if="$props['for'] !== 'view'"
                 type="reset"
-                variant="danger">
+                variant="outline-danger">
             {{reset}}
         </b-button>
         <b-button
                 type="button"
                 @click="onCancel"
-                variant="secondary">
+                variant="outline-secondary">
             {{cancel}}
         </b-button>
     </div>
