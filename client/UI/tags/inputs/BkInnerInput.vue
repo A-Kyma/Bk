@@ -7,12 +7,14 @@
     <bk-field-list
             v-if="definitionField === 'Object'"
             v-bind="$attrs"
+            class="col-12"
             :model="model[field]"
             :form-field="formFieldComputed"
             fields=""
     />
 
     <b-card v-else-if="definitionField === 'ListClass'"
+            class="col-12"
             v-for="(innerModel,index) in model[field]">
         <bk-field-list
                 v-bind="{...$props, ...$attrs}"
