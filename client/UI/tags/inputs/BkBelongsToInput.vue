@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="col-12">
     <b-form-input
         v-bind="$attrs"
         v-model="inputValue"
         type="search"
         :state="state"
+        @keydown.arrow-down="onKeyDown"
     />
     <b-collapse :id="dropDownId" class="mt-2">
       <b-table
@@ -14,6 +15,9 @@
           value-td-class="d-none"
           :items="options"
           :fields='["value","text"]'
+          selectable
+          select-mode="single"
+          ref="selectableTable"
           @row-clicked="onSelectRow"
       >
         <template #cell(value)="data">
@@ -38,14 +42,14 @@ export default {
   data() {
     return {
       oldValue: null,
-      value: this.model[this.field].defaultName(),
+      value: undefined,
       options: [],
       dropDownVisible: false,
-      relation: this.model[this.field]
     }
   },
   created() {
-    this.oldValue = this.relation._id;
+    this.oldValue = this.model[this.field];
+    this.value = this.relation.defaultName();
   },
   computed: {
     inputValue: {
@@ -54,8 +58,7 @@ export default {
           return
         }
         if (value === "") {
-          this.relation._id = undefined;
-          return;
+          this.model[this.field] = undefined;
         }
         this.fillOptions(value)
         this.value = value;
@@ -64,8 +67,11 @@ export default {
         return this.value;
       }
     },
+    relation() {
+      return this.model[this.field + "Instance"]();
+    },
     dropDownId() {
-      return "Dropdown_" + this.relation.constructor.getName() + "_" + this._uid;
+      return "Dropdown_" + this.field + "_" + this._uid;
     }
   },
   meteor: {
@@ -77,7 +83,7 @@ export default {
         this.$emit("state", false);
         return false
       } else {
-        if (_.isEqual(this.relation._id, this.oldValue) || !this._isMounted) {
+        if (_.isEqual(this.model[this.field], this.oldValue) || !this._isMounted) {
           this.$emit("state", null)
           return null
         } else {
@@ -92,10 +98,16 @@ export default {
       this.$root.$emit('bv::toggle::collapse', this.dropDownId)
       this.dropDownVisible = !this.dropDownVisible;
     },
+    onKeyDown(e) {
+      if (!this.dropDownVisible) return;
+      this.$refs.selectableTable.$el.getElementsByTagName("tr")[1].focus();
+      //this.$refs.selectableTable.selectRow(0);
+    },
     onSelectRow(row) {
-      this.relation._id = row.value;
+      this.model.set(this.field, row.value, {cast: true})
       this.inputValue = row.text;
       this.toggleDropDown();
+      this.model.isValid(this.field);
     },
     fillOptions(value) {
       self=this;
@@ -108,7 +120,9 @@ export default {
       }
 
       // Todo: we will have a more generic way to call external relation method
-      this.relation.callMethod("searchCityServer",value, I18n.getLanguage(),(err,result) => {
+      let definition = this.model.getDefinition(this.field);
+      let relation = new (definition.relation)({_id: this.model[this.field]})
+      relation.callMethod("searchCityServer",value, I18n.getLanguage(),(err,result) => {
         self.options = result;
         if (result && !this.dropDownVisible) {
           this.toggleDropDown();

@@ -222,6 +222,9 @@ function isGenericInputType(originalFieldType = "") {
             return "ListValue";
 
           case 'ScalarField':
+            if (fieldDefinition.relation) {
+              return "Relation";
+            }
             if (fieldDefinition.type.class.name === "Enum") {
               return "Enum";
             }
