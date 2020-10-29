@@ -282,8 +282,12 @@ function isGenericInputType(originalFieldType = "") {
         }
 
         // Only if Scalar field. ListEnum and ListBoolean treated differently
-        if (fieldClass === "Enum" && !this.plaintextComputed) {
+        if (fieldClass === "Enum") {
+          if (this.plaintextComputed) {
+            return "BkViewClean";
+          } else {
             return "BFormRadioGroup";
+          }
         }
 
         if (fieldClass === "Boolean") {

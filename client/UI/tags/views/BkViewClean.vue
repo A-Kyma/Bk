@@ -1,5 +1,5 @@
 <template>
-    <bk-inner-input v-bind="$props" for="view"/>
+  <span>{{value}}</span>
 </template>
 
 <script>
@@ -11,6 +11,11 @@ export default {
       model: Class,
       field: String,
     },
+  computed: {
+    value() {
+      return this.model.getValue(this.field)
+    }
+  },
   }
 </script>
 

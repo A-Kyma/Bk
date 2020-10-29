@@ -31,7 +31,7 @@
                   :label-class="ui.labelClass"
                   :label-size="ui.labelSize"
     >
-      <template v-if="!noLabel && !ui.collapsible" #label>
+      <template v-if="!noLabel" #label>
           {{label}}
       </template>
         <bk-inner-input
