@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12">
+  <div class="col-12 no-padding-left no-padding-right">
     <b-form-input
         v-bind="$attrs"
         v-model="inputValue"
@@ -138,5 +138,10 @@ export default {
 </script>
 
 <style scoped>
-
+  .no-padding-left {
+    padding-left: 0px !important;
+  }
+  .no-padding-right {
+    padding-left: 0px !important;
+  }
 </style>
