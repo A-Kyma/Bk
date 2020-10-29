@@ -142,6 +142,6 @@ export default {
     padding-left: 0px !important;
   }
   .no-padding-right {
-    padding-left: 0px !important;
+    padding-right: 0px !important;
   }
 </style>
