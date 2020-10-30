@@ -26,7 +26,7 @@ en:
     gte: "Field {{field}} must be greater than or equal {{param}}"
     lt: "Field {{field}} must be less than {{param}}"
     lte: "Field {{field}} must be less than or equal {{param}}"
-    eq: "Field {{field}} must have 4 characters"
+    eq: "Field {{field}} must have {{count}} characters"
     min:
       zero: "Field {{field}} must be have at least {{count}} character or be greater than or equal {{count}}"
       one: "Field {{field}} must be have at least {{count}} character or be greater than or equal {{count}}"
@@ -42,3 +42,46 @@ en:
     has: "Field {{field}} must have proprety {{param}} filled in"
     includes: "Field {{field}} must includes {{param}}"
 
+fr:
+  Error:
+    required: "Le champ {{field}} est obligatoire"
+    string: "Le champ {{field}} doit être composé de caractères"
+    number: "Le champ {{field}} doit être un numérique"
+    integer: "Le champ {{field}} doit être un nombre entier"
+    boolean: "Le champ {{field}} doit valoir vrai ou faux"
+    array: "Le champ {{field}} doit être un tableau"
+    object: "Le champ {{field}} doit être un objet"
+    date: "Le champ {{field}} est une date invalide"
+    null: "Le champ {{field}} doit être nul"
+    notNull: "Le champ {{field}} ne peut être nul"
+    length:
+      zero: "Le champ {{field}} doit avoir exactement {{count}} caractère"
+      one: "Le champ {{field}} doit avoir exactement {{count}} caractère"
+      other: "Le champ {{field}} doit avoir exactement {{count}} caractères"
+    minLength:
+      zero: "Le champ {{field}} doit avoir au moins {{count}} caractère"
+      one: "Le champ {{field}} doit avoir au moins {{count}} caractère"
+      other: "Le champ {{field}} doit avoir au moins {{count}} caractère"
+    maxLength:
+      zero: "Le champ {{field}} doit avoir au plus {{count}} caractère"
+      one: "Le champ {{field}} doit avoir au plus {{count}} caractère"
+      other: "Le champ {{field}} doit avoir au plus {{count}} caractère"
+    gt: "Le champ {{field}} doit être strictement supérieur à {{param}}"
+    gte: "Le champ {{field}} doit être supérieur ou égal à {{param}}"
+    lt: "Le champ {{field}} doit être strictement inférieur à {{param}}"
+    lte: "Le champ {{field}} doit être inférieur ou égal à {{param}}"
+    eq: "Le champ {{field}} doit avoir {{count}} caractères"
+    min:
+      zero: "Attention, minimum {{count}}"
+      one: "Attention, minimum {{count}}"
+      other: "Attention, minimum {{count}}"
+    max:
+      zero: "Attention, maximum {{count}}"
+      one: "Attention, maximum {{count}}"
+      other: "Attention, maximum {{count}}"
+    email: "Le champ {{field}} n'est pas un email valide"
+    choice: "Le champ {{field}} doit être l'un des éléments {{param}}"
+    equal: "Le champ {{field}} doit être égal à {{param}}"
+    regexp: "Le champ {{field}} doit respecter l'expression {{param}}"
+    has: "Le champ {{field}} doit avoir la propriété {{param}} remplie"
+    includes: "Le champ {{field}} doit contenir {{param}}"

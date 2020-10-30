@@ -32,7 +32,13 @@
                   :label-size="ui.labelSize"
     >
       <template v-if="!noLabel" #label>
-          {{label}}
+        {{label}}
+        <b-icon-asterisk
+            v-if="required"
+            variant="danger"
+            font-scale="0.5"
+            shift-v="10"
+        />
       </template>
         <bk-inner-input
             v-bind="{...$parent.$attrs,...$props, ...$attrs}"
@@ -101,6 +107,9 @@
       },
       definition() {
         return this.model.getDefinition(this.field) || {};
+      },
+      required() {
+        return !this.definition.optional && this.inputModel[this.field] === undefined;
       },
       accordionId(){
         return this.field + "_" + this._uid;

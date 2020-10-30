@@ -4,19 +4,19 @@
                 v-if="$props['for'] !== 'view'"
                 type="submit"
                 variant="outline-primary">
-            {{submit}}
+            <t>{{submit}}</t>
         </b-button>
         <b-button
                 v-if="$props['for'] !== 'view'"
                 type="reset"
                 variant="outline-danger">
-            {{reset}}
+          <t>app.reset</t>
         </b-button>
         <b-button
                 type="button"
                 @click="onCancel"
                 variant="outline-secondary">
-            {{cancel}}
+          <t>app.cancel</t>
         </b-button>
     </div>
 </template>
@@ -33,6 +33,12 @@
     computed: {
       name() {
         return this.data;
+      },
+      submit() {
+        if (this.for) {
+          return "app." + this.for;
+        }
+        return "app.submit";
       }
     },
     methods: {
@@ -41,18 +47,7 @@
       }
     },
     meteor: {
-      submit() {
-        if (this.for) {
-          return I18n.t("app." + this.for);
-        }
-        return I18n.t("app.submit");
-      },
-      reset() {
-        return I18n.t("app.reset");
-      },
-      cancel() {
-        return I18n.t("app.cancel");
-      }
+
     }
   }
 </script>

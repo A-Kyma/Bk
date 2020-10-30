@@ -9,7 +9,7 @@
 
   export default {
     name: "t",
-    computed: {
+    meteor: {
       translation() {
         return I18n.t(this.$slots.default[0].text);
       }

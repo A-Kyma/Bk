@@ -11,7 +11,7 @@ export default {
       model: Class,
       field: String,
     },
-  computed: {
+  meteor: {
     value() {
       return this.model.getValue(this.field)
     }

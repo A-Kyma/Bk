@@ -84,7 +84,8 @@ import BkCardListClass from "../forms/BkCardListClass";
 function isGenericInputType(originalFieldType = "") {
     let fieldType = originalFieldType.toLowerCase();
     // Field Type is a generic Input Type
-    return ["text", "number", "email", "password", "search", "url", "tel", "range", "color"].includes(fieldType);
+    // Number removed, since Number authorizes decimals. Integer will use "number" input type
+    return ["text", "email", "password", "search", "url", "tel", "range", "color"].includes(fieldType);
 
   }
 
@@ -139,28 +140,6 @@ function isGenericInputType(originalFieldType = "") {
         return fieldDefinition.ui;
       },
 
-      enumOptions() {
-        let fieldDefinition = this.model.getDefinition(this.field);
-        if (!fieldDefinition) {
-          return ;
-        }
-        let definitionClass = fieldDefinition.constructor.name;
-        let fieldType = fieldDefinition.type.name;
-        let EnumClass = fieldDefinition.type.class
-        if (! Enum.enums[fieldType]) { return }
-        let identifiers = EnumClass.getIdentifiers()
-
-        let options = _.map(identifiers, x => {
-            return {"text": I18n.t("Enum." + fieldType + "." + x + ".label"), "value": x}
-          }
-        )
-
-        if (fieldDefinition.sort) {
-          return options.sort((x,y) => x.text.localeCompare(y.text))
-        }
-        return options;
-      },
-
       formFieldComputed() {
         return this.formField && this.formField + "." + this.field || this.field;
       },
@@ -184,9 +163,6 @@ function isGenericInputType(originalFieldType = "") {
       },
       required() {
         return false; //!this.model.getDefinition(this.field, "optional");
-      },
-      placeholder() {
-        return I18n.t(this.model.constructor.getPlaceHolderKey(this.field));
       },
       definitionField() {
         let fieldDefinition = this.model.getDefinition(this.field);
@@ -316,6 +292,30 @@ function isGenericInputType(originalFieldType = "") {
     },
 
     meteor: {
+      placeholder() {
+        return I18n.t(this.model.constructor.getPlaceHolderKey(this.field));
+      },
+      enumOptions() {
+        let fieldDefinition = this.model.getDefinition(this.field);
+        if (!fieldDefinition) {
+          return ;
+        }
+        let definitionClass = fieldDefinition.constructor.name;
+        let fieldType = fieldDefinition.type.name;
+        let EnumClass = fieldDefinition.type.class
+        if (! Enum.enums[fieldType]) { return }
+        let identifiers = EnumClass.getIdentifiers()
+
+        let options = _.map(identifiers, x => {
+              return {"text": I18n.t("Enum." + fieldType + "." + x + ".label"), "value": x}
+            }
+        )
+
+        if (fieldDefinition.sort) {
+          return options.sort((x,y) => x.text.localeCompare(y.text))
+        }
+        return options;
+      },
       state() {
         let errors = this.model.getError(this.field);
         if (errors) {

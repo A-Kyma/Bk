@@ -1,0 +1,13 @@
+fr:
+  app:
+    submit: "Soumettre"
+    update: "Modifier"
+    new: "Ajouter"
+    reset: "Réinitialiser"
+    cancel: "Annuler"
+    add: "Ajouter"
+    remove: "Supprimer"
+    success: "Formulaire soumis avec succes"
+    failed: "Veuillez vérifier les erreurs ci-dessous"
+  datatable:
+    buttonsActions: "Actions"
