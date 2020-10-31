@@ -109,7 +109,7 @@
         return this.model.getDefinition(this.field) || {};
       },
       required() {
-        return !this.definition.optional && this.inputModel[this.field] === undefined;
+        return !this.definition.optional;
       },
       accordionId(){
         return this.field + "_" + this._uid;
