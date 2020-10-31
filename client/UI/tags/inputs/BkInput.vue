@@ -34,7 +34,7 @@
       <template v-if="!noLabel" #label>
         {{label}}
         <b-icon-asterisk
-            v-if="required"
+            v-if="required && $props.for !== 'view'"
             variant="danger"
             font-scale="0.5"
             shift-v="10"
