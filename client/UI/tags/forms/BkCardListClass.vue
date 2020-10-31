@@ -8,6 +8,7 @@
     <b-card v-for="(innerModel,index) in model[field]">
       <b-card-header v-if="getTypeField">
         <bk-button-icon
+            v-if="canDelete"
             @click="onRemove(innerModel,index)"
             icon="trash-2-fill"
             variant="danger"
@@ -20,12 +21,20 @@
             :form-field="formField + '.' + index"
         />
 
+        <bk-input
+            v-if="innerModel.getDefinition('isActive')!==undefined"
+            :model="innerModel"
+            field="isActive"
+            :form-field="formField + '.' + index"
+        />
+
       </b-card-header>
       <bk-field-list
+          v-if="innerModel.getDefinition('isActive')===undefined || innerModel.isActive"
           v-bind="$attrs"
           :model="innerModel"
           :form-field="formField + '.' + index"
-          :exclude="getTypeField"
+          :exclude="[getTypeField,'isActive']"
       />
     </b-card>
     <b-button
@@ -37,25 +46,7 @@
     <bk-modal :id="modalId" v-if="getTypeField" @ok="onSubmitModal">
       <bk-input :model="innerModel" :field="getTypeField"/>
     </bk-modal>
-    <!--
-    <b-modal :id="modalId"
-             v-if="getTypeField"
-             @ok="onSubmitModal"
-    >
-      <template #modal-title>
-        <t>app.chooseType</t>
-      </template>
 
-      <bk-input :model="innerModel" :field="getTypeField"/>
-
-      <template #modal-ok>
-        <t>app.add</t>
-      </template>
-      <template #modal-cancel>
-        <t>app.cancel</t>
-      </template>
-    </b-modal>
-    -->
   </div>
 </template>
 
@@ -92,6 +83,9 @@ export default {
       let definition = this.model.getDefinition(this.field);
       let subClass = definition.type.class;
       return subClass;
+    },
+    canDelete() {
+      return this.model.canDelete(this.field);
     }
   },
   methods: {

@@ -18,8 +18,13 @@ const getFieldsArray = function (options) {
     fields = model.constructor.getFieldsNames();
   }
 
-  if ((options.exclude) && (typeof(options.exclude) === "string")) {
-    exclude = options.exclude.replace(RegExp(" ", "g"), "").split(",");
+  if (options.exclude) {
+    if (typeof (options.exclude) === "string") {
+      exclude = options.exclude.replace(RegExp(" ", "g"), "").split(",");
+    }
+    if (Array.isArray(options.exclude)) {
+      exclude = options.exclude;
+    }
   }
   // Always exclude "_id" in a fieldList
   exclude.push("_id");
