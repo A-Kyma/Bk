@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Class from "meteor/jagi:astronomy"
+import { Class } from "meteor/jagi:astronomy"
 import getFieldsArray from "../../utils/getFieldsArray";
 
 export default {

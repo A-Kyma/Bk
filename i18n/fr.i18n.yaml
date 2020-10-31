@@ -9,5 +9,6 @@ fr:
     remove: "Supprimer"
     success: "Formulaire soumis avec succes"
     failed: "Veuillez vérifier les erreurs ci-dessous"
+    chooseType: "Choissiez le type"
   datatable:
     buttonsActions: "Actions"

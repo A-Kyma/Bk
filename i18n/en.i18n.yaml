@@ -9,5 +9,6 @@ en:
     remove: "Remove"
     success: "Form submitted successfully"
     failed: "There is an error while submitting your form. Please, check below"
+    chooseType: "Choose the type"
   datatable:
     buttonsActions: "Actions"

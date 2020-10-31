@@ -14,8 +14,7 @@
 </template>
 
 <script>
-  import Class from "meteor/jagi:astronomy"
-  import {Bk} from "../../../../lib/lib.js"
+  import {Class} from "meteor/jagi:astronomy"
   import I18n from "../../../../lib/classes/i18n";
   import Languages from "../../../../lib/modules/customFields/types/language";
 
