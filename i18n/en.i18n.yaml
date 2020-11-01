@@ -10,5 +10,6 @@ en:
     success: "Form submitted successfully"
     failed: "There is an error while submitting your form. Please, check below"
     chooseType: "Choose the type"
+    undefined: "Undefined"
   datatable:
     buttonsActions: "Actions"

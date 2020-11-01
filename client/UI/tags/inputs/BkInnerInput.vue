@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import {Class, ValidationError} from 'meteor/jagi:astronomy';
+import {Class, ValidationError, ScalarField} from 'meteor/jagi:astronomy';
 import Enum from "../../../../lib/modules/customFields/customs/Enum"
 import I18n from "../../../../lib/classes/i18n";
 import _ from "lodash";
@@ -123,6 +123,7 @@ function isGenericInputType(originalFieldType = "") {
     computed: {
       value: {
         set: function (value) {
+          if (value === null) { value = undefined }
           this.model.set(this.field, value, {cast: true})
           this.model.isValid(this.field);
         },
@@ -310,6 +311,10 @@ function isGenericInputType(originalFieldType = "") {
               return {"text": I18n.t("Enum." + fieldType + "." + x + ".label"), "value": x}
             }
         )
+
+        if (fieldDefinition.optional && fieldDefinition instanceof ScalarField) {
+          options.splice(0,0,{ text: I18n.t("app.undefined"), value: undefined})
+        }
 
         if (fieldDefinition.sort) {
           return options.sort((x,y) => x.text.localeCompare(y.text))
