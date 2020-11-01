@@ -1,5 +1,9 @@
 <template>
-    <b-form v-bind="$attrs" :inline="inline" @submit="onSubmit" @reset="onReset">
+    <b-form ref="form"
+        v-bind="$attrs"
+        :inline="inline"
+        @submit="onSubmit"
+        @reset="onReset">
         <b-alert
                 :show="showAlert"
                 variant="danger"
@@ -73,6 +77,10 @@ export default {
             if (err) {
               model.setError(err);
               self.showAlert = true;
+              // Scroll to alert after DOM was updated
+              self.$nextTick(() => {
+                self.$refs.form.scrollIntoView();
+              })
             } else {
               self.showSuccess()
             }
@@ -97,6 +105,7 @@ export default {
         console.log("cancel");
       }
     },
+
     meteor: {
       originalModel() {
         return Class.getModel(this.model);
