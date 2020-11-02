@@ -82,6 +82,7 @@ export default {
                 self.$refs.form.scrollIntoView();
               })
             } else {
+              self.showAlert = false;
               self.showSuccess()
             }
         })

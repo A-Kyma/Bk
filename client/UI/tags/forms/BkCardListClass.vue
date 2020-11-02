@@ -1,15 +1,10 @@
 <template>
   <div class="col-12">
-    <b-button
-        variant="outline-primary"
-        @click="onAdd()">
-      <t>app.add</t>
-    </b-button>
     <b-card v-for="(innerModel,index) in model[field]">
       <b-card-header v-if="getTypeField">
         <bk-button-icon
             v-if="canDelete"
-            @click="onRemove(innerModel,index)"
+            @click="onRemove(index)"
             icon="trash-2-fill"
             variant="danger"
         />
@@ -20,6 +15,8 @@
             :field="getTypeField"
             :form-field="formField + '.' + index"
         />
+
+        <!--{{getIndexForModel(innerModel,index)}}-->
 
         <bk-input
             v-if="innerModel.getDefinition('isActive')!==undefined"
@@ -36,15 +33,24 @@
           :form-field="formField + '.' + index"
           :exclude="[getTypeField,'isActive']"
       />
+      <b-card-footer>
+        <b-button
+            variant="outline-secondary"
+            @click="onAdd(index,innerModel)"
+        >
+          <t>app.add</t>
+        </b-button>
+      </b-card-footer>
     </b-card>
     <b-button
-        variant="outline-primary"
-        @click="onAdd()">
+        v-if="model[field].length === 0"
+        variant="outline-secondary"
+        @click="onAdd(0)">
       <t>app.add</t>
     </b-button>
 
     <bk-modal :id="modalId" v-if="getTypeField" @ok="onSubmitModal">
-      <bk-input :model="innerModel" :field="getTypeField"/>
+      <bk-input :model="modalModel" :field="getTypeField"/>
     </bk-modal>
 
   </div>
@@ -67,7 +73,8 @@ export default {
   data() {
     return {
       hoverTrashIcon: false,
-      innerModel: undefined
+      modalModel: undefined,
+      indexToAdd: 0,
     }
   },
   computed: {
@@ -79,26 +86,29 @@ export default {
     modalId() {
       return this.field + '_' + this._uid;
     },
-    innerModelClass() {
-      let definition = this.model.getDefinition(this.field);
-      let subClass = definition.type.class;
-      return subClass;
+    modalModelClass() {
+      return this.model.getClass(this.field);
     },
     canDelete() {
       return this.model.canDelete(this.field);
-    }
+    },
   },
   methods: {
-    onAdd(innerModel,index) {
+    onAdd(index,innerModel) {
       //add a new model of same type afterwards
-      this.innerModel = new (this.innerModelClass)();
-      this.$bvModal.show(this.modalId);
-      /*
-      let modelClass = innerModel.constructor;
-      this.model[this.field].splice(index,0,new modelClass());
-       */
+      let typefield = this.getTypeField;
+      if (typefield) {
+        this.indexToAdd = index;
+        // Ask for new model using same type field
+        this.modalModel = new (this.modalModelClass)();
+        this.modalModel[typefield] = innerModel[typefield];
+        this.$bvModal.show(this.modalId);
+      } else {
+        this.modalModel = new (this.modalModelClass)();
+        this.model[this.field].splice(index,0,this.modalModel)
+      }
     },
-    onRemove(innerModel,index) {
+    onRemove(index) {
       //remove the model
       this.model[this.field].splice(index,1);
       console.log("r");
@@ -107,14 +117,22 @@ export default {
       this.hoverTrashIcon = hovered;
     },
     onSubmitModal(e) {
-      let modelClass = Class.get(this.innerModel.type);
+      let modelClass = Class.get(this.modalModel.type);
       if (!modelClass) return;
-      if (!this.innerModel.isValid(this.getTypeField)) {
+      if (!this.modalModel.isValid(this.getTypeField)) {
         // if modal form content not valid, do not close it
         e.preventDefault();
         return;
       }
-      this.model[this.field].push(new modelClass());
+      this.model[this.field].splice(this.indexToAdd,0,new modelClass());
+    },
+    getIndexForModel(innerModel,index) {
+      let typeField = this.getTypeField;
+      // TODO: Can't to this, this filter the original Array in this.model !
+      this.model[this.field].filter((x) => {
+        x[typeField] = innerModel[typeField]
+      })
+      return index;
     }
   },
   }

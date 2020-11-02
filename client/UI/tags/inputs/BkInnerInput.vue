@@ -193,7 +193,7 @@ function isGenericInputType(originalFieldType = "") {
               //this.value = this.value.join(", ");
               return "ListString"
             }
-            if (fieldDefinition.type.class.name === "Enum") {
+            if (fieldClass.name === "Enum") {
               return "ListEnum"
             }
             return "ListValue";
@@ -202,10 +202,13 @@ function isGenericInputType(originalFieldType = "") {
             if (fieldDefinition.relation) {
               return "Relation";
             }
-            if (fieldDefinition.type.class.name === "Enum") {
+            if (fieldClass.name === "Enum") {
               return "Enum";
             }
-            if (fieldDefinition.type.class.name === "Boolean") {
+            if (fieldClass.name === "Lifecycle") {
+              return "Lifecycle";
+            }
+            if (fieldClass.name === "Boolean") {
               return "Boolean"
             }
             return "Scalar";
@@ -267,6 +270,10 @@ function isGenericInputType(originalFieldType = "") {
           }
         }
 
+        if (fieldClass === "Lifecycle") {
+          return "BkViewClean";
+        }
+
         if (fieldClass === "Boolean") {
           return "BFormCheckbox"
         }
@@ -308,7 +315,7 @@ function isGenericInputType(originalFieldType = "") {
         let identifiers = EnumClass.getIdentifiers()
 
         let options = _.map(identifiers, x => {
-              return {"text": I18n.t("Enum." + fieldType + "." + x + ".label"), "value": x}
+              return {"text": I18n.t(EnumClass.getLabelKey(x)), "value": x}
             }
         )
 
