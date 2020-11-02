@@ -30,6 +30,18 @@
         :plaintext="plaintextComputed"
     />
 
+    <!--
+    Issue with radio group badly linked together when shouldn't
+    For the, we need to set "name" attribute as different value for each radio-group
+    -->
+    <b-form-radio-group
+        v-else-if="inputComponent === 'BFormRadioGroup' && definitionField === 'Enum'"
+        v-model="value"
+        :state="state"
+        :name="formFieldComputed"
+        :options="enumOptions"
+    />
+
     <b-form-tags
             v-else-if="definitionField === 'ListString'"
             v-model="value"
@@ -52,7 +64,7 @@
         {{model[field].join(', ')}}
     </span>
 
-    <!-- inputText + radio + ... -->
+    <!-- inputText + view + ... -->
     <component
         v-else
         v-bind="$attrs"

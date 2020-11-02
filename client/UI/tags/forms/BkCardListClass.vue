@@ -36,7 +36,7 @@
       <b-card-footer>
         <b-button
             variant="outline-secondary"
-            @click="onAdd(index,innerModel)"
+            @click="onAdd(index+1,innerModel)"
         >
           <t>app.add</t>
         </b-button>
