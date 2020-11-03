@@ -30,6 +30,9 @@
         :plaintext="plaintextComputed"
     />
 
+    <b-img v-else-if="definitionField === 'Image'"
+           :src="value"/>
+
     <!--
     Issue with radio group badly linked together when shouldn't
     For the, we need to set "name" attribute as different value for each radio-group
@@ -93,7 +96,7 @@ import BkBelongsToInput from "./BkBelongsToInput";
 import BkFieldList from "../forms/BkFieldList";
 import BkCardListClass from "../forms/BkCardListClass";
 
-function isGenericInputType(originalFieldType = "") {
+  function isGenericInputType(originalFieldType = "") {
     let fieldType = originalFieldType.toLowerCase();
     // Field Type is a generic Input Type
     // Number removed, since Number authorizes decimals. Integer will use "number" input type
@@ -223,6 +226,9 @@ function isGenericInputType(originalFieldType = "") {
             if (fieldClass.name === "Boolean") {
               return "Boolean"
             }
+            if (fieldClass.name === "Image") {
+              return "Image"
+            }
             return "Scalar";
         }
       },
@@ -318,13 +324,13 @@ function isGenericInputType(originalFieldType = "") {
       append() {
         let append = this.ui.append;
         if (typeof append === "function") append = append({model:this.model, field:this.field});
-        if (append.includes(".")) return I18n.t(append);
+        if (append && append.includes(".")) return I18n.t(append);
         return append;
       },
       prepend() {
         let prepend = this.ui.prepend;
         if (typeof prepend === "function") prepend = prepend({model:this.model, field:this.field});
-        if (prepend.includes(".")) return I18n.t(prepend);
+        if (prepend && prepend.includes(".")) return I18n.t(prepend);
         return prepend;
       },
       enumOptions() {
