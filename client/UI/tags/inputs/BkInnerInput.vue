@@ -1,8 +1,8 @@
 <template>
   <b-input-group
       v-bind="$attrs"
-      :prepend="ui.prepend"
-      :append="ui.append">
+      :prepend="prepend"
+      :append="append">
 
     <bk-field-list
             v-if="definitionField === 'Object'"
@@ -314,6 +314,18 @@ function isGenericInputType(originalFieldType = "") {
     meteor: {
       placeholder() {
         return I18n.t(this.model.constructor.getPlaceHolderKey(this.field));
+      },
+      append() {
+        let append = this.ui.append;
+        if (typeof append === "function") append = append({model:this.model, field:this.field});
+        if (append.includes(".")) return I18n.t(append);
+        return append;
+      },
+      prepend() {
+        let prepend = this.ui.prepend;
+        if (typeof prepend === "function") prepend = prepend({model:this.model, field:this.field});
+        if (prepend.includes(".")) return I18n.t(prepend);
+        return prepend;
       },
       enumOptions() {
         let fieldDefinition = this.model.getDefinition(this.field);
