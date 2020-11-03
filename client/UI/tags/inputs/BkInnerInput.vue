@@ -138,7 +138,7 @@ import BkCardListClass from "../forms/BkCardListClass";
     computed: {
       value: {
         set: function (value) {
-          if (value === null) { value = undefined }
+          if (value === null || value === "") { value = undefined }
           this.model.set(this.field, value, {cast: true})
           this.model.isValid(this.field);
         },
@@ -277,6 +277,10 @@ import BkCardListClass from "../forms/BkCardListClass";
 
         if (fieldType === "Time") {
           return "BFormTimepicker"
+        }
+
+        if (fieldType === "Textarea") {
+          return "BFormTextarea"
         }
 
         // Only if Scalar field. ListEnum and ListBoolean treated differently
