@@ -17,6 +17,7 @@
   import {Class} from "meteor/jagi:astronomy"
   import I18n from "../../../../lib/classes/i18n";
   import Languages from "../../../../lib/modules/customFields/types/language";
+  import config from "../../../../lib/core/config";
 
   export default {
     name: "BkLanguage",
@@ -27,7 +28,7 @@
     },
     computed: {
       locales() {
-        return I18n.locales;
+        return config.translation.locales;
       }
     },
     methods: {
