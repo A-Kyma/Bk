@@ -57,9 +57,10 @@ export default {
         if (value === this.value) {
           return
         }
-        if (value === "") {
-          this.model[this.field] = undefined;
-        }
+
+        // If we change from screen, city is removed
+        this.model[this.field] = undefined;
+
         this.fillOptions(value)
         this.value = value;
       },
@@ -105,31 +106,34 @@ export default {
     },
     onSelectRow(row) {
       this.model.set(this.field, row.value, {cast: true})
-      this.inputValue = row.text;
-      this.toggleDropDown();
+      this.value = row.text;
+      if (this.dropDownVisible) this.toggleDropDown();
       this.model.isValid(this.field);
     },
     fillOptions(value) {
       self=this;
       if (value.length < 3) {
         this.options = [];
-        if (this.dropDownVisible) {
-          this.toggleDropDown();
-        }
+        if (this.dropDownVisible) this.toggleDropDown();
         return;
       }
+
+      // Avoid calling back-end if City already selected
+      if (self.model[self.field] !== undefined) return;
 
       // Todo: we will have a more generic way to call external relation method
       let definition = this.model.getDefinition(this.field);
       let relation = new (definition.relation)({_id: this.model[this.field]})
       relation.callMethod("searchCityServer",value, I18n.getLanguage(),(err,result) => {
         self.options = result;
-        if (result && !this.dropDownVisible) {
-          this.toggleDropDown();
+        if (result && !this.dropDownVisible && result.length !== 1) {
+          self.toggleDropDown();
         }
-        //Only one element left, select it
-        if (result && result.length === 1) {
-         this.onSelectRow(result[0]);
+        // Only one element left, select it
+        // Avoid also to call 2 times onSelectRow while only one result left
+        if (result && result.length === 1
+        && self.model[self.field] === undefined) {
+         self.onSelectRow(result[0]);
         }
       })
     }
