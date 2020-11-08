@@ -1,29 +1,42 @@
 <template>
   <div class="col-12 no-padding-left no-padding-right">
+    <!-- if we are on the search input -->
     <b-form-input
+        v-if="model[field]===undefined"
         v-bind="$attrs"
         v-model="inputValue"
         type="search"
         :state="state"
+        @keydown.arrow-up="onKeyUp"
         @keydown.arrow-down="onKeyDown"
     />
+    <!-- if we are on the relation defaultName input -->
+    <b-form-input
+      v-else
+      ref="relationInput"
+      v-bind="$attrs"
+      v-model="inputRelation"
+      type="search"
+      :state="state"
+    />
     <b-collapse :id="dropDownId" class="mt-2">
-      <b-table
-          hover
-          borderless
-          thead-class="d-none"
-          value-td-class="d-none"
-          :items="options"
-          :fields='["value","text"]'
-          selectable
-          select-mode="single"
-          ref="selectableTable"
-          @row-clicked="onSelectRow"
-      >
-        <template #cell(value)="data">
+        <b-table
+            v-if="dropDownVisible"
+            hover
+            borderless
+            thead-class="d-none"
+            value-td-class="d-none"
+            :items="getOptionsFromRelations"
+            :fields='["value","text"]'
+            selectable
+            select-mode="single"
+            ref="selectableTable"
+            @row-clicked="onSelectRow"
+        >
+          <template #cell(value)="data">
 
-        </template>
-      </b-table>
+          </template>
+        </b-table>
     </b-collapse>
   </div>
 </template>
@@ -45,27 +58,41 @@ export default {
       value: undefined,
       options: [],
       dropDownVisible: false,
+      handle: undefined,
     }
   },
   created() {
     this.oldValue = this.model[this.field];
-    this.value = this.relation.defaultName();
   },
   computed: {
     inputValue: {
       set(value) {
-        if (value === this.value) {
-          return
-        }
+        if (value === this.value) return;
 
         // If we change from screen, city is removed
         this.model[this.field] = undefined;
-
-        this.fillOptions(value)
         this.value = value;
       },
       get() {
         return this.value;
+      }
+    },
+    inputRelation: {
+      set(value) {
+        if (!value
+        || value !== this.relation.defaultName()) {
+          this.value = ""
+          this.model[this.field] = undefined;
+        }
+      },
+      get() {
+        self=this;
+        // We force VueJS to use Meteor reactivity for findOne and I18n
+        // And so, autorun is also called when subscription changed
+        return this.$autorun(() => {
+          let relation = self.model[self.field + "Instance"]();
+          return relation.defaultName();
+        })
       }
     },
     relation() {
@@ -76,6 +103,12 @@ export default {
     }
   },
   meteor: {
+    $subscribe: {
+      // TODO: Have this subscription parameterized for other belongs to relations
+      'city.search': function() {
+        return [this.model[this.field], this.value, I18n.getLanguage()]
+      }
+    },
     state() {
       // Similar has management found in BkInnerInput but value checked is relation_id
       let errors = this.model.getError(this.field);
@@ -92,51 +125,69 @@ export default {
           return true
         }
       }
+    },
+    getOptionsFromRelations() {
+      let relationClass = this.relationClass();
+      /***
+       * TODO: Probably needed to use the where clause in this find
+       * to prevent having other document from other subscription
+       ***/
+      let cursor = relationClass && relationClass.find();
+      if (this.model[this.field]) return;
+
+      // Dropdown invisible if nothing to show
+      if ((!cursor || cursor.count() === 0) && this.dropDownVisible) {
+        this.toggleDropDown();
+      }
+
+      // Dropdown visible if something retrieved
+      if (cursor && cursor.count() > 1 && !this.dropDownVisible) {
+        this.toggleDropDown();
+      }
+
+      let result = cursor && cursor.map(record => {
+        return {
+          'value': record._id,
+          'text': record.defaultName()
+        }
+      });
+
+      // Dropdown value selected if only one record returned
+      if (result && result.length === 1 && this.dropDownVisible) {
+        this.onSelectRow(result[0]);
+      }
+
+      return result;
     }
   },
   methods: {
+    relationClass() {
+      let definition = this.model.getDefinition(this.field);
+      return definition.relation;
+    },
     toggleDropDown() {
       this.$root.$emit('bv::toggle::collapse', this.dropDownId)
       this.dropDownVisible = !this.dropDownVisible;
     },
+    // If collapse appears and we hit down arrow, we select first element
     onKeyDown(e) {
       if (!this.dropDownVisible) return;
       this.$refs.selectableTable.$el.getElementsByTagName("tr")[1].focus();
-      //this.$refs.selectableTable.selectRow(0);
     },
+    // If collapse appears and we hit up arrow, we select last element
+    onKeyUp(e) {
+      if (!this.dropDownVisible) return;
+      let elements = this.$refs.selectableTable.$el.getElementsByTagName("tr");
+      elements[elements.length-1].focus();
+    },
+    // When we click on row or hit enter when selected
     onSelectRow(row) {
+      self=this;
       this.model.set(this.field, row.value, {cast: true})
-      this.value = row.text;
+
       if (this.dropDownVisible) this.toggleDropDown();
       this.model.isValid(this.field);
     },
-    fillOptions(value) {
-      self=this;
-      if (value.length < 3) {
-        this.options = [];
-        if (this.dropDownVisible) this.toggleDropDown();
-        return;
-      }
-
-      // Avoid calling back-end if City already selected
-      if (self.model[self.field] !== undefined) return;
-
-      // Todo: we will have a more generic way to call external relation method
-      let definition = this.model.getDefinition(this.field);
-      let relation = new (definition.relation)({_id: this.model[this.field]})
-      relation.callMethod("searchCityServer",value, I18n.getLanguage(),(err,result) => {
-        self.options = result;
-        if (result && !this.dropDownVisible && result.length !== 1) {
-          self.toggleDropDown();
-        }
-        // Only one element left, select it
-        // Avoid also to call 2 times onSelectRow while only one result left
-        if (result && result.length === 1
-        && self.model[self.field] === undefined) {
-         self.onSelectRow(result[0]);
-        }
-      })
-    }
   },
 }
 </script>
