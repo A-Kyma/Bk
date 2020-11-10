@@ -19,7 +19,11 @@
 
         <!-- action column -->
         <template v-slot:cell(buttonActions)="data">
-          Action column
+            <bk-button-icon
+                v-for="action in actions"
+                :for="action"
+                :model="data.item"
+            />
         </template>
 
         <!-- default rendering -->
@@ -34,9 +38,11 @@
   import { Class } from "meteor/jagi:astronomy";
   import I18n from "../../../../lib/classes/i18n";
   import Datatable from "../../../../lib/classes/datatable";
+  import BkButtonIcon from "../links/BkButtonIcon";
 
   export default {
     name: "BkTable",
+    components: {BkButtonIcon},
     props: {
       fields: Array,
       sortBy: String,
@@ -44,7 +50,7 @@
       filter: Object,
       array: Array,
       model: [String,Class],
-      actions: [Array,String],
+      actions: Array,
       customActions: String,
       selector: {
         type: Object,
@@ -57,6 +63,7 @@
         sortBySync: this.sortBy,
         sortDescSync: this.sortDesc,
         datatable: new Datatable(this.$props),
+        tableModel: Class.getModel(this.model),
       }
     },
     computed: {

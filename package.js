@@ -27,6 +27,7 @@ Package.onUse(function(api) {
   api.use('check');
   api.use('accounts-base');
   api.use('accounts-password');
+  api.use('tmeasday:publish-counts'); // For datatable
   //api.use('ejson'); // Needed to .json files
   api.use('slaivyn:yaml'); // Needed to manage .yml files (for I18n)
   api.use('jagi:astronomy@2.7.3'); // Model management
@@ -37,6 +38,7 @@ Package.onUse(function(api) {
   // VueJS
   //api.use('akryum:vue'); // Vue and imported in NPM
   api.use('akryum:vue-component');
+  api.use('akryum:vue-router2'); // See https://github.com/meteor-vue/vue-meteor/tree/master/packages/vue-router2
   //api.use('akryum:vue-ssr');
 
   //Blaze
