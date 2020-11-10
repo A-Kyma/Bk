@@ -83,6 +83,9 @@
         //return selection;
         return this.datatable.getArray();
       }
+    },
+    destroyed() {
+      this.datatable.stopSubscription();
     }
   }
 </script>
