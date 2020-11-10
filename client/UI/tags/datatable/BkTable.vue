@@ -16,15 +16,17 @@
         <template v-slot:head()="data">
           <t>{{data.label}}</t>
         </template>
+
+        <!-- action column -->
+        <template v-slot:cell(buttonActions)="data">
+          Action column
+        </template>
+
         <!-- default rendering -->
         <template v-slot:cell()="data">
             <bk-view-inner no-label :model="data.item" :field="data.field.key"/>
         </template>
 
-        <!-- action column -->
-        <template v-:slot:cell(action)="data">
-            Action column
-        </template>
     </b-table>
 </template>
 
@@ -42,7 +44,7 @@
       filter: Object,
       array: Array,
       model: [String,Class],
-      actions: String,
+      actions: [Array,String],
       customActions: String,
       selector: {
         type: Object,
