@@ -112,7 +112,7 @@
         return !this.definition.optional;
       },
       accordionId(){
-        return this.field + "_" + this._uid;
+        return this.field // + "_" + this._uid;
       },
       // If accordion, only one open
       // if not, all will be opened at start
