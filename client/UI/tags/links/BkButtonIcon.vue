@@ -17,8 +17,11 @@ export default {
   },
   data() {
     return {
-      inputModel: Class.getModel(this.model)
+      inputModel: {},
     }
+  },
+  created() {
+    if (this.model) {this.inputModel = Class.getModel(this.model)}
   },
   computed: {
     computedIcon() {
@@ -47,7 +50,7 @@ export default {
         let route = this.$router.resolve({name: routeName});
         if (route.resolved.matched.length > 0) {
           //the route exists, go there
-          this.$router.push({ name: routeName, params: { id: this.model._id, for: this.$props.for }})
+          this.$router.push({ name: routeName, params: { id: this.inputModel._id, for: this.$props.for }})
         }
       }
       this.$emit("click",e);
