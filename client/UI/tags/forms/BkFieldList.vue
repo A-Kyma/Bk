@@ -25,11 +25,12 @@ export default {
         return this.model || this.formModel;
       },
       fieldsArray() {
-        return getFieldsArray({
+        let fieldsArray = getFieldsArray({
           model: this.inputModel,
           fields: this.fields,
           exclude: this.exclude
         });
+        return fieldsArray;
       }
     },
   }
