@@ -9,8 +9,16 @@
 
   export default {
     name: "t",
+    props: {
+      model: [Class,String],
+      field: String
+    },
     meteor: {
       translation() {
+        if (this.model && this.field) {
+          let model = Class.getModel(this.model);
+          return I18n.t(model.constructor.getLabelKey(this.field));
+        }
         return I18n.t(this.$slots.default[0].text);
       }
     },

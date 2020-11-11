@@ -91,7 +91,7 @@ export default {
         // And so, autorun is also called when subscription changed
         return this.$autorun(() => {
           let relation = self.model[self.field + "Instance"]();
-          return relation.defaultName();
+          return relation && relation.defaultName();
         })
       }
     },

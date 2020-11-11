@@ -4,7 +4,7 @@
     <b-card v-if="ui.collapsible || ui.accordion" no-body class="mb-1">
       <b-card-header header-tag="header" class="p-1" role="tab">
         <b-button block @click="toggleAccordion" v-bind="$attrs">
-          {{label}}
+          <t>{{label}}</t>
         </b-button>
       </b-card-header>
       <b-collapse
@@ -32,7 +32,7 @@
                   :label-size="ui.labelSize"
     >
       <template v-if="!noLabel" #label>
-        {{label}}
+        <t>{{label}}</t>
         <b-icon-asterisk
             v-if="required && $props.for !== 'view'"
             variant="danger"
@@ -81,6 +81,10 @@
       // model from props or injection
       inputModel() {
         return this.model || this.formModel;
+      },
+      label() {
+        if (this.noLabel) { return }
+        return this.inputModel.constructor.getLabelKey(this.field);
       },
       // If for view or if readonly field, return true
       plaintext() {
@@ -133,13 +137,6 @@
       },
       toggleAccordion() {
         this.$root.$emit('bv::toggle::collapse', this.accordionId)
-      },
-    },
-    /* Needed to be put in Meteor side since we use Meteor reactivity : ReactiveMap or ReactiveVar */
-    meteor: {
-      label() {
-        if (this.noLabel) { return }
-        return I18n.t(this.inputModel.constructor.getLabelKey(this.field))
       },
     }
   }

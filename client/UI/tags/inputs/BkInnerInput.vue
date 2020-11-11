@@ -6,7 +6,7 @@
 
     <bk-field-list
             v-if="definitionField === 'Object'"
-            v-bind="$attrs"
+            v-bind="{...$props,...$attrs}"
             class="col-12"
             :model="model[field]"
             :form-field="formFieldComputed"
@@ -77,6 +77,7 @@
         :model="model"
         :field="field"
         :state="state"
+        :for="$props['for']"
         :placeholder="placeholder"
         :name="field"
         :plaintext="plaintextComputed"

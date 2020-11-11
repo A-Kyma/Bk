@@ -28,6 +28,7 @@ Package.onUse(function(api) {
   api.use('accounts-base');
   api.use('accounts-password');
   api.use('tmeasday:publish-counts'); // For datatable
+  api.use('reywood:publish-composite'); // To enable multiple send in one subscription
   //api.use('ejson'); // Needed to .json files
   api.use('slaivyn:yaml'); // Needed to manage .yml files (for I18n)
   api.use('jagi:astronomy@2.7.3'); // Model management
