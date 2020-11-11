@@ -16,8 +16,11 @@
     meteor: {
       translation() {
         if (this.model && this.field) {
-          let model = Class.getModel(this.model);
-          return I18n.t(model.constructor.getLabelKey(this.field));
+            if (typeof(this.model) === "string"){
+                return I18n.t(Class.get(this.model).getLabelKey(this.field));
+            }else{
+                return I18n.t(this.model.constructor.getLabelKey(this.field));
+            }
         }
         return I18n.t(this.$slots.default[0].text);
       }
