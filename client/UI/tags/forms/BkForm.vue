@@ -22,9 +22,9 @@
             <t>app.success</t>
         </b-alert>
         <slot v-bind="$attrs" :model="formModel">
-            <bk-field-list v-bind="$attrs"/>
+            <bk-field-list v-bind="$attrs" :for="$props['for']"/>
         </slot>
-        <bk-submit :for="submitFor" @cancel="onCancel"/>
+        <bk-submit v-if="!modal" :for="submitFor" @cancel="onCancel"/>
     </b-form>
 </template>
 
@@ -39,6 +39,8 @@ export default {
     props: {
       model: [String,Class],
       inline: Boolean,
+      modal: Boolean,
+      for: String,
     },
     data() {
       return {
@@ -51,6 +53,9 @@ export default {
     computed: {
         submitFor() {
           let model = this.formModel;
+          if (this.$props['for'] === 'view' || this.$props['for'] === "delete") {
+            return "view";
+          }
           return model.isPersisted() ? "update" : "new";
         },
     },
@@ -83,6 +88,11 @@ export default {
               })
             } else {
               self.showAlert = false;
+              if (this.modal) {
+
+              } else {
+                self.$router.go(-1);
+              }
               self.showSuccess()
             }
         })
@@ -103,6 +113,11 @@ export default {
       },
       onCancel(e) {
         // Needs to go back
+        if (this.modal) {
+          //TODO: close the modal
+        } else {
+          this.$router.go(-1);
+        }
         console.log("cancel");
       }
     },

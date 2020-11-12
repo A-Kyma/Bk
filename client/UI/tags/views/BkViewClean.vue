@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     classDefinition() {
-      return this.model.getClass(this.field);
+      return this.model.getFieldClass(this.field);
     },
   },
   meteor: {

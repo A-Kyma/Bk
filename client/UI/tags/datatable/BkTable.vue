@@ -1,4 +1,15 @@
 <template>
+  <div>
+    <b-button
+        variant="outline-secondary"
+        @click="onAdd">
+      <t>app.add</t>
+    </b-button>
+
+    <bk-modal :id="modalAddId" v-if="getTypeField" @ok="onSubmitModal">
+      <bk-form :model="modalModel" :fields="getTypeField" :modal="true"/>
+    </bk-modal>
+
     <b-table
         v-bind="$attrs"
         :fields="labeledFields"
@@ -32,10 +43,11 @@
         </template>
 
     </b-table>
+  </div>
 </template>
 
 <script>
-  import { Class } from "meteor/jagi:astronomy";
+  import { Class, ValidationError } from "meteor/jagi:astronomy";
   import I18n from "../../../../lib/classes/i18n";
   import Datatable from "../../../../lib/classes/datatable";
   import BkButtonIcon from "../links/BkButtonIcon";
@@ -64,18 +76,76 @@
         sortDescSync: this.sortDesc,
         datatable: new Datatable(this.$props),
         tableModel: Class.getModel(this.model),
+        modalModel: undefined,
       }
     },
     computed: {
+      tableClass() {
+        if (typeof this.model === "string") {
+          return Class.get(this.model)
+        }
+        return this.model;
+      },
       labeledFields() {
         let headers = this.datatable.getHeaders();
         return headers;
-      }
+      },
+      modalAddId() {
+        return 'tableModalAdd_' + this._uid;
+      },
+      modalModelClass() {
+        return this.model.getFieldClass(this.field);
+      },
+      getTypeField() {
+        return this.tableClass.definition.typeField;
+      },
     },
     methods: {
       onSortChange(context) {
         this.datatable.setSort(context.sortBy,context.sortDesc)
-      }
+      },
+      onAdd() {
+        //add a new model of same type afterwards
+        let typefield = this.getTypeField;
+        if (typefield) {
+          // Ask for new model using same type field
+          this.modalModel = new (this.tableClass)();
+          this.$bvModal.show(this.modalAddId);
+        } else {
+          // TODO: Go directly on modification page or show modification modal
+        }
+      },
+      onSubmitModal(e) {
+        e.preventDefault();
+        let modelClass = Class.get(this.modalModel.type);
+        if (!modelClass) return;
+        if (!this.modalModel.isValid(this.getTypeField)) {
+          // if modal form content not valid, do not close it
+          return;
+        }
+        // TODO !
+        let routeName = this.tableClass.getName();
+        let route = this.$router.resolve({name: routeName});
+        if (route.resolved.matched.length > 0) {
+          //the route exists, go there
+          this.$router.push({
+            name: routeName,
+            params: {
+              for: "new",
+              id: this.modalModel[this.getTypeField],
+            }
+          })
+        }
+        else {
+          let error = new ValidationError([{
+            name: this.getTypeField,
+            type: "RouteError",
+            message: I18n.get("Error.missingRoute",{param: routeName})
+          }])
+          this.modalModel.setError(error);
+          return;
+        }
+      },
     },
     meteor: {
       items() {

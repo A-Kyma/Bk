@@ -41,7 +41,7 @@ en:
     regexp: "Field {{field}} must match regular expression {{param}}"
     has: "Field {{field}} must have proprety {{param}} filled in"
     includes: "Field {{field}} must includes {{param}}"
-
+    missingRoute: "Route {{param}} is missing"
 fr:
   Error:
     required: "Le champ {{field}} est obligatoire"
@@ -85,3 +85,4 @@ fr:
     regexp: "Le champ {{field}} doit respecter l'expression {{param}}"
     has: "Le champ {{field}} doit avoir la propriété {{param}} remplie"
     includes: "Le champ {{field}} doit contenir {{param}}"
+    missingRoute: "Route {{param}} est manquante"

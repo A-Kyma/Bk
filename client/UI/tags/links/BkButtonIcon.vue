@@ -1,6 +1,7 @@
 <template>
   <b-link @click="onClick">
     <b-icon class="BkButton" :icon="computedIcon" :variant="computedVariant"/>
+    <slot><t>{{label}}</t></slot>
   </b-link>
 </template>
 
@@ -14,6 +15,7 @@ export default {
     variant: String,
     for: String,
     model: {Class,String},
+    label: String,
   },
   data() {
     return {
@@ -28,7 +30,7 @@ export default {
       switch (this.$props.for) {
         case "view": return "zoom-in";
         case "new": return "plus-circle";
-        case "edit": return "pencil";
+        case "update": return "pencil";
         case "delete": return "trash2-fill";
         default: return this.icon;
       }
@@ -37,7 +39,7 @@ export default {
       switch (this.$props.for) {
         case "view": return "primary"
         case "new": return "success";
-        case "edit": return "success";
+        case "update": return "success";
         case "delete": return "danger";
         default: return this.variant;
       }

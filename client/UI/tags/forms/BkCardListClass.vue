@@ -87,7 +87,7 @@ export default {
       return this.field + '_' + this._uid;
     },
     modalModelClass() {
-      return this.model.getClass(this.field);
+      return this.model.getFieldClass(this.field);
     },
     canDelete() {
       return this.model.canDelete(this.field);
