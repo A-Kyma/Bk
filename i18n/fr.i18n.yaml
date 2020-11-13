@@ -7,9 +7,13 @@ fr:
     cancel: "Annuler"
     add: "Ajouter"
     remove: "Supprimer"
-    success: "Formulaire soumis avec succes"
+    success: "Formulaire soumis avec succès"
     failed: "Veuillez vérifier les erreurs ci-dessous"
     chooseType: "Choissiez le type"
     undefined: "n/a"
+    toast:
+      title:
+        success: "Confirmation"
+        failed: "Erreur"
   datatable:
     buttonsActions: "Actions"

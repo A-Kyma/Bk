@@ -11,5 +11,9 @@ en:
     failed: "There is an error while submitting your form. Please, check below"
     chooseType: "Choose the type"
     undefined: "n/a"
+    toast:
+      title:
+        success: "Successful"
+        failed: "Failure"
   datatable:
     buttonsActions: "Actions"

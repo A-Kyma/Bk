@@ -4,6 +4,7 @@
         :inline="inline"
         @submit="onSubmit"
         @reset="onReset">
+      <b-overlay :show="showOverlay">
         <b-alert
                 :show="showAlert"
                 variant="danger"
@@ -22,9 +23,20 @@
             <t>app.success</t>
         </b-alert>
         <slot v-bind="$attrs" :model="formModel">
-            <bk-field-list v-bind="$attrs" :for="$props['for']"/>
+          <bk-field-list v-bind="$attrs" :for="$props['for']"/>
+
+          <template v-for="(_, slot) in $slots">
+            <template :slot="slot">
+              <slot :name="slot"></slot>
+            </template>
+          </template>
+
+          <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+            <slot :name="slot" v-bind="props" />
+          </template>
         </slot>
         <bk-submit v-if="!modal" :for="submitFor" @cancel="onCancel"/>
+      </b-overlay>
     </b-form>
 </template>
 
@@ -48,6 +60,7 @@ export default {
         showAlert: false,
         dismissSecs: 5,
         dismissCountDown: 0,
+        showOverlay: false,
       }
     },
     computed: {
@@ -71,29 +84,37 @@ export default {
         this.dismissCountDown = count;
       },
       showSuccess() {
+        // Toast launched from $root to avoid its destruction while leaving this page
+        this.$root.$bvToast.toast(I18n.t("app.success"),{
+          title: I18n.t("app.toast.title.success"),
+          variant: "success",
+          autoHideDelay: 5000
+        })
         this.dismissCountDown = this.dismissSecs;
       },
       onSubmit(e) {
         e.preventDefault()
         let self = this;
+        self.showOverlay=true;
         let model = this.formModel;
         //model.isValid();
         model.save({stopOnFirstError:false},function(err,id) {
+          self.showOverlay=false;
             if (err) {
               model.setError(err);
               self.showAlert = true;
               // Scroll to alert after DOM was updated
               self.$nextTick(() => {
-                self.$refs.form.scrollIntoView();
+                self.$refs.form.scrollIntoView({behavior: "smooth"});
               })
             } else {
               self.showAlert = false;
+              self.showSuccess()
               if (this.modal) {
 
               } else {
                 self.$router.go(-1);
               }
-              self.showSuccess()
             }
         })
         this.formModel.set(model);
