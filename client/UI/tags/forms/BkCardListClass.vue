@@ -14,6 +14,7 @@
             :model="innerModel"
             :field="getTypeField"
             :form-field="formField + '.' + index"
+            :form-generic-field="formField"
         />
 
         <!--{{getIndexForModel(innerModel,index)}}-->
@@ -23,6 +24,7 @@
             :model="innerModel"
             field="isActive"
             :form-field="formField + '.' + index"
+            :form-generic-field="formField"
         />
 
       </b-card-header>
@@ -31,8 +33,15 @@
           v-bind="$attrs"
           :model="innerModel"
           :form-field="formField + '.' + index"
-          :exclude="[getTypeField,'isActive']"
-      />
+          :form-generic-field="formField"
+          :exclude="[getTypeField,'isActive']">
+
+        <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+          <slot :name="slot" v-bind="props" />
+        </template>
+
+      </bk-field-list>
+
       <b-card-footer>
         <b-button
             variant="outline-secondary"

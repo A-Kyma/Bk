@@ -23,17 +23,13 @@
             <t>app.success</t>
         </b-alert>
         <slot v-bind="$attrs" :model="formModel">
-          <bk-field-list v-bind="$attrs" :for="$props['for']"/>
+          <bk-field-list v-bind="$attrs" :for="$props['for']">
 
-          <template v-for="(_, slot) in $slots">
-            <template :slot="slot">
-              <slot :name="slot"></slot>
+            <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+              <slot :name="slot" v-bind="props" />
             </template>
-          </template>
 
-          <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
-            <slot :name="slot" v-bind="props" />
-          </template>
+          </bk-field-list>
         </slot>
         <bk-submit v-if="!modal" :for="submitFor" @cancel="onCancel"/>
       </b-overlay>

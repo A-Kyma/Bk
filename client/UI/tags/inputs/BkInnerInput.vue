@@ -1,90 +1,101 @@
 <template>
+
   <b-input-group
-      v-bind="$attrs"
-      :prepend="prepend"
-      :append="append">
+    v-bind="$attrs"
+    :prepend="prepend"
+    :append="append">
 
-    <bk-field-list
-            v-if="definitionField === 'Object'"
-            v-bind="{...$props,...$attrs}"
-            class="col-12"
-            :model="model[field]"
-            :form-field="formFieldComputed"
-            fields=""
-    />
+    <slot :name="formGenericFieldComputed" v-bind="$props">
 
-    <bk-card-list-class
-        v-else-if="definitionField === 'ListClass'"
-        v-bind="{...$props,...$attrs}"
-        :model="model"
-        :field="field"
-        :form-field="formFieldComputed"
-    />
+      <bk-field-list
+              v-if="definitionField === 'Object'"
+              v-bind="{...$props,...$attrs}"
+              class="col-12"
+              :model="model[field]"
+              :form-field="formFieldComputed"
+              fields="">
+        <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+          <slot :name="slot" v-bind="props" />
+        </template>
+      </bk-field-list>
 
-    <b-form-checkbox-group
-        v-else-if="definitionField === 'ListEnum'"
-        v-model="value"
-        :state="state"
-        :options="enumOptions"
-        :name="field"
-        :plaintext="plaintextComputed"
-    />
+      <bk-card-list-class
+          v-else-if="definitionField === 'ListClass'"
+          v-bind="{...$props,...$attrs}"
+          :model="model"
+          :field="field"
+          :form-field="formFieldComputed">
+        <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+          <slot :name="slot" v-bind="props" />
+        </template>
+      </bk-card-list-class>
 
-    <b-img v-else-if="definitionField === 'Image'"
-           :src="value"/>
+      <b-form-checkbox-group
+          v-else-if="definitionField === 'ListEnum'"
+          v-model="value"
+          :state="state"
+          :options="enumOptions"
+          :name="field"
+          :plaintext="plaintextComputed"
+      />
 
-    <!--
-    Issue with radio group badly linked together when shouldn't
-    For the, we need to set "name" attribute as different value for each radio-group
-    -->
-    <b-form-radio-group
-        v-else-if="inputComponent === 'BFormRadioGroup' && definitionField === 'Enum'"
-        v-model="value"
-        :state="state"
-        :name="formFieldComputed"
-        :options="enumOptions"
-    />
+      <b-img v-else-if="definitionField === 'Image'"
+             :src="value"/>
 
-    <b-form-tags
-            v-else-if="definitionField === 'ListString'"
-            v-model="value"
-            :state="state"
-            remove-on-delete
-            separator=" "
-            :tag-validator="tagValidator"
-            :invalid-tag-text="invalidTagText"
-            :placeholder="placeholder"
-            :disabled="plaintextComputed"
-    />
-    <bk-belongs-to-input
-        v-else-if="definitionField === 'Relation'"
-        v-bind="$attrs"
-        :model="model"
-        :field="field"
-    />
-    <!-- TODO: is span OK ?-->
-    <span v-else-if="definitionField === 'ListValue'">
-        {{model[field].join(', ')}}
-    </span>
+      <!--
+      Issue with radio group badly linked together when shouldn't
+      For the, we need to set "name" attribute as different value for each radio-group
+      -->
+      <b-form-radio-group
+          v-else-if="inputComponent === 'BFormRadioGroup' && definitionField === 'Enum'"
+          v-model="value"
+          :state="state"
+          :name="formFieldComputed"
+          :options="enumOptions"
+      />
 
-    <!-- inputText + view + ... -->
-    <component
-        v-else
-        v-bind="$attrs"
-        :is="inputComponent"
-        :type="inputType"
-        v-model="value"
-        :model="model"
-        :field="field"
-        :state="state"
-        :for="$props['for']"
-        :placeholder="placeholder"
-        :name="field"
-        :plaintext="plaintextComputed"
-        :readonly="plaintextComputed"
-        :options="enumOptions"
-        switch
-    />
+      <b-form-tags
+              v-else-if="definitionField === 'ListString'"
+              v-model="value"
+              :state="state"
+              remove-on-delete
+              separator=" "
+              :tag-validator="tagValidator"
+              :invalid-tag-text="invalidTagText"
+              :placeholder="placeholder"
+              :disabled="plaintextComputed"
+      />
+      <bk-belongs-to-input
+          v-else-if="definitionField === 'Relation'"
+          v-bind="$attrs"
+          :model="model"
+          :field="field"
+      />
+      <!-- TODO: is span OK ?-->
+      <span v-else-if="definitionField === 'ListValue'">
+          {{model[field].join(', ')}}
+      </span>
+
+      <!-- inputText + view + ... -->
+
+      <component  v-else
+          v-bind="$attrs"
+          :is="inputComponent"
+          :type="inputType"
+          v-model="value"
+          :model="model"
+          :field="field"
+          :state="state"
+          :for="$props['for']"
+          :placeholder="placeholder"
+          :name="field"
+          :plaintext="plaintextComputed"
+          :readonly="plaintextComputed"
+          :options="enumOptions"
+          switch
+      />
+
+    </slot>
   </b-input-group>
 </template>
 
@@ -119,6 +130,7 @@ import BkCardListClass from "../forms/BkCardListClass";
       model: Class,
       field: String,
       formField: String,
+      formGenericField: String,
       for: String,
       plaintext: Boolean,
       showAlert: Boolean
@@ -155,6 +167,11 @@ import BkCardListClass from "../forms/BkCardListClass";
           return {};
         }
         return fieldDefinition.ui;
+      },
+
+      formGenericFieldComputed() {
+        if (this.formGenericField) return this.formGenericField + "." + this.field;
+        return this.formFieldComputed;
       },
 
       formFieldComputed() {

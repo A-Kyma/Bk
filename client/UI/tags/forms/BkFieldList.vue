@@ -3,7 +3,13 @@
         <bk-input v-bind="$attrs"
                   :model="inputModel"
                   :field="field"
-                  v-for="field in fieldsArray"/>
+                  v-for="field in fieldsArray">
+
+          <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+            <slot :name="slot" v-bind="props" />
+          </template>
+
+        </bk-input>
     </div>
 </template>
 
