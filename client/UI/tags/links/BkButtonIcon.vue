@@ -1,7 +1,9 @@
 <template>
   <b-link @click="onClick">
-    <b-icon class="BkButton" :icon="computedIcon" :variant="computedVariant"/>
-    <slot><t>{{label}}</t></slot>
+    <slot>
+      <b-icon class="BkButton" :icon="computedIcon" :variant="computedVariant"/>
+      <t v-if="label">{{label}}</t>
+    </slot>
   </b-link>
 </template>
 

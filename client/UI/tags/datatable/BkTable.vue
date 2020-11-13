@@ -25,7 +25,9 @@
     >
         <!-- header rendering and translation -->
         <template v-slot:head()="data">
-          <t>{{data.label}}</t>
+          <slot name="head()" v-bind="data">
+            <t>{{data.label}}</t>
+          </slot>
         </template>
 
         <!-- action column -->
@@ -39,7 +41,9 @@
 
         <!-- default rendering -->
         <template v-slot:cell()="data">
+          <slot name="cell()" v-bind="data">
             <bk-view-inner no-label :model="data.item" :field="data.field.key"/>
+          </slot>
         </template>
 
     </b-table>

@@ -1,6 +1,6 @@
 <template>
   <div class="col-12">
-    <b-card v-for="(innerModel,index) in model[field]">
+    <b-card v-for="(innerModel,index) in model[field]" :key="innerModel._id.valueOf()">
       <b-card-header v-if="getTypeField">
         <bk-button-icon
             v-if="canDelete"
