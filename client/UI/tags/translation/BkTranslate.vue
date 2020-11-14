@@ -1,5 +1,5 @@
 <template>
-    <span>{{translation}}</span>
+  <span @click.meta.exact.capture="showKey">{{translation}}</span>
 </template>
 
 <script>
@@ -13,16 +13,39 @@
       model: [Class,String],
       field: String
     },
+    computed: {
+      key() {
+        if (this.model && this.field) {
+          if (typeof(this.model) === "string"){
+            return Class.get(this.model).getLabelKey(this.field);
+          }else{
+            return this.model.constructor.getLabelKey(this.field);
+          }
+        }
+        return this.$slots.default[0].text;
+      }
+    },
     meteor: {
       translation() {
-        if (this.model && this.field) {
-            if (typeof(this.model) === "string"){
-                return I18n.t(Class.get(this.model).getLabelKey(this.field));
-            }else{
-                return I18n.t(this.model.constructor.getLabelKey(this.field));
-            }
+        return I18n.t(this.key);
+      }
+    },
+    methods: {
+      showKey(e) {
+        e.preventDefault()
+        let options = {
+          title: "Translation",
+          autoHideDelay: 5000,
         }
-        return I18n.t(this.$slots.default[0].text);
+        const h = this.$createElement;
+        const vNodeMsg = h(
+            'ul',
+            [
+                h('li',"Locale: " + I18n.getLanguage()),
+                h('li',"Key: " + this.key)
+            ]
+        )
+        this.$bvToast.toast([vNodeMsg], { title: "Translation"})
       }
     },
   }
