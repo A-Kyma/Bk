@@ -45,6 +45,7 @@ Package.onUse(function(api) {
   //Blaze
   api.use('templating','client'); // to be able to create tag in package
   // Import Blaze UI tags and routes
+
   api.addFiles([
     'client/UI/ui.js',
   ],'client');
@@ -52,9 +53,12 @@ Package.onUse(function(api) {
   //api.addFiles('%.css','client'); For CSS or SCSS files
   //api.addAssets(['%.eot','%.svg','%.ttf','%.woff'],'client'); // For other types of files
 
-  api.mainModule('client/client.js','client');
-  api.mainModule('server/server.js','server');
+  // Load main modules
   api.mainModule('lib/lib.js');
+  // Load client files
+  api.addFiles('client/client.js','client');
+  // Load server files
+  api.addFiles('server/server.js','server');
 });
 
 Package.onTest(function(api) {

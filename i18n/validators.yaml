@@ -42,6 +42,7 @@ en:
     has: "Field {{field}} must have proprety {{param}} filled in"
     includes: "Field {{field}} must includes {{param}}"
     missingRoute: "Route {{param}} is missing"
+    confirm: "Field is not the same"
 fr:
   Error:
     required: "Le champ {{field}} est obligatoire"
@@ -61,11 +62,11 @@ fr:
     minLength:
       zero: "Le champ {{field}} doit avoir au moins {{count}} caractère"
       one: "Le champ {{field}} doit avoir au moins {{count}} caractère"
-      other: "Le champ {{field}} doit avoir au moins {{count}} caractère"
+      other: "Le champ {{field}} doit avoir au moins {{count}} caractères"
     maxLength:
       zero: "Le champ {{field}} doit avoir au plus {{count}} caractère"
       one: "Le champ {{field}} doit avoir au plus {{count}} caractère"
-      other: "Le champ {{field}} doit avoir au plus {{count}} caractère"
+      other: "Le champ {{field}} doit avoir au plus {{count}} caractères"
     gt: "Le champ {{field}} doit être strictement supérieur à {{param}}"
     gte: "Le champ {{field}} doit être supérieur ou égal à {{param}}"
     lt: "Le champ {{field}} doit être strictement inférieur à {{param}}"
@@ -86,3 +87,4 @@ fr:
     has: "Le champ {{field}} doit avoir la propriété {{param}} remplie"
     includes: "Le champ {{field}} doit contenir {{param}}"
     missingRoute: "Route {{param}} est manquante"
+    confirm: "Le champ n'est pas identique"
