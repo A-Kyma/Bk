@@ -33,11 +33,13 @@
       <b-form-checkbox-group
           v-else-if="definitionField === 'ListEnum'"
           v-model="value"
-          :state="state"
-          :options="enumOptions"
           :name="field"
-          :plaintext="plaintextComputed"
-      />
+          :plaintext="plaintextComputed">
+        <b-form-checkbox v-for="item in enumOptions"
+                         :value="item.value">
+          <t>{{item.key}}</t>
+        </b-form-checkbox>
+      </b-form-checkbox-group>
 
       <b-img v-else-if="definitionField === 'Image'"
              :src="value"/>
@@ -49,10 +51,13 @@
       <b-form-radio-group
           v-else-if="inputComponent === 'BFormRadioGroup' && definitionField === 'Enum'"
           v-model="value"
-          :state="state"
           :name="formFieldComputed"
-          :options="enumOptions"
-      />
+          >
+        <b-form-radio v-for="item in enumOptions"
+                      :value="item.value">
+          <t>{{item.key}}</t>
+        </b-form-radio>
+      </b-form-radio-group>
 
       <b-form-tags
               v-else-if="definitionField === 'ListString'"
@@ -83,6 +88,7 @@
           :is="inputComponent"
           :type="inputType"
           v-model="value"
+          @paste="onPaste"
           :model="model"
           :field="field"
           :state="state"
@@ -336,6 +342,9 @@ import BkCardListClass from "../forms/BkCardListClass";
           }
         }
         return true;
+      },
+      onPaste(e) {
+        if (this.ui.preventPaste) e.preventDefault();
       }
     },
 
@@ -367,12 +376,14 @@ import BkCardListClass from "../forms/BkCardListClass";
         let identifiers = EnumClass.getIdentifiers()
 
         let options = _.map(identifiers, x => {
-              return {"text": I18n.t(EnumClass.getLabelKey(x)), "value": x}
+              let key = EnumClass.getLabelKey(x);
+              return {"text": I18n.t(key), key, "value": x}
             }
         )
 
         if (fieldDefinition.optional && fieldDefinition instanceof ScalarField) {
-          options.splice(0,0,{ text: I18n.t("app.undefined"), value: undefined})
+          let key = "app.undefined"
+          options.splice(0,0,{ text: I18n.t(key), key, value: null})
         }
 
         if (fieldDefinition.sort) {

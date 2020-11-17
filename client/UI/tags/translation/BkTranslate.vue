@@ -4,7 +4,6 @@
 
 <script>
   import {Class} from "meteor/jagi:astronomy"
-  import {Bk} from "../../../../lib/lib.js"
   import I18n from "../../../../lib/classes/i18n";
 
   export default {
@@ -35,17 +34,16 @@
         e.preventDefault()
         let options = {
           title: "Translation",
-          autoHideDelay: 5000,
         }
+        let [locale,key] = [I18n.getLanguage(),this.key];
+        let t=I18n.findOne({locale, key});
+        if (!t)
+          t=new I18n({locale, key, text: this.translation})
         const h = this.$createElement;
         const vNodeMsg = h(
-            'ul',
-            [
-                h('li',"Locale: " + I18n.getLanguage()),
-                h('li',"Key: " + this.key)
-            ]
+            'bk-form', {props:{model: t, toast: true}}
         )
-        this.$bvToast.toast([vNodeMsg], { title: "Translation"})
+        this.$bvToast.toast([vNodeMsg], options);
       }
     },
   }

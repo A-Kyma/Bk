@@ -41,6 +41,7 @@ import BkForm from "./tags/forms/BkForm";
 import BkInput from "./tags/inputs/BkInput";
 import BkInnerInput from "./tags/inputs/BkInnerInput";
 import BkLabel from "./tags/forms/BkLabel";
+import BkSubscribe from "./tags/forms/BkSubscribe";
 import BkTranslate from "./tags/translation/BkTranslate";
 import BkView from "./tags/views/BkView";
 import BkViewInner from "./tags/views/BkViewInner";
@@ -52,6 +53,7 @@ const BkUI = {
   BkInput,
   BkInnerInput,
   BkLabel,
+  BkSubscribe,
   BkTranslate,
   BkView,
   BkViewInner,

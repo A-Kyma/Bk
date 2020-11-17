@@ -1,4 +1,21 @@
 en:
+  Enum:
+    Languages:
+      en:
+        label: "English"
+      fr:
+        label: "French"
+      nl:
+        label: "Dutch"
+      de:
+        label: "German"
+  I18n:
+    key:
+      label: "Key"
+    locale:
+      label: "Locale"
+    text:
+      label: "Text"
   app:
     submit: "Submit"
     update: "Update"

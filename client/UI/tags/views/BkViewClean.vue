@@ -2,8 +2,10 @@
   <b-button v-if="classDefinition.name === 'Lifecycle'"
             :variant="classDefinition.getStateVariant(model[field])"
             pill disabled>
-    <t>{{classDefinition.getLabelKey(model[field])}}</t>
+    <t>{{value}}</t>
   </b-button>
+
+  <t v-else-if="classDefinition.name === 'Enum'">{{value}}</t>
 
   <span v-else>{{value}}</span>
 

@@ -43,13 +43,13 @@
         <template v-if="!noLabel" #label>
           <slot :name="formGenericFieldComputed + '-label'" v-bind="$props">
             <t>{{label}}</t>
+            <b-icon-asterisk
+                v-if="required && $props.for !== 'view'"
+                variant="danger"
+                font-scale="0.5"
+                shift-v="10"
+            />
           </slot>
-          <b-icon-asterisk
-              v-if="required && $props.for !== 'view'"
-              variant="danger"
-              font-scale="0.5"
-              shift-v="10"
-          />
         </template>
 
           <bk-inner-input

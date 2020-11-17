@@ -8,7 +8,7 @@
           :active="isActive(lang)"
           @click="onClick(lang)"
       >
-         {{ translate(lang) }}
+        <t>{{translate(lang)}}</t>
       </b-dropdown-item>
     </b-nav-item-dropdown>
 </template>
@@ -36,7 +36,7 @@
         return this.active === lang;
       },
       translate(lang) {
-        return Languages[lang];
+        return Languages.getLabelKey(lang);
       },
       onClick(lang) {
         I18n.setLanguage(lang);
