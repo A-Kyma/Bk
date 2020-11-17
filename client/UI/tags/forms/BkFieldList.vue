@@ -15,7 +15,6 @@
 
 <script>
 import { Class } from "meteor/jagi:astronomy"
-import getFieldsArray from "../../utils/getFieldsArray";
 
 export default {
     name: "BkFieldList",
@@ -31,12 +30,9 @@ export default {
         return this.model || this.formModel;
       },
       fieldsArray() {
-        let fieldsArray = getFieldsArray({
-          model: this.inputModel,
-          fields: this.fields,
-          exclude: this.exclude
-        });
-        return fieldsArray;
+        let fields = this.fields;
+        let exclude = this.exclude;
+        return this.inputModel.constructor.getFieldsNamesByFilter({fields,exclude});
       }
     },
   }
