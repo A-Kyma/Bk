@@ -13,15 +13,6 @@
                 @dismissed="showAlert=false">
             <t>app.failed</t>
         </b-alert>
-        <b-alert
-                :show="dismissCountDown"
-                variant="success"
-                fade
-                dismissible
-                @dismiss-count-down="countDownChanged"
-                @dismissed="dismissCountDown=0">
-            <t>app.success</t>
-        </b-alert>
         <slot v-bind="$attrs" :model="formModel">
           <bk-field-list v-bind="$attrs" :for="$props['for']">
 
@@ -31,7 +22,7 @@
 
           </bk-field-list>
         </slot>
-        <bk-submit v-if="!modal" :for="submitFor" @cancel="onCancel"/>
+        <bk-submit v-if="!modal" :for="submitFor" :toast="toast" @cancel="onCancel"/>
       </b-overlay>
     </b-form>
 </template>
@@ -48,6 +39,7 @@ export default {
       model: [String,Class],
       inline: Boolean,
       modal: Boolean,
+      toast: Boolean,
       for: String,
     },
     data() {
@@ -106,8 +98,10 @@ export default {
             } else {
               self.showAlert = false;
               self.showSuccess()
-              if (this.modal) {
+              if (self.modal) {
 
+              } else if (self.toast) {
+                self.$bvToast.hide()
               } else {
                 self.$router.go(-1);
               }
@@ -140,9 +134,6 @@ export default {
     },
 
     meteor: {
-      originalModel() {
-        return Class.getModel(this.model);
-      },
       submit() {
         return I18n.t("app." + this.$props.for)
       },

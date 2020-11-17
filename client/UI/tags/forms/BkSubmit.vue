@@ -7,12 +7,13 @@
             <t>{{submit}}</t>
         </b-button>
         <b-button
-                v-if="$props['for'] !== 'view'"
+                v-if="$props['for'] !== 'view' && !toast"
                 type="reset"
                 variant="outline-danger">
           <t>app.reset</t>
         </b-button>
         <b-button
+                v-if="!toast"
                 type="button"
                 @click="onCancel"
                 variant="outline-secondary">
@@ -29,6 +30,7 @@
     name: "BkSubmit",
       props: {
         for: String,
+        toast: Boolean,
       },
     computed: {
       name() {
