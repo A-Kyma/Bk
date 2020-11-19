@@ -58,12 +58,20 @@ export default {
       value: undefined,
       options: [],
       dropDownVisible: false,
-      handle: undefined,
+      handler: undefined,
     }
   },
   created() {
     this.oldValue = this.model[this.field];
+
+    if (this.model[this.field])
+      this.activateSubscription()
   },
+
+  destroyed() {
+    this.handler && this.handler.stop();
+  },
+
   computed: {
     inputValue: {
       set(value) {
@@ -72,6 +80,15 @@ export default {
         // If we change from screen, city is removed
         this.model[this.field] = undefined;
         this.value = value;
+
+        // We subscribe if at least 3 characters
+        if (value.length >= 3)
+          this.activateSubscription();
+        // We unsubscribe if subscription exists if not 3 characters
+        if (this.model[this.field]=== undefined && value.length<3) {
+          this.$data.handler && this.$data.handler.stop();
+          //this.$data.handler = undefined;
+        }
       },
       get() {
         return this.value;
@@ -83,6 +100,10 @@ export default {
         || value !== this.relation.defaultName()) {
           this.value = ""
           this.model[this.field] = undefined;
+
+          // Stop subscription
+          this.$data.handler && this.$data.handler.stop()
+          //this.$data.handler = undefined;
         }
       },
       get() {
@@ -103,12 +124,6 @@ export default {
     }
   },
   meteor: {
-    $subscribe: {
-      // TODO: Have this subscription parameterized for other belongs to relations
-      'city.search': function() {
-        return [this.model[this.field], this.value, I18n.getLanguage()]
-      }
-    },
     state() {
       // Similar has management found in BkInnerInput but value checked is relation_id
       let errors = this.model.getError(this.field);
@@ -161,6 +176,19 @@ export default {
     }
   },
   methods: {
+    activateSubscription() {
+      let oldHandler = this.handler;
+      self=this;
+      // TODO: adapt the name of subscription
+      this.$data.handler = Meteor.subscribe(
+          "city.search",
+          self.model[self.field], self.value, I18n.getLanguage()
+      )
+      this.$autorun(() => {
+        let ready = self.$data.handler && self.$data.handler.ready();
+        if (ready) oldHandler && oldHandler.stop()
+      })
+    },
     relationClass() {
       let definition = this.model.getDefinition(this.field);
       return definition.relation;
@@ -184,7 +212,8 @@ export default {
     onSelectRow(row) {
       self=this;
       this.model.set(this.field, row.value, {cast: true})
-
+      this.value = "";
+      this.activateSubscription(); // since value length is lower than 3
       if (this.dropDownVisible) this.toggleDropDown();
       this.model.isValid(this.field);
     },
