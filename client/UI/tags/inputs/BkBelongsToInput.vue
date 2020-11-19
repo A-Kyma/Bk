@@ -99,8 +99,9 @@ export default {
         if (!value
         || value !== this.relation.defaultName()) {
           this.value = ""
-          this.model[this.field] = undefined;
-
+          // unset field and check validation if empty
+          this.model.set(this.field);
+          this.model.isValid(this.field);
           // Stop subscription
           this.$data.handler && this.$data.handler.stop()
           //this.$data.handler = undefined;
