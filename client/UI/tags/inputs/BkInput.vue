@@ -2,7 +2,7 @@
 <template>
   <transition name="slide-fade" appear>
     <slot :name="formGenericFieldComputed + '-form-group'" v-bind="$props">
-      <b-card v-if="ui.collapsible || ui.accordion" no-body class="mb-1" :id="accordionId">
+      <b-card v-if="ui.collapsible || ui.accordion" no-body :class="'mb-1 ' + this.model.constructor.getName()" :id="accordionId">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button block @click="toggleAccordion" v-bind="$attrs">
             <slot :name="formFieldComputed + '-label'" v-bind="$props">
