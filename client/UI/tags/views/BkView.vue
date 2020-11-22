@@ -10,9 +10,10 @@
 
 <script>
   import { Class } from "meteor/jagi:astronomy"
-
+  import BkViewInner from "./BkViewInner";
   export default {
     name: "BkView",
+    components: {BkViewInner},
     props: {
       model: Class,
       field: String,

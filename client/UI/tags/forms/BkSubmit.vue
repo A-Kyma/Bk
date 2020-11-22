@@ -24,7 +24,6 @@
 
 <script>
   import {Class} from 'meteor/jagi:astronomy';
-  import I18n from "../../../../lib/classes/i18n";
 
   export default {
     name: "BkSubmit",

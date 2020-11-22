@@ -1,8 +1,14 @@
 <!-- We added $parent.$attrs to get the "non-props" attributes from "bk-form" element -->
+<!-- Slot <field>-form-group will replace all the bk-input (no b-card or form-group) -->
+<!-- Slot <field>-label will replace the label -->
+<!-- Slot <field> will replace the field's inner input -->
 <template>
   <transition name="slide-fade" appear>
     <slot :name="formGenericFieldComputed + '-form-group'" v-bind="$props">
-      <b-card v-if="ui.collapsible || ui.accordion" no-body :class="'mb-1 ' + this.model.constructor.getName()" :id="accordionId">
+      <b-card v-if="ui.collapsible || ui.accordion"
+              no-body
+              :class="'mb-1 ' + this.model.constructor.getName()"
+              :id="field">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button block @click="toggleAccordion" v-bind="$attrs">
             <slot :name="formFieldComputed + '-label'" v-bind="$props">
@@ -11,6 +17,7 @@
           </b-button>
         </b-card-header>
         <b-collapse
+            :id="accordionId"
             visible
             :accordion="accordionGroupId"
             role="tabpanel">
@@ -68,11 +75,12 @@
 
 <script>
   import {Class} from 'meteor/jagi:astronomy';
-  import I18n from "../../../../lib/classes/i18n";
   import _ from "lodash";
+  import BkLabel from "../forms/BkLabel";
 
   export default {
     name: "BkInput",
+    components: {BkLabel},
     props: {
       model: Class,
       field: String,
@@ -130,11 +138,11 @@
       definition() {
         return this.model.getDefinition(this.field) || {};
       },
-      accordionId(){
-        return this.field // + "_" + this._uid;
-      },
       // If accordion, only one open
       // if not, all will be opened at start
+      accordionId() {
+        return "Collapse_" + this.field + "_" + this._uid;
+      },
       accordionGroupId() {
         if (this.ui.accordion) {
           return this.model.constructor.getName();

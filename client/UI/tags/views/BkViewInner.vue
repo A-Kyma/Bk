@@ -11,9 +11,12 @@
 
 <script>
   import {Class} from "meteor/jagi:astronomy"
+  import BkLabel from "../forms/BkLabel";
+  import BkViewClean from "./BkViewClean";
 
   export default {
     name: "BkViewInner",
+    components: {BkLabel,BkViewClean},
     props: {
       model: Class,
       field: String,

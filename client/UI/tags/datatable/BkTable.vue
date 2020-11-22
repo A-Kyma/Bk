@@ -55,10 +55,13 @@
   import I18n from "../../../../lib/classes/i18n";
   import Datatable from "../../../../lib/classes/datatable";
   import BkButtonIcon from "../links/BkButtonIcon";
+  import BkModal from "../modals/BkModal";
+  import BkForm from "../forms/BkForm";
+  import BkViewInner from "../views/BkViewInner";
 
   export default {
     name: "BkTable",
-    components: {BkButtonIcon},
+    components: {BkButtonIcon,BkModal,BkForm,BkViewInner},
     props: {
       fields: Array,
       sortBy: String,

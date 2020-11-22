@@ -70,13 +70,15 @@
 
 <script>
 import { Class } from "meteor/jagi:astronomy"
-import I18n from "../../../../lib/classes/i18n";
 import BkButtonIcon from "../links/BkButtonIcon";
 import BkFieldList from "./BkFieldList";
+import BkModal from "../modals/BkModal";
+import BkInput from "../inputs/BkInput";
+import BkViewClean from "../views/BkViewClean";
 
 export default {
     name: "BkCardListClass",
-    components: {BkButtonIcon,BkFieldList},
+    components: {BkButtonIcon,BkFieldList,BkModal,BkInput,BkViewClean},
     props: {
       model: Class,
       field: String,

@@ -5,9 +5,11 @@
 <script>
   import {Class} from "meteor/jagi:astronomy"
   import I18n from "../../../../lib/classes/i18n";
+  import BkForm from "../forms/BkForm";
 
   export default {
     name: "t",
+    components: {BkForm},
     props: {
       model: [Class,String],
       field: String

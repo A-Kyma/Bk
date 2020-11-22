@@ -22,8 +22,12 @@
 
           </bk-field-list>
         </slot>
-        <slot v-bind="$attrs" :model="formModel">
-          <bk-submit v-if="!modal" :for="submitFor" :toast="toast" @cancel="onCancel"/>
+        <slot name="submit" v-bind="$attrs" :model="formModel">
+          <bk-submit v-if="!modal" :for="submitFor" :toast="toast" @cancel="onCancel">
+            <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+              <slot :name="slot" v-bind="props" />
+            </template>
+          </bk-submit>
         </slot>
       </b-overlay>
     </b-form>
@@ -32,11 +36,12 @@
 <script>
 import {Class} from "meteor/jagi:astronomy";
 import BkFieldList from "./BkFieldList";
+import BkSubmit from "./BkSubmit";
 import I18n from "../../../../lib/classes/i18n";
 
 export default {
     name: "BkForm",
-    components: {BkFieldList},
+    components: {BkFieldList,BkSubmit},
     props: {
       model: [String,Class],
       inline: Boolean,
@@ -84,14 +89,23 @@ export default {
         this.dismissCountDown = this.dismissSecs;
       },
       onSubmit(e) {
-        e.preventDefault()
         let self = this;
+
+        this.$emit("submit",e);
+        // Allow catching the event on components using this tag
+        if (e.defaultPrevented) return;
+        e.preventDefault()
+
         self.showOverlay=true;
         let model = this.formModel;
         //model.isValid();
         model.save({stopOnFirstError:false},function(err,id) {
           self.showOverlay=false;
             if (err) {
+              let f=new Event("submitFailed");
+              self.$emit("submitFailed",f,self,model,err)
+              if (f.defaultPrevented) return
+
               model.setError(err);
               self.showAlert = true;
               // Scroll to alert after DOM was updated
@@ -99,6 +113,10 @@ export default {
                 self.$refs.form.scrollIntoView({behavior: "smooth"});
               })
             } else {
+              let s=new Event("submitSuccess");
+              self.$emit("submitSuccess",s,self,model)
+              if (s.defaultPrevented) return
+
               self.showAlert = false;
               self.showSuccess()
               if (self.modal) {
@@ -113,6 +131,9 @@ export default {
         this.formModel.set(model);
       },
       onReset(e) {
+        this.$emit("reset",e);
+        // Allow catching the event on components using this tag
+        if (e.defaultPrevented) return;
         e.preventDefault()
         let model = this.formModel;
         let newModel;
@@ -126,6 +147,10 @@ export default {
         this.formModel.set(newModel.raw());
       },
       onCancel(e) {
+        this.$emit("cancel",e);
+        // Allow catching the event on components using this tag
+        if (e.defaultPrevented) return;
+
         // Needs to go back
         if (this.modal) {
           //TODO: close the modal
