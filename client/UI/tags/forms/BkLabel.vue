@@ -1,7 +1,7 @@
 <template>
   <label :class="computedClass"><t>{{label}}</t>
     <b-icon-asterisk
-      v-if="required && $props.for !== 'view'"
+      v-if="required"
       variant="danger"
       font-scale="0.5"
       shift-v="10"
@@ -37,6 +37,7 @@
       },
       required() {
         if (this.noRequired) return false;
+        if (this.$props.for === "view") return false;
         return !this.model.getDefinition(this.field).optional;
       },
     },
