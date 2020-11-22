@@ -22,7 +22,9 @@
 
           </bk-field-list>
         </slot>
-        <bk-submit v-if="!modal" :for="submitFor" :toast="toast" @cancel="onCancel"/>
+        <slot v-bind="$attrs" :model="formModel">
+          <bk-submit v-if="!modal" :for="submitFor" :toast="toast" @cancel="onCancel"/>
+        </slot>
       </b-overlay>
     </b-form>
 </template>
@@ -65,6 +67,7 @@ export default {
       return {
         formModel: this.formModel,
         showAlert: this.showAlert,
+        inline: this.inline,
       }
     },
     methods: {

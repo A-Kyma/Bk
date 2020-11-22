@@ -6,7 +6,7 @@
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button block @click="toggleAccordion" v-bind="$attrs">
             <slot :name="formFieldComputed + '-label'" v-bind="$props">
-              <t>{{label}}</t>
+              <bk-label v-bind="$props" noRequired/>
             </slot>
           </b-button>
         </b-card-header>
@@ -40,15 +40,9 @@
                     :label-class="ui.labelClass"
                     :label-size="ui.labelSize"
       >
-        <template v-if="!noLabel" #label>
+        <template #label>
           <slot :name="formGenericFieldComputed + '-label'" v-bind="$props">
-            <t>{{label}}</t>
-            <b-icon-asterisk
-                v-if="required && $props.for !== 'view'"
-                variant="danger"
-                font-scale="0.5"
-                shift-v="10"
-            />
+            <bk-label v-bind="$props"/>
           </slot>
         </template>
 
@@ -102,10 +96,6 @@
       inputModel() {
         return this.model || this.formModel;
       },
-      label() {
-        if (this.noLabel) { return }
-        return this.inputModel.constructor.getLabelKey(this.field);
-      },
       // Used for slots, we do not have index for arrays, so all fields in array are replaced
       formGenericFieldComputed() {
         if (this.formGenericField) return this.formGenericField + "." + this.field;
@@ -139,9 +129,6 @@
       },
       definition() {
         return this.model.getDefinition(this.field) || {};
-      },
-      required() {
-        return !this.definition.optional;
       },
       accordionId(){
         return this.field // + "_" + this._uid;

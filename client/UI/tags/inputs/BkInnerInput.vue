@@ -3,7 +3,8 @@
   <b-input-group
     v-bind="$attrs"
     :prepend="prepend"
-    :append="append">
+    :append="append"
+    :class="ui.class">
 
     <slot :name="formGenericFieldComputed" v-bind="$props">
 
@@ -34,7 +35,7 @@
           v-else-if="definitionField === 'ListEnum'"
           v-model="value"
           :name="field"
-          :plaintext="plaintextComputed">
+          :disabled="plaintextComputed">
         <b-form-checkbox v-for="item in enumOptions"
                          :value="item.value">
           <t>{{item.key}}</t>
@@ -52,7 +53,7 @@
           v-else-if="inputComponent === 'BFormRadioGroup' && definitionField === 'Enum'"
           v-model="value"
           :name="formFieldComputed"
-          >
+          :disabled="plaintextComputed">
         <b-form-radio v-for="item in enumOptions"
                       :value="item.value">
           <t>{{item.key}}</t>
@@ -75,6 +76,10 @@
           v-bind="$attrs"
           :model="model"
           :field="field"
+          :for="$props['for']"
+          :plaintext="plaintextComputed"
+          :readonly="plaintextComputed"
+          :disabled="plaintextComputed"
       />
       <!-- TODO: is span OK ?-->
       <span v-else-if="definitionField === 'ListValue'">
@@ -97,6 +102,7 @@
           :name="field"
           :plaintext="plaintextComputed"
           :readonly="plaintextComputed"
+          :disabled="plaintextComputed"
           :options="enumOptions"
           switch
       />

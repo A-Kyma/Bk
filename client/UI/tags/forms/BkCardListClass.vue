@@ -24,6 +24,7 @@
             v-if="innerModel.getDefinition('isActive')!==undefined"
             :model="innerModel"
             field="isActive"
+            :for="$props['for']"
             :form-field="formField + '.' + index"
             :form-generic-field="formField"
         />
@@ -32,6 +33,7 @@
       <bk-field-list
           v-if="innerModel.getDefinition('isActive')===undefined || innerModel.isActive"
           v-bind="$attrs"
+          :for="$props['for']"
           :model="innerModel"
           :form-field="formField + '.' + index"
           :form-generic-field="formField"
@@ -43,7 +45,7 @@
 
       </bk-field-list>
 
-      <b-card-footer>
+      <b-card-footer v-if="$props['for'] !== 'view'">
         <b-button
             variant="outline-secondary"
             @click="onAdd(index+1,innerModel)"
@@ -53,7 +55,7 @@
       </b-card-footer>
     </b-card>
     <b-button
-        v-if="model[field].length === 0"
+        v-if="model[field].length === 0 && $props['for'] !== 'view'"
         variant="outline-secondary"
         @click="onAdd(0)">
       <t>app.add</t>
@@ -79,6 +81,7 @@ export default {
       model: Class,
       field: String,
       formField: String,
+      for: String,
     },
   data() {
     return {
@@ -100,6 +103,7 @@ export default {
       return this.model.getFieldClass(this.field);
     },
     canDelete() {
+      if (this.$props.for === "view") return false;
       return this.model.canDelete(this.field);
     },
   },
