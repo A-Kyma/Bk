@@ -2,12 +2,7 @@
   <div class="col-12">
     <b-card v-for="(innerModel,index) in model[field]" :key="innerModel._id.valueOf()">
       <b-card-header v-if="getTypeField">
-        <bk-button-icon
-            v-if="canDelete"
-            @click="onRemove(index)"
-            icon="trash-2-fill"
-            variant="danger"
-        />
+
 
         <bk-view-clean
             v-bind="$attrs"
@@ -17,6 +12,12 @@
             :form-generic-field="formField"
         />
 
+        <bk-button-icon
+                v-if="canDelete"
+                @click="onRemove(index)"
+                icon="trash-fill"
+                variant="danger"
+        />
         <!--{{getIndexForModel(innerModel,index)}}-->
 
         <bk-input
