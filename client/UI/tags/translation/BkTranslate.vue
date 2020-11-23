@@ -12,7 +12,8 @@
     components: {BkForm},
     props: {
       model: [Class,String],
-      field: String
+      field: String,
+      options: Object,
     },
     computed: {
       key() {
@@ -28,7 +29,7 @@
     },
     meteor: {
       translation() {
-        return I18n.t(this.key);
+        return I18n.t(this.key,this.options);
       }
     },
     methods: {
@@ -41,6 +42,8 @@
         let t=I18n.findOne({locale, key});
         if (!t)
           t=new I18n({locale, key, text: this.translation})
+        if (t.text.includes("."))
+          t.text = ""
         const h = this.$createElement;
         const vNodeMsg = h(
             'bk-form', {props:{model: t, toast: true}}

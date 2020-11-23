@@ -37,6 +37,7 @@
                 :for="action"
                 :model="data.item"
             />
+          <slot name="customActions" v-bind="data"></slot>
         </template>
 
         <!-- default rendering -->

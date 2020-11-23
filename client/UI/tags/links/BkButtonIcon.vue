@@ -18,6 +18,7 @@ export default {
     for: String,
     model: {Class,String},
     label: String,
+    route: String,
   },
   data() {
     return {
@@ -49,8 +50,12 @@ export default {
   },
   methods: {
     onClick(e) {
-      if (this.$props.for) {
-        let routeName = this.model.constructor.getHighestParent().getName();
+      if (this.$props.for || this.route) {
+        let routeName;
+        if (this.route)
+          routeName = this.route
+        else
+          routeName = this.model.constructor.getHighestParent().getName();
         let route = this.$router.resolve({name: routeName});
         if (route.resolved.matched.length > 0) {
           //the route exists, go there
