@@ -4,7 +4,7 @@
         :inline="inline"
         @submit="onSubmit"
         @reset="onReset">
-      <b-overlay :show="showOverlay">
+      <b-overlay :show="isOverlay">
         <b-alert
                 :show="showAlert"
                 variant="danger"
@@ -55,7 +55,7 @@ export default {
         showAlert: false,
         dismissSecs: 5,
         dismissCountDown: 0,
-        showOverlay: false,
+        isOverlay: false,
       }
     },
     computed: {
@@ -76,6 +76,12 @@ export default {
       }
     },
     methods: {
+      showOverlay() {
+        this.isOverlay=true;
+      },
+      hideOverlay() {
+        this.isOverlay=false;
+      },
       countDownChanged(count) {
         this.dismissCountDown = count;
       },
@@ -90,17 +96,17 @@ export default {
       },
       onSubmit(e) {
         let self = this;
+        let model = this.formModel;
 
-        this.$emit("submit",e);
+        this.$emit("submit",e,self,model);
         // Allow catching the event on components using this tag
         if (e.defaultPrevented) return;
         e.preventDefault()
 
-        self.showOverlay=true;
-        let model = this.formModel;
+        self.showOverlay();
         //model.isValid();
         model.save({stopOnFirstError:false},function(err,id) {
-          self.showOverlay=false;
+          self.hideOverlay();
             if (err) {
               let f=new Event("submitFailed");
               self.$emit("submitFailed",f,self,model,err)

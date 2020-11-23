@@ -34,3 +34,21 @@ en:
         failed: "Failure"
   datatable:
     buttonsActions: "Actions"
+
+  User:
+    profile:
+      label: "Profile"
+  UserProfile:
+    firstname:
+      label: "Firstname"
+      placeholder: " "
+    lastname:
+      label: "Lastname"
+      placeholder: " "
+    email:
+      label: "Email"
+      placeholder: " "
+    emailConfirmation:
+      label: "Email confirmation"
+      placeholder: " "
+

@@ -5,6 +5,7 @@ import Role from "../../lib/classes/role";
 import {Accounts} from "meteor/accounts-base";
 
 Accounts.onCreateUser((options,user) => {
+  /*
     if (!Meteor.users.findOne()) {
       Role.getCollection().insert({
           access: "SuperAdministrator",
@@ -12,9 +13,10 @@ Accounts.onCreateUser((options,user) => {
         }
       )
     }
+   */
     if (options.profile) {
       user.profile = options.profile
-      user.profile.status = "active"
+      user.profile.status = "inactive"
     }
     return user;
   }

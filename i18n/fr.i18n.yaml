@@ -34,3 +34,21 @@ fr:
         failed: "Erreur"
   datatable:
     buttonsActions: "Actions"
+
+  User:
+    profile:
+      label: "Profile"
+  UserProfile:
+    firstname:
+      label: "Prénom"
+      placeholder: " "
+    lastname:
+      label: "Nom"
+      placeholder: " "
+    email:
+      label: "Email"
+      placeholder: " "
+    emailConfirmation:
+      label: "Confirmation de l'email"
+      placeholder: " "
+
