@@ -35,6 +35,7 @@ Package.onUse(function(api) {
   api.use('jagi:reactive-map@2.0.0'); // Used in errors management
   api.use('reactive-var'); // For clickTo... components and other thinks
   api.use('reactive-dict');
+  api.use('ostrio:files@1.14.3') // For file upload
 
   // VueJS
   //api.use('akryum:vue'); // Vue and imported in NPM
