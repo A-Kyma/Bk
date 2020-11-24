@@ -11,8 +11,12 @@ Package.describe({
 });
 
 Npm.depends({
-  "fs.extra": "1.2.1",
-  lodash: '4.17.4',
+  "fs.extra": "1.3.2",
+  lodash: '4.17.20',
+  // to add meteor reactivity in vue : https://github.com/meteor-vue/vue-meteor-tracker
+  "vue-meteor-tracker": "2.0.0-beta.5",
+  // For Drag & Drop usage : https://github.com/kutlugsahin/vue-smooth-dnd
+  "vue-smooth-dnd": "0.8.1",
 });
 
 // See https://guide.meteor.com/writing-atmosphere-packages.html

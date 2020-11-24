@@ -1,10 +1,10 @@
 {
   "lockfileVersion": 1,
   "dependencies": {
-    "forEachAsync": {
-      "version": "2.2.1",
-      "resolved": "https://registry.npmjs.org/forEachAsync/-/forEachAsync-2.2.1.tgz",
-      "integrity": "sha1-43I/AJA5EOHrSx2zrVG1xkoxn+w="
+    "foreachasync": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/foreachasync/-/foreachasync-3.0.0.tgz",
+      "integrity": "sha1-VQKYfchxS+M5IJfzLgBxyd7gfPY="
     },
     "fs-extra": {
       "version": "0.6.4",
@@ -12,9 +12,9 @@
       "integrity": "sha1-9G8MdbeEH40gCzNIzU1pHVoJnRU="
     },
     "fs.extra": {
-      "version": "1.2.1",
-      "resolved": "https://registry.npmjs.org/fs.extra/-/fs.extra-1.2.1.tgz",
-      "integrity": "sha1-BgvyAmTzXjmtJH5enSEhoqdaFzM="
+      "version": "1.3.2",
+      "resolved": "https://registry.npmjs.org/fs.extra/-/fs.extra-1.3.2.tgz",
+      "integrity": "sha1-3QI/kwE77iRTHxszUUw3sg/ZM0k="
     },
     "jsonfile": {
       "version": "1.0.1",
@@ -22,9 +22,9 @@
       "integrity": "sha1-6l7+QLg2kLmGZ2FKc5L8YOhCwN0="
     },
     "lodash": {
-      "version": "4.17.4",
-      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.4.tgz",
-      "integrity": "sha1-eCA6TRwyiuHYbcpkYONptX9AVa4="
+      "version": "4.17.20",
+      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.20.tgz",
+      "integrity": "sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA=="
     },
     "lodash.omit": {
       "version": "4.5.0",
@@ -46,15 +46,25 @@
       "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-2.2.8.tgz",
       "integrity": "sha1-5Dm+Kq7jJzIZUnMPmaiSnk/FBYI="
     },
-    "sequence": {
-      "version": "2.2.1",
-      "resolved": "https://registry.npmjs.org/sequence/-/sequence-2.2.1.tgz",
-      "integrity": "sha1-f1YXiV1ENRwKBH52RGdpBJChawM="
+    "smooth-dnd": {
+      "version": "0.12.1",
+      "resolved": "https://registry.npmjs.org/smooth-dnd/-/smooth-dnd-0.12.1.tgz",
+      "integrity": "sha512-Dndj/MOG7VP83mvzfGCLGzV2HuK1lWachMtWl/Iuk6zV7noDycIBnflwaPuDzoaapEl3Pc4+ybJArkkx9sxPZg=="
+    },
+    "vue-meteor-tracker": {
+      "version": "2.0.0-beta.5",
+      "resolved": "https://registry.npmjs.org/vue-meteor-tracker/-/vue-meteor-tracker-2.0.0-beta.5.tgz",
+      "integrity": "sha512-egEEqAeKoy7moc4mdb/yM4+UDxk7yOAiIAW8gFz8umtAEYr7Ll8B1wLC0gtoY4IDUU8bCo0UzQjWvfXDMfl7YA=="
+    },
+    "vue-smooth-dnd": {
+      "version": "0.8.1",
+      "resolved": "https://registry.npmjs.org/vue-smooth-dnd/-/vue-smooth-dnd-0.8.1.tgz",
+      "integrity": "sha512-eZVVPTwz4A1cs0+CjXx/ihV+gAl3QBoWQnU6+23Gp59t0WBU99z7ducBQ4FvjBamqOlg8SDOE5eFHQedxwB4Wg=="
     },
     "walk": {
-      "version": "2.2.1",
-      "resolved": "https://registry.npmjs.org/walk/-/walk-2.2.1.tgz",
-      "integrity": "sha1-WtofjknkfUt0Rdi+ei4eYxq0MBY="
+      "version": "2.3.14",
+      "resolved": "https://registry.npmjs.org/walk/-/walk-2.3.14.tgz",
+      "integrity": "sha512-5skcWAUmySj6hkBdH6B6+3ddMjVQYH5Qy9QGbPmN8kVmLteXk+yVXg+yfk1nbX30EYakahLrr8iPcCxJQSCBeg=="
     }
   }
 }
