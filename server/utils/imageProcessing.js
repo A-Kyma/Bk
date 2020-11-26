@@ -45,11 +45,11 @@ const createThumbnails = (collection, fileRef, cb) => {
 
       const sizes = {
         sd: {
-          width: 800
+          width: 1024
         },
         thumbnail: {
-          width: 60,
-          square: true
+          width: 100,
+          //square: true
         }
       };
 
@@ -109,12 +109,12 @@ const createThumbnails = (collection, fileRef, cb) => {
 
             if (/png|jpe?g/i.test(fileRef.extension)) {
               const img = gm(fileRef.path)
-                .quality(70)
+                .quality(80)
                 .define('filter:support=2')
                 .define('jpeg:fancy-upsampling=false')
                 .define('jpeg:fancy-upsampling=off')
                 .define('png:compression-filter=5')
-                .define('png:compression-level=9')
+                .define('png:compression-level=8')
                 .define('png:compression-strategy=1')
                 .define('png:exclude-chunk=all')
                 .autoOrient()
@@ -122,7 +122,7 @@ const createThumbnails = (collection, fileRef, cb) => {
                 .strip()
                 .dither(false)
                 .interlace('Line')
-                .filter('Triangle');
+                .filter('Cubic');
 
               const updateAndSave = (upNSaveError) => {
                 bound(() => {
