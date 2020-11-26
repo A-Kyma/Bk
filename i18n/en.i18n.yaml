@@ -32,6 +32,12 @@ en:
       title:
         success: "Successful"
         failed: "Failure"
+    file:
+      choose: "Choose your files..."
+      drop: "Drop your files here"
+      more: "mode"
+      error: "An error occurs during the operation"
+
   datatable:
     buttonsActions: "Actions"
 

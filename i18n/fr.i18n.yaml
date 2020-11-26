@@ -32,6 +32,12 @@ fr:
       title:
         success: "Confirmation"
         failed: "Erreur"
+    file:
+      choose: "Choisissez vos fichiers..."
+      drop: "Déposez vos fichiers ici"
+      more: "de plus"
+      error: "Une erreur est survenue durant l'opération"
+
   datatable:
     buttonsActions: "Actions"
 

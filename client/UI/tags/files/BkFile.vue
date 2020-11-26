@@ -39,25 +39,34 @@
         class="mt-2 mb-2"
     />
 
-    <div>
-      <Container @drop="onDrop"
-                 drag-handle-selector=".column-drag-handle"
-                 drag-class="opacity-ghost"
-                 drop-class="opacity-ghost-drop">
-        <Draggable v-for="(file,index) in findFiles" :key="file._id">
-          <div class="draggable-item">
-            <span class="column-drag-handle" style="float:left; padding:0 10px;">&#x2630;</span>
-            <a :href="file.link()" :alt="file.name" target="_blank">
-              {{file.name}}
-            </a>
-            <bk-button-icon
-                @click="onRemove(file,index)"
-                icon="trash-fill"
-                variant="danger"
-            />
-          </div>
-        </Draggable>
-      </Container>
+    <div @touchend="fixActionRestriction">
+      <b-list-group>
+        <Container @drop="onDrop"
+                   drag-class="card-ghost bg-info"
+                   drop-class="card-ghost-drop">
+
+          <Draggable v-for="(file,index) in findFiles" :key="file._id" class="mt-2">
+            <div class="draggable-item bg-secondary">
+            <b-list-group-item class="d-flex align-items-center">
+              <b-avatar :src="file.link('thumbnail')" :text="file.ext" class="mr-3"/>
+
+              <a :href="file.link()" :alt="file.name" target="_blank">
+                {{file.name}}
+              </a>
+
+              <bk-button-icon
+                  @click="onRemove(file,index)"
+                  icon="trash-fill"
+                  variant="danger"
+                  class="ml-auto mr-2"
+              />
+              <b-badge>&#x2630;</b-badge>
+            </b-list-group-item>
+            </div>
+          </Draggable>
+
+        </Container>
+      </b-list-group>
     </div>
   </div>
 </template>
@@ -68,6 +77,7 @@ import { Match } from "meteor/check"
 import { Files } from "meteor/a-kyma:bk"
 import { Container, Draggable } from "vue-smooth-dnd";
 import applyDrag from "../../../utils/applyDrag";
+import I18n from "../../../../lib/classes/i18n";
 
 export default {
   name: "BkFile",
@@ -83,8 +93,9 @@ export default {
     return {
       inputFiles: null,
       currentUpload: false,
-      progress: 0,
+      progress: 100,
       progressArray: [0],
+      totalFiles: this.model[this.field].length,
     }
   },
   computed: {
@@ -101,6 +112,7 @@ export default {
     findFiles() {
       // Avoid meteor reactive data group that leads to a loop in recalculation,
       // So we use $autorun in a computed group
+      const self=this;
       return this.$autorun(() => {
         let search = {
           _id: { $in: this.files },
@@ -109,28 +121,68 @@ export default {
         let f=Files.find(search);
 
         // Sort in the same order as in the model array of files
-        return f && f.each().sort((a, b) => this.files.indexOf(a._id) - this.files.indexOf(b._id))
+        return f && f.each().sort((a, b) =>
+            self.files.indexOf(a._id) - self.files.indexOf(b._id)
+        )
       })
     },
   },
+  watch: {
+    findFiles(newValue) {
+      if (newValue.length === this.totalFiles)
+        this.currentUpload = false;
+    }
+  },
   methods: {
+    // Avoid issues on touch screens
+    fixActionRestriction() {
+      document.body.classList.remove(
+          "smooth-dnd-no-user-select",
+          "smooth-dnd-disable-touch-action"
+      );
+    },
     updateProgress(index,progress) {
       this.progressArray[index] = progress;
       this.progress = this.progressArray.reduce((a,b)=>a+b)/this.progressArray.length
     },
+    showError(err) {
+      this.model.setError(err);
+      this.$root.$bvToast.toast(I18n.t("app.file.error"),{
+        title: I18n.t("app.toast.title.failed"),
+        variant: "danger",
+        autoHideDelay: 5000
+      })
+    },
     onDrop(dropResult) {
       applyDrag(this.model[this.field],dropResult);
-      this.model.save({fields:[this.field]})
+      this.model.save({fields:[this.field]},(err,result)=>{
+        if (err) {
+          this.showError(err)
+        } else {
+          console.log(result)
+        }
+      })
     },
     onRemove(file,index) {
+      const self = this;
+
+      this.totalFiles--;
       this.model[this.field].splice(index,1);
-      this.model.save({fields:[this.field]})
+      this.model.save({fields:[this.field]},(err,result) =>{
+        if (err) {
+          this.showError(err)
+        } else {
+
+        }
+      })
     },
     onFilesAdded(files) {
       const self = this;
 
       if (!Match.test(files,Array)) files = [files];
       if (files.length === 0) return;
+
+      this.totalFiles = this.model[this.field].length + files.length;
 
       self.progressArray = Array(files.length).fill(0);
       self.currentUpload = true
@@ -155,14 +207,15 @@ export default {
         uploadInstance.on('end', function(err,result) {
           self.inputFiles=null;
           if (err) {
-            alert("error")
+            this.showError(err)
           } else {
             self.model[self.field].push(result._id);
             self.model.save({fields:[self.field]},(err,result) => {
               if (err) {
-                console.log(err)
+                self.currentUpload = false
+                this.showError(err)
               } else {
-                self.currentUpload = false;
+                self.updateProgress(index,100)
               }
             }); // TODO: check for result
           }
@@ -177,5 +230,12 @@ export default {
 </script>
 
 <style scoped>
-
+.card-ghost {
+  transition: transform 0.18s ease;
+  transform: rotateZ(1deg);
+}
+.card-ghost-drop {
+  transition: transform 0.18s ease-in-out;
+  transform: rotateZ(0deg);
+}
 </style>
