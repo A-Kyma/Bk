@@ -39,11 +39,11 @@
         class="mt-2 mb-2"
     />
 
-    <div v-if="!$subReady['files.model'] && !firstSubReady">
-      <bk-loading/>
-    </div>
-    <div v-else>
-      <Container @drop="onDrop" drag-handle-selector=".column-drag-handle">
+    <div>
+      <Container @drop="onDrop"
+                 drag-handle-selector=".column-drag-handle"
+                 drag-class="opacity-ghost"
+                 drop-class="opacity-ghost-drop">
         <Draggable v-for="(file,index) in findFiles" :key="file._id">
           <div class="draggable-item">
             <span class="column-drag-handle" style="float:left; padding:0 10px;">&#x2630;</span>
@@ -51,7 +51,7 @@
               {{file.name}}
             </a>
             <bk-button-icon
-                @click="onRemove(index)"
+                @click="onRemove(file,index)"
                 icon="trash-fill"
                 variant="danger"
             />
@@ -67,6 +67,7 @@ import { Class } from "meteor/jagi:astronomy"
 import { Match } from "meteor/check"
 import { Files } from "meteor/a-kyma:bk"
 import { Container, Draggable } from "vue-smooth-dnd";
+import applyDrag from "../../../utils/applyDrag";
 
 export default {
   name: "BkFile",
@@ -80,10 +81,10 @@ export default {
   },
   data() {
     return {
-      inputFiles: [],
+      inputFiles: null,
       currentUpload: false,
       progress: 0,
-      firstSubReady: false,
+      progressArray: [0],
     }
   },
   computed: {
@@ -94,62 +95,48 @@ export default {
         return "file"
       }
     },
-    files: {
-      set(value) {
-        if (Array.isArray(value))
-          this.model[this.field] = value;
-        else
-          this.model[this.field].push(value);
-      },
-      get() {
-        return this.model && this.model[this.field];
-      }
-    },
-  },
-  meteor: {
-    $subscribe: {
-      // Get the files for current model
-      "files.model": function () {
-        return [
-            this.model.constructor.getName(),
-            this.model._id,
-            this.field,
-            this.files,
-        ]
-      },
+    files() {
+      return this.model && this.model[this.field];
     },
     findFiles() {
-      if (!this.$subReady["files.model"]) return [];
-      this.firstSubReady = true;
-      let search = {
-        _id: { $in: this.files },
-      };
-      let f=Files.find(search);
-      return f && f.each();
+      // Avoid meteor reactive data group that leads to a loop in recalculation,
+      // So we use $autorun in a computed group
+      return this.$autorun(() => {
+        let search = {
+          _id: { $in: this.files },
+        };
+
+        let f=Files.find(search);
+
+        // Sort in the same order as in the model array of files
+        return f && f.each().sort((a, b) => this.files.indexOf(a._id) - this.files.indexOf(b._id))
+      })
     },
   },
   methods: {
-    onDrop(dropped) {
-      let files = this.model[this.field]
-      if (dropped.removeIndex === dropped.addIndex) return
-      let item = files[dropped.removeIndex];
-      if (dropped.removeIndex > dropped.addIndex) {
-        files.splice(dropped.removeIndex,1)
-        files.splice(dropped.addIndex,0,item);
-      } else {
-        files.splice(dropped.addIndex,0,item);
-        files.splice(dropped.removeIndex,1)
-      }
+    updateProgress(index,progress) {
+      this.progressArray[index] = progress;
+      this.progress = this.progressArray.reduce((a,b)=>a+b)/this.progressArray.length
+    },
+    onDrop(dropResult) {
+      applyDrag(this.model[this.field],dropResult);
       this.model.save({fields:[this.field]})
     },
-    onRemove(index) {
+    onRemove(file,index) {
       this.model[this.field].splice(index,1);
       this.model.save({fields:[this.field]})
     },
     onFilesAdded(files) {
       const self = this;
+
       if (!Match.test(files,Array)) files = [files];
-      files.forEach(file => {
+      if (files.length === 0) return;
+
+      self.progressArray = Array(files.length).fill(0);
+      self.currentUpload = true
+
+      files.forEach((file,index) => {
+        self.progressArray[index] = 0
         var uploadInstance = Files.insert({
           file,
           streams: 'dynamic',
@@ -161,24 +148,24 @@ export default {
           }
         }, false);
 
-        uploadInstance.on('start', function() {
-          self.currentUpload = true
-          self.progress = 0
-        })
-
         uploadInstance.on('progress', function(progress,fileData) {
-          self.progress = progress;
+          self.updateProgress(index,progress);
         })
 
         uploadInstance.on('end', function(err,result) {
-          self.inputFiles=[];
+          self.inputFiles=null;
           if (err) {
             alert("error")
           } else {
             self.model[self.field].push(result._id);
-            self.model.save({fields:[self.field]}); // TODO: check for result
+            self.model.save({fields:[self.field]},(err,result) => {
+              if (err) {
+                console.log(err)
+              } else {
+                self.currentUpload = false;
+              }
+            }); // TODO: check for result
           }
-          self.currentUpload = false;
         })
 
         uploadInstance.start();
