@@ -10,7 +10,6 @@
     </b-breadcrumb>
 </template>
 <script>
-    import I18n from "../../../../lib/classes/i18n";
 
     export default {
         name: "BkBreadCrumb",
