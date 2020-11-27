@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-2">
 
     <b-overlay :show="currentUpload">
 
@@ -48,9 +48,9 @@
           <Draggable v-for="(file,index) in listFiles" :key="file._id" class="mt-2">
             <div class="draggable-item bg-secondary">
             <b-list-group-item class="d-flex align-items-center">
-              <b-avatar :src="file.link('thumbnail')" :text="file.ext" class="mr-3"/>
+              <b-avatar :src="link(file,'thumbnail')" :text="file.ext" class="mr-3"/>
 
-              <a :href="file.link()" :alt="file.name" target="_blank">
+              <a :href="link(file)" :alt="file.name" target="_blank">
                 {{file.name}}
               </a>
 
@@ -87,6 +87,7 @@ export default {
     dropPlaceholder: { type: String, default: "app.file.drop"},
     model: Class,
     field: String,
+    for: String,
     accept: String, // accept="image/*" for images
   },
   data() {
@@ -100,7 +101,8 @@ export default {
     }
   },
   created() {
-    this.listFiles = this.findFiles
+    if (this.$props["for"] !== "new")
+      this.listFiles = this.findFiles
   },
   computed: {
     typeFile() {
@@ -125,7 +127,7 @@ export default {
         let f=Files.find(search);
 
         // Sort in the same order as in the model array of files
-        return f && f.each().sort((a, b) =>
+        return f && f.fetch().sort((a, b) =>
             self.files.indexOf(a._id) - self.files.indexOf(b._id)
         )
       })
@@ -133,13 +135,22 @@ export default {
   },
   watch: {
     findFiles(newValue,oldValue) {
+      if (this.$props["for"]) return;
       if (newValue.length === this.totalFiles)
         this.currentUpload = false;
-      if (newValue !== oldValue)
-        this.listFiles = newValue;
+        if (newValue !== oldValue)
+          this.listFiles = newValue;
+    },
+    listFiles(newValue) {
+      if (!this.$props["for"]) return;
+      if (newValue.length === this.totalFiles)
+        this.currentUpload = false;
     }
   },
   methods: {
+    link(file,format) {
+      return Files.link(file,format);
+    },
     // Avoid issues on touch screens
     fixActionRestriction() {
       document.body.classList.remove(
@@ -162,6 +173,10 @@ export default {
     onDrop(dropResult) {
       applyDrag(this.listFiles,dropResult)
       applyDrag(this.model[this.field],dropResult);
+
+      // if $props.for filled in, we are inside a form or a save button will exist
+      if (self.$props["for"]) return;
+
       this.model.save({fields:[this.field]},(err,result)=>{
         if (err) {
           this.showError(err)
@@ -175,6 +190,10 @@ export default {
 
       this.totalFiles--;
       this.model[this.field].splice(index,1);
+
+      // if $props.for filled in, we are inside a form or a save button will exist
+      if (self.$props["for"]) return;
+
       this.model.save({fields:[this.field]},(err,result) =>{
         if (err) {
           this.showError(err)
@@ -211,12 +230,17 @@ export default {
           self.updateProgress(index,progress);
         })
 
-        uploadInstance.on('end', function(err,result) {
+        uploadInstance.on('end', function(error,resultFile) {
           self.inputFiles=null;
-          if (err) {
-            this.showError(err)
+          if (error) {
+            this.showError(error)
           } else {
-            self.model[self.field].push(result._id);
+            self.listFiles.push(resultFile);
+            self.model[self.field].push(resultFile._id);
+
+            // if $props.for filled in, we are inside a form or a save button will exist
+            if (self.$props["for"]) return;
+
             self.model.save({fields:[self.field]},(err,result) => {
               if (err) {
                 self.currentUpload = false

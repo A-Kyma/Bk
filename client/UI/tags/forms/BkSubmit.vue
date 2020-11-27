@@ -44,7 +44,7 @@
     },
     methods: {
       onCancel(e) {
-        this.$emit('cancel');
+        this.$emit('cancel',e);
       }
     },
     meteor: {
