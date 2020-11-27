@@ -45,7 +45,7 @@
                    drag-class="card-ghost bg-info"
                    drop-class="card-ghost-drop">
 
-          <Draggable v-for="(file,index) in findFiles" :key="file._id" class="mt-2">
+          <Draggable v-for="(file,index) in listFiles" :key="file._id" class="mt-2">
             <div class="draggable-item bg-secondary">
             <b-list-group-item class="d-flex align-items-center">
               <b-avatar :src="file.link('thumbnail')" :text="file.ext" class="mr-3"/>
@@ -96,7 +96,11 @@ export default {
       progress: 100,
       progressArray: [0],
       totalFiles: this.model[this.field].length,
+      listFiles: [],
     }
+  },
+  created() {
+    this.listFiles = this.findFiles
   },
   computed: {
     typeFile() {
@@ -128,9 +132,11 @@ export default {
     },
   },
   watch: {
-    findFiles(newValue) {
+    findFiles(newValue,oldValue) {
       if (newValue.length === this.totalFiles)
         this.currentUpload = false;
+      if (newValue !== oldValue)
+        this.listFiles = newValue;
     }
   },
   methods: {
@@ -154,6 +160,7 @@ export default {
       })
     },
     onDrop(dropResult) {
+      applyDrag(this.listFiles,dropResult)
       applyDrag(this.model[this.field],dropResult);
       this.model.save({fields:[this.field]},(err,result)=>{
         if (err) {
