@@ -23,7 +23,6 @@
                         let routeArr = routeStr.split("/");
                         if (routeArr.length > 0){
                             for (let i = 0; i < routeArr.length; i++) {
-                                console.log(this.$route)
                                 if (routeArr[i].indexOf(":") > -1){
                                     if(routeArr[i] === ":id"){
                                         if (title.indexOf(".") > -1){
