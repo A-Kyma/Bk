@@ -1,6 +1,6 @@
 //import Role
 
-import User from "../../lib/classes/user";
+import {User} from "../../lib/classes/user";
 import Role from "../../lib/classes/role";
 import {Accounts} from "meteor/accounts-base";
 
@@ -26,6 +26,7 @@ Accounts.validateLoginAttempt((options) => {
     if (options.user && options.user.profile.status === "inactive") {
       throw new Meteor.error(400, "Your account is inactive, check with administrator");
     }
+  return true
   }
 )
 
@@ -88,3 +89,13 @@ User.extend({
     }
   }
 },["fields","meteorMethods"])
+
+
+Meteor.methods({
+  "User:CreatePassword": function(token,password) {
+    Accounts.resetPassword(token,password)
+  },
+  "User:ChangePassword": function(token,password) {
+    Accounts.resetPassword(token,password)
+  }
+})

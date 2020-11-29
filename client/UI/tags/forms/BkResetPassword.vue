@@ -5,18 +5,25 @@
     <bk-field-list
         v-bind="$attrs"
         :model="user.profile"
-        fields="email,password"/>
+        fields="password,passwordConfirmation"/>
   </bk-form>
 </template>
 
 <script>
-import {Class} from "meteor/jagi:astronomy"
-import BkForm from "./BkForm"
+import { Class } from "meteor/jagi:astronomy"
 import { User } from "meteor/a-kyma:bk"
+import BkForm from "./BkForm"
+import { Accounts } from "meteor/accounts-base"
 
 export default {
-  name: "BkLogin",
+  name: "BkResetPassword",
   components: {BkForm},
+  props: {
+    for: {
+      type: String,
+      default: "edit"
+    },
+  },
   data() {
     return {
       user: new User(),
@@ -24,7 +31,8 @@ export default {
   },
   computed: {
     title() {
-      return "app.user.login.title";
+      if (this.$props["for"] === "new") return "app.user.createPassword"
+      return "app.user.resetPassword";
     }
   },
   methods: {
@@ -33,19 +41,17 @@ export default {
       // Avoid BkForm usage and classic html submission reloading the page
       e.preventDefault();
 
-      const profile = this.user.profile
-
-      if (!profile.isValid(["email","password"])) return
+      if (!this.user.profile.isValid(["password","passwordConfirmation"])) return
       vmForm.hideFail();
       vmForm.showOverlay();
 
-      Meteor.loginWithPassword(profile.email,profile.password,(err) => {
+      Accounts.resetPassword(this.$route.params.token,this.user.profile.password,(err,result) => {
         vmForm.hideOverlay()
         if (err) {
           this.user.setError(err);
           vmForm.showFail()
         } else {
-          vmForm.showSuccess("app.user.login.success")
+          vmForm.showSuccess()
           this.$router.push("/");
         }
       })

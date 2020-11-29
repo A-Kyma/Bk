@@ -36,24 +36,52 @@ All tags has to be imported here and should begins with "Bk".
 
  */
 
+import BkBelongstoInput from "./tags/inputs/BkBelongsToInput"
+import BkBreadCrumb from "./tags/routes/BkBreadCrumb"
+import BkButtonIcon from "./tags/links/BkButtonIcon"
+import BkCardListClass from "./tags/forms/BkCardListClass"
+import BkDatalistInput from "./tags/inputs/BkDatalistInput"
+import BkDropdown from "./tags/inputs/BkDropdown"
 import BkFieldList from "./tags/forms/BkFieldList";
+import BkFile from "./tags/files/BkFile"
 import BkForm from "./tags/forms/BkForm";
 import BkInput from "./tags/inputs/BkInput";
 import BkInnerInput from "./tags/inputs/BkInnerInput";
 import BkLabel from "./tags/forms/BkLabel";
+import BkLanguage from "./tags/translation/BkLanguage"
+import BkLoading from "./tags/loading/BkLoading"
+import BkLogin from "./tags/forms/BkLogin"
+import BkModal from "./tags/modals/BkModal";
+import BkResetPassword from "./tags/forms/BkResetPassword";
+import BkSubmit from "./tags/forms/BkSubmit"
 import BkSubscribe from "./tags/forms/BkSubscribe";
-import BkTranslate from "./tags/translation/BkTranslate";
+import BkTable from "./tags/datatable/BkTable"
+import BkTranslate from "./tags/translation/BkTranslate"
 import BkView from "./tags/views/BkView";
 import BkViewInner from "./tags/views/BkViewInner";
 import BkViewClean from "./tags/views/BkViewClean";
 
 const BkUI = {
+  BkBelongstoInput,
+  BkBreadCrumb,
+  BkButtonIcon,
+  BkCardListClass,
+  BkDatalistInput,
+  BkDropdown,
   BkFieldList,
+  BkFile,
   BkForm,
   BkInput,
   BkInnerInput,
   BkLabel,
+  BkLanguage,
+  BkLoading,
+  BkLogin,
+  BkModal,
+  BkResetPassword,
+  BkSubmit,
   BkSubscribe,
+  BkTable,
   BkTranslate,
   BkView,
   BkViewInner,

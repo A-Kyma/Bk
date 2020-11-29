@@ -1,19 +1,19 @@
 <template>
-    <div>
+    <div class="mt-2">
         <b-button
-                v-if="$props['for'] !== 'view'"
+                v-if="$props['for'] !== 'view' && !excludeButtons.includes('submit')"
                 type="submit"
                 variant="outline-primary">
             <t>{{submit}}</t>
         </b-button>
         <b-button
-                v-if="$props['for'] !== 'view' && !toast"
+                v-if="$props['for'] !== 'view' && !toast && !excludeButtons.includes('reset')"
                 type="reset"
                 variant="outline-danger">
           <t>app.reset</t>
         </b-button>
         <b-button
-                v-if="!toast"
+                v-if="!toast && !excludeButtons.includes('cancel')"
                 type="button"
                 @click="onCancel"
                 variant="outline-secondary">
@@ -30,6 +30,7 @@
       props: {
         for: String,
         toast: Boolean,
+        excludeButtons: { type: Array, default: []},
       },
     computed: {
       name() {

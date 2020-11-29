@@ -12,8 +12,11 @@
                 dismissible
                 @dismissed="showAlert=false">
             <t>app.failed</t>
+          <!-- Show global error thrown by Meteor.Error -->
+          <br><span v-if="!!globalError"><t>{{globalError}}</t></span>
         </b-alert>
-        <slot v-bind="$attrs" :model="formModel">
+
+        <slot v-bind="{...$props,...$attrs}" :model="formModel">
           <bk-field-list v-bind="$attrs" :for="$props['for']">
 
             <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
@@ -22,8 +25,8 @@
 
           </bk-field-list>
         </slot>
-        <slot name="submit" v-bind="$attrs" :model="formModel">
-          <bk-submit v-if="!modal" :for="submitFor" :toast="toast" @cancel="onCancel">
+        <slot name="formButtons" v-bind="{...$props,...$attrs}" :model="formModel">
+          <bk-submit v-if="!modal" v-bind="$attrs" :for="submitFor" :toast="toast" @cancel="onCancel">
             <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
               <slot :name="slot" v-bind="props" />
             </template>
@@ -35,9 +38,9 @@
 
 <script>
 import {Class} from "meteor/jagi:astronomy";
+import {I18n} from "meteor/a-kyma:bk"
 import BkFieldList from "./BkFieldList";
 import BkSubmit from "./BkSubmit";
-import I18n from "../../../../lib/classes/i18n";
 
 export default {
     name: "BkForm",
@@ -59,13 +62,18 @@ export default {
       }
     },
     computed: {
-        submitFor() {
-          let model = this.formModel;
-          if (this.$props['for'] === 'view' || this.$props['for'] === "delete") {
-            return "view";
-          }
-          return model.isPersisted() ? "update" : "new";
-        },
+      submitFor() {
+        let model = this.formModel;
+        if (this.$props['for'] === 'view' || this.$props['for'] === "delete") {
+          return "view";
+        }
+        return model.isPersisted() ? "update" : "new";
+      },
+    },
+    meteor: {
+      globalError() {
+          return this.formModel.getError('MeteorError');
+      }
     },
     // provides formModel to all descendant, if necessary, and avoiding to add formModel as a property of each children
     provide() {
@@ -85,10 +93,16 @@ export default {
       countDownChanged(count) {
         this.dismissCountDown = count;
       },
-      showSuccess() {
+      hideFail(){
+        this.showAlert=false;
+      },
+      showFail() {
+        this.showAlert=true;
+      },
+      showSuccess(key="app.toast.title.success") {
         // Toast launched from $root to avoid its destruction while leaving this page
         this.$root.$bvToast.toast(I18n.t("app.success"),{
-          title: I18n.t("app.toast.title.success"),
+          title: I18n.t(key),
           variant: "success",
           autoHideDelay: 5000
         })
@@ -166,18 +180,6 @@ export default {
         console.log("cancel");
       }
     },
-
-    meteor: {
-      submit() {
-        return I18n.t("app." + this.$props.for)
-      },
-      reset() {
-        return I18n.t("app.reset");
-      },
-      cancel() {
-        return I18n.t("app.cancel");
-      }
-    }
   }
 </script>
 
