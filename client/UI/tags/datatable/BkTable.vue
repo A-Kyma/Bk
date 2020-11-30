@@ -19,7 +19,6 @@
         sort-icon-left
         responsive
         hover
-        foot-clone
         @sort-changed="onSortChange"
         no-local-sorting
     >

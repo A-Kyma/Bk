@@ -41,6 +41,28 @@
           </b-card-body>
         </b-collapse>
       </b-card>
+      <div v-else-if="ui.basic">
+        <div class="col-lg-12 basic-group" :class="accordionGroupId" :id="field">
+          <slot :name="formFieldComputed + '-label'" v-bind="$props">
+            <bk-label v-bind="$props" noRequired/>
+          </slot>
+        </div>
+        <bk-inner-input
+                v-bind="{...$parent.$attrs,...$props, ...$attrs}"
+                @state="onState"
+                @validationError="onError"
+                :model="inputModel">
+
+          <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+            <slot :name="slot" v-bind="props" />
+          </template>
+
+        </bk-inner-input>
+
+        <b-form-invalid-feedback :state="state">
+          <span v-html="invalidFeedback"/>
+        </b-form-invalid-feedback>
+      </div>
       <b-form-group v-bind="{...$parent.$attrs,...$attrs}"
                     :valid-feedback="validFeedback"
                     v-else-if="canView"
@@ -144,7 +166,7 @@
         return "Collapse_" + this.field + "_" + this._uid;
       },
       accordionGroupId() {
-        if (this.ui.accordion) {
+        if (this.ui.accordion || this.ui.basic) {
           return this.model.constructor.getName();
         } else {
           return this.model.constructor.getName()+'_' + this._uid;
