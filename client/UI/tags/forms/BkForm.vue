@@ -67,7 +67,9 @@ export default {
         if (this.$props['for'] === 'view' || this.$props['for'] === "delete") {
           return "view";
         }
-        return model.isPersisted() ? "update" : "new";
+        if (!this.$props['for'])
+          return model.isPersisted() ? "update" : "new";
+        return this.$props['for']
       },
     },
     meteor: {
@@ -151,7 +153,7 @@ export default {
         this.formModel.set(model);
       },
       onReset(e) {
-        this.$emit("reset",e);
+        this.$emit("reset",e,this,this.model);
         // Allow catching the event on components using this tag
         if (e.defaultPrevented) return;
         e.preventDefault()
@@ -167,7 +169,7 @@ export default {
         this.formModel.set(newModel.raw());
       },
       onCancel(e) {
-        this.$emit("cancel",e);
+        this.$emit("cancel",e,this,this.model);
         // Allow catching the event on components using this tag
         if (e.defaultPrevented) return;
 

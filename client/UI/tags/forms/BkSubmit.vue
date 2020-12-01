@@ -4,7 +4,7 @@
                 v-if="$props['for'] !== 'view' && !excludeButtons.includes('submit')"
                 type="submit"
                 variant="outline-primary">
-            <t>{{submit}}</t>
+            <t :key="submit">{{submit}}</t>
         </b-button>
         <b-button
                 v-if="$props['for'] !== 'view' && !toast && !excludeButtons.includes('reset')"
@@ -30,7 +30,7 @@
       props: {
         for: String,
         toast: Boolean,
-        excludeButtons: { type: Array, default: []},
+        excludeButtons: { type: Array, default() {return []}},
       },
     computed: {
       name() {

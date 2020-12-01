@@ -28,12 +28,14 @@ en:
     failed: "There is an error while submitting your form. Please, check below"
     chooseType: "Choose the type"
     undefined: "n/a"
+    login: "Login"
+    forgottenPassword: "Send"
     Meteor:
       Error:
         #---- accounts-base
         "Token expired": "Token is expired"
         "Login forbidden": "Login forbidden"
-        "User not found": "Incorrect connection data"
+        "User not found": "User not found"
         "Incorrect password": "Incorrect connection data"
         "Email already exists.": "Email already exists"
         "Email doesn't match the criteria.": "Email doesn't match the criteria"
@@ -58,7 +60,7 @@ en:
         "old password format": "old password format"
         "Password may not be empty": "Password may not be empty"
         "Signups forbidden": "Signups forbidden"
-        "Token has invalid email address": "LToken has invalid email address"
+        "Token has invalid email address": "Token has invalid email address"
         "User has no password set": "User has no password set"
         "Verify email link expired": "Verify email link expired"
         "Verify email link is for unknown address": "Verify email link is for unknown address"
@@ -81,9 +83,12 @@ en:
       resetPassword: "Reset your password"
       changePassword: "Change your password"
       forgotPassword: "Password forgotten ?"
+      mail:
+        success: "Mail sent successfully"
       login:
         title: "Login"
         success: "Successfully logged"
+        disconnect: "Disconnect"
     toast:
       title:
         success: "Successful"

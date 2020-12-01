@@ -28,11 +28,13 @@ fr:
     failed: "Veuillez vérifier les erreurs ci-dessous"
     chooseType: "Choissiez le type"
     undefined: "n/a"
+    login: "Se connecter"
+    forgottenPassword: "Envoyer"
     Meteor:
       Error:
         "Token expired": "Le lien est expiré"
         "Login forbidden": "Connexion interdite"
-        "User not found": "Les données de connexion sont incorrectes"
+        "User not found": "L'utilisateur n'a pas été trouvé"
         "Incorrect password": "Les données de connexion sont incorrectes"
         "Email already exists.": "Adresse e-mail déjà utilisée."
         "Email doesn't match the criteria.": "L'adresse e-mail ne correspond pas aux critères."
@@ -80,9 +82,12 @@ fr:
       resetPassword: "Réinitialisez votre mot de passe"
       changePassword: "Modifier votre mot de passe"
       forgotPassword: "Mot de passe oublié ?"
+      mail:
+        success: "Mail envoyé"
       login:
         title: "Connexion"
         success: "Connecté avec succès"
+        disconnect: "Se déconnecter"
     toast:
       title:
         success: "Confirmation"
