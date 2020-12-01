@@ -1,5 +1,27 @@
 <template>
   <div class="col-12">
+    <b-row class="mb-2" v-if="$props['for'] !== 'view'">
+      <b-col v-if="getTypeField">
+        <b-form-select v-model="insertModel.selected">
+          <b-form-select-option v-for="option in enumOptions"
+                                :key="option.key"
+                                :value="option.value">
+            <t>{{option.key}}</t>
+          </b-form-select-option>
+        </b-form-select>
+      </b-col>
+      <b-col>
+        <b-form-input type="number" v-model="insertModel.number"/>
+      </b-col>
+      <b-col>
+        <b-button
+            variant="outline-secondary"
+            @click="onAddSubClass(0)">
+          <t>app.add</t>
+        </b-button>
+      </b-col>
+    </b-row>
+
     <b-card v-for="(innerModel,index) in model[field]" :key="innerModel._id.valueOf()">
       <b-card-header v-if="getTypeField">
 
@@ -45,6 +67,7 @@
 
       </bk-field-list>
 
+      <!--
       <b-card-footer v-if="$props['for'] !== 'view'">
         <b-button
             variant="outline-secondary"
@@ -53,7 +76,9 @@
           <t>app.add</t>
         </b-button>
       </b-card-footer>
+      -->
     </b-card>
+    <!--
     <b-button
         v-if="model[field].length === 0 && $props['for'] !== 'view'"
         variant="outline-secondary"
@@ -64,12 +89,35 @@
     <bk-modal :id="modalId" v-if="getTypeField" @ok="onSubmitModal">
       <bk-input :model="modalModel" :field="getTypeField"/>
     </bk-modal>
+    -->
+    <b-row class="mt-2" v-if="model[field].length>0 && $props['for'] !== 'view'">
+      <b-col v-if="getTypeField">
+        <b-form-select v-model="insertModel.selected">
+          <b-form-select-option v-for="option in enumOptions"
+                                :key="option.key"
+                                :value="option.value">
+            <t>{{option.key}}</t>
+          </b-form-select-option>
+        </b-form-select>
+      </b-col>
+      <b-col>
+        <b-form-input type="number" v-model="insertModel.number"/>
+      </b-col>
+      <b-col>
+        <b-button
+            variant="outline-secondary"
+            @click="onAddSubClass(-1)">
+          <t>app.add</t>
+        </b-button>
+      </b-col>
+    </b-row>
 
   </div>
 </template>
 
 <script>
 import { Class } from "meteor/jagi:astronomy"
+import { Enum } from "meteor/a-kyma:bk"
 import BkButtonIcon from "../links/BkButtonIcon";
 import BkFieldList from "./BkFieldList";
 import BkModal from "../modals/BkModal";
@@ -90,6 +138,10 @@ export default {
       hoverTrashIcon: false,
       modalModel: undefined,
       indexToAdd: 0,
+      insertModel: {
+        selected: undefined,
+        number: 1,
+      }
     }
   },
   computed: {
@@ -98,9 +150,11 @@ export default {
       let subClass = definition.type.class;
       return subClass.definition.typeField;
     },
+    /* @deprecated */
     modalId() {
       return this.field + '_' + this._uid;
     },
+    /* @deprecated */
     modalModelClass() {
       return this.model.getFieldClass(this.field);
     },
@@ -108,8 +162,35 @@ export default {
       if (this.$props.for === "view") return false;
       return this.model.canDelete(this.field);
     },
+    enumOptions() {
+      let subclass = this.model.getFieldClass(this.field);
+      let fieldDefinition = subclass.getDefinition(subclass.definition.typeField);
+      if (!fieldDefinition) {
+        return ;
+      }
+
+      let fieldType = fieldDefinition.type.name;
+      let EnumClass = fieldDefinition.type.class
+      if (! Enum.enums[fieldType]) { return }
+      return EnumClass.getOptions();
+    },
   },
   methods: {
+    onAddSubClass(index) {
+      if (index === -1) index = this.model[this.field].length + index + 1
+
+      let typefield = this.getTypeField;
+      for (let i=0; i<this.insertModel.number; i++) {
+        let innerModel;
+        if (typefield)
+          innerModel = Class.get(this.insertModel.selected);
+        else
+          innerModel = this.model.getFieldClass(this.field);
+
+        this.model[this.field].splice(index,0,new innerModel());
+      }
+    },
+    /* @deprecated */
     onAdd(index,innerModel) {
       //add a new model of same type afterwards
       let typefield = this.getTypeField;
@@ -132,6 +213,7 @@ export default {
     onHoverTrashIcon(hovered) {
       this.hoverTrashIcon = hovered;
     },
+    /* @deprecated */
     onSubmitModal(e) {
       let modelClass = Class.get(this.modalModel.type);
       if (!modelClass) return;
@@ -142,6 +224,7 @@ export default {
       }
       this.model[this.field].splice(this.indexToAdd,0,new modelClass());
     },
+    /* @deprecated */
     getIndexForModel(innerModel,index) {
       let typeField = this.getTypeField;
       // TODO: Can't to this, this filter the original Array in this.model !
