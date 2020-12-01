@@ -1,6 +1,6 @@
 <template>
     <b-breadcrumb>
-        <b-breadcrumb-item href="/">
+        <b-breadcrumb-item to="/">
             <b-icon icon="house-fill" scale="1.25" shift-v="1.25" aria-hidden="true"></b-icon>
             <t>route.home.title</t>
         </b-breadcrumb-item>
