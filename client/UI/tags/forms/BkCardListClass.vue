@@ -177,7 +177,7 @@ export default {
   },
   methods: {
     onAddSubClass(index) {
-      if (index === -1) index = this.model[this.field].length + index + 1
+      if (index === -1) index = this.model[this.field].length
 
       let typefield = this.getTypeField;
       for (let i=0; i<this.insertModel.number; i++) {
@@ -189,6 +189,8 @@ export default {
 
         this.model[this.field].splice(index,0,new innerModel());
       }
+      this.insertModel.selected = undefined
+      this.insertModel.number = 1
     },
     /* @deprecated */
     onAdd(index,innerModel) {
