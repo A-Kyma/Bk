@@ -6,6 +6,8 @@
     :append="append"
     :class="ui.class">
 
+    <slot :name="'before-'+formGenericFieldComputed" v-bind="$props"/>
+
     <slot :name="formGenericFieldComputed" v-bind="$props">
 
       <bk-field-list
@@ -108,6 +110,9 @@
       />
 
     </slot>
+
+    <slot :name="'after-'+formGenericFieldComputed" v-bind="$props"/>
+
   </b-input-group>
 </template>
 

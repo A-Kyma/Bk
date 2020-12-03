@@ -182,8 +182,10 @@ export default {
       let typefield = this.getTypeField;
       for (let i=0; i<this.insertModel.number; i++) {
         let innerModel;
-        if (typefield)
+        if (typefield) {
+          if (!this.insertModel.selected) return
           innerModel = Class.get(this.insertModel.selected);
+        }
         else
           innerModel = this.model.getFieldClass(this.field);
 
