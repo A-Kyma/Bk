@@ -26,7 +26,7 @@
             borderless
             thead-class="d-none"
             value-td-class="d-none"
-            :items="getOptionsFromRelations"
+            :items="relationList"
             :fields='["value","text"]'
             selectable
             select-mode="single"
@@ -59,6 +59,8 @@ export default {
       options: [],
       dropDownVisible: false,
       handler: undefined,
+      relationList: [],
+      relationOne: "",
     }
   },
   created() {
@@ -77,17 +79,18 @@ export default {
       set(value) {
         if (value === this.value) return;
 
-        // If we change from screen, city is removed
+        // If we change from screen, relation is removed
         this.model[this.field] = undefined;
         this.value = value;
 
         // We subscribe if at least 3 characters
         if (value.length >= 3)
           this.activateSubscription();
-        // We unsubscribe if subscription exists if not 3 characters
-        if (this.model[this.field]=== undefined && value.length<3) {
+        // We unsubscribe if subscription exists and if not 3 characters
+        if (this.model[this.field] === undefined && value.length < 3) {
           this.$data.handler && this.$data.handler.stop();
-          //this.$data.handler = undefined;
+          this.hideDropDown();
+          this.relationList = [];
         }
       },
       get() {
@@ -96,25 +99,30 @@ export default {
     },
     inputRelation: {
       set(value) {
-        if (!value
-        || value !== this.relation.defaultName()) {
+        let defaultName = this.relation && this.relation.defaultName()
+        if (value === defaultName) return
+        if (value.startsWith(defaultName)) {
+          this.inputRelation = defaultName;
+          return
+        }
+        if (!value || value !== defaultName) {
           this.value = ""
           // unset field and check validation if empty
           this.model.set(this.field);
           this.model.isValid(this.field);
           // Stop subscription
           this.$data.handler && this.$data.handler.stop()
-          //this.$data.handler = undefined;
         }
       },
       get() {
-        self=this;
+        return this.relationOne;
+        //self = this;
         // We force VueJS to use Meteor reactivity for findOne and I18n
         // And so, autorun is also called when subscription changed
-        return this.$autorun(() => {
-          let relation = self.model[self.field + "Instance"]();
-          return relation && relation.defaultName();
-        })
+        //return this.$autorun(() => {
+        //  let relation = self.model[self.field + "Instance"]();
+        //  return relation && relation.defaultName();
+        //})
       }
     },
     relation() {
@@ -122,7 +130,7 @@ export default {
     },
     dropDownId() {
       return "Dropdown_" + this.field + "_" + this._uid;
-    }
+    },
   },
   meteor: {
     state() {
@@ -142,59 +150,59 @@ export default {
         }
       }
     },
-    getOptionsFromRelations() {
-      let relationClass = this.relationClass();
-      /***
-       * TODO: Probably needed to use the where clause in this find
-       * to prevent having other document from other subscription
-       ***/
-      let cursor = relationClass && relationClass.find();
-      if (this.model[this.field]) return;
-
-      // Dropdown invisible if nothing to show
-      if ((!cursor || cursor.count() === 0) && this.dropDownVisible) {
-        this.toggleDropDown();
-      }
-
-      // Dropdown visible if something retrieved
-      if (cursor && cursor.count() > 1 && !this.dropDownVisible) {
-        this.toggleDropDown();
-      }
-
-      let result = cursor && cursor.map(record => {
-        return {
-          'value': record._id,
-          'text': record.defaultName()
-        }
-      });
-
-      // Dropdown value selected if only one record returned
-      if (result && result.length === 1 && this.dropDownVisible) {
-        this.onSelectRow(result[0]);
-      }
-
-      return result;
-    }
   },
   methods: {
     activateSubscription() {
       let oldHandler = this.handler;
       self=this;
       // TODO: adapt the name of subscription
+      let subscriptionName = this.model.getDefinition(this.field).subscription || this.field + ".search"
       this.$data.handler = Meteor.subscribe(
-          "city.search",
+          subscriptionName,
           self.model[self.field], self.value, I18n.getLanguage()
       )
       this.$autorun(() => {
         let ready = self.$data.handler && self.$data.handler.ready();
-        if (ready) oldHandler && oldHandler.stop()
+        if (ready) {
+          oldHandler && oldHandler.stop()
+          self.populate()
+        }
       })
     },
-    relationClass() {
-      let definition = this.model.getDefinition(this.field);
-      return definition.relation;
+    populate() {
+      if (this.model[this.field]) {
+        let relation = self.model[self.field + "Instance"]();
+        this.relationOne = relation && relation.defaultName();
+        return
+      }
+      let relationList = this.getOptionsFromRelations()
+      if (relationList.length === 1) {
+        this.onSelectRow(relationList[0])
+        this.populate()
+        return
+      }
+      this.relationList = relationList;
+      this.showDropDown();
     },
-    toggleDropDown() {
+    getOptionsFromRelations() {
+      let definition = this.model.getDefinition(this.field);
+      let relationClass = definition.relation;
+      let where = definition.where(null, this.value, I18n.getLanguage())
+      if (!where) return;
+      return relationClass && relationClass.find(where.search).map(record => {
+        return {
+          'value': record._id,
+          'text': record.defaultName()
+        }
+      });
+    },
+    showDropDown() {
+      if (this.dropDownVisible) return;
+      this.$root.$emit('bv::toggle::collapse', this.dropDownId)
+      this.dropDownVisible = !this.dropDownVisible;
+    },
+    hideDropDown() {
+      if (!this.dropDownVisible) return;
       this.$root.$emit('bv::toggle::collapse', this.dropDownId)
       this.dropDownVisible = !this.dropDownVisible;
     },
@@ -211,11 +219,10 @@ export default {
     },
     // When we click on row or hit enter when selected
     onSelectRow(row) {
-      self=this;
       this.model.set(this.field, row.value, {cast: true})
       this.value = "";
       this.activateSubscription(); // since value length is lower than 3
-      if (this.dropDownVisible) this.toggleDropDown();
+      this.hideDropDown();
       this.model.isValid(this.field);
     },
   },
