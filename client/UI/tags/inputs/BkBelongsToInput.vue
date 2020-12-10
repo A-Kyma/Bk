@@ -1,5 +1,13 @@
 <template>
-  <div class="col-12 no-padding-left no-padding-right">
+  <b-form-select
+      v-if="selectInput"
+      ref="select"
+      v-bind="$attrs"
+      v-model="selectValue"
+      :options="relationList"
+      :state="state"/>
+
+  <div v-else class="col-12 no-padding-left no-padding-right">
     <!-- if we are on the search input -->
     <b-form-input
         v-if="model[field]===undefined"
@@ -66,7 +74,7 @@ export default {
   created() {
     this.oldValue = this.model[this.field];
 
-    if (this.model[this.field])
+    if (this.model[this.field] || this.selectInput)
       this.activateSubscription()
   },
 
@@ -75,6 +83,31 @@ export default {
   },
 
   computed: {
+    selectInput() {
+      return this.minCharacters === 0;
+    },
+    minCharacters() {
+      let definition = this.model.getDefinition(this.field)
+      if (!definition) return 3
+      let min = definition.minCharacters
+      if (typeof min === "function") {
+        min = min({model: this.model, field: this.field})
+      }
+      if (min === undefined || min === null || isNaN(min)) return 3
+      return min;
+    },
+    selectValue: {
+      set: function (value) {
+        if (value === null || value === "") {
+          value = undefined
+        }
+        this.model.set(this.field, value, {cast: true})
+        this.model.isValid(this.field);
+      },
+      get: function () {
+        return this.model.get(this.field);
+      }
+    },
     inputValue: {
       set(value) {
         if (value === this.value) return;
@@ -84,11 +117,11 @@ export default {
         this.value = value;
 
         // We subscribe if at least 3 characters
-        if (value.length >= 3)
+        if (value.length >= this.minCharacters)
           this.activateSubscription();
         // We unsubscribe if subscription exists and if not 3 characters
-        if (this.model[this.field] === undefined && value.length < 3) {
-          this.$data.handler && this.$data.handler.stop();
+        if (this.model[this.field] === undefined && value.length < this.minCharacters) {
+          this.handler && this.handler.stop();
           this.hideDropDown();
           this.relationList = [];
         }
@@ -111,18 +144,11 @@ export default {
           this.model.set(this.field);
           this.model.isValid(this.field);
           // Stop subscription
-          this.$data.handler && this.$data.handler.stop()
+          this.handler && this.handler.stop()
         }
       },
       get() {
         return this.relationOne;
-        //self = this;
-        // We force VueJS to use Meteor reactivity for findOne and I18n
-        // And so, autorun is also called when subscription changed
-        //return this.$autorun(() => {
-        //  let relation = self.model[self.field + "Instance"]();
-        //  return relation && relation.defaultName();
-        //})
       }
     },
     relation() {
@@ -154,34 +180,43 @@ export default {
   methods: {
     activateSubscription() {
       let oldHandler = this.handler;
-      self=this;
-      // TODO: adapt the name of subscription
+
       let subscriptionName = this.model.getDefinition(this.field).subscription || this.field + ".search"
-      this.$data.handler = Meteor.subscribe(
+      this.handler = Meteor.subscribe(
           subscriptionName,
-          self.model[self.field], self.value, I18n.getLanguage()
+          this.model[this.field], this.value, I18n.getLanguage()
       )
-      this.$autorun(() => {
-        let ready = self.$data.handler && self.$data.handler.ready();
+
+      Tracker.autorun(() => {
+        let ready = this.handler.ready();
         if (ready) {
           oldHandler && oldHandler.stop()
-          self.populate()
+          this.populate()
         }
       })
+
     },
+
     populate() {
+      if (this.selectInput) {
+        this.relationList = this.getOptionsFromRelations()
+        if (this.relationList.length === 1) {
+          this.model[this.field] = this.relationList[0].value;
+          this.$refs.select.$el.disabled = true
+        }
+        return
+      }
       if (this.model[this.field]) {
-        let relation = self.model[self.field + "Instance"]();
+        let relation = this.model[this.field + "Instance"]();
         this.relationOne = relation && relation.defaultName();
         return
       }
-      let relationList = this.getOptionsFromRelations()
-      if (relationList.length === 1) {
-        this.onSelectRow(relationList[0])
+      this.relationList = this.getOptionsFromRelations()
+      if (this.relationList.length === 1) {
+        this.onSelectRow(this.relationList[0])
         this.populate()
         return
       }
-      this.relationList = relationList;
       this.showDropDown();
     },
     getOptionsFromRelations() {
@@ -221,7 +256,8 @@ export default {
     onSelectRow(row) {
       this.model.set(this.field, row.value, {cast: true})
       this.value = "";
-      this.activateSubscription(); // since value length is lower than 3
+      if (this.relationList.length !== 1)
+        this.activateSubscription(); // since value length is lower than 3
       this.hideDropDown();
       this.model.isValid(this.field);
     },
