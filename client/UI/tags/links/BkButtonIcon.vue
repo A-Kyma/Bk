@@ -1,5 +1,5 @@
 <template>
-  <b-link @click="onClick">
+  <b-link @click="onClick" :alt="label">
     <slot>
       <b-icon class="BkButton" :icon="computedIcon" :variant="computedVariant"/>
       <t v-if="label">{{label}}</t>

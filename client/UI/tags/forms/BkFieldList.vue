@@ -3,7 +3,9 @@
         <bk-input v-bind="$attrs"
                   :model="inputModel"
                   :field="field"
-                  v-for="field in fieldsArray">
+                  v-for="field in fieldsArray"
+                  :exclude="excludeComputed(field)"
+        >
 
           <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
             <slot :name="slot" v-bind="props" />
@@ -35,6 +37,28 @@ export default {
         return this.inputModel.constructor.getFieldsNamesByFilter({fields,exclude});
       }
     },
+  methods: {
+    excludeComputed(field) {
+      let result=[]
+      let exclude;
+      if (this.exclude) {
+        if (typeof (this.exclude) === "string") {
+          exclude = this.exclude.replace(RegExp(" ", "g"), "").split(",");
+        }
+        if (Array.isArray(this.exclude)) {
+          exclude = this.exclude;
+        }
+      }
+      exclude.forEach(f => {
+        let decomposition = f.split(".")
+        if (decomposition[0] === field && decomposition.length > 1)
+          decomposition.splice(0,1)
+          let subfield = decomposition.join(".")
+          result.push(subfield)
+      })
+      return result;
+    }
+  },
   }
 </script>
 
