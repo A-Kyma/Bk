@@ -23,7 +23,9 @@
            for="login"
            @submit="onSubmit"
            :excludeButtons="['reset','cancel']">
-    <h2><t>{{title}}</t></h2>
+    <template v-slot:login-title>
+      <h2><t>{{title}}</t></h2>
+    </template>
     <bk-field-list
         v-bind="$attrs"
         :model="user.profile"
