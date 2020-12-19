@@ -40,7 +40,7 @@ export default {
   methods: {
     excludeComputed(field) {
       let result=[]
-      let exclude;
+      let exclude=[];
       if (this.exclude) {
         if (typeof (this.exclude) === "string") {
           exclude = this.exclude.replace(RegExp(" ", "g"), "").split(",");
