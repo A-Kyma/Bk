@@ -5,15 +5,6 @@ import Role from "../../lib/classes/role";
 import {Accounts} from "meteor/accounts-base";
 
 Accounts.onCreateUser((options,user) => {
-  /*
-    if (!Meteor.users.findOne()) {
-      Role.getCollection().insert({
-          access: "SuperAdministrator",
-          user: user._id
-        }
-      )
-    }
-   */
     if (options.profile) {
       user.profile = options.profile
       user.profile.status = "inactive"
@@ -24,7 +15,7 @@ Accounts.onCreateUser((options,user) => {
 
 Accounts.validateLoginAttempt((options) => {
     if (options.user && options.user.profile.status === "inactive") {
-      throw new Meteor.error(400, "Your account is inactive, check with administrator");
+      throw new Meteor.Error(400, "Your account is inactive, check with administrator");
     }
   return true
   }
@@ -33,7 +24,7 @@ Accounts.validateLoginAttempt((options) => {
 Meteor.publish("usersData", function() {
   if (!this.userId) return this.ready();
   let fields = {};
-  if (Role.is("SuperAdministrator",this.userId)) return Meteor.users.find({},{fields:fields})
+  if (Role.is("SuperAdministrator")) return Meteor.users.find({},{fields:fields})
   return Meteor.users.find({"_id": this.userId})
 })
 
