@@ -1,65 +1,70 @@
 <template>
   <div>
-    <b-button
-        variant="outline-secondary"
-        @click="onAdd">
-      <t>app.add</t>
-    </b-button>
+    <slot name="header">
+      <b-button
+          variant="outline-secondary"
+          @click="onAdd">
+        <t>app.add</t>
+      </b-button>
 
-    <bk-modal :id="modalAddId" v-if="getTypeField" @ok="onSubmitModal">
-      <bk-form :model="modalModel" :fields="getTypeField" :modal="true"/>
-    </bk-modal>
+      <bk-modal :id="modalAddId" v-if="getTypeField" @ok="onSubmitModal">
+        <bk-form :model="modalModel" :fields="getTypeField" :modal="true"/>
+      </bk-modal>
+    </slot>
 
-    <table role="table" class="table b-table table-hover mt-3">
-      <thead>
-        <tr role="row">
-          <th v-for="data in labeledFields"
-              :key="data.key"
-              role="columnheader"
-              class="b-table-sort-icon-left"
-              :aria-sort="datatable.getAriaSort(data.key)"
-              @click="onSort(data.key)"
-          >
-            <slot :name="'head('+data.key+')'" v-bind="{field:data.key}">
-              <slot name="head()" v-bind="{field:data.key}">
-                <t>{{data.label}}</t>
-              </slot>
-            </slot>
-          </th>
-        </tr>
-      </thead>
-      <tbody role="rowgroup">
-        <template v-for="(model,index) in items">
-          <tr role="row" :key="model._id">
-            <slot name="row()" v-bind="{model,index,fields: labeledFields}">
-              <td v-for="cell in labeledFields" :key="cell.key" role="cell">
-                <bk-button-icon
-                    v-if="cell.key==='buttonActions'"
-                    v-for="action in actions"
-                    :for="action"
-                    :model="model"
-                />
-                <slot
-                    v-if="cell.key==='buttonActions'"
-                    name="customActions"
-                    v-bind="{model, index, field: cell.key}"
-                />
-                <slot
-                    v-if="cell.key!=='buttonActions'"
-                    :name="'cell('+cell.key+')'"
-                    v-bind="{model, index, field: cell.key}">
-                  <slot name="cell()" v-bind="{model,index,field: cell.key}">
-                    <bk-view-inner v-if="cell.key!=='buttonActions'" no-label :model="model" :field="cell.key"/>
-                  </slot>
+    <slot name="main" v-bind="{items,labeledFields,datatable}">
+      <table role="table" class="table b-table table-hover mt-3">
+        <thead>
+          <tr role="row">
+            <th v-for="data in labeledFields"
+                :key="data.key"
+                role="columnheader"
+                class="b-table-sort-icon-left"
+                :aria-sort="datatable.getAriaSort(data.key)"
+                @click="onSort(data.key)"
+            >
+              <slot :name="'head('+data.key+')'" v-bind="{field:data.key}">
+                <slot name="head()" v-bind="{field:data.key}">
+                  <t>{{data.label}}</t>
                 </slot>
-              </td>
-            </slot>
+              </slot>
+            </th>
           </tr>
-          <slot name="afterRow" v-bind="{model, index}"/>
-        </template>
-      </tbody>
-    </table>
+        </thead>
+        <tbody role="rowgroup">
+          <template v-for="(model,index) in items">
+            <tr role="row" :key="model._id">
+              <slot name="row()" v-bind="{model,index,fields: labeledFields}">
+                <td v-for="cell in labeledFields" :key="cell.key" role="cell">
+                  <bk-button-icon
+                      v-if="cell.key==='buttonActions'"
+                      v-for="action in actions"
+                      :for="action"
+                      :model="model"
+                  />
+                  <slot
+                      v-if="cell.key==='buttonActions'"
+                      name="customActions"
+                      v-bind="{model, index, field: cell.key}"
+                  />
+                  <slot
+                      v-if="cell.key!=='buttonActions'"
+                      :name="'cell('+cell.key+')'"
+                      v-bind="{model, index, field: cell.key}">
+                    <slot name="cell()" v-bind="{model,index,field: cell.key}">
+                      <bk-view-inner v-if="cell.key!=='buttonActions'" no-label :model="model" :field="cell.key"/>
+                    </slot>
+                  </slot>
+                </td>
+              </slot>
+            </tr>
+            <slot name="afterRow" v-bind="{model, index}"/>
+          </template>
+        </tbody>
+      </table>
+    </slot>
 
+    <slot name="footer"></slot>
   </div>
 </template>
 
