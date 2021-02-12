@@ -175,7 +175,7 @@ export default {
       applyDrag(this.model[this.field],dropResult);
 
       // if $props.for filled in, we are inside a form or a save button will exist
-      if (self.$props["for"]) return;
+      if (this.$props["for"]) return;
 
       this.model.save({fields:[this.field]},(err,result)=>{
         if (err) {
