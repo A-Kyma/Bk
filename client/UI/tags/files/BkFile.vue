@@ -217,7 +217,6 @@ export default {
         self.progressArray[index] = 0
         var uploadInstance = Files.insert({
           file,
-          streams: 'dynamic',
           chunkSize: 'dynamic',
           meta: {
             className: this.model.constructor.getName(),
