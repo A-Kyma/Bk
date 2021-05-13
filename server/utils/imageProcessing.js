@@ -43,7 +43,7 @@ const createThumbnails = (collection, fileRef, cb) => {
 
       const image = gm(fileRef.path);
 
-      const sizes = {
+      const sizes = Meteor.settings.files && Meteor.settings.files.size || {
         sd: {
           width: 1024
         },
