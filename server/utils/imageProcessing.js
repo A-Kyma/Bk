@@ -1,5 +1,6 @@
 import { check }  from 'meteor/check';
 import { Meteor } from 'meteor/meteor';
+import { Class as AstroClass } from 'meteor/jagi:astronomy'
 import _noop from 'lodash/noop';
 
 // See https://github.com/veliovgroup/meteor-files-website/blob/master/imports/server/image-processing.js
@@ -43,13 +44,21 @@ const createThumbnails = (collection, fileRef, cb) => {
 
       const image = gm(fileRef.path);
 
-      const sizes = Meteor.settings.files && Meteor.settings.files.size || {
-        sd: {
-          width: 1024
-        },
-        thumbnail: {
-          width: 100,
-          //square: true
+      let sizes
+      let Class = AstroClass.get(fileRef.meta.className)
+      if (Class) {
+        let definition = Class.getDefinition(fileRef.meta.field)
+        sizes = definition.sizes
+      }
+      if (!sizes) {
+        sizes = Meteor.settings.files && Meteor.settings.files.sizes || {
+          sd: {
+            width: 1024
+          },
+          thumbnail: {
+            width: 100,
+            //square: true
+          }
         }
       };
 

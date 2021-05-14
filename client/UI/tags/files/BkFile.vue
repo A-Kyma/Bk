@@ -7,7 +7,7 @@
           ref="inputFile"
           v-bind="$attrs"
           v-model="inputFiles"
-          multiple
+          :multiple="isFieldArray"
           :accept="accept"
           @input="onFilesAdded">
 
@@ -39,7 +39,7 @@
         class="mt-2 mb-2"
     />
 
-    <div @touchend="fixActionRestriction">
+    <div v-if="showFilesList" @touchend="fixActionRestriction">
       <b-list-group>
         <Container @drop="onDrop"
                    drag-class="card-ghost bg-info"
@@ -88,6 +88,7 @@ export default {
     model: Class,
     field: String,
     for: String,
+    showFilesList: Boolean,
     accept: String, // accept="image/*" for images
   },
   data() {
@@ -96,7 +97,7 @@ export default {
       currentUpload: false,
       progress: 100,
       progressArray: [0],
-      totalFiles: this.model[this.field].length,
+      totalFiles: this.model[this.field]?.length || 0,
       listFiles: [],
     }
   },
@@ -112,8 +113,12 @@ export default {
         return "file"
       }
     },
+    isFieldArray() {
+      return this.model.getDefinition(this.field)?.constructor.name === "ListField"
+    },
     files() {
-      return this.model && this.model[this.field];
+      let filesField = this.model && this.model[this.field]
+      return (this.isFieldArray) ? filesField : [filesField]
     },
     findFiles() {
       // Avoid meteor reactive data group that leads to a loop in recalculation,
@@ -204,11 +209,15 @@ export default {
     },
     onFilesAdded(files) {
       const self = this;
-
+      if (files === null) return;
       if (!Match.test(files,Array)) files = [files];
       if (files.length === 0) return;
 
-      this.totalFiles = this.model[this.field].length + files.length;
+      if (this.isFieldArray) {
+        this.totalFiles = this.model[this.field].length + files.length;
+      } else {
+        this.totalFiles = 1
+      }
 
       self.progressArray = Array(files.length).fill(0);
       self.currentUpload = true
@@ -232,10 +241,15 @@ export default {
         uploadInstance.on('end', function(error,resultFile) {
           self.inputFiles=null;
           if (error) {
-            this.showError(error)
+            self.showError(error)
           } else {
-            self.listFiles.push(resultFile);
-            self.model[self.field].push(resultFile._id);
+            if (this.isFieldArray) {
+              self.listFiles.push(resultFile);
+              self.model[self.field].push(resultFile._id)
+            } else {
+              self.listFiles = [resultFile]
+              self.model[self.field] = resultFile._id
+            }
 
             // if $props.for filled in, we are inside a form or a save button will exist
             if (self.$props["for"]) return;
