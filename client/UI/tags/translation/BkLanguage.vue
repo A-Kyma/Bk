@@ -28,7 +28,7 @@
     },
     computed: {
       locales() {
-        return config.translation.locales;
+        return Meteor.settings?.public?.translation?.locales || config.translation.locales;
       }
     },
     methods: {

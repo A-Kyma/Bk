@@ -50,11 +50,13 @@ export default {
         }
       }
       exclude.forEach(f => {
+        if (!f)
+          return result;
         let decomposition = f.split(".")
         if (decomposition[0] === field && decomposition.length > 1)
           decomposition.splice(0,1)
-          let subfield = decomposition.join(".")
-          result.push(subfield)
+        let subfield = decomposition.join(".")
+        result.push(subfield)
       })
       return result;
     }

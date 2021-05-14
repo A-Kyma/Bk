@@ -129,7 +129,7 @@ import BkCardListClass from "../forms/BkCardListClass";
     let fieldType = originalFieldType.toLowerCase();
     // Field Type is a generic Input Type
     // Number removed, since Number authorizes decimals. Integer will use "number" input type
-    return ["text", "email", "password", "search", "url", "tel", "range", "color"].includes(fieldType);
+    return ["text", "email", "password", "search", "url", "tel", "time", "range", "color"].includes(fieldType);
 
   }
 

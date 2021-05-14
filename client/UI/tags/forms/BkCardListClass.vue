@@ -59,7 +59,7 @@
           :model="innerModel"
           :form-field="formField + '.' + index"
           :form-generic-field="formField"
-          :exclude="[getTypeField,'isActive']">
+          :exclude="['isActive',getTypeField]">
 
         <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
           <slot :name="slot" v-bind="props" />
