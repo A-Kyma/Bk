@@ -1,7 +1,7 @@
 <template>
   <b-link @click="onClick" :alt="label">
     <slot>
-      <b-icon class="BkButton" :icon="computedIcon" :variant="computedVariant"/>
+      <b-icon class="BkButton" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
       <t v-if="label">{{label}}</t>
     </slot>
   </b-link>
@@ -14,6 +14,10 @@ export default {
   name: "BkButtonIcon",
   props: {
     icon: String,
+    fontScale: {
+      type: Number,
+      default: 1
+    },
     variant: String,
     for: String,
     model: {Class,String},
