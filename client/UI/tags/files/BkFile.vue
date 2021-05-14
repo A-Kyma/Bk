@@ -46,7 +46,7 @@
                    drop-class="card-ghost-drop">
 
           <Draggable v-for="(file,index) in listFiles" :key="file._id" class="mt-2">
-            <div class="draggable-item bg-secondary">
+            <div class="draggable-item">
             <b-list-group-item class="d-flex align-items-center">
               <b-avatar :src="link(file,'thumbnail')" :text="file.ext" class="mr-3"/>
 
@@ -60,7 +60,7 @@
                   variant="danger"
                   class="ml-auto mr-2"
               />
-              <b-badge>&#x2630;</b-badge>
+              <b-icon icon="arrows-move"></b-icon>
             </b-list-group-item>
             </div>
           </Draggable>
@@ -268,4 +268,5 @@ export default {
   transition: transform 0.18s ease-in-out;
   transform: rotateZ(0deg);
 }
+
 </style>

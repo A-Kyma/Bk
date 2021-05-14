@@ -15,8 +15,8 @@ export default {
   props: {
     icon: String,
     fontScale: {
-      type: Number,
-      default: 1
+      type: String,
+      default: "1"
     },
     variant: String,
     for: String,
