@@ -72,9 +72,9 @@
       "integrity": "sha1-3j5fiWHIjHh+4TaN+EmsRBPsqNc="
     },
     "ms": {
-      "version": "2.1.2",
-      "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz",
-      "integrity": "sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w=="
+      "version": "2.1.3",
+      "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+      "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA=="
     },
     "ncp": {
       "version": "0.4.2",
@@ -95,6 +95,11 @@
       "version": "0.12.1",
       "resolved": "https://registry.npmjs.org/smooth-dnd/-/smooth-dnd-0.12.1.tgz",
       "integrity": "sha512-Dndj/MOG7VP83mvzfGCLGzV2HuK1lWachMtWl/Iuk6zV7noDycIBnflwaPuDzoaapEl3Pc4+ybJArkkx9sxPZg=="
+    },
+    "vue-flux": {
+      "version": "6.4.0",
+      "resolved": "https://registry.npmjs.org/vue-flux/-/vue-flux-6.4.0.tgz",
+      "integrity": "sha512-JMYDkNS4Ul1yugYzrabDnHdjM+wtHYo04AirFoko2mLp20BTpFnCpI2sselj4t6JT7xDnRXOr61n02ZSCb6h0g=="
     },
     "vue-meteor-tracker": {
       "version": "2.0.0-beta.5",

@@ -99,6 +99,7 @@ export default {
       progressArray: [0],
       totalFiles: this.model[this.field]?.length || 0,
       listFiles: [],
+      isInForm: this.$props["for"]
     }
   },
   created() {
@@ -124,7 +125,7 @@ export default {
       // Avoid meteor reactive data group that leads to a loop in recalculation,
       // So we use $autorun in a computed group
       const self=this;
-      return this.$autorun(() => {
+//      return Tracker.autorun(() => {
         let search = {
           _id: { $in: this.files },
         };
@@ -135,19 +136,19 @@ export default {
         return f && f.fetch().sort((a, b) =>
             self.files.indexOf(a._id) - self.files.indexOf(b._id)
         )
-      })
+ //     })
     },
   },
   watch: {
-    findFiles(newValue,oldValue) {
-      if (this.$props["for"]) return;
-      if (newValue.length === this.totalFiles)
-        this.currentUpload = false;
-        if (newValue !== oldValue)
-          this.listFiles = newValue;
-    },
+    // findFiles(newValue,oldValue) {
+    //   if (this.$props["for"]) return;
+    //   if (newValue.length === this.totalFiles)
+    //     this.currentUpload = false;
+    //     if (newValue !== oldValue)
+    //       this.listFiles = newValue;
+    // },
     listFiles(newValue) {
-      if (!this.$props["for"]) return;
+      if (!this.isInForm) return;
       if (newValue.length === this.totalFiles)
         this.currentUpload = false;
     }
@@ -180,7 +181,7 @@ export default {
       applyDrag(this.model[this.field],dropResult);
 
       // if $props.for filled in, we are inside a form or a save button will exist
-      if (this.$props["for"]) return;
+      if (this.isInForm) return;
 
       this.model.save({fields:[this.field]},(err,result)=>{
         if (err) {
@@ -195,9 +196,10 @@ export default {
 
       this.totalFiles--;
       this.model[this.field].splice(index,1);
+      this.listFiles.splice(index,1);
 
       // if $props.for filled in, we are inside a form or a save button will exist
-      if (self.$props["for"]) return;
+      if (self.isInForm) return;
 
       this.model.save({fields:[this.field]},(err,result) =>{
         if (err) {
@@ -252,11 +254,14 @@ export default {
             }
 
             // if $props.for filled in, we are inside a form or a save button will exist
-            if (self.$props["for"]) return;
+            if (self.isInForm) {
+              self.currentUpload = false
+              return;
+            }
 
             self.model.save({fields:[self.field]},(err,result) => {
+              self.currentUpload = false
               if (err) {
-                self.currentUpload = false
                 this.showError(err)
               } else {
                 self.updateProgress(index,100)

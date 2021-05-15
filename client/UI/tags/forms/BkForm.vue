@@ -121,7 +121,14 @@ export default {
 
         self.showOverlay();
         //model.isValid();
-        model.save({stopOnFirstError:false},function(err,id) {
+
+        // Save only fields that is declared as to be shown in the form
+        let fields = self.model.constructor.getFieldsNamesByFilter({
+          fields: self.$attrs.fields,
+          exclude: self.$attrs.exclude
+        })
+
+        model.save({fields, stopOnFirstError:false},function(err,id) {
           self.hideOverlay();
             if (err) {
               let f=new Event("submitFailed");
