@@ -104,7 +104,7 @@ export default {
   },
   created() {
     if (this.$props["for"] !== "new")
-      this.listFiles = this.findFiles
+      this.findFiles()
   },
   computed: {
     typeFile() {
@@ -120,23 +120,6 @@ export default {
     files() {
       let filesField = this.model && this.model[this.field]
       return (this.isFieldArray) ? filesField : [filesField]
-    },
-    findFiles() {
-      // Avoid meteor reactive data group that leads to a loop in recalculation,
-      // So we use $autorun in a computed group
-      const self=this;
-//      return Tracker.autorun(() => {
-        let search = {
-          _id: { $in: this.files },
-        };
-
-        let f=Files.find(search);
-
-        // Sort in the same order as in the model array of files
-        return f && f.fetch().sort((a, b) =>
-            self.files.indexOf(a._id) - self.files.indexOf(b._id)
-        )
- //     })
     },
   },
   watch: {
@@ -154,6 +137,23 @@ export default {
     }
   },
   methods: {
+    findFiles() {
+      // Avoid meteor reactive data group that leads to a loop in recalculation,
+      // So we use $autorun in a computed group
+      const self=this;
+      return Tracker.autorun(() => {
+        let search = {
+          _id: { $in: this.files },
+        };
+
+        let f=Files.find(search);
+
+        // Sort in the same order as in the model array of files
+        this.listFiles = f && f.fetch().sort((a, b) =>
+            self.files.indexOf(a._id) - self.files.indexOf(b._id)
+        )
+      })
+    },
     link(file,format) {
       return Files.link(file,format);
     },
@@ -262,7 +262,7 @@ export default {
             self.model.save({fields:[self.field]},(err,result) => {
               self.currentUpload = false
               if (err) {
-                this.showError(err)
+                self.showError(err)
               } else {
                 self.updateProgress(index,100)
               }
