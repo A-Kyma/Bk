@@ -213,10 +213,10 @@ export default {
       if (!Match.test(files,Array)) files = [files];
       if (files.length === 0) return;
 
-      if (this.isFieldArray) {
-        this.totalFiles = this.model[this.field].length + files.length;
+      if (self.isFieldArray) {
+        self.totalFiles = this.model[this.field].length + files.length;
       } else {
-        this.totalFiles = 1
+        self.totalFiles = 1
       }
 
       self.progressArray = Array(files.length).fill(0);
@@ -243,7 +243,7 @@ export default {
           if (error) {
             self.showError(error)
           } else {
-            if (this.isFieldArray) {
+            if (self.isFieldArray) {
               self.listFiles.push(resultFile);
               self.model[self.field].push(resultFile._id)
             } else {
