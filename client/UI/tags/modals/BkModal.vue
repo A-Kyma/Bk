@@ -2,14 +2,14 @@
   <b-modal :id="id" @ok="onOk">
     <template #modal-title>
       <slot name="title">
-        <t>app.chooseType</t>
+        <t>{{title}}</t>
       </slot>
     </template>
 
     <slot></slot>
 
     <template #modal-ok>
-      <t>app.add</t>
+      <t>app.ok</t>
     </template>
     <template #modal-cancel>
       <t>app.cancel</t>
@@ -26,6 +26,10 @@ export default {
     id: String,
     model: Class,
     field: String,
+    title: {
+      type: String,
+      default: "app.chooseType"
+    }
   },
   methods: {
     onOk(e) {

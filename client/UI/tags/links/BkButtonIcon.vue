@@ -1,5 +1,24 @@
 <template>
-  <b-link @click="onClick" :alt="label">
+  <span v-if="$props.for==='lifecycle'">
+    <b-link
+        v-for="transition in transitions"
+        @click="onClick(transition,$event)"
+        :alt="transition.alt">
+      <slot>
+        <b-icon
+            class="BkButton"
+            :font-scale="fontScale"
+            :icon="transition.icon"
+            :variant="transition.variant"
+        />
+        <t v-if="transition.label">{{transition.label}}</t>
+      </slot>
+    </b-link>
+  </span>
+  <b-link
+      v-else
+      @click="onClick(null,$event)"
+      :alt="label">
     <slot>
       <b-icon class="BkButton" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
       <t v-if="label">{{label}}</t>
@@ -9,6 +28,7 @@
 
 <script>
 import {Class} from "meteor/jagi:astronomy"
+import {Role,I18n} from "meteor/a-kyma:bk"
 
 export default {
   name: "BkButtonIcon",
@@ -50,10 +70,48 @@ export default {
         case "delete": return "danger";
         default: return this.variant;
       }
+    },
+    transitions: function () {
+      let result = []
+      let lifecycleFields = this.model.getFieldsByType("Lifecycle")
+      let role = Role.check(this.model)
+
+      lifecycleFields.forEach(field => {
+        result=result.concat(field.type.class.getTransitionsForModel(this.model, field.name))
+      })
+      return result;
     }
   },
   methods: {
-    onClick(e) {
+    showError(err) {
+      this.model.setError(err);
+      this.$root.$bvToast.toast(I18n.t("app.file.error"),{
+        title: I18n.t("app.toast.title.failed"),
+        variant: "danger",
+        autoHideDelay: 5000
+      })
+    },
+    showSuccess(key="app.toast.title.success") {
+      // Toast launched from $root to avoid its destruction while leaving this page
+      this.$root.$bvToast.toast(I18n.t("app.success"),{
+        title: I18n.t(key),
+        variant: "success",
+        autoHideDelay: 5000
+      })
+      this.dismissCountDown = this.dismissSecs;
+    },
+    onClick(transition,e) {
+      if (transition !== null) {
+        this.model[transition.field] = transition.to
+        this.model.save({fields:[transition.field]},(err,result) => {
+          if (err) {
+            this.showError(err)
+          } else {
+            this.showSuccess()
+          }
+        });
+        return
+      }
       if (this.$props.for || this.route) {
         let routeName;
         if (this.route)

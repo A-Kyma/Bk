@@ -30,6 +30,7 @@ fr:
     reset: "Réinitialiser"
     cancel: "Annuler"
     add: "Ajouter"
+    ok: "Ok"
     remove: "Supprimer"
     success: "Formulaire soumis avec succès"
     failed: "Veuillez vérifier les erreurs ci-dessous"

@@ -25,7 +25,7 @@
           }
         }
         return this.$slots.default[0].text;
-      }
+      },
     },
     meteor: {
       translation() {
