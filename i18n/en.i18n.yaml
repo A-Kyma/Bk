@@ -1,4 +1,11 @@
 en:
+  Date:
+    format:
+      relative:
+        days:
+          zero: "Today"
+          one: "Yesterday"
+          other: "{{count}} days ago"
   Enum:
     Languages:
       en:

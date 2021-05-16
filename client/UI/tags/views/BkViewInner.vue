@@ -20,7 +20,8 @@
     props: {
       model: Class,
       field: String,
-      noLabel: Boolean
+      noLabel: Boolean,
+      format: String,
     },
     computed: {
       url() {

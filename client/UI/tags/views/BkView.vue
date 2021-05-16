@@ -20,7 +20,8 @@
       noDiv: Boolean,
       noFormGroup: Boolean,
       noLabel: Boolean,
-      noHtml: Boolean
+      noHtml: Boolean,
+      format: String,
     },
   }
 </script>

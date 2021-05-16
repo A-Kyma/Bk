@@ -19,6 +19,7 @@ export default {
   props: {
     model: Class,
     field: String,
+    format: String,
   },
   computed: {
     classDefinition() {
@@ -27,7 +28,7 @@ export default {
   },
   meteor: {
     value() {
-      return this.model.getValue(this.field)
+      return this.model.getValue(this.field, this.format);
     }
   },
   }

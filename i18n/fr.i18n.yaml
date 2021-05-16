@@ -1,4 +1,11 @@
 fr:
+  Date:
+    format:
+      relative:
+        days:
+          zero: "Aujourd'hui"
+          one: "Hier"
+          other: "Il y a {{count}} jours"
   Enum:
     Languages:
       en:
