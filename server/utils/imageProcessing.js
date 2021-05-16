@@ -187,7 +187,35 @@ const createThumbnails = (collection, fileRef, cb) => {
 
               if (!size.square) {
                 if (features.width > size.width) {
-                  img.resize(size.width).interlace('Line').write(path, updateAndSave);
+                  if (size.height) {
+                    // Check ratio
+                    const widthRatio  = features.width / size.width;
+                    const heightRatio = features.height / size.height;
+                    let x = 0;
+                    let y = 0;
+                    let widthNew      = size.width;
+                    let heightNew     = size.height;
+
+                    // If height ratio lower
+                    if (heightRatio < widthRatio) {
+                      widthNew = features.width * size.height / features.height;
+                      x = (widthNew - size.width) / 2;
+                    }
+
+                    if (heightRatio > widthRatio) {
+                      heightNew = features.height * size.width / features.width;
+                      y = (heightNew - size.height) / 2;
+                    }
+
+                    img.resize(widthNew,heightNew)
+                      .crop(size.width, size.height, x, y)
+                      .interlace('Line')
+                      .write(path, updateAndSave);
+
+                  } else {
+                    // resize at best effort
+                    img.resize(size.width).interlace('Line').write(path, updateAndSave);
+                  }
                 } else {
                   copyPaste();
                 }

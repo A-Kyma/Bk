@@ -143,13 +143,13 @@ export default {
       const self=this;
       return Tracker.autorun(() => {
         let search = {
-          _id: { $in: this.files },
+          _id: { $in: self.files },
         };
 
         let f=Files.find(search);
 
         // Sort in the same order as in the model array of files
-        this.listFiles = f && f.fetch().sort((a, b) =>
+        self.listFiles = f && f.fetch().sort((a, b) =>
             self.files.indexOf(a._id) - self.files.indexOf(b._id)
         )
       })
