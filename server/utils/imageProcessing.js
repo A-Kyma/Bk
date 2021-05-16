@@ -28,6 +28,7 @@ const createThumbnails = (collection, fileRef, cb) => {
         console.error('[_app.createThumbnails] [finish]', error);
         cb && cb (error);
       } else {
+        console.log('[ImageProcessing] Done');
         if (isLast) {
           cb && cb(void 0, fileRef);
         }
@@ -105,12 +106,14 @@ const createThumbnails = (collection, fileRef, cb) => {
                     }
                   };
 
+                  console.log('[ImageProcessing] Updating collection for size '+size);
                   collection.collection.update(fileRef._id, upd, (colUpdError) => {
                     ++i;
                     if (i === Object.keys(sizes).length) {
                       isLast = true;
                     }
                     finish(colUpdError);
+                    console.log('[ImageProcessing] Done size '+size);
                   });
                 });
               });
