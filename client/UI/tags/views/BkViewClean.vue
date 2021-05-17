@@ -1,13 +1,17 @@
 <template>
-  <b-button v-if="classDefinition.name === 'Lifecycle'"
-            :variant="classDefinition.getStateVariant(model[field])"
-            pill disabled>
-    <t :key="value">{{value}}</t>
-  </b-button>
+  <span>
+  <slot name="lifecycle" v-bind="{classDefinition, model,field, value}">
+    <b-button v-if="classDefinition.name === 'Lifecycle'" name="lifecycle"
+              :variant="classDefinition.getStateVariant(model[field])"
+              pill disabled>
+      <t :key="value">{{value}}</t>
+    </b-button>
 
-  <t v-else-if="classDefinition.name === 'Enum'" :key="value">{{value}}</t>
+    <t v-else-if="classDefinition.name === 'Enum'" :key="value">{{value}}</t>
 
-  <span v-else>{{value}}</span>
+    <span v-else>{{value}}</span>
+  </slot>
+  </span>
 
 </template>
 
