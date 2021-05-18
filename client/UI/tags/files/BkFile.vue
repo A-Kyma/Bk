@@ -1,7 +1,44 @@
 <template>
-  <div class="mb-2">
+  <div class="mb-2 col-12">
 
-    <b-overlay :show="currentUpload">
+    <div v-if="showFilesCards" @touchend="fixActionRestriction">
+      <b-container id="propertyImages" class="p-2 bg-dark overflow-x">
+
+          <Container @drop="onDrop"
+                     orientation="horizontal"
+                     behaviour="contain"
+                     drag-class="card-ghost bg-info"
+                     drop-class="card-ghost-drop">
+            <Draggable v-for="(file,index) in listFiles" :key="file._id" class="mt-2">
+              <div class="box draggable-item-horizontal">
+                <div v-if="$props['for'] !== 'view'" class="box-top">
+                  <b-icon class="dragicon" icon="arrows-move"></b-icon>
+                </div>
+
+                <div v-if="$props['for'] !== 'view'" class="box-right"/>
+
+                <a :href="link(file)" :alt="file.name" target="_blank">
+                  <b-img thumbnail
+                         :src="link(file,'thumbnail')"
+                         :alt="file.name"
+                         class="crop-height"/>
+                </a>
+
+                <div v-if="$props['for'] !== 'view'" class="box-bottom">
+                  <bk-button-icon
+                      @click="onRemove(file,index)"
+                      icon="trash-fill"
+                      variant="danger"
+                      class="ml-auto mr-2"
+                  />
+                </div>
+              </div>
+            </Draggable>
+          </Container>
+
+      </b-container>
+    </div>
+    <b-overlay v-if="$props['for'] !== 'view'" :show="currentUpload">
 
       <b-form-file
           ref="inputFile"
@@ -9,7 +46,8 @@
           v-model="inputFiles"
           :multiple="isFieldArray"
           :accept="accept"
-          @input="onFilesAdded">
+          @input="onFilesAdded"
+          class="b-form-file">
 
         <template slot="placeholder">
           <t>{{placeholder}}</t>
@@ -89,6 +127,7 @@ export default {
     field: String,
     for: String,
     showFilesList: Boolean,
+    showFilesCards: Boolean,
     accept: String, // accept="image/*" for images
   },
   data() {
@@ -105,6 +144,14 @@ export default {
   created() {
     if (this.$props["for"] !== "new")
       this.findFiles()
+  },
+  mounted() {
+    /***
+     * Bugfix z-index=-5 from b-form-input on some page : input not accessible.
+     * Drop won't work for IE11
+     */
+    let elemInputFile = this.$refs.inputFile?.$el?.getElementsByTagName("input")[0]
+    if (elemInputFile) elemInputFile.style.zIndex = 2;
   },
   computed: {
     typeFile() {
@@ -286,6 +333,51 @@ export default {
 .card-ghost-drop {
   transition: transform 0.18s ease-in-out;
   transform: rotateZ(0deg);
+}
+
+.overflow-x {
+  overflow-x: auto;
+}
+
+.box {
+  position: relative;
+  margin-right: 4px;
+  width: 110px;
+  height: 75px;
+}
+
+.box-top{
+  position: absolute;
+  left: 85px;
+  top: 5px;
+  z-index: 2;
+}
+
+.box-right {
+  position: absolute;
+  right: 4px;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  width: 25px;
+  background: white;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.box-bottom{
+  position: absolute;
+  left: 85px;
+  top: 46px;
+  z-index:2;
+}
+
+.crop-height {
+  height: 75px;
+  object-fit: cover;
+}
+
+.dragicon:hover{
+  transform:scale(1.3);
 }
 
 </style>
