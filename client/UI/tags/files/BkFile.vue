@@ -373,6 +373,7 @@ export default {
 
 .crop-height {
   height: 75px;
+  width: 110px;
   object-fit: cover;
 }
 
