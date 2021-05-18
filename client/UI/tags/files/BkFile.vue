@@ -138,7 +138,8 @@ export default {
       progressArray: [0],
       totalFiles: this.model[this.field]?.length || 0,
       listFiles: [],
-      isInForm: this.$props["for"]
+      isInForm: this.$props["for"],
+      localFilesLinks: {},
     }
   },
   created() {
@@ -202,7 +203,12 @@ export default {
       })
     },
     link(file,format) {
-      return Files.link(file,format);
+      // Return locally uploaded file to avoid downloading unusefully
+      if (this.localFilesLinks[file.name+file.size]) {
+        return this.localFilesLinks[file.name+file.size]
+      }
+      // Return original link if version not found
+      return (file.versions[format]) ? Files.link(file,format) : Files.link(file);
     },
     // Avoid issues on touch screens
     fixActionRestriction() {
@@ -272,6 +278,7 @@ export default {
       self.currentUpload = true
 
       files.forEach((file,index) => {
+        self.localFilesLinks[file.name+file.size] = URL.createObjectURL(file);
         self.progressArray[index] = 0
         var uploadInstance = Files.insert({
           file,
