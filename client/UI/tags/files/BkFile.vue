@@ -2,7 +2,27 @@
   <div class="mb-2 col-12">
 
     <div v-if="showFilesCards" @touchend="fixActionRestriction">
-      <b-container id="propertyImages" class="p-2 bg-dark overflow-x">
+      <div v-if="!isFieldArray" class="box">
+        <div v-if="$props['for'] !== 'view'" class="box-right"/>
+
+        <a v-if="listFiles[0]" :href="link(listFiles[0])" :alt="listFiles[0].name" target="_blank" >
+          <b-img thumbnail
+                 :src="link(listFiles[0],'thumbnail')"
+                 :alt="listFiles[0].name"
+                 class="crop-height"/>
+        </a>
+
+        <div v-if="$props['for'] !== 'view' && listFiles[0]" class="box-bottom">
+          <bk-button-icon
+              @click="onRemove(listFiles[0],index)"
+              icon="trash-fill"
+              variant="danger"
+              class="ml-auto mr-2"
+          />
+        </div>
+
+      </div>
+      <b-container v-else class="p-2 bg-dark overflow-x">
 
           <Container @drop="onDrop"
                      orientation="horizontal"
@@ -11,7 +31,8 @@
                      drop-class="card-ghost-drop">
             <Draggable v-for="(file,index) in listFiles" :key="file._id" class="mt-2">
               <div class="box draggable-item-horizontal">
-                <div v-if="$props['for'] !== 'view'" class="box-top">
+
+                <div v-if="$props['for'] !== 'view' && isFieldArray" class="box-top">
                   <b-icon class="dragicon" icon="arrows-move"></b-icon>
                 </div>
 
@@ -32,6 +53,7 @@
                       class="ml-auto mr-2"
                   />
                 </div>
+
               </div>
             </Draggable>
           </Container>
@@ -247,8 +269,14 @@ export default {
     onRemove(file,index) {
       const self = this;
 
-      this.totalFiles--;
-      this.model[this.field].splice(index,1);
+      if (this.isFieldArray) {
+        this.totalFiles--
+        this.model[this.field].splice(index,1)
+      } else {
+        this.totalFiles = 0
+        this.model[this.field] = undefined
+      }
+
       this.listFiles.splice(index,1);
 
       // if $props.for filled in, we are inside a form or a save button will exist
