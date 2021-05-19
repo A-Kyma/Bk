@@ -35,6 +35,7 @@
 
       <b-form-checkbox-group
           v-else-if="definitionField === 'ListEnum'"
+          v-bind="{...$props,...$attrs}"
           v-model="value"
           :name="field"
           :disabled="plaintextComputed">
@@ -53,6 +54,7 @@
       -->
       <b-form-radio-group
           v-else-if="inputComponent === 'BFormRadioGroup' && definitionField === 'Enum'"
+          v-bind="{...$props,...$attrs}"
           v-model="value"
           :name="formFieldComputed"
           :disabled="plaintextComputed">
