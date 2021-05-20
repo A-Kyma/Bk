@@ -121,7 +121,7 @@ const createThumbnails = (collection, fileRef, cb) => {
 
             if (/png|jpe?g/i.test(fileRef.extension)) {
               const img = gm(fileRef.path)
-                .quality(80)
+                .quality(90)
                 .define('filter:support=2')
                 .define('jpeg:fancy-upsampling=false')
                 .define('jpeg:fancy-upsampling=off')

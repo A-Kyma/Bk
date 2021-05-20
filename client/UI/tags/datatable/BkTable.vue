@@ -164,7 +164,15 @@
       onSubmitModal(e) {
         e.preventDefault();
         let modelClass = Class.get(this.modalModel.type);
-        if (!modelClass) return;
+        if (!modelClass) {
+          let error = new ValidationError([{
+            name: this.getTypeField,
+            type: "TypeError",
+            message: I18n.get("Error.missingSubType",{param: this.modalModel.type})
+          }])
+          this.modalModel.setError(error)
+          return;
+        }
         if (!this.modalModel.isValid(this.getTypeField)) {
           // if modal form content not valid, do not close it
           return;

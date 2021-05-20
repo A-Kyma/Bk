@@ -42,6 +42,7 @@ en:
     has: "Field {{field}} must have proprety {{param}} filled in"
     includes: "Field {{field}} must includes {{param}}"
     missingRoute: "Route {{param}} is missing"
+    missingSubType: "Type {{param}} doesn't exist yet"
     confirm: "Field is not the same"
 fr:
   Error:
@@ -87,4 +88,5 @@ fr:
     has: "Le champ {{field}} doit avoir la propriété {{param}} remplie"
     includes: "Le champ {{field}} doit contenir {{param}}"
     missingRoute: "Route {{param}} est manquante"
+    missingSubType: "Le sous-type {{param}} n'existe pas encore"
     confirm: "Le champ n'est pas identique"
