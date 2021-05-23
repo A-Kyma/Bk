@@ -87,6 +87,7 @@
       sortDesc: Boolean,
       perPage: Number,
       filter: Object,
+      initialFilter: Object,
       array: Array,
       model: [String,Class],
       actions: Array,

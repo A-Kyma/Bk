@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Class from "meteor/jagi:astronomy"
+import {Class} from "meteor/jagi:astronomy"
 
 export default {
   name: "BkViewClean",

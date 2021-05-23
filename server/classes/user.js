@@ -7,16 +7,16 @@ import {Accounts} from "meteor/accounts-base";
 Accounts.onCreateUser((options,user) => {
     if (options.profile) {
       user.profile = options.profile
-      user.profile.status = "inactive"
+//      user.profile.status = "inactive"
     }
     return user;
   }
 )
 
 Accounts.validateLoginAttempt((options) => {
-    if (options.user && options.user.profile.status === "inactive") {
-      throw new Meteor.Error(400, "Your account is inactive, check with administrator");
-    }
+    // if (options.user && options.user.profile.status === "inactive") {
+    //   throw new Meteor.Error(400, "Your account is inactive, check with administrator");
+    // }
   return true
   }
 )
