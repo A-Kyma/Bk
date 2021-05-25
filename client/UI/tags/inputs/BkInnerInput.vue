@@ -119,8 +119,10 @@
 </template>
 
 <script>
-import {Class, ValidationError, ScalarField} from 'meteor/jagi:astronomy';
+import {Class, ValidationError, ScalarField, ObjectField, ListField} from 'meteor/jagi:astronomy';
 import Enum from "../../../../lib/modules/customFields/customs/Enum"
+import Lifecycle from "../../../../lib/modules/customFields/customs/Lifecycle";
+import Image from "../../../../lib/modules/customFields/classes/Image";
 import I18n from "../../../../lib/classes/i18n";
 import _ from "lodash";
 import BkBelongsToInput from "./BkBelongsToInput";
@@ -222,51 +224,54 @@ import BkCardListClass from "../forms/BkCardListClass";
         if (!fieldDefinition) {
           return null;
         }
-        let definitionClass = fieldDefinition.constructor.name;
+        // let definitionClass = fieldDefinition.constructor.name;
         let fieldClass = fieldDefinition.type.class;
         let fieldType = fieldDefinition.type.name;
-        switch (definitionClass) {
-          case 'ObjectField':
-            if (fieldDefinition.relation) {
-              return "Relation";
-            }
-            return "Object";
-
-          case 'ListField':
-            if (fieldDefinition.relation) {
-              return "ListRelation";
-            }
-            // it's a new class object
-            if (Class.includes(fieldClass)) {
-              return "ListClass";
-            }
-            // We can have a form tag since we have string values
-            if (fieldDefinition.type.class.prototype instanceof String) {
-              //this.value = this.value.join(", ");
-              return "ListString"
-            }
-            if (fieldClass.name === "Enum") {
-              return "ListEnum"
-            }
-            return "ListValue";
-
-          case 'ScalarField':
-            if (fieldDefinition.relation) {
-              return "Relation";
-            }
-            if (fieldClass.name === "Enum") {
-              return "Enum";
-            }
-            if (fieldClass.name === "Lifecycle") {
-              return "Lifecycle";
-            }
-            if (fieldClass.name === "Boolean") {
-              return "Boolean"
-            }
-            if (fieldClass.name === "Image") {
-              return "Image"
-            }
-            return "Scalar";
+        // switch (definitionClass) {
+        //   case 'ObjectField':
+        if (fieldDefinition instanceof ObjectField) {
+          if (fieldDefinition.relation) {
+            return "Relation";
+          }
+          return "Object";
+        }
+          // case 'ListField':
+        if (fieldDefinition instanceof ListField) {
+          if (fieldDefinition.relation) {
+            return "ListRelation";
+          }
+          // it's a new class object
+          if (Class.includes(fieldClass)) {
+            return "ListClass";
+          }
+          // We can have a form tag since we have string values
+          if (fieldDefinition.type.class.prototype instanceof String) {
+            //this.value = this.value.join(", ");
+            return "ListString"
+          }
+          if (Enum.includes(fieldClass)) {
+            return "ListEnum"
+          }
+          return "ListValue";
+        }
+          // case 'ScalarField':
+        if (fieldDefinition instanceof ScalarField) {
+          if (fieldDefinition.relation) {
+            return "Relation";
+          }
+          if (Enum.includes(fieldClass)) {
+            return "Enum";
+          }
+          if (Lifecycle.includes(fieldClass)) {
+            return "Lifecycle";
+          }
+          if (fieldType === "Boolean") {
+            return "Boolean"
+          }
+          if (fieldType === "Image") {
+            return "Image"
+          }
+          return "Scalar";
         }
       },
       inputType() {
@@ -302,7 +307,7 @@ import BkCardListClass from "../forms/BkCardListClass";
 
         let fieldType = fieldDefinition.type.name;
         let templateType = fieldType.toLowerCase();
-        let fieldClass = fieldDefinition.type.class.name;
+        let fieldClass = fieldDefinition.type.class;
 
         if (isGenericInputType(fieldType) || fieldType === "String") {
           return "BFormInput";
@@ -321,7 +326,7 @@ import BkCardListClass from "../forms/BkCardListClass";
         }
 
         // Only if Scalar field. ListEnum and ListBoolean treated differently
-        if (fieldClass === "Enum") {
+        if (Enum.includes(fieldClass)) {
           if (this.plaintextComputed) {
             return "BkViewClean";
           } else {
@@ -329,11 +334,11 @@ import BkCardListClass from "../forms/BkCardListClass";
           }
         }
 
-        if (fieldClass === "Lifecycle") {
+        if (Lifecycle.includes(fieldClass)) {
           return "BkViewClean";
         }
 
-        if (fieldClass === "Boolean") {
+        if (fieldType === "Boolean") {
           return "BFormCheckbox"
         }
 
@@ -382,7 +387,7 @@ import BkCardListClass from "../forms/BkCardListClass";
         if (!fieldDefinition) {
           return ;
         }
-        let definitionClass = fieldDefinition.constructor.name;
+
         let fieldType = fieldDefinition.type.name;
         let EnumClass = fieldDefinition.type.class
         if (! Enum.enums[fieldType]) { return }

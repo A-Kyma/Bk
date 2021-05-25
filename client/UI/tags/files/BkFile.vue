@@ -132,7 +132,7 @@
 </template>
 
 <script>
-import { Class } from "meteor/jagi:astronomy"
+import { Class, ListField } from "meteor/jagi:astronomy"
 import { Match } from "meteor/check"
 import { Files } from "meteor/a-kyma:bk"
 import { Container, Draggable } from "vue-smooth-dnd";
@@ -185,7 +185,7 @@ export default {
       }
     },
     isFieldArray() {
-      return this.model.getDefinition(this.field)?.constructor.name === "ListField"
+      return this.model.getDefinition(this.field) instanceof ListField
     },
     files() {
       let filesField = this.model && this.model[this.field]
