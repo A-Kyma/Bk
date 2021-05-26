@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot name="header">
+    <slot name="header" v-bind="{datatable}">
       <b-button
           variant="outline-secondary"
           @click="onAdd">
