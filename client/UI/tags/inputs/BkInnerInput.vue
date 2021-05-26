@@ -50,7 +50,7 @@
 
       <!--
       Issue with radio group badly linked together when shouldn't
-      For the, we need to set "name" attribute as different value for each radio-group
+      So we need to set "name" attribute as different value for each radio-group
       -->
       <b-form-radio-group
           v-else-if="inputComponent === 'BFormRadioGroup' && definitionField === 'Enum'"
@@ -90,6 +90,7 @@
           {{model[field].join(', ')}}
       </span>
 
+
       <!-- inputText + view + ... -->
 
       <component  v-else
@@ -119,7 +120,7 @@
 </template>
 
 <script>
-import {Class, ValidationError, ScalarField, ObjectField, ListField} from 'meteor/jagi:astronomy';
+import {Class, ValidationError, ScalarField, ObjectField, ListField, Union} from 'meteor/jagi:astronomy';
 import Enum from "../../../../lib/modules/customFields/customs/Enum"
 import Lifecycle from "../../../../lib/modules/customFields/customs/Lifecycle";
 import Image from "../../../../lib/modules/customFields/classes/Image";
@@ -219,6 +220,14 @@ import BkCardListClass from "../forms/BkCardListClass";
       required() {
         return false; //!this.model.getDefinition(this.field, "optional");
       },
+      getUnionTypes() {
+        let fieldDefinition = this.model.getDefinition(this.field);
+        let fieldType = fieldDefinition.type.name;
+        if (Object.keys(Union.unions).includes(fieldType)) {
+          return fieldDefinition.type.class.types
+        }
+        return []
+      },
       definitionField() {
         let fieldDefinition = this.model.getDefinition(this.field);
         if (!fieldDefinition) {
@@ -227,15 +236,16 @@ import BkCardListClass from "../forms/BkCardListClass";
         // let definitionClass = fieldDefinition.constructor.name;
         let fieldClass = fieldDefinition.type.class;
         let fieldType = fieldDefinition.type.name;
-        // switch (definitionClass) {
-        //   case 'ObjectField':
+
+        /* Object fields - subclasses */
         if (fieldDefinition instanceof ObjectField) {
           if (fieldDefinition.relation) {
             return "Relation";
           }
           return "Object";
         }
-          // case 'ListField':
+
+        /* List fields */
         if (fieldDefinition instanceof ListField) {
           if (fieldDefinition.relation) {
             return "ListRelation";
@@ -254,7 +264,8 @@ import BkCardListClass from "../forms/BkCardListClass";
           }
           return "ListValue";
         }
-          // case 'ScalarField':
+
+        /* Scalar fields */
         if (fieldDefinition instanceof ScalarField) {
           if (fieldDefinition.relation) {
             return "Relation";
