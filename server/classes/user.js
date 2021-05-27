@@ -3,23 +3,24 @@
 import {User} from "../../lib/classes/user";
 import Role from "../../lib/classes/role";
 import {Accounts} from "meteor/accounts-base";
+import _cloneDeep from "lodash"
 
-Accounts.onCreateUser((options,user) => {
-    if (options.profile) {
-      user.profile = options.profile
-//      user.profile.status = "inactive"
-    }
-    return user;
-  }
-)
+// Accounts.onCreateUser((options,user) => {
+//     if (options.profile) {
+//       user.profile = options.profile
+ //      user.profile.status = "inactive"
+//     }
+//     return user;
+//   }
+// )
 
-Accounts.validateLoginAttempt((options) => {
-    // if (options.user && options.user.profile.status === "inactive") {
-    //   throw new Meteor.Error(400, "Your account is inactive, check with administrator");
-    // }
-  return true
-  }
-)
+// Accounts.validateLoginAttempt((options) => {
+//     // if (options.user && options.user.profile.status === "inactive") {
+//     //   throw new Meteor.Error(400, "Your account is inactive, check with administrator");
+//     // }
+//   return true
+//   }
+// )
 
 Meteor.publish("usersData", function() {
   if (!this.userId) return this.ready();
@@ -44,21 +45,35 @@ User.extend({
   },
   meteorMethods: {
     createUser() {
-      let profile = this.profile;
-      delete profile.emailConfirmation
-      delete profile.passwordConfirmation
+      let username = this.profile.email
+      let email = this.profile.email
+      let password = this.profile.password
+
       let fields = this.profile.constructor.getFieldsNamesByFilter({
-        exclude: ["emailConfirmation","password","passwordConfirmation"]
+        exclude: ["emailConfirmation","oldPassword","password","passwordConfirmation"]
       })
+
       this.profile.validate({fields,stopOnFirstError: false})
+      if (this.profile.password)
+        this.profile.validate({fields: ["password"], stopOnFirstError: false})
+
+      let profile = this.profile.raw()
       delete profile._errors;
+      delete profile.email
+      delete profile.emailConfirmation
+      delete profile.oldPassword
+      delete profile.password
+      delete profile.passwordConfirmation
+
       let options = {
-        username: this.profile.email,
-        email: this.profile.email,
-        password: this.profile.password,
-        profile: profile,
+        username,
+        email,
+        password,
+        profile,
       }
-      return Accounts.createUser(options);
+      let userId = Accounts.createUser(options);
+      if (!password)
+        Accounts.sendEnrollmentEmail(userId)
     },
     createUserByAdmin(options) {
       if (Role.is("Administrator") || !User.findOne()) {

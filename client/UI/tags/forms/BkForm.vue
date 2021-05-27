@@ -48,7 +48,7 @@ export default {
     props: {
       model: [String,Class],
       inline: Boolean,
-      modal: Boolean,
+      modal: String,
       toast: Boolean,
       for: String,
     },
@@ -149,7 +149,7 @@ export default {
               self.showAlert = false;
               self.showSuccess()
               if (self.modal) {
-
+                self.$bvModal.hide(self.modal)
               } else if (self.toast) {
                 self.$bvToast.hide()
               } else {
@@ -182,7 +182,7 @@ export default {
 
         // Needs to go back
         if (this.modal) {
-          //TODO: close the modal
+          this.$bvModal.hide(self.modal)
         } else {
           this.$router.go(-1);
         }

@@ -9,7 +9,8 @@
           @dismissed="showAlert=false">
         <t>app.failed</t>
       </b-alert>
-      <bk-field-list :model="user.profile"
+      <bk-field-list v-bind="{...$props,...$attrs}"
+                     :model="formModel.profile"
                      :fields="requiredFields"
                      for="new"
                      variant="secondary"
@@ -17,7 +18,7 @@
                      label-cols-sm="4"
                      label-cols-lg="3"
       />
-      <bk-submit @cancel="onCancel"/>
+      <bk-submit @cancel="onCancel" v-bind="$attrs"/>
     </b-overlay>
   </b-form>
 </template>
@@ -31,15 +32,24 @@ import BkSubmit from "./BkSubmit";
 export default {
   name: "BkSubscribe",
   components: {BkSubmit},
+  props: {
+    model: Class,
+    modal: String,
+    fields: {
+      type: [Array,String]
+    },
+  },
   data() {
     return {
       user: new User(),
       showOverlay: false,
+      showAlert: false,
+      formModel: this.model || this.user,
     }
   },
   provide() {
     return {
-      formModel: this.user.profile,
+      formModel: this.formModel
     }
   },
   created() {
@@ -47,8 +57,8 @@ export default {
   },
   computed: {
     requiredFields() {
-      return this.user.profile.constructor.getFieldsNamesByFilter({required: true});
-    }
+      return this.fields || this.user.profile.constructor.getFieldsNamesByFilter({required: true});
+    },
   },
   methods: {
     showSuccess() {
@@ -63,7 +73,7 @@ export default {
       e.preventDefault()
       let self = this;
       self.showOverlay=true;
-      let model = this.user;
+      let model = this.formModel;
 
       model.createUserFromClient(function(err,id) {
         self.showOverlay=false;
@@ -77,8 +87,10 @@ export default {
         } else {
           self.showAlert = false;
           self.showSuccess()
-          if (this.modal) {
-
+          let s=new Event("submitSuccess");
+          self.$emit("submitSuccess",s,self,model)
+          if (self.modal) {
+            self.$bvModal.hide(self.modal)
           } else {
             self.$router.push("/");
           }
@@ -101,7 +113,7 @@ export default {
     onCancel(e) {
       // Needs to go back
       if (this.modal) {
-        //TODO: close the modal
+        this.$bvModal.hide(self.modal)
       } else {
         this.$router.go(-1);
       }
