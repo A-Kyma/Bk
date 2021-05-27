@@ -222,7 +222,7 @@ export default {
     getOptionsFromRelations() {
       let definition = this.model.getDefinition(this.field);
       let relationClass = definition.relation;
-      let where = definition.where(null, this.value, I18n.getLanguage())
+      let where = definition.where(this.model[this.field], this.value, I18n.getLanguage())
       if (!where) return;
       return relationClass && relationClass.find(where.search).map(record => {
         return {
