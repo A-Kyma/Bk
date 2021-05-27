@@ -31,6 +31,8 @@ fr:
     cancel: "Annuler"
     add: "Ajouter"
     ok: "Ok"
+    close: "Fermer"
+    confirm: "Confirmer"
     remove: "Supprimer"
     success: "Formulaire soumis avec succès"
     failed: "Veuillez vérifier les erreurs ci-dessous"
@@ -133,8 +135,16 @@ fr:
     emailConfirmation:
       label: "Confirmation de l'email"
       placeholder: " "
+    oldPassword:
+      label: "Ancien mot de passe"
+      placeholder: " "
     password:
       label: "Mot de passe"
+      placeholder: " "
     passwordConfirmation:
       label: "Confirmez votre mot de passe"
+      placeholder: " "
+    language:
+      label: "Langue"
+
 

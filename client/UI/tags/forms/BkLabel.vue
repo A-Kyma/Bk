@@ -33,7 +33,7 @@
         return this.model.getDefinition(this.field);
       },
       ui() {
-        return this.definition.ui || {};
+        return this.definition?.ui || {};
       },
       required() {
         if (this.noRequired) return false;

@@ -31,6 +31,8 @@ en:
     cancel: "Cancel"
     add: "Add"
     ok: "Ok"
+    close: "Close"
+    confirm: "Confirm"
     remove: "Remove"
     success: "Form submitted successfully"
     failed: "There is an error while submitting your form. Please, check below"
@@ -134,9 +136,16 @@ en:
     emailConfirmation:
       label: "Email confirmation"
       placeholder: " "
+    oldPassword:
+      label: "Old password"
+      placeholder: " "
     password:
       label: "Password"
+      placeholder: " "
     passwordConfirmation:
       label: "Confirm your password"
+      placeholder: " "
+    language:
+      label: "Language"
 
 
