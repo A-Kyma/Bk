@@ -160,6 +160,32 @@
           this.$bvModal.show(this.modalAddId);
         } else {
           // TODO: Go directly on modification page or show modification modal
+          let routeName = this.tableClass.getName();
+          let route = this.$router.resolve({name: routeName});
+          if (route.resolved.matched.length > 0) {
+            //the route exists, go there
+            this.$router.push({
+              name: routeName,
+              params: {
+                for: "new",
+                id: routeName,
+              }
+            })
+          }
+          else {
+            let error = new ValidationError([{
+              name: routeName,
+              type: "RouteError",
+              message: I18n.get("Error.missingRoute",{param: routeName})
+            }])
+            // Toast launched from $root to avoid its destruction while leaving this page
+            this.$root.$bvToast.toast(I18n.get("Error.missingRoute",{param: routeName}),{
+              title: I18n.t("app.failed"),
+              variant: "danger",
+              autoHideDelay: 5000
+            })
+            return;
+          }
         }
       },
       onSubmitModal(e) {
