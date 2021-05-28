@@ -11,7 +11,6 @@
         <bk-form :model="modalModel" :fields="getTypeField" :modal="true"/>
       </bk-modal>
     </slot>
-
     <slot name="main" v-bind="{items,labeledFields,datatable}">
       <table role="table" class="table b-table table-hover mt-3">
         <thead>
@@ -63,7 +62,47 @@
         </tbody>
       </table>
     </slot>
-
+    <slot name="pagination" v-bind="{items,labeledFields,datatable}">
+      <div v-if="handler">
+        <div v-if="ready">
+          <div v-if="getCountLocal()===0">
+            <div class="text-center">
+              <p>no data to display</p>
+            </div>
+          </div>
+          <div v-else>
+            <!--            <div>{{getCount()}}</div>-->
+            <!--            <b-pagination @change="pageClicked()"-->
+            <!--                          :v-model="currentPage()"-->
+            <!--                          :total-rows="getCount()"-->
+            <!--                          :per-page="perPage"-->
+            <!--            ></b-pagination>-->
+            <div class="text-center">
+              <div class="btn btn-primary btn-lg">
+                <a @click.prevent="seeMore()">See More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <slot name="loading">
+            <div class="text-center">LOADING</div>
+            <div class="text-center">
+              <b-spinner variant="dark" type="grow" label="Spinning"></b-spinner>
+              <b-spinner variant="warning" type="grow" label="Spinning"></b-spinner>
+              <b-spinner variant="danger" type="grow" label="Spinning"></b-spinner>
+            </div>
+          </slot>
+        </div>
+      </div>
+      <div v-else>
+        <div class="text-center">
+          <div class="btn btn-primary btn-lg">
+            <a @click.prevent="seeMore()">See More</a>
+          </div>
+        </div>
+      </div>
+    </slot>
     <slot name="footer"></slot>
   </div>
 </template>
@@ -87,6 +126,7 @@
       sortDesc: Boolean,
       perPage: Number,
       filter: Object,
+      scroll: Number,
       initialFilter: Object,
       array: Array,
       model: [String,Class],
@@ -130,7 +170,7 @@
       },
       routeQuery() {
         return this.$route && this.$route.query
-      },
+      }
     },
     watch: {
       routeQuery(newValue, oldValue) {
@@ -226,6 +266,25 @@
           this.modalModel.setError(error);
           return;
         }
+      },
+      handler(){
+        return this.datatable.handler
+      },
+      ready(){
+        return this.datatable.handler?.ready
+      },
+      getCount(){
+        return this.datatable.getCount()
+      },
+      getCountLocal(){
+        return this.datatable.getCountLocal()
+      },
+      currentPage(){
+        return this.datatable.getPage()
+      },
+      seeMore(){
+        let page = this.datatable.page
+        this.datatable.setPage(page + 1)
       },
     },
     meteor: {
