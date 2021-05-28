@@ -63,9 +63,9 @@
       </table>
     </slot>
     <slot name="pagination" v-bind="{items,labeledFields,datatable}">
-      <div v-if="handler">
-        <div v-if="ready">
-          <div v-if="getCountLocal()===0">
+      <div v-if="datatable.handler">
+        <div v-if="datatable.firstReady">
+          <div v-if="datatable.getCount()===0">
             <div class="text-center">
               <p>no data to display</p>
             </div>
@@ -267,21 +267,6 @@
           return;
         }
       },
-      handler(){
-        return this.datatable.handler
-      },
-      ready(){
-        return this.datatable.handler?.ready
-      },
-      getCount(){
-        return this.datatable.getCount()
-      },
-      getCountLocal(){
-        return this.datatable.getCountLocal()
-      },
-      currentPage(){
-        return this.datatable.getPage()
-      },
       seeMore(){
         let page = this.datatable.page
         this.datatable.setPage(page + 1)
@@ -292,7 +277,7 @@
         //let selection = this.model.find(this.selector).fetch();
         //return selection;
         return this.datatable.getArray();
-      }
+      },
     },
     destroyed() {
       this.datatable.stopSubscription();
