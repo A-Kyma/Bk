@@ -71,16 +71,22 @@
             </div>
           </div>
           <div v-else>
-            <!--            <div>{{getCount()}}</div>-->
-            <!--            <b-pagination @change="pageClicked()"-->
-            <!--                          :v-model="currentPage()"-->
-            <!--                          :total-rows="getCount()"-->
-            <!--                          :per-page="perPage"-->
-            <!--            ></b-pagination>-->
-            <div class="text-center">
-              <div class="btn btn-primary btn-lg">
-                <a @click.prevent="seeMore()">See More</a>
+            <div v-if="scrollable()">
+              <div v-if="viewScrollButton()">
+                <div class="text-center">
+                  <div class="btn btn-primary btn-lg">
+                    <a @click="seeMore()">See More</a>
+                  </div>
+                </div>
               </div>
+            </div>
+            <div v-else>
+              <div>{{datatable.getCount()}}</div>
+              <b-pagination
+                :v-model="datatable.page"
+                :total-rows="datatable.getCount()"
+                :per-page="perPage"
+              ></b-pagination>
             </div>
           </div>
         </div>
@@ -266,6 +272,12 @@
           this.modalModel.setError(error);
           return;
         }
+      },
+      scrollable(){
+        return this.$props.scroll
+      },
+      viewScrollButton(){
+        return (this.datatable.getCount() !== this.datatable.getCountLocal())? true :  false;
       },
       seeMore(){
         let page = this.datatable.page
