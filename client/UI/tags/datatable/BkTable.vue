@@ -81,7 +81,6 @@
               </div>
             </div>
             <div v-else>
-              <div>{{datatable.getCount()}}</div>
               <b-pagination
                 :v-model="datatable.page"
                 :total-rows="datatable.getCount()"
