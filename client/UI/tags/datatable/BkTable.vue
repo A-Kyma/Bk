@@ -81,7 +81,8 @@
               </div>
             </div>
             <div v-else>
-              <b-pagination
+              <p>Current Page: {{ datatable.page}}</p>
+              <b-pagination @input="(page) => paginate(page)"
                 :v-model="datatable.page"
                 :total-rows="datatable.getCount()"
                 :per-page="perPage"
@@ -282,6 +283,9 @@
         let page = this.datatable.page
         this.datatable.setPage(page + 1)
       },
+      paginate(page){
+        this.datatable.setPage(page)
+      }
     },
     meteor: {
       items() {
