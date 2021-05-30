@@ -33,6 +33,7 @@ export default {
     datatable: Object,
     perPage: Number,
     scroll: Number,
+    updateRoute: Boolean
   },
   data(){
     return {
@@ -51,6 +52,11 @@ export default {
     },
     paginate(page){
       this.datatable.setPage(page)
+      if (this.$props.updateRoute){
+        if (this.$route?.query?.currentPage !== page && page !== null){
+          this.$router.push({name: this.$route.name, query: {currentPage: page}})
+        }
+      }
     }
   }
 }

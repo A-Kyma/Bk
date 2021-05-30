@@ -13,11 +13,12 @@
     </slot>
     <div v-if="datatable.handler">
       <div v-if="datatable.firstReady">
-        <slot name="pagination-top" v-bind="{datatable}">
+        <slot name="pagination-top" v-bind="{datatable, scroll, perPage}">
           <bk-pagination
               :datatable="datatable"
               :scroll="scroll"
               :perPage="perPage"
+              :updateRoute="updateRoute"
           />
         </slot>
       </div>
@@ -80,11 +81,12 @@
     </slot>
     <div v-if="datatable.handler">
       <div v-if="datatable.firstReady">
-        <slot name="pagination-bottom" v-bind="{datatable}">
+        <slot name="pagination-bottom" v-bind="{datatable, scroll, perPage}">
           <bk-pagination
               :datatable="datatable"
               :scroll="scroll"
               :perPage="perPage"
+              :updateRoute="updateRoute"
           />
         </slot>
       </div>
@@ -260,19 +262,6 @@
           return;
         }
       },
-      // scrollable(){
-      //   return this.$props.scroll
-      // },
-      // viewScrollButton(){
-      //   return (this.datatable.getCount() !== this.datatable.getCountLocal())? true :  false;
-      // },
-      // seeMore(){
-      //   let page = this.datatable.page
-      //   this.datatable.setPage(page + 1)
-      // },
-      // paginate(page){
-      //   this.datatable.setPage(page)
-      // }
     },
     meteor: {
       items() {
