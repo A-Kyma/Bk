@@ -11,6 +11,22 @@
         <bk-form :model="modalModel" :fields="getTypeField" :modal="true"/>
       </bk-modal>
     </slot>
+    <div v-if="datatable.handler">
+      <div v-if="datatable.firstReady">
+        <slot name="pagination-top" v-bind="{datatable}">
+          <bk-pagination
+              :datatable="datatable"
+              :scroll="scroll"
+              :perPage="perPage"
+          />
+        </slot>
+      </div>
+      <div v-else>
+        <slot name="loading-top">
+          <bk-loading/>
+        </slot>
+      </div>
+    </div>
     <slot name="main" v-bind="{items,labeledFields,datatable}">
       <table role="table" class="table b-table table-hover mt-3">
         <thead>
@@ -62,53 +78,22 @@
         </tbody>
       </table>
     </slot>
-    <slot name="pagination" v-bind="{items,labeledFields,datatable}">
-      <div v-if="datatable.handler">
-        <div v-if="datatable.firstReady">
-          <div v-if="datatable.getCount()===0">
-            <div class="text-center">
-              <p>no data to display</p>
-            </div>
-          </div>
-          <div v-else>
-            <div v-if="scrollable()">
-              <div v-if="viewScrollButton()">
-                <div class="text-center">
-                  <div class="btn btn-primary btn-lg">
-                    <a @click="seeMore()">See More</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div v-else>
-              <p>Current Page: {{ datatable.page}}</p>
-              <b-pagination @input="(page) => paginate(page)"
-                :v-model="datatable.page"
-                :total-rows="datatable.getCount()"
-                :per-page="perPage"
-              ></b-pagination>
-            </div>
-          </div>
-        </div>
-        <div v-else>
-          <slot name="loading">
-            <div class="text-center">LOADING</div>
-            <div class="text-center">
-              <b-spinner variant="dark" type="grow" label="Spinning"></b-spinner>
-              <b-spinner variant="warning" type="grow" label="Spinning"></b-spinner>
-              <b-spinner variant="danger" type="grow" label="Spinning"></b-spinner>
-            </div>
-          </slot>
-        </div>
+    <div v-if="datatable.handler">
+      <div v-if="datatable.firstReady">
+        <slot name="pagination-bottom" v-bind="{datatable}">
+          <bk-pagination
+              :datatable="datatable"
+              :scroll="scroll"
+              :perPage="perPage"
+          />
+        </slot>
       </div>
       <div v-else>
-        <div class="text-center">
-          <div class="btn btn-primary btn-lg">
-            <a @click.prevent="seeMore()">See More</a>
-          </div>
-        </div>
+        <slot name="loading-bottom">
+          <bk-loading/>
+        </slot>
       </div>
-    </slot>
+    </div>
     <slot name="footer"></slot>
   </div>
 </template>
@@ -122,10 +107,12 @@
   import BkModal from "../modals/BkModal";
   import BkForm from "../forms/BkForm";
   import BkViewInner from "../views/BkViewInner";
+  import BkPagination from "./BkPagination";
+  import BkLoading from "../loading/BkLoading";
 
   export default {
     name: "BkTable",
-    components: {BkButtonIcon,BkModal,BkForm,BkViewInner},
+    components: {BkPagination, BkButtonIcon,BkModal,BkForm,BkViewInner},
     props: {
       fields: Array,
       sortBy: String,
@@ -273,19 +260,19 @@
           return;
         }
       },
-      scrollable(){
-        return this.$props.scroll
-      },
-      viewScrollButton(){
-        return (this.datatable.getCount() !== this.datatable.getCountLocal())? true :  false;
-      },
-      seeMore(){
-        let page = this.datatable.page
-        this.datatable.setPage(page + 1)
-      },
-      paginate(page){
-        this.datatable.setPage(page)
-      }
+      // scrollable(){
+      //   return this.$props.scroll
+      // },
+      // viewScrollButton(){
+      //   return (this.datatable.getCount() !== this.datatable.getCountLocal())? true :  false;
+      // },
+      // seeMore(){
+      //   let page = this.datatable.page
+      //   this.datatable.setPage(page + 1)
+      // },
+      // paginate(page){
+      //   this.datatable.setPage(page)
+      // }
     },
     meteor: {
       items() {
