@@ -26,6 +26,7 @@
       v-model="inputRelation"
       type="search"
       :state="state"
+      @keydown="onKeyDownRelation"
     />
     <b-collapse :id="dropDownId" class="mt-2">
         <b-table
@@ -72,9 +73,10 @@ export default {
     }
   },
   created() {
-    this.oldValue = this.model[this.field];
+    let fieldDefinition = this.model.getDefinition(this.field)
+    this.oldValue = this.getId
 
-    if (this.model[this.field] || this.selectInput)
+    if (this.oldValue || this.selectInput)
       this.activateSubscription()
   },
 
@@ -83,6 +85,14 @@ export default {
   },
 
   computed: {
+    getId() {
+      let definition = this.model.getDefinition(this.field)
+      if (definition.cache && typeof this.model[this.field] === "object") {
+        return this.model[this.field] && this.model[this.field]._id
+      } else {
+        return this.model[this.field]
+      }
+    },
     selectInput() {
       return this.minCharacters === 0;
     },
@@ -101,6 +111,7 @@ export default {
         if (value === null || value === "") {
           value = undefined
         }
+        // TODO: manage cached object
         this.model.set(this.field, value, {cast: true})
         this.model.isValid(this.field);
       },
@@ -120,7 +131,7 @@ export default {
         if (value.length >= this.minCharacters)
           this.activateSubscription();
         // We unsubscribe if subscription exists and if not 3 characters
-        if (this.model[this.field] === undefined && value.length < this.minCharacters) {
+        if (this.getId === undefined && value.length < this.minCharacters) {
           this.handler && this.handler.stop();
           this.hideDropDown();
           this.relationList = [];
@@ -167,7 +178,7 @@ export default {
         this.$emit("state", false);
         return false
       } else {
-        if (_.isEqual(this.model[this.field], this.oldValue) || !this._isMounted) {
+        if (_.isEqual(this.getId, this.oldValue) || !this._isMounted) {
           this.$emit("state", null)
           return null
         } else {
@@ -178,13 +189,21 @@ export default {
     },
   },
   methods: {
+    setId(id) {
+      let definition = this.model.getDefinition(this.field)
+      if (definition.cache) {
+        this.model[this.field] = { _id: id }
+      } else {
+        this.model[this.field] = id
+      }
+    },
     activateSubscription() {
       let oldHandler = this.handler;
 
       let subscriptionName = this.model.getDefinition(this.field).subscription || this.field + ".search"
       this.handler = Meteor.subscribe(
           subscriptionName,
-          this.model[this.field], this.value, I18n.getLanguage()
+          this.getId, this.value, I18n.getLanguage()
       )
 
       Tracker.autorun(() => {
@@ -201,12 +220,13 @@ export default {
       if (this.selectInput) {
         this.relationList = this.getOptionsFromRelations()
         if (this.relationList.length === 1) {
-          this.model[this.field] = this.relationList[0].value;
+          //this.model[this.field] = this.relationList[0].value;
+          this.setId(this.relationList[0].value);
           this.$refs.select.$el.disabled = true
         }
         return
       }
-      if (this.model[this.field]) {
+      if (this.getId) {
         let relation = this.model[this.field + "Instance"]();
         this.relationOne = relation && relation.defaultName();
         return
@@ -222,7 +242,7 @@ export default {
     getOptionsFromRelations() {
       let definition = this.model.getDefinition(this.field);
       let relationClass = definition.relation;
-      let where = definition.where(this.model[this.field], this.value, I18n.getLanguage())
+      let where = definition.where(this.getId, this.value, I18n.getLanguage())
       if (!where) return;
       return relationClass && relationClass.find(where.search).map(record => {
         return {
@@ -252,9 +272,16 @@ export default {
       let elements = this.$refs.selectableTable.$el.getElementsByTagName("tr");
       elements[elements.length-1].focus();
     },
+    // Prevent typing anything when City chosen
+    onKeyDownRelation(e) {
+      let defaultName = this.relation && this.relation.defaultName();
+      if (e.key !== "Backspace" && e.key !== "Delete")
+        e.preventDefault()
+    },
     // When we click on row or hit enter when selected
     onSelectRow(row) {
-      this.model.set(this.field, row.value, {cast: true})
+      //this.model.set(this.field, row.value, {cast: true})
+      this.setId(row.value)
       this.value = "";
       if (this.relationList.length !== 1)
         this.activateSubscription(); // since value length is lower than 3
