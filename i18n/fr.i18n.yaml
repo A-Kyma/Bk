@@ -36,7 +36,7 @@ fr:
     remove: "Supprimer"
     success: "Formulaire soumis avec succès"
     failed: "Veuillez vérifier les erreurs ci-dessous"
-    chooseType: "Choissiez le type"
+    chooseType: "Choissez le type"
     undefined: "n/a"
     login: "Se connecter"
     forgottenPassword: "Envoyer"

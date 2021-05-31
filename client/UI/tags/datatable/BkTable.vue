@@ -1,15 +1,7 @@
 <template>
   <div>
     <slot name="header" v-bind="{datatable}">
-      <b-button
-          variant="outline-secondary"
-          @click="onAdd">
-        <t>app.add</t>
-      </b-button>
-
-      <bk-modal :id="modalAddId" v-if="getTypeField" @ok="onSubmitModal">
-        <bk-form :model="modalModel" :fields="getTypeField" :modal="true"/>
-      </bk-modal>
+      <bk-button-icon v-if="actions.includes('add')" label="app.add" for="add" :model="model"/><br/>
     </slot>
     <div v-if="datatable.handler">
       <div v-if="datatable.firstReady">
@@ -125,7 +117,10 @@
       initialFilter: Object,
       array: Array,
       model: [String,Class],
-      actions: Array,
+      actions: {
+        type: Array,
+        default: function() {return []}
+      },
       customActions: String,
       selector: {
         type: Object,
@@ -140,7 +135,6 @@
         sortDescSync: this.sortDesc,
         datatable: new Datatable(this.$props),
         tableModel: Class.getModel(this.model),
-        modalModel: undefined,
       }
     },
     computed: {
@@ -154,15 +148,6 @@
         let headers = this.datatable.getHeaders();
         return headers;
       },
-      modalAddId() {
-        return 'tableModalAdd_' + this._uid;
-      },
-      modalModelClass() {
-        return this.model.getFieldClass(this.field);
-      },
-      getTypeField() {
-        return this.tableClass.definition.typeField;
-      },
       routeQuery() {
         return this.$route && this.$route.query
       }
@@ -175,7 +160,7 @@
     },
     methods: {
       availableSlots() {
-        return _omit(this.$scopedSlots,["head()","cell(buttonActions)","cell()"])
+        return _omit(this.$scopedSlots, ["head()", "cell(buttonActions)", "cell()"])
       },
       onSort(field) {
         this.datatable.updateSort(field);
@@ -185,82 +170,6 @@
           this.$router.push({name: this.$route.name, query: context})
         else
           this.datatable.setContext(context);
-      },
-      onAdd() {
-        //add a new model of same type afterwards
-        let typefield = this.getTypeField;
-        if (typefield) {
-          // Ask for new model using same type field
-          this.modalModel = new (this.tableClass)();
-          this.$bvModal.show(this.modalAddId);
-        } else {
-          // TODO: Go directly on modification page or show modification modal
-          let routeName = this.tableClass.getName();
-          let route = this.$router.resolve({name: routeName});
-          if (route.resolved.matched.length > 0) {
-            //the route exists, go there
-            this.$router.push({
-              name: routeName,
-              params: {
-                for: "new",
-                id: routeName,
-              }
-            })
-          }
-          else {
-            let error = new ValidationError([{
-              name: routeName,
-              type: "RouteError",
-              message: I18n.get("Error.missingRoute",{param: routeName})
-            }])
-            // Toast launched from $root to avoid its destruction while leaving this page
-            this.$root.$bvToast.toast(I18n.get("Error.missingRoute",{param: routeName}),{
-              title: I18n.t("app.failed"),
-              variant: "danger",
-              autoHideDelay: 5000
-            })
-            return;
-          }
-        }
-      },
-      onSubmitModal(e) {
-        e.preventDefault();
-        let modelClass = Class.get(this.modalModel.type);
-        if (!modelClass) {
-          let error = new ValidationError([{
-            name: this.getTypeField,
-            type: "TypeError",
-            message: I18n.get("Error.missingSubType",{param: this.modalModel.type})
-          }])
-          this.modalModel.setError(error)
-          return;
-        }
-        if (!this.modalModel.isValid(this.getTypeField)) {
-          // if modal form content not valid, do not close it
-          return;
-        }
-        // TODO !
-        let routeName = this.tableClass.getName();
-        let route = this.$router.resolve({name: routeName});
-        if (route.resolved.matched.length > 0) {
-          //the route exists, go there
-          this.$router.push({
-            name: routeName,
-            params: {
-              for: "new",
-              id: this.modalModel[this.getTypeField],
-            }
-          })
-        }
-        else {
-          let error = new ValidationError([{
-            name: this.getTypeField,
-            type: "RouteError",
-            message: I18n.get("Error.missingRoute",{param: routeName})
-          }])
-          this.modalModel.setError(error);
-          return;
-        }
       },
     },
     meteor: {

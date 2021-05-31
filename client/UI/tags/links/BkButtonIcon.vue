@@ -20,14 +20,22 @@
       @click="onClick(null,$event)"
       :alt="label">
     <slot>
-      <b-icon class="BkButton" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
-      <t v-if="label">{{label}}</t>
+      <span v-if="computedIcon">
+        <b-icon class="BkButton" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
+        <t v-if="label" :key="label">{{label}}</t>
+      </span>
+      <b-button v-else variant="outline-secondary">
+        <t :key="label">{{label}}</t>
+      </b-button>
+      <bk-modal :id="modalAddId" v-if="$props['for'] === 'add' && getTypeField" @ok="onSubmitModal">
+        <bk-form :model="modalModel" :fields="getTypeField" :modal="modalAddId"/>
+      </bk-modal>
     </slot>
   </b-link>
 </template>
 
 <script>
-import {Class} from "meteor/jagi:astronomy"
+import { Class, ValidationError } from "meteor/jagi:astronomy";
 import {Role,I18n} from "meteor/a-kyma:bk"
 
 export default {
@@ -47,6 +55,7 @@ export default {
   data() {
     return {
       inputModel: {},
+      modalModel: undefined,
     }
   },
   created() {
@@ -68,6 +77,7 @@ export default {
         case "new": return "success";
         case "update": return "success";
         case "delete": return "danger";
+        case "add": return "outline-secondary"
         default: return this.variant;
       }
     },
@@ -80,7 +90,19 @@ export default {
         result=result.concat(field.type.class.getTransitionsForModel(this.model, field.name))
       })
       return result;
-    }
+    },
+    tableClass() {
+      return this.inputModel?.constructor
+    },
+    modalAddId() {
+      return 'tableModalAdd_' + this._uid;
+    },
+    modalModelClass() {
+      return this.model.getFieldClass(this.field);
+    },
+    getTypeField() {
+      return this.tableClass?.definition.typeField;
+    },
   },
   methods: {
     showError(err) {
@@ -112,6 +134,11 @@ export default {
         });
         return
       }
+      if (this.$props.for === "add") {
+        this.onAdd()
+        this.$emit("click",e)
+        return
+      }
       if (this.$props.for || this.route) {
         let routeName;
         if (this.route)
@@ -125,7 +152,81 @@ export default {
         }
       }
       this.$emit("click",e);
-    }
+    },
+    onAdd() {
+      //add a new model of same type afterwards
+      let typefield = this.getTypeField;
+      if (typefield) {
+        // Ask for new model using same type field
+        this.modalModel = new (this.tableClass)();
+        this.$bvModal.show(this.modalAddId);
+      } else {
+        // TODO: Go directly on modification page or show modification modal
+        let routeName = this.tableClass.getHighestParent().getName();
+        let route = this.$router.resolve({name: routeName});
+        if (route.resolved.matched.length > 0) {
+          //the route exists, go there
+          this.$router.push({
+            name: routeName,
+            params: {
+              for: "new",
+              id: routeName,
+            }
+          })
+        }
+        else {
+          let error = new ValidationError([{
+            name: routeName,
+            type: "RouteError",
+            message: I18n.get("Error.missingRoute",{param: routeName})
+          }])
+          // Toast launched from $root to avoid its destruction while leaving this page
+          this.$root.$bvToast.toast(I18n.get("Error.missingRoute",{param: routeName}),{
+            title: I18n.t("app.failed"),
+            variant: "danger",
+            autoHideDelay: 5000
+          })
+        }
+      }
+    },
+    onSubmitModal(e) {
+      e.preventDefault();
+      let modelClass = Class.get(this.modalModel.type);
+      if (!modelClass) {
+        let error = new ValidationError([{
+          name: this.getTypeField,
+          type: "TypeError",
+          message: I18n.get("Error.missingSubType",{param: this.modalModel.type})
+        }])
+        this.modalModel.setError(error)
+        return;
+      }
+      if (!this.modalModel.isValid(this.getTypeField)) {
+        // if modal form content not valid, do not close it
+        return;
+      }
+      // TODO !
+      let routeName = this.tableClass.getHighestParent().getName();
+      let route = this.$router.resolve({name: routeName});
+      if (route.resolved.matched.length > 0) {
+        //the route exists, go there
+        this.$router.push({
+          name: routeName,
+          params: {
+            for: "new",
+            id: this.modalModel[this.getTypeField],
+          }
+        })
+      }
+      else {
+        let error = new ValidationError([{
+          name: this.getTypeField,
+          type: "RouteError",
+          message: I18n.get("Error.missingRoute",{param: routeName})
+        }])
+        this.modalModel.setError(error);
+      }
+    },
   },
 }
 </script>
