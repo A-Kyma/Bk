@@ -30,6 +30,9 @@
       <bk-modal :id="modalAddId" v-if="$props['for'] === 'add' && getTypeField" @ok="onSubmitModal">
         <bk-form :model="modalModel" :fields="getTypeField" :modal="modalAddId"/>
       </bk-modal>
+      <bk-modal :id="modalFormId" v-if="!getRoute" @ok="onSubmitModalForm" :title="'app.' + $props['for']">
+        <bk-form ref="modalForm" :model="modalModel" exclude="_id" :modal="modalFormId"/>
+      </bk-modal>
     </slot>
   </b-link>
 </template>
@@ -95,7 +98,10 @@ export default {
       return this.inputModel?.constructor
     },
     modalAddId() {
-      return 'tableModalAdd_' + this._uid;
+      return 'modalAdd_' + this._uid;
+    },
+    modalFormId() {
+      return 'modalForm_' + this._uid;
     },
     modalModelClass() {
       return this.model.getFieldClass(this.field);
@@ -103,11 +109,21 @@ export default {
     getTypeField() {
       return this.tableClass?.definition.typeField;
     },
+    getRoute() {
+      let routeName
+      if (this.route)
+        routeName = this.route
+      else
+        routeName = this.tableClass.getHighestParent().getName();
+      let route = this.$router.resolve({name: routeName});
+      if (route.resolved.matched.length > 0)
+        return routeName
+    },
   },
   methods: {
     showError(err) {
       this.model.setError(err);
-      this.$root.$bvToast.toast(I18n.t("app.file.error"),{
+      this.$root.$bvToast.toast(I18n.t("app.error"),{
         title: I18n.t("app.toast.title.failed"),
         variant: "danger",
         autoHideDelay: 5000
@@ -134,21 +150,28 @@ export default {
         });
         return
       }
+      if (this.$props.for === "delete") {
+        this.inputModel?.remove((err,result) => {
+          if (err) {
+            this.showError(err)
+          } else {
+            this.showSuccess()
+          }
+        })
+      }
       if (this.$props.for === "add") {
         this.onAdd()
         this.$emit("click",e)
         return
       }
       if (this.$props.for || this.route) {
-        let routeName;
-        if (this.route)
-          routeName = this.route
-        else
-          routeName = this.model.constructor.getHighestParent().getName();
-        let route = this.$router.resolve({name: routeName});
-        if (route.resolved.matched.length > 0) {
+
+        if (this.getRoute) {
           //the route exists, go there
-          this.$router.push({ name: routeName, params: { id: this.inputModel._id, for: this.$props.for }})
+          this.$router.push({ name: this.getRoute, params: { id: this.inputModel._id, for: this.$props.for }})
+        } else {
+          this.modalModel = new (this.tableClass)()
+          this.$bvModal.show(this.modalFormId)
         }
       }
       this.$emit("click",e);
@@ -162,30 +185,33 @@ export default {
         this.$bvModal.show(this.modalAddId);
       } else {
         // TODO: Go directly on modification page or show modification modal
-        let routeName = this.tableClass.getHighestParent().getName();
-        let route = this.$router.resolve({name: routeName});
-        if (route.resolved.matched.length > 0) {
+
+        if (this.getRoute) {
           //the route exists, go there
           this.$router.push({
-            name: routeName,
+            name: this.getRoute,
             params: {
               for: "new",
-              id: routeName,
+              id: this.getRoute,
             }
           })
         }
         else {
-          let error = new ValidationError([{
-            name: routeName,
-            type: "RouteError",
-            message: I18n.get("Error.missingRoute",{param: routeName})
-          }])
-          // Toast launched from $root to avoid its destruction while leaving this page
-          this.$root.$bvToast.toast(I18n.get("Error.missingRoute",{param: routeName}),{
-            title: I18n.t("app.failed"),
-            variant: "danger",
-            autoHideDelay: 5000
-          })
+          this.modalModel = new (this.tableClass)()
+          this.$bvModal.show(this.modalFormId)
+          //
+          // let routeName = this.route || this.tableClass.getHighestParent().getName()
+          // let error = new ValidationError([{
+          //   name: routeName,
+          //   type: "RouteError",
+          //   message: I18n.get("Error.missingRoute",{param: routeName})
+          // }])
+          // // Toast launched from $root to avoid its destruction while leaving this page
+          // this.$root.$bvToast.toast(I18n.get("Error.missingRoute",{param: routeName}),{
+          //   title: I18n.t("app.failed"),
+          //   variant: "danger",
+          //   autoHideDelay: 5000
+          // })
         }
       }
     },
@@ -205,13 +231,10 @@ export default {
         // if modal form content not valid, do not close it
         return;
       }
-      // TODO !
-      let routeName = this.tableClass.getHighestParent().getName();
-      let route = this.$router.resolve({name: routeName});
-      if (route.resolved.matched.length > 0) {
+      if (this.getRoute) {
         //the route exists, go there
         this.$router.push({
-          name: routeName,
+          name: this.getRoute,
           params: {
             for: "new",
             id: this.modalModel[this.getTypeField],
@@ -222,11 +245,14 @@ export default {
         let error = new ValidationError([{
           name: this.getTypeField,
           type: "RouteError",
-          message: I18n.get("Error.missingRoute",{param: routeName})
+          message: I18n.get("Error.missingRoute",{param: this.getRoute})
         }])
         this.modalModel.setError(error);
       }
     },
+    onSubmitModalForm(e) {
+      this.$refs.modalForm.onSubmit(e)
+    }
   },
 }
 </script>

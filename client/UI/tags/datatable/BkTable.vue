@@ -46,7 +46,7 @@
                 <td v-for="cell in labeledFields" :key="cell.key" role="cell">
                   <bk-button-icon
                       v-if="cell.key==='buttonActions'"
-                      v-for="action in actions"
+                      v-for="action in actions.filter(x=>x!=='add')"
                       :for="action"
                       :model="model"
                   />
