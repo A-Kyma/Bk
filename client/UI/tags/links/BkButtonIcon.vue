@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { Class, ValidationError } from "meteor/jagi:astronomy";
+import { Class } from "meteor/jagi:astronomy";
 import {Role,I18n} from "meteor/a-kyma:bk"
 
 export default {
@@ -219,12 +219,12 @@ export default {
       e.preventDefault();
       let modelClass = Class.get(this.modalModel.type);
       if (!modelClass) {
-        let error = new ValidationError([{
-          name: this.getTypeField,
-          type: "TypeError",
-          message: I18n.get("Error.missingSubType",{param: this.modalModel.type})
-        }])
-        this.modalModel.setError(error)
+        this.modalModel.throwError(
+            this.getTypeField,
+            "TypeError",
+            "Error.missingSubType",
+            this.modalModel.type
+        )
         return;
       }
       if (!this.modalModel.isValid(this.getTypeField)) {
@@ -242,12 +242,12 @@ export default {
         })
       }
       else {
-        let error = new ValidationError([{
-          name: this.getTypeField,
-          type: "RouteError",
-          message: I18n.get("Error.missingRoute",{param: this.getRoute})
-        }])
-        this.modalModel.setError(error);
+        this.modalModel.throwError(
+            this.getTypeField,
+            "RouteError",
+            "Error.missingRoute",
+            this.getRoute
+        )
       }
     },
     onSubmitModalForm(e) {
