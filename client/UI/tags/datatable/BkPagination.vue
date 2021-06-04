@@ -51,10 +51,12 @@ export default {
       this.datatable.setPage(page + 1)
     },
     paginate(page){
-      this.datatable.setPage(page)
-      if (this.$props.updateRoute){
-        if (this.$route?.query?.currentPage !== page && page !== null){
-          this.$router.push({name: this.$route.name, query: {currentPage: page}})
+      if (this.datatable.page !== page){
+        this.datatable.setPage(page)
+        if (this.$props.updateRoute){
+          if (parseInt(this.$route?.query?.currentPage) !== page && page !== null){
+            this.$router.push({name: this.$route.name, query: {currentPage: page}})
+          }
         }
       }
     }
