@@ -112,6 +112,7 @@
       sortBy: String,
       sortDesc: Boolean,
       perPage: Number,
+      page: Number,
       filter: Object,
       scroll: Number,
       initialFilter: Object,
