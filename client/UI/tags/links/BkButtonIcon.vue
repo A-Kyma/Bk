@@ -30,7 +30,7 @@
       <bk-modal :id="modalAddId" v-if="$props['for'] === 'add' && getTypeField" @ok="onSubmitModal">
         <bk-form :model="modalModel" :fields="getTypeField" :modal="modalAddId"/>
       </bk-modal>
-      <bk-modal :id="modalFormId" v-if="!getRoute" @ok="onSubmitModalForm" :title="'app.' + $props['for']">
+      <bk-modal :id="modalFormId" v-if="model && !getRoute" @ok="onSubmitModalForm" :title="'app.' + $props['for']">
         <bk-form ref="modalForm" :model="modalModel" exclude="_id" :modal="modalFormId"/>
       </bk-modal>
     </slot>
