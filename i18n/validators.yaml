@@ -44,6 +44,7 @@ en:
     missingRoute: "Route {{param}} is missing"
     missingSubType: "Type {{param}} doesn't exist yet"
     confirm: "Field is not the same"
+    lifecyle: "Status {{value}} is unreachable from status {{param}}"
 fr:
   Error:
     required: "Le champ {{field}} est obligatoire"
@@ -90,3 +91,4 @@ fr:
     missingRoute: "Route {{param}} est manquante"
     missingSubType: "Le sous-type {{param}} n'existe pas encore"
     confirm: "Le champ n'est pas identique"
+    lifecycle: "Le statut {{value}} n'est pas accessible depuis le statut {{param}}"
