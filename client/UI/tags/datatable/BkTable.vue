@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot name="header" v-bind="{datatable}">
+    <slot name="header" v-bind="{datatable, model, actions}">
       <bk-button-icon v-if="actions.includes('add')" label="app.add" for="add" :model="model"/><br/>
     </slot>
     <div v-if="datatable.handler">
@@ -20,7 +20,7 @@
         </slot>
       </div>
     </div>
-    <slot name="main" v-bind="{items,labeledFields,datatable}">
+    <slot name="main" v-bind="{items,labeledFields,datatable, model, actions}">
       <table role="table" class="table b-table table-hover mt-3">
         <thead>
           <tr role="row">

@@ -24,7 +24,7 @@
         <b-icon class="BkButton" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
         <t v-if="label" :key="label">{{label}}</t>
       </span>
-      <b-button v-else variant="outline-secondary">
+      <b-button v-else variant="outline-primary">
         <t :key="label">{{label}}</t>
       </b-button>
       <bk-modal :id="modalAddId" v-if="$props['for'] === 'add' && getTypeField" @ok="onSubmitModal">
@@ -80,7 +80,7 @@ export default {
         case "new": return "success";
         case "update": return "success";
         case "delete": return "danger";
-        case "add": return "outline-secondary"
+        case "add": return "outline-primary"
         default: return this.variant;
       }
     },
