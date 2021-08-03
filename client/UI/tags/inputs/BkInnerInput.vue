@@ -85,6 +85,16 @@
           :readonly="plaintextComputed"
           :disabled="plaintextComputed"
       />
+
+      <bk-belongs-to-many
+        v-else-if="definitionField === 'ListRelation'"
+        v-bind="$attrs"
+        :model="model"
+        :field="field"
+        :for="$props['for']"
+        :readonly="plaintextComputed"
+        :disabled="plaintextComputed"
+      />
       <!-- TODO: is span OK ?-->
       <span v-else-if="definitionField === 'ListValue'">
           {{model[field].join(', ')}}
