@@ -17,6 +17,7 @@ Npm.depends({
   "vue-meteor-tracker": "2.0.0-beta.5",
   // For Drag & Drop usage : https://github.com/kutlugsahin/vue-smooth-dnd
   "vue-smooth-dnd": "0.8.1",
+  "vue-multiselect": "2.1.4",
   "gm": "1.23.1", // GraphicsMagick or ImageMagick for creating Thumbnails
 });
 
