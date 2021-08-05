@@ -183,7 +183,7 @@ export default {
           //the route exists, go there
           this.$router.push({ name: this.getRoute, params: { id: this.inputModel._id, for: this.$props.for }})
         } else {
-          this.modalModel = this.model || new (this.tableClass)()
+          this.modalModel = new (this.tableClass)(this.model.raw())
           this.$bvModal.show(this.modalFormId)
         }
       }
