@@ -225,7 +225,7 @@ export default {
       return relationClass && relationClass.find(where.search).map(record => {
         return {
           'value': record._id,
-          'text': record.defaultName()
+          'text': record.defaultName && record.defaultName() || record._id
         }
       });
     },

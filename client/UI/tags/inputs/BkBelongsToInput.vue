@@ -217,9 +217,10 @@ export default {
     },
 
     populate() {
+      let definition = this.model.getDefinition(this.field)
       if (this.selectInput) {
         this.relationList = this.getOptionsFromRelations()
-        if (this.relationList.length === 1) {
+        if (this.relationList.length === 1 && !definition.optional) {
           //this.model[this.field] = this.relationList[0].value;
           this.setId(this.relationList[0].value);
           this.$refs.select.$el.disabled = true
@@ -232,7 +233,7 @@ export default {
         return
       }
       this.relationList = this.getOptionsFromRelations()
-      if (this.relationList.length === 1) {
+      if (this.relationList.length === 1 && !definition.optional) {
         this.onSelectRow(this.relationList[0])
         this.populate()
         return
@@ -244,12 +245,19 @@ export default {
       let relationClass = definition.relation;
       let where = definition.where(this.getId, this.value, I18n.getLanguage())
       if (!where) return;
-      return relationClass && relationClass.find(where.search).map(record => {
+      let result = relationClass && relationClass.find(where.search).map(record => {
         return {
-          'value': record._id,
-          'text': record.defaultName()
+          value: record._id,
+          text: record.defaultName()
         }
       });
+      if (definition.optional && Array.isArray(result)) {
+        result.unshift({
+          value: undefined,
+          text: " "
+        })
+      }
+      return result
     },
     showDropDown() {
       if (this.dropDownVisible) return;

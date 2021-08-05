@@ -1,7 +1,13 @@
 <template>
   <div>
     <slot name="header" v-bind="{datatable}">
-      <bk-button-icon v-if="actions.includes('add')" label="app.add" for="add" :model="model"/><br/>
+      <bk-button-icon v-if="actions.includes('add')"
+                      label="app.add"
+                      for="add"
+                      :model="model"
+                      v-bind="$attrs"
+      />
+      <br/>
     </slot>
     <div v-if="datatable.handler">
       <div v-if="datatable.firstReady">
@@ -49,6 +55,7 @@
                       v-for="action in actions.filter(x=>x!=='add')"
                       :for="action"
                       :model="model"
+                      v-bind="$attrs"
                   />
                   <slot
                       v-if="cell.key==='buttonActions'"
