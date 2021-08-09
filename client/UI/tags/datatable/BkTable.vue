@@ -5,6 +5,7 @@
                       label="app.add"
                       for="add"
                       :model="model"
+                      :params="initialFilter"
                       v-bind="$attrs"
       />
       <br/>

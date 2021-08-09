@@ -33,6 +33,12 @@ export default {
     definition() {
       return this.model.getDefinition(this.field)
     },
+    getDefinitionParams() {
+      let params = this.definition.params || {}
+      if (typeof params === "function")
+        params = params({doc: this.model, name: this.field, value: this.model[this.field]})
+      return params
+    },
     isArray() {
       return this.definition instanceof ListField
     },
@@ -178,7 +184,7 @@ export default {
       let subscriptionName = this.definition.subscription || this.field + ".search"
       this.handler = Meteor.subscribe(
         subscriptionName,
-        this.getId, this.value, I18n.getLanguage()
+        this.getId, this.value, I18n.getLanguage(),this.getDefinitionParams
       )
 
       Tracker.autorun(() => {
@@ -220,7 +226,9 @@ export default {
     getOptionsFromRelations() {
       let definition = this.model.getDefinition(this.field);
       let relationClass = definition.relation;
-      let where = definition.where(this.getId, this.value, I18n.getLanguage()) //TODO where not found
+      let where = definition.where(
+        this.getId, this.value, I18n.getLanguage(),this.getDefinitionParams()
+      ) //TODO where not found
       if (!where) return;
       return relationClass && relationClass.find(where.search).map(record => {
         return {

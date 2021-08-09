@@ -34,6 +34,7 @@ en:
     min: "Minimum"
     max: "Maximum"
     notFound: "Search not found"
+    noData : "No data to display"
     view: "Consultation"
     ok: "Ok"
     close: "Close"

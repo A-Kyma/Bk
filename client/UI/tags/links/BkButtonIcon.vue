@@ -67,6 +67,10 @@ export default {
     model: {Class,String},
     label: String,
     route: String,
+    params: {
+      type: Object,
+      default() { {} },
+    }
   },
   data() {
     return {
@@ -210,7 +214,7 @@ export default {
           })
         }
         else {
-          this.modalModel = new (this.tableClass)()
+          this.modalModel = new (this.tableClass)(this.params)
           this.$bvModal.show(this.modalFormId)
           //
           // let routeName = this.route || this.tableClass.getHighestParent().getName()
