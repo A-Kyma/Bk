@@ -9,10 +9,12 @@
 
     <span v-for="(text, index) in value" v-else-if="classDefinitionName === 'ListEnum'">
       <span v-if="index !== 0">, </span>
-      <t  :key="text">{{text}}</t>
+      <t :key="text">{{text}}</t>
     </span>
 
     <t v-else-if="classDefinitionName === 'Enum'" :key="value">{{value}}</t>
+
+    <b-icon v-else-if="classDefinitionName === 'Color'" icon="circle-fill" :color="value"></b-icon>
 
     <span v-else>{{value}}</span>
   </slot>
@@ -42,7 +44,7 @@ export default {
       if (Enum.includes(fieldClass) && definition instanceof ListField) return "ListEnum"
       if (Enum.includes(fieldClass)) return "Enum"
       if (Lifecycle.includes(fieldClass)) return "Lifecycle"
-      return "Other"
+      return definition.type.name
     }
   },
   meteor: {

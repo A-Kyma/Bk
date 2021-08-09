@@ -172,7 +172,7 @@ export default {
           }
         })
       }
-      if (this.$props.for === "add") {
+      if (this.$props.for === "add" || this.$props.for === "new") {
         this.onAdd()
         this.$emit("click",e)
         return
@@ -183,7 +183,7 @@ export default {
           //the route exists, go there
           this.$router.push({ name: this.getRoute, params: { id: this.inputModel._id, for: this.$props.for }})
         } else {
-          this.modalModel = new (this.tableClass)(this.model.raw())
+          this.modalModel = this.tableClass.findOne(this.model._id) //new (this.tableClass)(this.model.raw())
           this.$bvModal.show(this.modalFormId)
         }
       }
