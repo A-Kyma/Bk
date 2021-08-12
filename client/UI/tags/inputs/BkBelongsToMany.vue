@@ -1,6 +1,6 @@
 <template>
   <div>
-    <multiselect
+    <multiselect ref="select"
         v-model="inputRelation"
         :options="relationList"
         label="text"
@@ -10,7 +10,9 @@
         :placeholder="placeholder"
         :tagPlaceholder="tagPlaceholder"
         :loading="!ready"
-        taggable
+        :taggable="true"
+        :close-on-select="!selectInput"
+        :clear-on-select="!selectInput"
         multiple
         searchable
         @search-change="search"

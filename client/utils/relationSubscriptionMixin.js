@@ -33,12 +33,7 @@ export default {
     definition() {
       return this.model.getDefinition(this.field)
     },
-    getDefinitionParams() {
-      let params = this.definition.params || {}
-      if (typeof params === "function")
-        params = params({doc: this.model, name: this.field, value: this.model[this.field]})
-      return params
-    },
+
     isArray() {
       return this.definition instanceof ListField
     },
@@ -78,6 +73,16 @@ export default {
     },
     relations() {
       return this.model[this.field + "Instances"]();
+    },
+    where() {
+      let definition = this.model.getDefinition(this.field);
+      let where = definition.where.call(
+        this.model, // set this in where function to this.model
+        this.getId, this.value, I18n.getLanguage()
+      ) //TODO where not found
+      if (!where) return;
+      if (!where.search && !where.param) where = { search: where }
+      return where
     },
     inputValue: {
       set(value) {
@@ -135,7 +140,26 @@ export default {
       },
     }
   },
+  watch: {
+    where(newValue,oldValue) {
+      let subscriptionName = this.definition.subscription
+      if (!subscriptionName && this.selectInput) {
+        // if where clause change, repopulate the list
+        this.populate();
 
+      }
+    },
+    relationList(newValue,oldValue) {
+      let subscriptionName = this.definition.subscription
+      if (!subscriptionName && this.selectInput && Array.isArray(oldValue)) {
+        // We remove ids from this.model[this.field] if not in list anymore
+        oldValue.forEach(e => {
+          let elem = newValue.find(n => n.value === e.value)
+          if (!elem) this.removeId(e.value)
+        })
+      }
+    }
+  },
   methods: {
     setId(id) {
       let definition = this.model.getDefinition(this.field)
@@ -181,26 +205,31 @@ export default {
     activateSubscription() {
       let oldHandler = this.handler
       this.ready = false
-      let subscriptionName = this.definition.subscription || this.field + ".search"
-      this.handler = Meteor.subscribe(
-        subscriptionName,
-        this.getId, this.value, I18n.getLanguage(),this.getDefinitionParams
-      )
+      let subscriptionName = this.definition.subscription
+      if (subscriptionName) {
+        this.handler = Meteor.subscribe(
+          subscriptionName,
+          this.getId, this.value, I18n.getLanguage()
+        )
 
-      Tracker.autorun(() => {
-        let ready = this.handler.ready();
-        if (ready) {
-          this.ready = true
-          oldHandler && oldHandler.stop()
-          this.populate()
-        }
-      })
+        Tracker.autorun(() => {
+          let ready = this.handler.ready();
+          if (ready) {
+            this.ready = true
+            oldHandler && oldHandler.stop()
+            this.populate()
+          }
+        })
+      } else {
+        this.ready = true
+        this.populate()
+      }
 
     },
     populate() {
       if (this.selectInput) {
         this.relationList = this.getOptionsFromRelations()
-        if (this.relationList.length === 1) {
+        if (this.relationList.length === 1 && !this.definition.optional) {
           //this.model[this.field] = this.relationList[0].value;
           this.setId(this.relationList[0].value);
           this.$refs.select.$el.disabled = true
@@ -226,9 +255,7 @@ export default {
     getOptionsFromRelations() {
       let definition = this.model.getDefinition(this.field);
       let relationClass = definition.relation;
-      let where = definition.where(
-        this.getId, this.value, I18n.getLanguage(),this.getDefinitionParams()
-      ) //TODO where not found
+      let where = this.where
       if (!where) return;
       return relationClass && relationClass.find(where.search).map(record => {
         return {

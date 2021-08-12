@@ -1,5 +1,5 @@
 <template>
-  <b-modal :id="id" @ok="onOk">
+  <b-modal :id="id" @ok="onOk" v-bind="$attrs">
     <template #modal-title>
       <slot name="title">
         <t>{{title}}</t>

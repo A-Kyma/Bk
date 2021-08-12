@@ -27,7 +27,9 @@
       <b-button v-else variant="outline-secondary">
         <t :key="label">{{label}}</t>
       </b-button>
-      <bk-modal :id="modalAddId" v-if="$props['for'] === 'add' && getTypeField" @ok="onSubmitModal">
+      <bk-modal :id="modalAddId"
+                v-if="$props['for'] === 'add' && getTypeField"
+                @ok="onSubmitModal">
         <bk-form
             :model="modalModel"
             :fields="getTypeField"
@@ -36,7 +38,11 @@
             v-bind="$attrs"
         />
       </bk-modal>
-      <bk-modal :id="modalFormId" v-if="model && !getRoute" @ok="onSubmitModalForm" :title="'app.' + $props['for']">
+      <bk-modal :id="modalFormId"
+                v-if="model && !getRoute"
+                @ok="onSubmitModalForm"
+                :size="size"
+                :title="'app.' + $props['for']">
         <bk-form
             ref="modalForm"
             :model="modalModel"
@@ -62,6 +68,7 @@ export default {
       type: String,
       default: "1"
     },
+    size: String, // modal size
     variant: String,
     for: String,
     model: {Class,String},
@@ -198,7 +205,7 @@ export default {
       let typefield = this.getTypeField;
       if (typefield) {
         // Ask for new model using same type field
-        this.modalModel = new (this.tableClass)();
+        this.modalModel = new (this.tableClass)(this.params);
         this.$bvModal.show(this.modalAddId);
       } else {
         // TODO: Go directly on modification page or show modification modal
