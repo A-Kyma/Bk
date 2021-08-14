@@ -34,6 +34,9 @@ export default {
   methods: {
     onOk(e) {
       this.$emit("ok",e);
+    },
+    show() {
+      this.$bvModal.show(this.id)
     }
   },
 }
