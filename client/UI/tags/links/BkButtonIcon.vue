@@ -59,9 +59,11 @@
 <script>
 import { Class } from "meteor/jagi:astronomy";
 import {Role,I18n} from "meteor/a-kyma:bk"
+import errorPopupMixin from "../../../utils/errorPopupMixin";
 
 export default {
   name: "BkButtonIcon",
+  mixins: [errorPopupMixin],
   props: {
     icon: String,
     fontScale: {
@@ -145,43 +147,14 @@ export default {
     },
   },
   methods: {
-    showError(err) {
-      this.model.setError(err);
-      this.$root.$bvToast.toast(I18n.t("app.error"),{
-        title: I18n.t("app.toast.title.failed"),
-        variant: "danger",
-        autoHideDelay: 5000
-      })
-    },
-    showSuccess(key="app.toast.title.success") {
-      // Toast launched from $root to avoid its destruction while leaving this page
-      this.$root.$bvToast.toast(I18n.t("app.success"),{
-        title: I18n.t(key),
-        variant: "success",
-        autoHideDelay: 5000
-      })
-      this.dismissCountDown = this.dismissSecs;
-    },
     onClick(transition,e) {
       if (transition !== null) {
         this.model[transition.field] = transition.to
-        this.model.save({fields:[transition.field]},(err,result) => {
-          if (err) {
-            this.showError(err)
-          } else {
-            this.showSuccess()
-          }
-        });
+        this.model.save({fields:[transition.field]},this.errorCallback);
         return
       }
       if (this.$props.for === "delete") {
-        this.inputModel?.remove((err,result) => {
-          if (err) {
-            this.showError(err)
-          } else {
-            this.showSuccess()
-          }
-        })
+        this.inputModel?.remove(this.errorCallback)
       }
       if (this.$props.for === "add" || this.$props.for === "new") {
         this.onAdd()

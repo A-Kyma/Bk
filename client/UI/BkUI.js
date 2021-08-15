@@ -41,6 +41,8 @@ import BkBreadCrumb from "./tags/routes/BkBreadCrumb"
 import BkButtonIcon from "./tags/links/BkButtonIcon"
 import BkCardListClass from "./tags/forms/BkCardListClass"
 import BkDatalistInput from "./tags/inputs/BkDatalistInput"
+import BkBelongsToMany from "./tags/inputs/BkBelongsToMany"
+import BkDatePicker from "./tags/inputs/BkDatePicker"
 import BkDropdown from "./tags/inputs/BkDropdown"
 import BkFieldList from "./tags/forms/BkFieldList";
 import BkFile from "./tags/files/BkFile"
@@ -53,6 +55,7 @@ import BkLoading from "./tags/loading/BkLoading"
 import BkLogin from "./tags/forms/BkLogin"
 import BkModal from "./tags/modals/BkModal";
 import BkResetPassword from "./tags/forms/BkResetPassword";
+import BkChangePassword from "./tags/forms/BkChangePassword"
 import BkSubmit from "./tags/forms/BkSubmit"
 import BkSubscribe from "./tags/forms/BkSubscribe";
 import BkTable from "./tags/datatable/BkTable"
@@ -60,9 +63,13 @@ import BkTranslate from "./tags/translation/BkTranslate"
 import BkView from "./tags/views/BkView";
 import BkViewInner from "./tags/views/BkViewInner";
 import BkViewClean from "./tags/views/BkViewClean";
+import BkPagination from "./tags/datatable/BkPagination"
+import errorPopupMixin from "../utils/errorPopupMixin";
 
 const BkUI = {
   BkBelongstoInput,
+  BkBelongsToMany,
+  BkDatePicker,
   BkBreadCrumb,
   BkButtonIcon,
   BkCardListClass,
@@ -78,6 +85,8 @@ const BkUI = {
   BkLoading,
   BkLogin,
   BkModal,
+  BkPagination,
+  BkChangePassword,
   BkResetPassword,
   BkSubmit,
   BkSubscribe,
@@ -85,7 +94,8 @@ const BkUI = {
   BkTranslate,
   BkView,
   BkViewInner,
-  BkViewClean
+  BkViewClean,
+  errorPopupMixin
 }
 
 BkUI.install = function (Vue, config = {}) {

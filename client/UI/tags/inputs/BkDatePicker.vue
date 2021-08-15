@@ -65,7 +65,7 @@ export default {
     timeValue: {
       set(value) {
         if (value === undefined || value === "") return
-        let d = DateTime.getISODate(this.value)
+        let d = DateTime.getISODateString(this.value)
         let newValue = d + " " + value
         // $emit to let BkInnerInput manage setting value into model
         this.$emit("input", newValue)

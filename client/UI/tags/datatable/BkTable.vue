@@ -123,6 +123,8 @@
       page: Number,
       filter: Object,
       scroll: Number,
+      multi: Boolean,
+      full: Boolean,
       initialFilter: Object,
       array: Array,
       model: [String,Class],
