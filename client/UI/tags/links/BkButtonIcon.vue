@@ -165,7 +165,10 @@ export default {
 
         if (this.getRoute) {
           //the route exists, go there
-          this.$router.push({ name: this.getRoute, params: { id: this.inputModel._id, for: this.$props.for }})
+          //concatenate params passed to bk-button-icon and params of the line
+          let localParams = { id: this.inputModel._id, for: this.$props.for }
+          let params = {...this.params,...localParams}
+          this.$router.push({ name: this.getRoute, params})
         } else {
           this.modalModel = this.tableClass.findOne(this.model._id) //new (this.tableClass)(this.model.raw())
           this.$bvModal.show(this.modalFormId)

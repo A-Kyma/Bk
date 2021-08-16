@@ -1,5 +1,5 @@
 <template>
-  <div>
+
     <multiselect ref="select"
         v-model="inputRelation"
         :options="relationList"
@@ -19,9 +19,10 @@
         @select="onSelectRow"
         @remove="onRemoveTag"
     >
-
+      <span slot="noResult"><t>app.notFound</t></span>
+      <span slot="noOptions"><t>app.noData</t></span>
     </multiselect>
-  </div>
+
 </template>
 
 <script>

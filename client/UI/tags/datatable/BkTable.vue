@@ -5,7 +5,7 @@
                       label="app.add"
                       for="add"
                       :model="model"
-                      :params="initialFilter"
+                      :params="filter"
                       v-bind="$attrs"
       />
       <br/>
@@ -121,11 +121,11 @@
       sortDesc: Boolean,
       perPage: Number,
       page: Number,
-      filter: Object,
+      filter: Object, // default filter used, cannot be changer afterwards
+      initialFilter: Object, // initial applied filter, can be changed at any time using table filters
       scroll: Number,
       multi: Boolean,
       full: Boolean,
-      initialFilter: Object,
       array: Array,
       model: [String,Class],
       actions: {
