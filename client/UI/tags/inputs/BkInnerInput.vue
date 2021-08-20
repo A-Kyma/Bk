@@ -342,6 +342,10 @@ import BkCardListClass from "../forms/BkCardListClass";
           return "BFormTimepicker"
         }
 
+        if (fieldType === "DateTime") {
+          return "BkDatePicker";
+        }
+
         if (fieldType === "Textarea") {
           return "BFormTextarea"
         }

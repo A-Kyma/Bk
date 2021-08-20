@@ -1,7 +1,7 @@
 <template>
       <div v-if="datatable.getCount()===0">
         <div class="text-center">
-          <p>no data to display</p>
+          <p><t>app.noData</t></p>
         </div>
       </div>
       <div v-else>

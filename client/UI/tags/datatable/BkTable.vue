@@ -1,7 +1,14 @@
 <template>
   <div>
     <slot name="header" v-bind="{datatable, model, actions}">
-      <bk-button-icon v-if="actions.includes('add')" label="app.add" for="add" :model="model"/><br/>
+      <bk-button-icon v-if="actions.includes('add')"
+                      label="app.add"
+                      for="add"
+                      :model="model"
+                      :params="filter"
+                      v-bind="$attrs"
+      />
+      <br/>
     </slot>
     <div v-if="datatable.handler">
       <div v-if="datatable.firstReady">
@@ -113,9 +120,11 @@
       sortDesc: Boolean,
       perPage: Number,
       page: Number,
-      filter: Object,
+      filter: Object, // default filter used, cannot be changer afterwards
+      initialFilter: Object, // initial applied filter, can be changed at any time using table filters
       scroll: Number,
-      initialFilter: Object,
+      multi: Boolean,
+      full: Boolean,
       array: Array,
       model: [String,Class],
       actions: {

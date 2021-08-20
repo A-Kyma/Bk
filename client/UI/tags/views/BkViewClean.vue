@@ -7,7 +7,14 @@
       <t :key="value">{{value}}</t>
     </b-button>
 
+    <span v-for="(text, index) in value" v-else-if="classDefinitionName === 'ListEnum'">
+      <span v-if="index !== 0">, </span>
+      <t :key="text">{{text}}</t>
+    </span>
+
     <t v-else-if="classDefinitionName === 'Enum'" :key="value">{{value}}</t>
+
+    <b-icon v-else-if="classDefinitionName === 'Color'" icon="circle-fill" :color="value"></b-icon>
 
     <span v-else>{{value}}</span>
   </slot>
@@ -16,7 +23,7 @@
 </template>
 
 <script>
-import {Class} from "meteor/jagi:astronomy"
+import {Class,ListField} from "meteor/jagi:astronomy"
 import Lifecycle from "../../../../lib/modules/customFields/customs/Lifecycle";
 import Enum from "../../../../lib/modules/customFields/customs/Enum";
 
@@ -32,10 +39,12 @@ export default {
       return this.model.getFieldClass(this.field);
     },
     classDefinitionName() {
+      let definition = this.model.getDefinition(this.field)
       let fieldClass = this.classDefinition
+      if (Enum.includes(fieldClass) && definition instanceof ListField) return "ListEnum"
       if (Enum.includes(fieldClass)) return "Enum"
       if (Lifecycle.includes(fieldClass)) return "Lifecycle"
-      return "Other"
+      return definition.type.name
     }
   },
   meteor: {

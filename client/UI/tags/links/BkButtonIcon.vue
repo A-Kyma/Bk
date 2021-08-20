@@ -27,11 +27,30 @@
       <b-button v-else variant="outline-primary">
         <t :key="label">{{label}}</t>
       </b-button>
-      <bk-modal :id="modalAddId" v-if="$props['for'] === 'add' && getTypeField" @ok="onSubmitModal">
-        <bk-form :model="modalModel" :fields="getTypeField" :modal="modalAddId"/>
+      <bk-modal :id="modalAddId"
+                v-if="$props['for'] === 'add' && getTypeField"
+                @ok="onSubmitModal">
+        <bk-form
+            :model="modalModel"
+            :fields="getTypeField"
+            :modal="modalAddId"
+            for="add"
+            v-bind="$attrs"
+        />
       </bk-modal>
-      <bk-modal :id="modalFormId" v-if="model && !getRoute" @ok="onSubmitModalForm" :title="'app.' + $props['for']">
-        <bk-form ref="modalForm" :model="modalModel" exclude="_id" :modal="modalFormId"/>
+      <bk-modal :id="modalFormId"
+                v-if="model && !getRoute"
+                @ok="onSubmitModalForm"
+                :size="size"
+                :title="'app.' + $props['for']">
+        <bk-form
+            ref="modalForm"
+            :model="modalModel"
+            exclude="_id"
+            :modal="modalFormId"
+            :for="$props['for']"
+            v-bind="$attrs"
+        />
       </bk-modal>
     </slot>
   </b-link>
@@ -40,20 +59,27 @@
 <script>
 import { Class } from "meteor/jagi:astronomy";
 import {Role,I18n} from "meteor/a-kyma:bk"
+import errorPopupMixin from "../../../utils/errorPopupMixin";
 
 export default {
   name: "BkButtonIcon",
+  mixins: [errorPopupMixin],
   props: {
     icon: String,
     fontScale: {
       type: String,
       default: "1"
     },
+    size: String, // modal size
     variant: String,
     for: String,
     model: {Class,String},
     label: String,
     route: String,
+    params: {
+      type: Object,
+      default() { {} },
+    }
   },
   data() {
     return {
@@ -121,45 +147,16 @@ export default {
     },
   },
   methods: {
-    showError(err) {
-      this.model.setError(err);
-      this.$root.$bvToast.toast(I18n.t("app.error"),{
-        title: I18n.t("app.toast.title.failed"),
-        variant: "danger",
-        autoHideDelay: 5000
-      })
-    },
-    showSuccess(key="app.toast.title.success") {
-      // Toast launched from $root to avoid its destruction while leaving this page
-      this.$root.$bvToast.toast(I18n.t("app.success"),{
-        title: I18n.t(key),
-        variant: "success",
-        autoHideDelay: 5000
-      })
-      this.dismissCountDown = this.dismissSecs;
-    },
     onClick(transition,e) {
       if (transition !== null) {
         this.model[transition.field] = transition.to
-        this.model.save({fields:[transition.field]},(err,result) => {
-          if (err) {
-            this.showError(err)
-          } else {
-            this.showSuccess()
-          }
-        });
+        this.model.save({fields:[transition.field]},this.errorCallback);
         return
       }
       if (this.$props.for === "delete") {
-        this.inputModel?.remove((err,result) => {
-          if (err) {
-            this.showError(err)
-          } else {
-            this.showSuccess()
-          }
-        })
+        this.inputModel?.remove(this.errorCallback)
       }
-      if (this.$props.for === "add") {
+      if (this.$props.for === "add" || this.$props.for === "new") {
         this.onAdd()
         this.$emit("click",e)
         return
@@ -168,9 +165,12 @@ export default {
 
         if (this.getRoute) {
           //the route exists, go there
-          this.$router.push({ name: this.getRoute, params: { id: this.inputModel._id, for: this.$props.for }})
+          //concatenate params passed to bk-button-icon and params of the line
+          let localParams = { id: this.inputModel._id, for: this.$props.for }
+          let params = {...this.params,...localParams}
+          this.$router.push({ name: this.getRoute, params})
         } else {
-          this.modalModel = new (this.tableClass)()
+          this.modalModel = this.tableClass.findOne(this.model._id) //new (this.tableClass)(this.model.raw())
           this.$bvModal.show(this.modalFormId)
         }
       }
@@ -181,7 +181,7 @@ export default {
       let typefield = this.getTypeField;
       if (typefield) {
         // Ask for new model using same type field
-        this.modalModel = new (this.tableClass)();
+        this.modalModel = new (this.tableClass)(this.params);
         this.$bvModal.show(this.modalAddId);
       } else {
         // TODO: Go directly on modification page or show modification modal
@@ -197,7 +197,7 @@ export default {
           })
         }
         else {
-          this.modalModel = new (this.tableClass)()
+          this.modalModel = new (this.tableClass)(this.params)
           this.$bvModal.show(this.modalFormId)
           //
           // let routeName = this.route || this.tableClass.getHighestParent().getName()
