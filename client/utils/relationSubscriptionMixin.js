@@ -209,7 +209,8 @@ export default {
       if (subscriptionName) {
         this.handler = Meteor.subscribe(
           subscriptionName,
-          this.getId, this.value, I18n.getLanguage()
+          this.getId, this.value, I18n.getLanguage(),
+          this.where
         )
 
         Tracker.autorun(() => {

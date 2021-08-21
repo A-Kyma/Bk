@@ -106,6 +106,16 @@ export default {
       if (min === undefined || min === null || isNaN(min)) return 3
       return min;
     },
+    where() {
+      let definition = this.model.getDefinition(this.field);
+      let where = definition.where.call(
+          this.model, // set this in where function to this.model
+          this.getId, this.value, I18n.getLanguage()
+      ) //TODO where not found
+      if (!where) return;
+      if (!where.search && !where.param) where = { search: where }
+      return where
+    },
     selectValue: {
       set: function (value) {
         if (value === null || value === "") {
@@ -203,7 +213,8 @@ export default {
       let subscriptionName = this.model.getDefinition(this.field).subscription || this.field + ".search"
       this.handler = Meteor.subscribe(
           subscriptionName,
-          this.getId, this.value, I18n.getLanguage()
+          this.getId, this.value, I18n.getLanguage(),
+          this.where
       )
 
       Tracker.autorun(() => {
@@ -243,9 +254,7 @@ export default {
     getOptionsFromRelations() {
       let definition = this.model.getDefinition(this.field);
       let relationClass = definition.relation;
-      let where = definition.where(
-          this.getId, this.value, I18n.getLanguage()
-      )
+      let where = this.where
       if (!where) return;
       let result = relationClass && relationClass.find(where.search).map(record => {
         return {
