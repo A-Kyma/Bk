@@ -52,9 +52,9 @@ export default {
           newValue = undefined
         else
           if (this.timeValue === undefined)
-            newValue = value + " 00:00"
+            newValue = value + "T00:00"
           else
-            newValue = value + " " + this.timeValue,{cast: true}
+            newValue = value + "T" + this.timeValue,{cast: true}
         // $emit to let BkInnerInput manage setting value into model
         this.$emit("input", newValue)
       },
@@ -66,7 +66,7 @@ export default {
       set(value) {
         if (value === undefined || value === "") return
         let d = DateTime.getISODateString(this.value)
-        let newValue = d + " " + value
+        let newValue = d + "T" + value
         // $emit to let BkInnerInput manage setting value into model
         this.$emit("input", newValue)
       },
