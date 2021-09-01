@@ -6,7 +6,7 @@
         label="text"
         track-by="text"
         :show-labels="false"
-        :disabled="disabled"
+        :disabled="plaintext || disabled"
         :placeholder="placeholder"
         :tagPlaceholder="tagPlaceholder"
         :loading="!ready"

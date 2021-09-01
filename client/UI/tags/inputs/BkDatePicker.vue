@@ -7,6 +7,7 @@
           v-model="dateValue"
           :placeholder="placeholder"
           :state="state"
+          :disabled="plaintext"
           @hidden="selectTime"
         />
       </b-col>
@@ -18,7 +19,7 @@
           placeholder="HH:mm"
           minutes-step="5"
           :state="state"
-          :disabled="dateValue===undefined"
+          :disabled="plaintext || dateValue===undefined"
         />
       </b-col>
     </b-row>

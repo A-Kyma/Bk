@@ -16,7 +16,7 @@
     </b-link>
   </span>
   <b-link
-      v-else
+      v-else-if="computedPermission"
       @click="onClick(null,$event)"
       :alt="label">
     <slot>
@@ -113,6 +113,17 @@ export default {
         case "delete": return "danger";
         case "add": return "outline-secondary"
         default: return this.variant;
+      }
+    },
+    computedPermission(){
+      if (!this.model) return true
+      switch (this.$props.for) {
+        case "view": return this.model.canView()
+        case "new": return this.model.canCreate()
+        case "update": return this.model.canUpdate()
+        case "delete": return this.model.canDelete()
+        case "add": return this.model.canCreate()
+        default: return true
       }
     },
     transitions: function () {
