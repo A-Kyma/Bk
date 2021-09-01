@@ -65,6 +65,7 @@ import BkViewInner from "./tags/views/BkViewInner";
 import BkViewClean from "./tags/views/BkViewClean";
 import BkPagination from "./tags/datatable/BkPagination"
 import errorPopupMixin from "../utils/errorPopupMixin";
+import relationSubscriptionMixin from "../utils/relationSubscriptionMixin"
 
 const BkUI = {
   BkBelongstoInput,
@@ -95,7 +96,8 @@ const BkUI = {
   BkView,
   BkViewInner,
   BkViewClean,
-  errorPopupMixin
+  errorPopupMixin,
+  relationSubscriptionMixin
 }
 
 BkUI.install = function (Vue, config = {}) {

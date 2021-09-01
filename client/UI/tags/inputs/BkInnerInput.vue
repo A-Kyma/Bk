@@ -186,6 +186,7 @@ import BkCardListClass from "../forms/BkCardListClass";
           if (value === null || value === "") { value = undefined }
           this.model.set(this.field, value, {cast: true})
           this.model.isValid(this.field);
+          this.$emit("input",value)
         },
         get: function () {
           return this.model.get(this.field);

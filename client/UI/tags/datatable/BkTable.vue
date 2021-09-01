@@ -7,7 +7,11 @@
                       :model="model"
                       :params="filter"
                       v-bind="$attrs"
-      />
+      >
+        <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+          <slot :name="slot" v-bind="props" />
+        </template>
+      </bk-button-icon>
       <br/>
     </slot>
     <div v-if="datatable.handler">
@@ -57,7 +61,12 @@
                       :for="action"
                       :model="model"
                       v-bind="$attrs"
-                  />
+                      @remove="onRemove"
+                  >
+                    <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+                      <slot :name="slot" v-bind="props" />
+                    </template>
+                  </bk-button-icon>
                   <slot
                       v-if="cell.key==='buttonActions'"
                       name="customActions"
@@ -182,6 +191,9 @@
         else
           this.datatable.setContext(context);
       },
+      onRemove(subModel) {
+        this.$emit("remove",subModel)
+      }
     },
     meteor: {
       items() {

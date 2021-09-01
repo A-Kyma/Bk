@@ -142,6 +142,7 @@ export default {
   },
   watch: {
     where(newValue,oldValue) {
+      if (_.isEqual(newValue.search,oldValue.search)) return
       let subscriptionName = this.definition.subscription
       if (!subscriptionName && this.selectInput) {
         // if where clause change, repopulate the list
@@ -233,7 +234,7 @@ export default {
         if (this.relationList.length === 1 && !this.definition.optional) {
           //this.model[this.field] = this.relationList[0].value;
           this.setId(this.relationList[0].value);
-          this.$refs.select.$el.disabled = true
+          if (this.$refs.select) this.$refs.select.$el.disabled = true
         }
         return
       }
@@ -273,9 +274,11 @@ export default {
         this.activateSubscription(); // since value length is lower than 3
       //this.relationList = [];
       this.model.isValid(this.field);
+      this.$emit("input",this.model[this.field])
     },
     onRemoveTag(row) {
       this.removeId(row.value)
+      this.$emit("input",this.model[this.field])
     }
   }
 }

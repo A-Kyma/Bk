@@ -46,11 +46,16 @@
         <bk-form
             ref="modalForm"
             :model="modalModel"
+            form-field="modal"
             exclude="_id"
             :modal="modalFormId"
             :for="$props['for']"
             v-bind="$attrs"
-        />
+        >
+          <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+            <slot :name="slot" v-bind="props" />
+          </template>
+        </bk-form>
       </bk-modal>
     </slot>
   </b-link>
@@ -154,7 +159,12 @@ export default {
         return
       }
       if (this.$props.for === "delete") {
-        this.inputModel?.remove(this.errorCallback)
+        // remove doesn't exist if model is not linked to a database
+        if (this.inputModel?.remove)
+          this.inputModel?.remove(this.errorCallback)
+        else
+          this.$emit("remove",this.inputModel)
+        return
       }
       if (this.$props.for === "add" || this.$props.for === "new") {
         this.onAdd()
@@ -174,7 +184,7 @@ export default {
           this.$bvModal.show(this.modalFormId)
         }
       }
-      this.$emit("click",e);
+      this.$emit("click",e,this.model);
     },
     onAdd() {
       //add a new model of same type afterwards

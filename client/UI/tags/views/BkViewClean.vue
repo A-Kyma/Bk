@@ -16,6 +16,8 @@
 
     <b-icon v-else-if="classDefinitionName === 'Color'" icon="circle-fill" :color="value"></b-icon>
 
+    <b-form-checkbox v-else-if="classDefinitionName === 'Boolean'" v-model="value" disabled/>
+
     <span v-else>{{value}}</span>
   </slot>
   </span>
