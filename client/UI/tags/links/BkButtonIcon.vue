@@ -115,17 +115,6 @@ export default {
         default: return this.variant;
       }
     },
-    computedPermission(){
-      if (!this.model) return true
-      switch (this.$props.for) {
-        case "view": return this.model.canView()
-        case "new": return this.model.canCreate()
-        case "update": return this.model.canUpdate()
-        case "delete": return this.model.canDelete()
-        case "add": return this.model.canCreate()
-        default: return true
-      }
-    },
     transitions: function () {
       let result = []
       let lifecycleFields = this.model.getFieldsByType("Lifecycle")
@@ -160,6 +149,19 @@ export default {
       let route = this.$router.resolve({name: routeName});
       if (route.resolved.matched.length > 0)
         return routeName
+    },
+  },
+  meteor: {
+    computedPermission(){
+      if (!this.inputModel) return true
+      switch (this.$props.for) {
+        case "view": return this.inputModel.canView()
+        case "new": return this.inputModel.canCreate()
+        case "update": return this.inputModel.canUpdate()
+        case "delete": return this.inputModel.canDelete()
+        case "add": return this.inputModel.canCreate()
+        default: return true
+      }
     },
   },
   methods: {

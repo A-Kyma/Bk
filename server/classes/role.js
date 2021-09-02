@@ -4,7 +4,7 @@ import Role from "../../lib/classes/role";
 //##################################################################################
 
 //Subscribe automatically to my role ?
-Meteor.publish(null, function() {
+Meteor.publish("myRoles", function() {
   if (!this.userId) { return this.ready() }
   return Role.getCollection().find({user: this.userId});
 });
