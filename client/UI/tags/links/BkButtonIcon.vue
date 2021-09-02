@@ -16,7 +16,7 @@
     </b-link>
   </span>
   <b-link
-      v-else
+      v-else-if="computedPermission"
       @click="onClick(null,$event)"
       :alt="label">
     <slot>
@@ -149,6 +149,19 @@ export default {
       let route = this.$router.resolve({name: routeName});
       if (route.resolved.matched.length > 0)
         return routeName
+    },
+  },
+  meteor: {
+    computedPermission(){
+      if (!this.inputModel) return true
+      switch (this.$props.for) {
+        case "view": return this.inputModel.canView()
+        case "new": return this.inputModel.canCreate()
+        case "update": return this.inputModel.canUpdate()
+        case "delete": return this.inputModel.canDelete()
+        case "add": return this.inputModel.canCreate()
+        default: return true
+      }
     },
   },
   methods: {
