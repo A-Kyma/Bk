@@ -93,7 +93,7 @@ export default {
     }
   },
   created() {
-    if (this.model) {this.inputModel = Class.getModel(this.model)}
+    if (this.model) {this.inputModel = Class.getModel(this.model,this.params)}
   },
   computed: {
     computedIcon() {
