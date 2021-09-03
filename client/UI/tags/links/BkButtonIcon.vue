@@ -173,10 +173,14 @@ export default {
       }
       if (this.$props.for === "delete") {
         // remove doesn't exist if model is not linked to a database
-        if (this.inputModel?.remove)
-          this.inputModel?.remove(this.errorCallback)
-        else
-          this.$emit("remove",this.inputModel)
+
+        let conf = confirm(I18n.get("app.removeConfirmation"))
+        if (conf){
+          if (this.inputModel?.remove)
+            this.inputModel?.remove(this.errorCallback)
+          else
+            this.$emit("remove",this.inputModel)
+        }
         return
       }
       if (this.$props.for === "add" || this.$props.for === "new") {
