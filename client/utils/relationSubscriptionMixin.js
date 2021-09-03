@@ -264,7 +264,7 @@ export default {
           'value': record._id,
           'text': record.defaultName && record.defaultName() || record._id
         }
-      });
+      }).sort((a,b) => (a.text <= b.text) ? -1 : 1);
     },
     onSelectRow(row) {
       //this.model.set(this.field, row.value, {cast: true})
