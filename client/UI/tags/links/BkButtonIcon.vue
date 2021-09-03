@@ -88,7 +88,7 @@ export default {
   },
   data() {
     return {
-      inputModel: {},
+      inputModel: undefined,
       modalModel: undefined,
     }
   },
