@@ -120,7 +120,7 @@
           :readonly="plaintextComputed"
           :disabled="plaintextComputed"
           :options="enumOptions"
-          switch
+          :switch="uiSwitch"
       />
 
     </slot>
@@ -201,6 +201,11 @@ import BkCardListClass from "../forms/BkCardListClass";
           return {};
         }
         return fieldDefinition.ui;
+      },
+
+      uiSwitch() {
+        if (this.ui.switch === undefined) return true
+        return this.ui.switch
       },
 
       formGenericFieldComputed() {
