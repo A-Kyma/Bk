@@ -16,6 +16,17 @@ fr:
         label: "Néerlandais"
       de:
         label: "Allemand"
+
+    BkRoleAccess:
+      User:
+        label: "Utilisateur"
+      Member:
+        label: "Membre"
+      Administrator:
+        label: "Administrateur"
+      SuperAdministrator:
+        label: "Propriétaire"
+
   I18n:
     key:
       label: "Clé"
@@ -24,6 +35,7 @@ fr:
     text:
       label: "Texte"
   app:
+    home: "Accueil"
     submit: "Soumettre"
     update: "Modifier"
     new: "Ajouter"
@@ -59,6 +71,9 @@ fr:
       6: "Dimanche"
     Meteor:
       Error:
+        "Creating from the client is not allowed": "Le création ne vous est pas autorisée"
+        "Updating from the client is not allowed": "La mise à jour ne vous est pas autorisée"
+        "Deleting from the client is not allowed": "La suppression ne vous est pas autorisée"
         "Token expired": "Le lien est expiré"
         "Login forbidden": "Connexion interdite"
         "User not found": "L'utilisateur n'a pas été trouvé"
@@ -155,5 +170,17 @@ fr:
       placeholder: " "
     language:
       label: "Langue"
+
+  Role:
+    _id:
+      label: "Identifiant"
+    user:
+      label: "Utilisateur"
+    access:
+      label: "Accès"
+    className:
+      label: "Classe"
+    classId:
+      label: "Nom"
 
 

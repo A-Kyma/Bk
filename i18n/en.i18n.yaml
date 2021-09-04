@@ -16,6 +16,17 @@ en:
         label: "Dutch"
       de:
         label: "German"
+
+    BkRoleAccess:
+      User:
+        label: "User"
+      Member:
+        label: "Member"
+      Administrator:
+        label: "Administrator"
+      SuperAdministrator:
+        label: "Owner"
+
   I18n:
     key:
       label: "Key"
@@ -24,6 +35,7 @@ en:
     text:
       label: "Text"
   app:
+    home: "Home"
     submit: "Submit"
     update: "Update"
     new: "Create"
@@ -59,6 +71,10 @@ en:
       6: "Sunday"
     Meteor:
       Error:
+        #---- Bk Permissions module + Astronomy
+        "Creating from the client is not allowed": "Creating is not allowed"
+        "Updating from the client is not allowed": "Updating is not allowed"
+        "Deleting from the client is not allowed": "Deleting is not allowed"
         #---- accounts-base
         "Token expired": "Token is expired"
         "Login forbidden": "Login forbidden"
@@ -157,4 +173,15 @@ en:
     language:
       label: "Language"
 
+  Role:
+    _id:
+      label: "ID"
+    user:
+      label: "User"
+    access:
+      label: "Access"
+    className:
+      label: "Class"
+    classId:
+      label: "Name"
 

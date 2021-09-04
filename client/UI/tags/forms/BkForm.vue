@@ -111,6 +111,16 @@ export default {
         this.dismissCountDown = this.dismissSecs;
       },
       onSubmit(e) {
+        if (this["for"] === "view") {
+          if (self.modal) {
+            self.$bvModal.hide(self.modal)
+          } else if (self.toast) {
+            self.$bvToast.hide()
+          } else {
+            self.$router.go(-1);
+          }
+          return
+        }
         let self = this;
         let model = this.formModel;
 

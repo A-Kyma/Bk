@@ -4,6 +4,7 @@
 
 <script>
   import {Class} from "meteor/jagi:astronomy"
+  import {Role} from "meteor/a-kyma:bk"
   import I18n from "../../../../lib/classes/i18n";
   import BkForm from "../forms/BkForm";
 
@@ -35,6 +36,7 @@
     methods: {
       showKey(e) {
         e.preventDefault()
+        if (!Role.is("SuperAdministrator")) return
         let options = {
           title: "Translation",
         }

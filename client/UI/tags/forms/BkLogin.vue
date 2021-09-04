@@ -107,6 +107,7 @@ export default {
           vmForm.showFail()
         } else {
           vmForm.showSuccess("app.user.login.success")
+          this.$emit("loggedin")
         }
       })
     },

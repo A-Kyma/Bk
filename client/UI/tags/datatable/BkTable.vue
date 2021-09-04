@@ -18,6 +18,7 @@
       <div v-if="datatable.firstReady">
         <slot name="pagination-top" v-bind="{datatable, scroll, perPage}">
           <bk-pagination
+              v-if="!full"
               :datatable="datatable"
               :scroll="scroll"
               :perPage="perPage"
@@ -92,6 +93,7 @@
       <div v-if="datatable.firstReady">
         <slot name="pagination-bottom" v-bind="{datatable, scroll, perPage}">
           <bk-pagination
+              v-if="!full"
               :datatable="datatable"
               :scroll="scroll"
               :perPage="perPage"
@@ -126,6 +128,9 @@
     components: {BkPagination, BkButtonIcon,BkModal,BkForm,BkViewInner},
     props: {
       fields: Array,
+      sort: {
+        type: Object,
+      },
       sortBy: String,
       sortDesc: Boolean,
       perPage: Number,
