@@ -6,7 +6,7 @@
       </div>
       <div v-else>
         <div v-if="scroll">
-          <div v-if="viewScrollButton()">
+          <div v-if="viewScrollButton">
             <div class="text-center">
               <div class="btn btn-primary">
                 <a @click="seeMore()"><t key="app.seeMore">app.seeMore</t></a>
@@ -39,10 +39,12 @@ export default {
     return {
     }
   },
-  methods: {
-    viewScrollButton(){
-      return (this.datatable.getCount() !== this.datatable.getCountLocal())? true :  false;
+  meteor: {
+    viewScrollButton() {
+      return (this.datatable.getCount() > this.datatable.getCountLocal())? true :  false
     },
+  },
+  methods: {
     seeMore(){
       let page = this.datatable.page
       this.datatable.setPage(page + 1)
