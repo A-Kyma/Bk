@@ -1,3 +1,5 @@
+import I18n from "../../lib/classes/i18n";
+
 export default {
   methods: {
     showError(err) {
