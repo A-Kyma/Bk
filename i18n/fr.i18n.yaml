@@ -47,6 +47,7 @@ fr:
     max: "Maximum"
     notFound: "Recherche non trouvée"
     noData : "Aucune donnée à afficher"
+    seeMore: "Voir plus"
     view: "Consultation"
     ok: "Ok"
     close: "Fermer"

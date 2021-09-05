@@ -18,7 +18,7 @@
       <div v-if="datatable.firstReady">
         <slot name="pagination-top" v-bind="{datatable, scroll, perPage}">
           <bk-pagination
-              v-if="!full"
+              v-if="!full && !scroll"
               :datatable="datatable"
               :scroll="scroll"
               :perPage="perPage"
@@ -137,7 +137,7 @@
       page: Number,
       filter: Object, // default filter used, cannot be changer afterwards
       initialFilter: Object, // initial applied filter, can be changed at any time using table filters
-      scroll: Number,
+      scroll: Boolean,
       multi: Boolean,
       full: Boolean,
       array: Array,

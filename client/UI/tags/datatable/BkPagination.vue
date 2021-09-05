@@ -5,11 +5,11 @@
         </div>
       </div>
       <div v-else>
-        <div v-if="scrollable()">
+        <div v-if="scroll">
           <div v-if="viewScrollButton()">
             <div class="text-center">
               <div class="btn btn-primary">
-                <a @click="seeMore()">See More</a>
+                <a @click="seeMore()"><t key="app.seeMore">app.seeMore</t></a>
               </div>
             </div>
           </div>
@@ -32,7 +32,7 @@ export default {
   props: {
     datatable: Object,
     perPage: Number,
-    scroll: Number,
+    scroll: Boolean,
     updateRoute: Boolean
   },
   data(){
@@ -40,9 +40,6 @@ export default {
     }
   },
   methods: {
-    scrollable(){
-      return this.$props.scroll
-    },
     viewScrollButton(){
       return (this.datatable.getCount() !== this.datatable.getCountLocal())? true :  false;
     },

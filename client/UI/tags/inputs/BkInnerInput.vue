@@ -9,7 +9,8 @@
     <slot :name="'before-'+formGenericFieldComputed" v-bind="$props"/>
 
     <slot :name="formGenericFieldComputed"
-          v-bind="{...$props,...{plaintext: plaintextComputed, required, placeholder, append, prepend, state}}">
+          v-bind="{...$props,...{plaintext: plaintextComputed, required, placeholder, value, append, prepend, state, options: enumOptions}}"
+    >
 
       <bk-field-list
               v-if="definitionField === 'Object'"
