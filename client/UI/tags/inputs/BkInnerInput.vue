@@ -40,7 +40,8 @@
           v-bind="{...$props,...$attrs}"
           v-model="value"
           :name="field"
-          :disabled="plaintextComputed">
+          :disabled="plaintextComputed"
+          class="form-control-plaintext">
         <b-form-checkbox v-for="item in enumOptions"
                          :value="item.value">
           <t>{{item.key}}</t>
@@ -59,7 +60,8 @@
           v-bind="{...$props,...$attrs}"
           v-model="value"
           :name="formFieldComputed"
-          :disabled="plaintextComputed">
+          :disabled="plaintextComputed"
+          class="form-control-plaintext">
         <b-form-radio v-for="item in enumOptions"
                       :value="item.value">
           <t>{{item.key}}</t>

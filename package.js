@@ -24,7 +24,7 @@ Npm.depends({
 // See https://guide.meteor.com/writing-atmosphere-packages.html
 // Do a meteor update on the project while adding this package
 Package.onUse(function(api) {
-  api.versionsFrom('1.8.1');
+  api.versionsFrom('1.9.3');
   api.use('ecmascript'); // For ES6 javascript
   api.use('deps', 'client');
   api.use('tracker', 'client');

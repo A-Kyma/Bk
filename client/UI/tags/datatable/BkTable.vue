@@ -55,7 +55,7 @@
           <template v-for="(model,index) in items">
             <tr role="row" :key="model._id">
               <slot name="row()" v-bind="{model,index,fields: labeledFields}">
-                <td v-for="cell in labeledFields" :key="cell.key" role="cell">
+                <td v-for="cell in labeledFields" :key="cell.key" role="cell" class="align-middle">
                   <bk-button-icon
                       v-if="cell.key==='buttonActions'"
                       v-for="action in actions.filter(x=>x!=='add')"
