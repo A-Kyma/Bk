@@ -8,9 +8,14 @@
         <div v-if="scroll">
           <div v-if="viewScrollButton">
             <div class="text-center">
-              <div class="btn btn-primary">
-                <a @click="seeMore()"><t key="app.seeMore">app.seeMore</t></a>
+              <div v-if="datatable.handler.ready()" class="btn btn-primary">
+                <a @click="seeMore()">
+                  <t key="app.seeMore">app.seeMore</t>
+                </a>
               </div>
+              <slot v-else name="loading-bottom" v-bind="{datatable, scroll, perPage}">
+                <bk-loading/>
+              </slot>
             </div>
           </div>
         </div>

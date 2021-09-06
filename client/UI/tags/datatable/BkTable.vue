@@ -98,7 +98,11 @@
               :scroll="scroll"
               :perPage="perPage"
               :updateRoute="updateRoute"
-          />
+          >
+            <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+              <slot :name="slot" v-bind="props" />
+            </template>
+          </bk-pagination>
         </slot>
       </div>
       <div v-else>
