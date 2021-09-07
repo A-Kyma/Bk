@@ -38,7 +38,12 @@
       required() {
         if (this.noRequired) return false;
         if (this.$props.for === "view") return false;
-        return !this.model.getDefinition(this.field).optional;
+        let optional
+        if (typeof this.definition.optional === "function")
+          optional = this.definition.optional(this.model)
+        else
+          optional = this.definition.optional
+        return !optional;
       },
     },
   }
