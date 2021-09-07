@@ -1,5 +1,11 @@
 <template>
-  <b-modal :id="id" @ok="onOk" v-bind="$attrs">
+  <b-modal
+      :id="id"
+      @ok="onOk"
+      v-bind="$attrs"
+      @shown="$emit('shown')"
+      @hide="$emit('hide')"
+  >
     <template #modal-title>
       <slot name="title">
         <t>{{title}}</t>

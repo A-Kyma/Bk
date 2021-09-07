@@ -45,6 +45,7 @@ en:
     missingSubType: "Type {{param}} doesn't exist yet"
     confirm: "Field is not the same"
     check: "Field {{field}} is not valid"
+    unique: "Field {{field}} is already chosen"
     lifecyle: "Status {{value}} is unreachable from status {{param}}"
 fr:
   Error:
@@ -93,4 +94,5 @@ fr:
     missingSubType: "Le sous-type {{param}} n'existe pas encore"
     confirm: "Le champ n'est pas identique"
     check: "Le champ {{field}} n'est pas valide"
+    unique: "Le champ {{field}} a déjà été choisi"
     lifecycle: "Le statut {{value}} n'est pas accessible depuis le statut {{param}}"

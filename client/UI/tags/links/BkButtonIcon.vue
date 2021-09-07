@@ -36,11 +36,14 @@
             :modal="modalAddId"
             for="add"
             v-bind="$attrs"
+            @input="onInput"
         />
       </bk-modal>
       <bk-modal :id="modalFormId"
                 v-if="model && !getRoute"
                 @ok="onSubmitModalForm"
+                @shown="$emit('shown')"
+                @hide="$emit('hide')"
                 :size="size"
                 :title="'app.' + $props['for']">
         <bk-form
@@ -51,6 +54,7 @@
             :modal="modalFormId"
             :for="$props['for']"
             v-bind="$attrs"
+            @input="onInput"
         >
           <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
             <slot :name="slot" v-bind="props" />
@@ -165,6 +169,9 @@ export default {
     },
   },
   methods: {
+    onInput(payload) {
+      this.$emit("input",payload)
+    },
     onClick(transition,e) {
       if (transition !== null) {
         this.model[transition.field] = transition.to

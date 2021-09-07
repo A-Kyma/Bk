@@ -82,6 +82,7 @@
       <bk-belongs-to-input
           v-else-if="definitionField === 'Relation'"
           v-bind="$attrs"
+          v-model="value"
           :model="model"
           :field="field"
           :for="$props['for']"

@@ -27,7 +27,9 @@
                 v-bind="{...$parent.$attrs,...$props, ...$attrs}"
                 @state="onState"
                 @validationError="onError"
-                :model="inputModel">
+                :model="inputModel"
+                @input="$emit('input')"
+            >
 
               <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
                 <slot :name="slot" v-bind="props" />
@@ -51,6 +53,7 @@
                 v-bind="{...$parent.$attrs,...$props, ...$attrs}"
                 @state="onState"
                 @validationError="onError"
+                @input="$emit('input')"
                 :model="inputModel">
 
           <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
@@ -79,6 +82,7 @@
               v-bind="{...$parent.$attrs,...$props, ...$attrs}"
               @state="onState"
               @validationError="onError"
+              @input="$emit('input')"
               :model="inputModel">
 
             <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">

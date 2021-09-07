@@ -69,7 +69,7 @@ export default {
       dropDownVisible: false,
       handler: undefined,
       relationList: [],
-      relationOne: "",
+      relationOne: " ",
     }
   },
   created() {
@@ -85,8 +85,11 @@ export default {
   },
 
   computed: {
+    definition() {
+      return this.model.getDefinition(this.field)
+    },
     getId() {
-      let definition = this.model.getDefinition(this.field)
+      let definition = this.definition
       if (definition.cache && typeof this.model[this.field] === "object") {
         return this.model[this.field] && this.model[this.field]._id
       } else {
@@ -97,7 +100,7 @@ export default {
       return this.minCharacters === 0;
     },
     minCharacters() {
-      let definition = this.model.getDefinition(this.field)
+      let definition = this.definition
       if (!definition) return 3
       let min = definition.minCharacters
       if (typeof min === "function") {
@@ -107,7 +110,7 @@ export default {
       return min;
     },
     where() {
-      let definition = this.model.getDefinition(this.field);
+      let definition = this.definition
       let where = definition.where.call(
           this.model, // set this in where function to this.model
           this.getId, this.value, I18n.getLanguage()
@@ -122,8 +125,9 @@ export default {
           value = undefined
         }
         // TODO: manage cached object
-        this.model.set(this.field, value, {cast: true})
-        this.model.isValid(this.field);
+        this.setId(value)
+        //this.model.set(this.field, value, {cast: true})
+        //this.model.isValid(this.field);
       },
       get: function () {
         return this.model.get(this.field);
@@ -134,7 +138,9 @@ export default {
         if (value === this.value) return;
 
         // If we change from screen, relation is removed
-        this.model[this.field] = undefined;
+        this.setId()
+        //this.model[this.field] = undefined;
+
         this.value = value;
 
         // We subscribe if at least 3 characters
@@ -162,8 +168,9 @@ export default {
         if (!value || value !== defaultName) {
           this.value = ""
           // unset field and check validation if empty
-          this.model.set(this.field);
-          this.model.isValid(this.field);
+          this.setId()
+          //this.model.set(this.field);
+          //this.model.isValid(this.field);
           // Stop subscription
           this.handler && this.handler.stop()
         }
@@ -198,19 +205,38 @@ export default {
       }
     },
   },
+  watch: {
+    // Used if model value updated outside of this component
+    getId(newValue, oldValue) {
+      if (newValue === undefined) return
+      let definition = this.definition
+      if (definition.cache) {
+        if (newValue && newValue._id === oldValue && oldValue._id) return
+      } else {
+        if (newValue === oldValue) return
+      }
+
+      this.activateSubscription()
+    }
+  },
   methods: {
     setId(id) {
-      let definition = this.model.getDefinition(this.field)
+      let definition = this.definition
       if (definition.cache) {
-        this.model[this.field] = { _id: id }
+        if (this.model[this.field] && this.model[this.field]._id === id)
+          return
+        this.$emit("input",{_id: id})
+        //this.model[this.field] = { _id: id }
       } else {
-        this.model[this.field] = id
+        if (this.model[this.field] !== id)
+          this.$emit("input",id)
+        //this.model[this.field] = id
       }
     },
     activateSubscription() {
       let oldHandler = this.handler;
 
-      let subscriptionName = this.model.getDefinition(this.field).subscription || this.field + ".search"
+      let subscriptionName = this.definition.subscription || this.field + ".search"
       this.handler = Meteor.subscribe(
           subscriptionName,
           this.getId, this.value, I18n.getLanguage(),
@@ -224,11 +250,10 @@ export default {
           this.populate()
         }
       })
-
     },
 
     populate() {
-      let definition = this.model.getDefinition(this.field)
+      let definition = this.definition
       if (this.selectInput) {
         this.relationList = this.getOptionsFromRelations()
         if (this.relationList.length === 1 && !definition.optional) {
@@ -252,7 +277,7 @@ export default {
       this.showDropDown();
     },
     getOptionsFromRelations() {
-      let definition = this.model.getDefinition(this.field);
+      let definition = this.definition
       let relationClass = definition.relation;
       let where = this.where
       if (!where) return;
@@ -294,8 +319,12 @@ export default {
     // Prevent typing anything when City chosen
     onKeyDownRelation(e) {
       let defaultName = this.relation && this.relation.defaultName();
-      if (e.key !== "Backspace" && e.key !== "Delete")
+      if (e.key !== "Backspace" && e.key !== "Delete" && e.key !== "Tab")
         e.preventDefault()
+      if (e.key === "Backspace") {
+        this.value = ""
+        this.setId()
+      }
     },
     // When we click on row or hit enter when selected
     onSelectRow(row) {
