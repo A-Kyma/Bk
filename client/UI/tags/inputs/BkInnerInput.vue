@@ -9,7 +9,7 @@
     <slot :name="'before-'+formGenericFieldComputed" v-bind="$props"/>
 
     <slot :name="formGenericFieldComputed"
-          v-bind="{...$props,...{plaintext: plaintextComputed, required, placeholder, value, append, prepend, state, options: enumOptions}}"
+          v-bind="{...$props,...{plaintext: plaintextComputed, required, placeholder, value, append, prepend, state, options: enumOptions, class: plaintextClass}}"
     >
 
       <bk-field-list
@@ -110,6 +110,7 @@
       <component  v-else
           v-bind="$attrs"
           :is="inputComponent"
+          :class="plaintextClass"
           :type="inputType"
           v-model="value"
           @paste="onPaste"
@@ -378,7 +379,12 @@ import BkCardListClass from "../forms/BkCardListClass";
         }
 
         return "BFormInput";
-      }
+      },
+      plaintextClass() {
+        if (this.inputComponent === "BkViewClean")
+          return "form-control-plaintext"
+        return ""
+      },
     },
 
     methods: {

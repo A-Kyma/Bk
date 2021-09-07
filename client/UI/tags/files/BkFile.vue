@@ -12,6 +12,13 @@
                  class="crop-height"/>
         </a>
 
+        <a v-else :href="staticLink()" alt="" target="_blank">
+          <b-img thumbnail
+                 :src="staticLink('thumbnail')"
+                 alt=""
+                 class="crop-height"/>
+        </a>
+
         <div v-if="$props['for'] !== 'view' && listFiles[0]" class="box-bottom">
           <bk-button-icon
               @click="onRemove(listFiles[0],index)"
@@ -231,6 +238,11 @@ export default {
       }
       // Return original link if version not found
       return (file.versions[format]) ? Files.link(file,format) : Files.link(file);
+    },
+    staticLink(format) {
+      let fileId = this.model[this.field]
+      if (!format) format="original"
+      return "/cdn/storage/Files/" + fileId + "/" + format + "/" + fileId + ".jpg"
     },
     // Avoid issues on touch screens
     fixActionRestriction() {
