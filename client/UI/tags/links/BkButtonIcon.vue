@@ -50,7 +50,8 @@
             ref="modalForm"
             :model="modalModel"
             form-field="modal"
-            exclude="_id"
+            :fields="fields"
+            :exclude="computedExclude"
             :modal="modalFormId"
             :for="$props['for']"
             v-bind="$attrs"
@@ -77,12 +78,14 @@ export default {
     icon: String,
     fontScale: {
       type: String,
-      default: "1"
+      default: Meteor.settings.public.UI?.buttonScale || "1"
     },
     size: String, // modal size
     variant: String,
     for: String,
     model: {Class,String},
+    fields: [Array,String],
+    exclude: [Array,String],
     label: String,
     route: String,
     params: {
@@ -118,6 +121,20 @@ export default {
         case "add": return "outline-primary"
         default: return this.variant;
       }
+    },
+    computedExclude() {
+      let result = this.exclude
+      if (result) {
+        if (Array.isArray(result)) {
+          result.push('_id')
+          return result
+        }
+        if (typeof result === "string") {
+          result += ',_id'
+          return result
+        }
+      }
+      return "_id"
     },
     transitions: function () {
       let result = []
@@ -293,6 +310,9 @@ export default {
 
 <style scoped>
   .BkButton:hover{
-    transform:scale(1.3);
+    transform:scale(1.5);
+  }
+  .BkButton {
+    margin-right: 2px;
   }
 </style>

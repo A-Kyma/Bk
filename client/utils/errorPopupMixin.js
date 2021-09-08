@@ -4,7 +4,10 @@ export default {
   methods: {
     showError(err) {
       this.model.setError(err);
-      this.$root.$bvToast.toast(I18n.t("app.error"),{
+      let error = this.model.getError('MeteorError')
+      if (error) error = I18n.t(error)
+      else error = I18n.t("Meteor.Error.Unknown error")
+      this.$root.$bvToast.toast(error,{
         title: I18n.t("app.toast.title.failed"),
         variant: "danger",
         autoHideDelay: 5000

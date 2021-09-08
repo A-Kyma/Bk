@@ -6,6 +6,8 @@
                       for="add"
                       :model="model"
                       :params="filter"
+                      :fields="modalFields"
+                      :exclude="modalExclude"
                       v-bind="$attrs"
       >
         <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
@@ -61,6 +63,8 @@
                       v-for="action in actions.filter(x=>x!=='add')"
                       :for="action"
                       :model="model"
+                      :fields="modalFields"
+                      :exclude="modalExclude"
                       v-bind="$attrs"
                       @remove="onRemove"
                   >
@@ -132,6 +136,8 @@
     components: {BkPagination, BkButtonIcon,BkModal,BkForm,BkViewInner},
     props: {
       fields: Array,
+      modalFields: [String,Array],
+      modalExclude: [String,Array],
       sort: {
         type: Object,
       },
