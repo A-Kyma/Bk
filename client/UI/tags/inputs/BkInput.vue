@@ -29,6 +29,7 @@
                 @validationError="onError"
                 :model="inputModel"
                 @input="$emit('input')"
+                @change="$emit('change')"
             >
 
               <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
@@ -54,6 +55,7 @@
                 @state="onState"
                 @validationError="onError"
                 @input="$emit('input')"
+                @change="$emit('change')"
                 :model="inputModel">
 
           <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">

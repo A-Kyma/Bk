@@ -5,7 +5,7 @@
                   :field="field"
                   v-for="field in fieldsArray"
                   :exclude="excludeComputed(field)"
-                  @input="$emit('input',{field: field,value: inputModel[field]})"
+                  @input="$emit('change',{field: field,value: inputModel[field]})"
         >
 
           <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">

@@ -17,7 +17,7 @@
         </b-alert>
 
         <slot v-bind="{...$props,...$attrs}" :model="formModel">
-          <bk-field-list v-bind="$attrs" :for="$props['for']" @input="onInput">
+          <bk-field-list v-bind="$attrs" :for="$props['for']" @change="onChangeInput">
 
             <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
               <slot :name="slot" v-bind="props" />
@@ -86,8 +86,8 @@ export default {
       }
     },
     methods: {
-      onInput(payload) {
-        this.$emit("input",payload)
+      onChangeInput(payload) {
+        this.$emit("change",payload)
       },
       showOverlay() {
         this.isOverlay=true;

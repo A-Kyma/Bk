@@ -18,6 +18,7 @@
               class="col-12"
               :model="model[field]"
               :form-field="formFieldComputed"
+              @change="$emit('change')"
               fields="">
         <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
           <slot :name="slot" v-bind="props" />

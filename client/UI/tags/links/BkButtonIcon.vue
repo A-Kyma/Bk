@@ -36,7 +36,7 @@
             :modal="modalAddId"
             for="add"
             v-bind="$attrs"
-            @input="onInput"
+            @change="onChange"
         />
       </bk-modal>
       <bk-modal :id="modalFormId"
@@ -54,7 +54,7 @@
             :modal="modalFormId"
             :for="$props['for']"
             v-bind="$attrs"
-            @input="onInput"
+            @change="onChange"
         >
           <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
             <slot :name="slot" v-bind="props" />
@@ -169,8 +169,8 @@ export default {
     },
   },
   methods: {
-    onInput(payload) {
-      this.$emit("input",payload)
+    onChange(payload) {
+      this.$emit("change",payload)
     },
     onClick(transition,e) {
       if (transition !== null) {
