@@ -69,7 +69,7 @@ export default {
       dropDownVisible: false,
       handler: undefined,
       relationList: [],
-      relationOne: " ",
+      relationOne: "",
     }
   },
   created() {
@@ -176,6 +176,9 @@ export default {
         }
       },
       get() {
+        // We are on an issue where this.model[this.field] is not an ID
+        if (this.relationOne === "" || this.relationOne === undefined)
+          return this.model[this.field]
         return this.relationOne;
       }
     },
