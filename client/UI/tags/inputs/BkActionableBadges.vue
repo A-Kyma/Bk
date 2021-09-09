@@ -27,7 +27,7 @@ export default {
   props: {
     model: Class,
     field: String,
-    options: Object,
+    options: Array,
     for: String,
     disabled: Boolean,
     state: Boolean,
