@@ -4,6 +4,7 @@
       ref="select"
       v-bind="$attrs"
       v-model="selectValue"
+      :placeholder="placeholder"
       :options="relationList"
       :state="state"/>
 
@@ -15,6 +16,7 @@
         v-model="inputValue"
         type="search"
         :state="state"
+        :placeholder="placeholder"
         @keydown.arrow-up="onKeyUp"
         @keydown.arrow-down="onKeyDown"
     />
@@ -60,6 +62,7 @@ export default {
   props: {
     model: Class,
     field: String,
+    placeholder: String,
   },
   data() {
     return {

@@ -87,6 +87,7 @@
           :model="model"
           :field="field"
           :for="$props['for']"
+          :placeholder="placeholder"
           :plaintext="plaintextComputed"
           :readonly="plaintextComputed"
           :disabled="plaintextComputed"
