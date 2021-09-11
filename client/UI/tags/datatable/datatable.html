@@ -1,0 +1,284 @@
+<!--
+###############################################################################################################
+                                        DATA TABLE
+###############################################################################################################
+-->
+
+<template name="table">
+    {{#with datatable}}
+        <div class="{{getWidth}} widget-container-span">
+            <div class="panel panel-{{getColorBootstrap}} widget-box light-border widget-color-{{getColor}}">
+                <div class="panel-heading widget-header widget-header-small widget-header-xs">
+                    <div class="col-md-9 col-xs-12">
+                        <h5 class="smaller widget-title">{{getTitle}}</h5>
+                    </div>
+                    <div class="widget-toolbar">
+                <span class="action-buttons">
+                    <a href="#" class="export-csv ace-icon white glyphicon glyphicon-save bigger-120" title="{{t 'Datatable.export.csv'}}"></a>
+                </span>
+                        {{#if subscription}}
+                            {{> _tableSaveFilterModal this}}
+                            {{> _tableMyFilters}}
+                        {{/if}}
+                        {{> _tablePerPage}}
+                    </div>
+                </div>
+                <div class="panel-body widget-body">
+                    <div class="widget-main no-padding">
+                        <table class="table table-sort table-striped table-hover table-padding-2">
+                            <thead>
+                            <tr>
+                                {{> _tableHeaders}}
+                                {{#if or ../actions ../customActions}}
+                                    <th></th>
+                                {{/if}}
+                            </tr>
+                            {{#if neq type "array"}}
+                                {{> _tableFilters}}
+                            {{/if}}
+                            </thead>
+                            <tbody role="alert" aria-live="polite" aria-relevant="all">
+                            {{#if handler}}
+                                {{#if handler.ready}}
+                                    {{> _tableRows}}
+                                {{else}}
+                                    {{> loading}}
+                                {{/if}}
+                            {{else}}
+                                {{> _tableRows}}
+                            {{/if}}
+                            </tbody>
+                            <tfoot>
+                            {{> _tablePagination}}
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/with}}
+</template>
+
+<template name="_tableMyFilters">
+    {{#with myFilters}}
+        <select class="myFilter">
+            {{#each values}}
+                {{#if this.selected}}
+                    <option selected='true' value='{{this.value}}'>{{this.label}}</option>
+                {{else}}
+                    <option value='{{this.value}}'>{{this.label}}</option>
+                {{/if}}
+            {{/each}}
+        </select>
+    {{/with}}
+</template>
+
+<template name="_tablePerPage">
+    <select class="perPage">
+        {{#each context in perPages}}
+            {{#if eq context this.perPage}}
+                <option selected='true' value='{{context}}'>{{context}}</option>
+            {{else}}
+                <option value='{{context}}'>{{context}}</option>
+            {{/if}}
+        {{/each}}
+    </select>
+</template>
+
+<template name="_tableHeaders">
+    {{#each field in fields}}
+        <th class='{{field.sorted}}'>
+            {{field.label}}
+            {{#if neq this.type "array"}}
+                <span class="sort-icons ui-jqgrid">
+              {{#if eq field.getSort 1}}
+                  <i class="ui-grid-ico-sort ui-icon-asc ui-icon ui-icon-triangle-1-n ui-sort-ltr"></i>
+              {{else}}
+                  <i class="ui-grid-ico-sort ui-icon-asc ui-icon ui-icon-triangle-1-n ui-sort-ltr ui-state-disabled"></i>
+              {{/if}}
+                    {{#if eq field.getSort -1}}
+                        <i class="ui-grid-ico-sort ui-icon-desc ui-icon ui-icon-triangle-1-s ui-sort-ltr"></i>
+                    {{else}}
+                        <i class="ui-grid-ico-sort ui-icon-desc ui-icon ui-icon-triangle-1-s ui-sort-ltr ui-state-disabled"></i>
+                    {{/if}}
+            </span>
+            {{/if}}
+        </th>
+    {{/each}}
+</template>
+
+<template name="_tableSaveFilterModal">
+    {{> clickToModal model=newFilter fields="name" title="Filter.save" tagInLine=1
+            class="action-buttons" icon="white fa fa-floppy-o bigger-120" for="new"}}
+</template>
+
+<template name="_tableFilters">
+    <tr>
+        {{#with filterModel}}
+            {{#each ../fields}}
+                <td class="dataTables_input_filters">
+                    {{> inputFilter model=.. field=field}}
+                </td>
+            {{/each}}
+        {{/with}}
+        {{#if or ../actions ../customActions}}
+            <td></td>
+        {{/if}}
+    </tr>
+</template>
+
+<template name="_tableRows">
+    {{#each getArray}}
+        {{> _tableRow getModel}}
+    {{else}}
+        <tr> <td>{{t "Datatable.noData"}}</td></tr>
+    {{/each}}
+</template>
+
+<template name="_tableRow">
+    <tr style="display: none">
+        {{#each ../../fields}}
+            <td>{{>view model=.. field=field noLabel=1 noDiv=1 size="small" inlineEdit=inlineEdit}}</td>
+        {{/each}}
+        {{#if or ../../../actions ../../../customActions}}
+            <td>
+                <div class="action-buttons">
+                    {{> _actionButtons}}
+                </div>
+            </td>
+        {{/if}}
+    </tr>
+</template>
+
+<template name="_tablePagination">
+    <tr>
+        <td colspan="100">
+            <div class="pull-left dataTables-title">{{getFooterTitle}}</div>
+            <div class="dataTables_paginate paging_bootstrap">
+                <ul class="pagination">
+                    {{#if eq getPage 1}}
+                        <li class="first disabled">
+                            <a href="#">
+                                <i class="fa fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <li class="prev disabled">
+                            <a href="#">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        </li>
+                    {{else}}
+                        <li class="first">
+                            <a href="#">
+                                <i class="fa fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <li class="prev">
+                            <a href="#">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        </li>
+                    {{/if}}
+                    {{#each page in pages}}
+                        {{#if eq this.getPage page}}
+                            <li class="active">
+                                <a href="#" class="page">{{page}}</a>
+                            </li>
+                        {{else}}
+                            <li>
+                                <a href="#" class="page">{{page}}</a>
+                            </li>
+                        {{/if}}
+                    {{/each}}
+                    {{#if eq getPage getMaxPage}}
+                        <li class="next disabled">
+                            <a href="#">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                        <li class="last disabled">
+                            <a href="#">
+                                <i class="fa fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    {{else}}
+                        <li class="next">
+                            <a href="#">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                        <li class="last">
+                            <a href="#">
+                                <i class="fa fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    {{/if}}
+                </ul>
+            </div>
+        </td>
+    </tr>
+</template>
+
+<template name="_actionButtons">
+    {{#if ../../../customActions}}
+        {{> Template.dynamic template=../../../customActions data=.}}
+    {{/if}}
+    {{#if in "consult" ../../../actions}}
+        {{#if this.canView}}
+            {{#if eq ../../../actionType "btn"}}
+                {{#if hasRoute this "Page"}}
+                    {{> a id=this.id path="Page" type=this._type label="submit.view" class="discuss btn btn-xs btn-default"}}
+                {{else}}
+                    {{> clickToModal model=. for="view" fields=modalFields exclude=../../../exclude title="submit.view" class="discuss btn btn-xs btn-default" linkLabel=1 labelClass=../../../labelClass}}
+                {{/if}}
+            {{else}}
+                {{#if hasRoute this "Page"}}
+                    {{> a id=this.id path="Page" type=this._type title="submit.view" class="discuss blue ace-icon fa fa-search-plus bigger-120"}}
+                {{else}}
+                    {{> clickToModal model=. for="view" fields=modalFields exclude=../../../exclude title="submit.view" class="discuss blue ace-icon fa fa-search-plus bigger-120" labelClass=../../../labelClass}}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+    {{/if}}
+    {{#if in "edit" ../../../actions}}
+        {{#if this.canEdit}}
+            {{#if eq ../../../actionType "btn"}}
+                {{#if hasRoute this "Edit"}}
+                    {{> a id=this.id path="Edit" type=this._type label="submit.edit" class="edit btn btn-xs btn-primary"}}
+                {{else}}
+                    {{> clickToModal model=. for="edit" fields=modalFields exclude=../../../exclude noEdit=../../../noEdit title="submit.edit" class="edit btn btn-xs btn-primary" linkLabel=1 labelClass=../../../labelClass}}
+                {{/if}}
+            {{else}}
+                {{#if hasRoute this "Edit"}}
+                    {{> a id=this.id path="Edit" type=this._type title="submit.edit" class="edit green ace-icon fa fa-pencil bigger-120"}}
+                {{else}}
+                    {{> clickToModal model=. for="edit" fields=modalFields exclude=../../../exclude noEdit=../../../noEdit title="submit.edit" class="edit green ace-icon fa fa-pencil bigger-120" labelClass=../../../labelClass}}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+    {{/if}}
+    {{#if in "delete" ../../../actions}}
+        {{> deleteButton model=this actionType=../../../actionType}}
+    {{/if}}
+    {{#if in "lifecycle" ../../../actions}}
+        {{> lifecycleActions model=this class=../../../actionType field=../../../lifecycleField}}
+    {{/if}}
+    {{#if in "translation" ../../../actions}}
+        {{#if this.canEdit}}
+            <a class="orange" href="#"><i class="ace-icon fa fa-flag bigger-120" title={{t "submit.translation"}}></i></a>
+        {{/if}}
+    {{/if}}
+</template>
+
+<template name="deleteButton">
+    {{#if this.model.canDelete}}
+        {{#clickToModal model=model class=deleteClass title=deleteTitle for="delete" icon=icon}}
+            {{t deleteLabel}}
+        {{else}}
+            <div class="alert alert-danger">
+                <h4>{{t "submit.deleteConfirm"}}</h4>
+            </div>
+            {{> Template.contentBlock}}
+        {{/clickToModal}}
+    {{/if}}
+</template>
