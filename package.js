@@ -31,8 +31,8 @@ Package.onUse(function(api) {
   api.use('meteor');
   api.use('mongo');
   api.use('check');
-  api.use('accounts-base');
-  api.use('accounts-password');
+  api.use('accounts-base@1.5.0||2.0.1');
+  api.use('accounts-password@1.5.2||2.0.1');
   api.use('tmeasday:publish-counts'); // For datatable
   api.use('reywood:publish-composite'); // To enable multiple send in one subscription
   //api.use('ejson'); // Needed to .json files
