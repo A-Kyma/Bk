@@ -1,7 +1,7 @@
 <template>
   <div v-if="type==='dots'">
     <div class="text-center">
-      <b-icon icon="three-dots" animation="cylon" font-scale="4"></b-icon>
+      <b-icon icon="three-dots" animation="cylon" :font-scale="fontScale"></b-icon>
     </div>
   </div>
   <div v-else-if="type==='loading'">
@@ -14,7 +14,7 @@
   </div>
   <div v-else>
     <div class="text-center">
-      <b-icon icon="circle-fill" animation="throb" font-scale="4"></b-icon>
+      <b-icon icon="circle-fill" animation="throb" :font-scale="fontScale"></b-icon>
     </div>
   </div>
 
@@ -27,7 +27,11 @@ export default {
   name: "BkLoading",
   props: {
     type: String,
-    variant: String
+    variant: String,
+    fontScale: {
+      type: String,
+      default: "4"
+    }
   }
 }
 </script>
