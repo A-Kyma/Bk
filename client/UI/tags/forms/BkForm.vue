@@ -5,6 +5,9 @@
         @submit="onSubmit"
         @reset="onReset">
       <b-overlay :show="isOverlay">
+        <template #overlay>
+          <slot name="overlay"/>
+        </template>
         <b-alert
                 :show="showAlert"
                 variant="danger"
@@ -51,6 +54,11 @@ export default {
       modal: String,
       toast: Boolean,
       for: String,
+      simulation: {
+        type: Boolean,
+        default: true
+      },
+      meteorMethod: String,
     },
     data() {
       return {
@@ -141,7 +149,7 @@ export default {
           exclude: self.$attrs.exclude
         })
 
-        model.save({fields, stopOnFirstError:false},function(err,id) {
+        let callback = function(err,id) {
           self.hideOverlay();
             if (err) {
               let f=new Event("submitFailed");
@@ -169,7 +177,13 @@ export default {
                 self.$router.go(-1);
               }
             }
-        })
+        }
+        if (this.meteorMethod) {
+          model.callMethod(this.meteorMethod,callback)
+        } else {
+          model.save({fields, stopOnFirstError:false, simulation: this.simulation},callback)
+        }
+
         this.formModel.set(model);
       },
       onReset(e) {

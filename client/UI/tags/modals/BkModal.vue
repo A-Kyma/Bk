@@ -45,6 +45,9 @@ export default {
     },
     show() {
       this.$bvModal.show(this.id)
+    },
+    hide() {
+      this.$bvModal.hide(this.id)
     }
   },
 }

@@ -173,7 +173,11 @@ import BkCardListClass from "../forms/BkCardListClass";
       formGenericField: String,
       for: String,
       plaintext: Boolean,
-      showAlert: Boolean
+      showAlert: Boolean,
+      noState: {
+        type: Boolean,
+        default: false
+      }
     },
     inject: ["formModel"],
     data() {
@@ -455,6 +459,7 @@ import BkCardListClass from "../forms/BkCardListClass";
       },
       state() {
         let errors = this.model.getError(this.field);
+        if (this.noState) return null
         if (errors) {
           this.$emit("validationError", errors.map((value, key) => value.message).join('<br/>'))
           this.$emit("state", false);

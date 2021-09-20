@@ -53,6 +53,7 @@ en:
     close: "Close"
     confirm: "Confirm"
     remove: "Remove"
+    submitConfirmation: "Do you confirm your submission?"
     removeConfirmation: "Do you want to remove?"
     success: "Form submitted successfully"
     failed: "There is an error while submitting your form. Please, check below"
