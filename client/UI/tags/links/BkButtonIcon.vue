@@ -6,7 +6,7 @@
         :alt="transition.alt">
       <slot>
         <b-icon
-            class="BkButton"
+            :class="'BkButton ' + iconClass"
             :font-scale="fontScale"
             :icon="transition.icon"
             :variant="transition.variant"
@@ -21,10 +21,10 @@
       :alt="label">
     <slot>
       <span v-if="computedIcon">
-        <b-icon class="BkButton" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
+        <b-icon :class="'BkButton ' + iconClass" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
         <t v-if="label" :key="label">{{label}}</t>
       </span>
-      <b-button v-else variant="outline-primary">
+      <b-button v-else :class="iconClass" variant="outline-primary">
         <t :key="label">{{label}}</t>
       </b-button>
       <bk-modal :id="modalAddId"
@@ -82,6 +82,7 @@ export default {
     },
     size: String, // modal size
     variant: String,
+    iconClass: String,
     for: String,
     model: {Class,String},
     fields: [Array,String],
