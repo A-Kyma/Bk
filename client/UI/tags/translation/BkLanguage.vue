@@ -1,7 +1,7 @@
 <template>
     <b-nav-item-dropdown right>
       <template #button-content>
-        <b-icon icon="flag-fill"/> Lang
+        <b-icon icon="flag-fill"/>
       </template>
       <b-dropdown-item
           v-for="lang in locales"
