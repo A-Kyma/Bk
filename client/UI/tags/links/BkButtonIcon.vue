@@ -87,6 +87,7 @@ export default {
     model: {Class,String},
     fields: [Array,String],
     exclude: [Array,String],
+    noConfirm: Boolean,
     label: String,
     route: String,
     params: {
@@ -199,7 +200,8 @@ export default {
       if (this.$props.for === "delete") {
         // remove doesn't exist if model is not linked to a database
 
-        let conf = confirm(I18n.get("app.removeConfirmation"))
+        let conf = true
+        if (!this.noConfirm) conf = confirm(I18n.get("app.removeConfirmation"))
         if (conf){
           if (this.inputModel?.remove)
             this.inputModel?.remove(this.errorCallback)
