@@ -14,7 +14,11 @@
     props: {
       model: [Class,String],
       field: String,
-      options: Object,
+      options: {
+        type: Object,
+        default() { return {}}
+      },
+      locale: String,
     },
     computed: {
       key() {
@@ -30,6 +34,8 @@
     },
     meteor: {
       translation() {
+        if (this.locale)
+          this.options.locale = this.locale
         return I18n.t(this.key,this.options);
       }
     },

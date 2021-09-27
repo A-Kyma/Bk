@@ -1,5 +1,5 @@
 <template>
-  <label :class="computedClass"><t>{{label}}</t>
+  <label :class="computedClass"><t :locale="locale">{{label}}</t>
     <b-icon-asterisk
       v-if="required"
       variant="danger"
@@ -20,6 +20,7 @@
       for: String,
       noLabel: Boolean,
       noRequired: Boolean,
+      locale: String,
     },
     computed: {
       computedClass() {

@@ -4,15 +4,15 @@
     <b-button v-if="classDefinitionName === 'Lifecycle'" name="lifecycle"
               :variant="classDefinition.getStateVariant(model[field])"
               pill disabled>
-      <t :key="value">{{value}}</t>
+      <t :key="value" :locale="locale">{{value}}</t>
     </b-button>
 
     <span v-for="(text, index) in value" v-else-if="classDefinitionName === 'ListEnum'">
       <span v-if="index !== 0">, </span>
-      <t :key="text">{{text}}</t>
+      <t :key="text" :locale="locale">{{text}}</t>
     </span>
 
-    <t v-else-if="classDefinitionName === 'Enum'" :key="value">{{value}}</t>
+    <t v-else-if="classDefinitionName === 'Enum'" :key="value" :locale="locale">{{value}}</t>
 
     <b-icon v-else-if="classDefinitionName === 'Color'" icon="circle-fill" :color="value"></b-icon>
 
@@ -35,6 +35,7 @@ export default {
     model: Class,
     field: String,
     format: String,
+    locale: String,
   },
   computed: {
     classDefinition() {
@@ -47,8 +48,9 @@ export default {
       if (Enum.includes(fieldClass)) return "Enum"
       if (Lifecycle.includes(fieldClass)) return "Lifecycle"
       return definition.type.name
-    }
+    },
   },
+
   meteor: {
     value() {
       return this.model.getValue(this.field, this.format);

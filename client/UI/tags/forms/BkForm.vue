@@ -122,6 +122,7 @@ export default {
         this.dismissCountDown = this.dismissSecs;
       },
       onSubmit(e) {
+        let self = this;
         if (this["for"] === "view") {
           if (self.modal) {
             self.$bvModal.hide(self.modal)
@@ -132,7 +133,7 @@ export default {
           }
           return
         }
-        let self = this;
+
         let model = this.formModel;
 
         this.$emit("submit",e,self,model);

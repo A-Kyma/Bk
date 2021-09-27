@@ -22,6 +22,7 @@
       noLabel: Boolean,
       noHtml: Boolean,
       format: String,
+      locale: String,
     },
   }
 </script>
