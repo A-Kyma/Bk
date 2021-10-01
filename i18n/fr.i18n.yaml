@@ -42,6 +42,7 @@ fr:
     reset: "Réinitialiser"
     cancel: "Annuler"
     add: "Ajouter"
+    back: "Retour"
     filter: "Filtrer"
     min: "Minimum"
     max: "Maximum"

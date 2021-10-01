@@ -42,6 +42,7 @@ en:
     reset: "Reset"
     cancel: "Cancel"
     add: "Add"
+    back: "Retour"
     filter: "Filter"
     min: "Minimum"
     max: "Maximum"

@@ -14,6 +14,12 @@
           <slot :name="slot" v-bind="props" />
         </template>
       </bk-button-icon>
+      <bk-button-icon v-if="actions.includes('back')"
+                      label="app.back"
+                      for="back"
+                      v-bind="$attrs"
+      />
+
       <br/>
     </slot>
     <div v-if="datatable.handler">
@@ -60,7 +66,7 @@
                 <td v-for="cell in labeledFields" :key="cell.key" role="cell" class="align-middle">
                   <bk-button-icon
                       v-if="cell.key==='buttonActions'"
-                      v-for="action in actions.filter(x=>x!=='add')"
+                      v-for="action in actions.filter(x=>!['add','back'].includes(x))"
                       :for="action"
                       :model="model"
                       :fields="modalFields"

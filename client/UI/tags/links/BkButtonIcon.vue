@@ -24,7 +24,7 @@
         <b-icon :class="'BkButton ' + iconClass" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
         <t v-if="label" :key="label">{{label}}</t>
       </span>
-      <b-button v-else :class="iconClass" variant="outline-primary">
+      <b-button v-else :class="iconClass" :variant="computedVariant">
         <t :key="label">{{label}}</t>
       </b-button>
       <bk-modal :id="modalAddId"
@@ -121,6 +121,7 @@ export default {
         case "update": return "success";
         case "delete": return "danger";
         case "add": return "outline-primary"
+        case "back": return "outline-dark"
         default: return this.variant;
       }
     },
@@ -213,6 +214,10 @@ export default {
       if (this.$props.for === "add" || this.$props.for === "new") {
         this.onAdd()
         this.$emit("click",e)
+        return
+      }
+      if (this.$props.for === "back") {
+        this.$router.go(-1)
         return
       }
       if (this.$props.for || this.route) {
