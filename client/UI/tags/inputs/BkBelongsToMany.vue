@@ -21,6 +21,7 @@
     >
       <span slot="noResult"><t>app.notFound</t></span>
       <span slot="noOptions"><t>app.noData</t></span>
+      <i slot="clear" class="multiselect__clear" @mousedown.prevent="onRemoveAllTags"/>
     </multiselect>
 
 </template>
@@ -306,6 +307,40 @@ fieldset[disabled] .multiselect {
   border-style: solid;
   border-width: 5px 5px 0;
   content: ""
+}
+
+.multiselect__clear {
+  cursor: pointer;
+  position: absolute;
+  width: 22px;
+  height: 38px;
+  right: 25px;
+  top: 1px;
+  padding: 8px 8px;
+  font-weight: 700;
+  font-style: normal;
+  text-align: center;
+  line-height: 22px;
+  transition: all .2s ease;
+  border-radius: 5px
+
+}
+
+.multiselect__clear:after {
+  content: "\D7"; /* character x */
+  /*color: #266d4d;*/
+  font-size: 14px
+}
+
+/* box around the x when selected */
+/*
+.multiselect__clear:focus, .multiselect__clear:hover {
+  background: #369a6e
+}
+*/
+
+.multiselect__clear:focus:after, .multiselect__clear:hover:after {
+  color: grey;
 }
 
 .multiselect__placeholder {

@@ -192,13 +192,22 @@ export default {
         }
       } else {
         if (definition.cache) {
-          if (this.model[this.field]._id !== id)
+          if (this.model[this.field]._id === id)
             this.model[this.field] = undefined
         } else {
-          if (this.model[this.field] !== id)
-          this.model[this.field] = undefined
+          if (this.model[this.field] === id)
+            this.model[this.field] = undefined
         }
       }
+    },
+    removeAll() {
+      let definition = this.model.getDefinition(this.field)
+      if (_.isEmpty(this.model[this.field])) return
+      // Array of relation
+      if (this.isArray)
+        this.model[this.field] = []
+      else
+        this.model[this.field] = undefined
     },
     search(query) {
       this.inputValue = query;
@@ -278,6 +287,10 @@ export default {
     },
     onRemoveTag(row) {
       this.removeId(row.value)
+      this.$emit("input",this.model[this.field])
+    },
+    onRemoveAllTags() {
+      this.removeAll()
       this.$emit("input",this.model[this.field])
     }
   }
