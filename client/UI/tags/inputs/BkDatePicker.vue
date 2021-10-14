@@ -20,6 +20,7 @@
           minutes-step="5"
           :state="state"
           :disabled="plaintext || dateValue===undefined"
+          :label-close-button="labelClose"
         />
       </b-col>
     </b-row>
@@ -75,6 +76,11 @@ export default {
         return DateTime.getTime(this.value)
       }
     },
+  },
+  meteor: {
+    labelClose() {
+      return I18n.get("app.close")
+    }
   },
   methods: {
     selectTime() {
