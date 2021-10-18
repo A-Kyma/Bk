@@ -290,6 +290,7 @@ export default {
       this.$emit("input",this.model[this.field])
     },
     onRemoveAllTags() {
+      if (this.plaintext || this.disabled) return
       this.removeAll()
       this.$emit("input",this.model[this.field])
     }

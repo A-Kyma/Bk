@@ -174,7 +174,7 @@
       return {
         sortBySync: this.sortBy,
         sortDescSync: this.sortDesc,
-        datatable: new Datatable(this.$props),
+        datatable: new Datatable(this),
         tableModel: Class.getModel(this.model),
       }
     },
@@ -191,13 +191,16 @@
       },
       routeQuery() {
         return this.$route && this.$route.query
+      },
+      firstReady() {
+        return this.datatable.firstReady
       }
     },
     watch: {
       routeQuery(newValue, oldValue) {
         if (this.updateRoute)
           this.datatable.setContext(newValue)
-      }
+      },
     },
     methods: {
       availableSlots() {

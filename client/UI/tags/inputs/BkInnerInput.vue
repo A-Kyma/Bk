@@ -177,7 +177,7 @@ import BkCardListClass from "../forms/BkCardListClass";
       noState: {
         type: Boolean,
         default: false
-      }
+      },
     },
     inject: ["formModel"],
     data() {
