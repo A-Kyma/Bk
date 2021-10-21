@@ -154,6 +154,8 @@ en:
   User:
     profile:
       label: "Profile"
+    username:
+      label: "Username"
   UserProfile:
     firstname:
       label: "Firstname"

@@ -152,6 +152,8 @@ fr:
   User:
     profile:
       label: "Profile"
+    username:
+      label: "Nom d'utilisateur"
   UserProfile:
     firstname:
       label: "Prénom"
