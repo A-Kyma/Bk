@@ -27,7 +27,7 @@ Meteor.publish("usersData", function() {
   if (!this.userId) return this.ready();
   let fields = {};
   if (Role.is("SuperAdministrator")) {
-    publishCount(this, 'usersData.club-count', Meteor.users.find({}, { fields: { _id: true }}), { noReady: true });
+    publishCount(this, 'usersData-count', Meteor.users.find({}, { fields: { _id: true }}), { noReady: true });
     return Meteor.users.find({},{fields:fields})
   }
   return Meteor.users.find({"_id": this.userId})
