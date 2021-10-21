@@ -108,7 +108,7 @@ export default {
         this.value = value;
 
         // We subscribe if at least 3 characters
-        if (value.length >= this.minCharacters)
+        if (value.length >= this.minCharacters && this.minCharacters !== 0)
           this.activateSubscription(true);
         // We unsubscribe if subscription exists and if not 3 characters
         if (_.isEmpty(this.getId) && value.length < this.minCharacters) {
