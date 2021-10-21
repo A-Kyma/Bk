@@ -3,6 +3,7 @@
 import {User} from "../../lib/classes/user";
 import Role from "../../lib/classes/role";
 import {Accounts} from "meteor/accounts-base";
+import { Counts, publishCount } from "meteor/tmeasday:publish-counts";
 import _cloneDeep from "lodash"
 
 // Accounts.onCreateUser((options,user) => {
@@ -25,7 +26,10 @@ import _cloneDeep from "lodash"
 Meteor.publish("usersData", function() {
   if (!this.userId) return this.ready();
   let fields = {};
-  if (Role.is("SuperAdministrator")) return Meteor.users.find({},{fields:fields})
+  if (Role.is("SuperAdministrator")) {
+    publishCount(this, 'usersData.club-count', Meteor.users.find({}, { fields: { _id: true }}), { noReady: true });
+    return Meteor.users.find({},{fields:fields})
+  }
   return Meteor.users.find({"_id": this.userId})
 })
 

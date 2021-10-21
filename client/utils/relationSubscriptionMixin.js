@@ -1,13 +1,18 @@
 import {I18n} from "meteor/a-kyma:bk";
 import {_} from "lodash";
 import {Class, ValidationError, ScalarField, ObjectField, ListField, Union} from 'meteor/jagi:astronomy';
-
+import errorPopupMixin from "./errorPopupMixin";
 
 export default {
   props: {
     model: Class,
     field: String,
+    for: String,
+    plaintext: Boolean,
+    disabled: Boolean,
+    method: String,
   },
+  mixins: [errorPopupMixin],
   data() {
     return {
       oldValue: null,
@@ -23,7 +28,7 @@ export default {
     this.oldValue = this.getId
 
     if (!_.isEmpty(this.oldValue) || this.selectInput)
-      this.activateSubscription()
+      this.activateSubscription(!this.readonly)
   },
   destroyed() {
     this.handler && this.handler.stop();
@@ -32,6 +37,14 @@ export default {
   computed: {
     definition() {
       return this.model.getDefinition(this.field)
+    },
+
+    readonly() {
+      return this.$props["for"] === "view" || this.plaintext || this.disabled
+    },
+
+    meteorMethod() {
+      return this.method || this.definition.method
     },
 
     isArray() {
@@ -55,6 +68,13 @@ export default {
         }
       }
     },
+    emptyId() {
+      let id = this.getId
+      if (id === undefined) return true
+      if (Array.isArray(id) && id.length === 0) return true
+      if (typeof id === "string" && id.length === 0) return true
+      return false
+    },
     selectInput() {
       return this.minCharacters === 0;
     },
@@ -68,17 +88,12 @@ export default {
       if (min === undefined || min === null || isNaN(min)) return 3
       return min;
     },
-    relation() {
-      return this.model[this.field + "Instance"]();
-    },
-    relations() {
-      return this.model[this.field + "Instances"]();
-    },
+
     where() {
       let definition = this.model.getDefinition(this.field);
       let where = definition.where.call(
         this.model, // set this in where function to this.model
-        this.getId, this.value, I18n.getLanguage()
+        this.getId, this.value, I18n.getLanguage(),
       ) //TODO where not found
       if (!where) return;
       if (!where.search && !where.param) where = { search: where }
@@ -94,7 +109,7 @@ export default {
 
         // We subscribe if at least 3 characters
         if (value.length >= this.minCharacters)
-          this.activateSubscription();
+          this.activateSubscription(true);
         // We unsubscribe if subscription exists and if not 3 characters
         if (_.isEmpty(this.getId) && value.length < this.minCharacters) {
           this.handler && this.handler.stop();
@@ -131,14 +146,35 @@ export default {
          */
       },
       get() {
-        if (_.isEmpty(this.model[this.field])) return
+        if (this.emptyId) return
         if (this.isArray) {
-          return this.relations.map(e => { return { value: e._id, text: e.defaultName() }})
+          return this.relationList.filter(e => this.getId.includes(e.value))
+          //return this.relations.map(e => { return { value: e._id, text: e.defaultName() }})
         } else {
-          return { value: this.relation._id, text: this.relation.defaultName() }
+          return this.relationList.find(e => this.getId === e.value)
+          //return { value: this.relation._id, text: this.relation.defaultName() }
         }
       },
+    },
+    viewInputRelation() {
+      let relations = this.inputRelation
+      if (!relations) return ""
+      if (this.isArray)
+        return relations.map(elem => elem.text).join(", ")
+      else
+        return relations.text
     }
+  },
+  meteor: {
+    relation() {
+      return this.relations;
+    },
+    relations() {
+      if (this.isArray)
+        return this.model[this.field + "Instances"]();
+      else
+        return this.model[this.field + "Instance"]();
+    },
   },
   watch: {
     where(newValue,oldValue) {
@@ -212,15 +248,20 @@ export default {
     search(query) {
       this.inputValue = query;
     },
-    activateSubscription() {
+    activateSubscription(allAccessible=true) {
+      if (this.readonly && this.emptyId) return
       let oldHandler = this.handler
       this.ready = false
+      let where = (allAccessible) ? this.where : {}
+      let value = (allAccessible) ? this.value : undefined
       let subscriptionName = this.definition.subscription
       if (subscriptionName) {
         this.handler = Meteor.subscribe(
           subscriptionName,
-          this.getId, this.value, I18n.getLanguage(),
-          this.where
+          this.getId,
+          value,
+          I18n.getLanguage(),
+          where
         )
 
         Tracker.autorun(() => {
@@ -231,15 +272,31 @@ export default {
             this.populate()
           }
         })
+      } else if (this.meteorMethod) {
+        Meteor.call(
+          this.meteorMethod,
+          this.getId,
+          value,
+          I18n.getLanguage(),
+          where,
+          (err,result) => {
+            if (err)
+              this.errorCallback(err,result)
+            else {
+              this.populate(result)
+              this.ready = true
+            }
+          }
+        )
       } else {
-        this.ready = true
         this.populate()
+        this.ready = true
       }
 
     },
-    populate() {
+    populate(records) {
       if (this.selectInput) {
-        this.relationList = this.getOptionsFromRelations()
+        this.relationList = this.getOptionsFromRelations(records)
         if (this.relationList.length === 1 && !this.definition.optional) {
           //this.model[this.field] = this.relationList[0].value;
           this.setId(this.relationList[0].value);
@@ -254,7 +311,7 @@ export default {
         return
       }
       */
-      this.relationList = this.getOptionsFromRelations()
+      this.relationList = this.getOptionsFromRelations(result)
       /*
       if (this.relationList.length === 1) {
         this.onSelectRow(this.relationList[0])
@@ -263,24 +320,33 @@ export default {
       }
        */
     },
-    getOptionsFromRelations() {
+    getOptionsFromRelations(records) {
       let definition = this.model.getDefinition(this.field);
       let relationClass = definition.relation;
       let where = this.where
-      if (!where) return;
+      if (!where && !records) return;
+      if (records)
+        return records.map(record => {
+          let relation = new relationClass(record)
+          return {
+            'value': relation._id,
+            'text': relation.defaultName && relation.defaultName() || relation._id
+          }
+        }).sort((a,b) => (a.text <= b.text) ? -1 : 1)
+
       return relationClass && relationClass.find(where.search).map(record => {
         return {
           'value': record._id,
           'text': record.defaultName && record.defaultName() || record._id
         }
-      }).sort((a,b) => (a.text <= b.text) ? -1 : 1);
+      }).sort((a,b) => (a.text <= b.text) ? -1 : 1)
     },
     onSelectRow(row) {
       //this.model.set(this.field, row.value, {cast: true})
       this.setId(row.value)
       this.value = "";
       if (this.relationList.length !== 1)
-        this.activateSubscription(); // since value length is lower than 3
+        this.activateSubscription(false); // since value length is lower than 3
       //this.relationList = [];
       this.model.isValid(this.field);
       this.$emit("input",this.model[this.field])

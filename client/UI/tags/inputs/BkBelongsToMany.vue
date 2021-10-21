@@ -1,12 +1,13 @@
 <template>
 
-    <multiselect ref="select"
+    <multiselect v-if="!plaintext && $props['for'] !== 'view'"
+        ref="select"
         v-model="inputRelation"
         :options="relationList"
         label="text"
         track-by="text"
         :show-labels="false"
-        :disabled="plaintext || disabled"
+        :disabled="disabled"
         :placeholder="placeholder"
         :tagPlaceholder="tagPlaceholder"
         :loading="!ready"
@@ -24,6 +25,10 @@
       <i slot="clear" class="multiselect__clear" @mousedown.prevent="onRemoveAllTags"/>
     </multiselect>
 
+  <span v-else>
+    {{viewInputRelation}}
+  </span>
+
 </template>
 
 <script>
@@ -38,9 +43,6 @@ export default {
   components: {Multiselect},
   mixins: [relationSubscriptionMixin],
   props: {
-    for: String,
-    plaintext: Boolean,
-    disabled: Boolean,
   },
   data() {
     return {
