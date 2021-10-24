@@ -345,8 +345,8 @@ export default {
       //this.model.set(this.field, row.value, {cast: true})
       this.setId(row.value)
       this.value = "";
-      if (this.relationList.length !== 1)
-        this.activateSubscription(false); // since value length is lower than 3
+      if (this.relationList.length !== 1 && !this.selectInput)
+        this.activateSubscription(true); // since value length is lower than 3
       //this.relationList = [];
       this.model.isValid(this.field);
       this.$emit("input",this.model[this.field])
