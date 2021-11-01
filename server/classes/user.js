@@ -1,6 +1,7 @@
 //import Role
 
 import {User} from "../../lib/classes/user";
+import {Device} from "../../lib/classes/device";
 import Role from "../../lib/classes/role";
 import {Accounts} from "meteor/accounts-base";
 import { Counts, publishCount } from "meteor/tmeasday:publish-counts";
@@ -96,6 +97,62 @@ User.extend({
       } else {
         throw new Meteor.Error(400, "You don't have rights to change password")
       }
+    },
+    setDevice(player_id){
+      const device = new Device()
+      device.id = player_id
+      device.getOneSignalUserDeviceDetails(result => {
+        if (result !== undefined){
+          let oneSignalUserDevice = {}
+          oneSignalUserDevice.id = result.id
+          oneSignalUserDevice.identifier = result.identifier
+          oneSignalUserDevice.device_os = result.device_os
+          oneSignalUserDevice.device_model = result.device_model
+          oneSignalUserDevice.session_count = result.session_count
+          oneSignalUserDevice.timezone = result.timezone
+          oneSignalUserDevice.created_at = new Date(result.created_at * 1000)
+          oneSignalUserDevice.updated_at = new Date()
+          oneSignalUserDevice.last_active = new Date(result.last_active * 1000)
+          oneSignalUserDevice.send_notification = true //default notification set to true
+
+          let param = {
+            fields: ['profile.devices'],
+            simulation: false // Insert only on the server.
+          }
+
+          // get the userprofile existing devices and verify if it already exists
+          const user = User.findOne({_id: Meteor.userId()})
+
+          if (user.profile.devices.length === 0){
+            //no devices yet
+            user.profile.devices.push(oneSignalUserDevice);
+            user.save(param);
+          }else{
+            //already a device in collection.
+            let found = false
+            for(let deviceItem of user.profile.devices){
+              //identifier already exists.
+              if (deviceItem.identifier === oneSignalUserDevice.identifier){
+                //If the player_id is different we have to update it otherwise do nothing
+                found = true
+                if (deviceItem.id !== oneSignalUserDevice.id){
+                  deviceItem.id = oneSignalUserDevice.id
+                  deviceItem.session_count = oneSignalUserDevice.session_count
+                  deviceItem.updated_at = oneSignalUserDevice.updated_at
+                  user.save(param);
+                }
+              }
+            }
+            if (!found){
+              // the device was not found. we have to create a new one
+              user.profile.devices.push(oneSignalUserDevice);
+              user.save(param);
+            }
+          };
+        }else{
+          throw new Meteor.Error(500, "An error certainly occured during the oneSignal Request. Check for other errors")
+        }
+      })
     }
   }
 },["fields","meteorMethods"])

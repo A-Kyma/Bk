@@ -42,6 +42,7 @@ Package.onUse(function(api) {
   api.use('reactive-var'); // For clickTo... components and other thinks
   api.use('reactive-dict');
   api.use('ostrio:files') // For file upload
+  api.use('fetch'); // make http calls
 
   // VueJS
   //api.use('akryum:vue'); // Vue and imported in NPM

@@ -4,6 +4,8 @@ import "./utils/BkServerCore";
 import "./classes/user"
 import "./classes/role"
 import "./classes/files"
+import "./classes/device"
+import "./classes/api"
 
 export {
   Bk
