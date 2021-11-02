@@ -102,7 +102,7 @@ User.extend({
       const device = new Device()
       device.id = player_id
       device.getOneSignalUserDeviceDetails(result => {
-        if (result !== undefined){
+        if (result.id !== undefined){
           let oneSignalUserDevice = {}
           oneSignalUserDevice.id = result.id
           oneSignalUserDevice.identifier = result.identifier
@@ -150,7 +150,7 @@ User.extend({
             }
           };
         }else{
-          throw new Meteor.Error(500, "An error certainly occured during the oneSignal Request. Check for other errors")
+          throw new Meteor.Error(500, JSON.stringify(result))
         }
       })
     }

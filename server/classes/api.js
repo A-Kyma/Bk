@@ -37,11 +37,11 @@ const Api = Class.create({
             try {
                 let response = await fetch(this.url, reqParam);
                 let result = await response.json();
+                // return could still give a http error
                 return result
             } catch (err) {
-                console.log(err)
-                //todo send a mail to admin as api call made in background
-                 return undefined
+                //technical issue
+                throw new Meteor.Error(500, JSON.stringify(err))
              }
         }
     }

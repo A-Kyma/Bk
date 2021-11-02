@@ -25,7 +25,7 @@ Device.extend({
             api.callService(data)
                 .then(result => {
                     if (result.errors){
-                        throw new Meteor.Error(400, result.errors)
+                        throw new Meteor.Error(500, JSON.stringify(result.errors))
                     }
                 });
         }
