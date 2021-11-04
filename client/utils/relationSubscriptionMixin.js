@@ -259,7 +259,8 @@ export default {
       if (this.readonly && this.emptyId) return
       let oldHandler = this.handler
       this.ready = false
-      let where = (allAccessible) ? this.where : {}
+      //let where = (allAccessible) ? this.where : {}
+      let where = this.where
       let value = (allAccessible) ? this.value : undefined
       let subscriptionName = this.definition.subscription
       if (subscriptionName) {
