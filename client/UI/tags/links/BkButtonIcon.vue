@@ -20,7 +20,7 @@
       @click="onClick(null,$event)"
       :alt="label">
     <slot>
-      <span v-if="computedIcon" class="text-nowrap">
+      <span v-if="computedIcon" :class="textNoWrap">
         <b-icon :class="'BkButton ' + iconClass" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
         <t v-if="label" :key="label">{{label}}</t>
       </span>
@@ -90,6 +90,7 @@ export default {
     noConfirm: Boolean,
     label: String,
     route: String,
+    nowrap: Boolean,
     params: {
       type: Object,
       default() { {} },
@@ -148,6 +149,11 @@ export default {
         result=result.concat(field.type.class.getTransitionsForModel(this.model, field.name))
       })
       return result;
+    },
+    textNoWrap() {
+      if (this.nowrap) {
+        return "text-nowrap"
+      }
     },
     tableClass() {
       return this.inputModel?.constructor
