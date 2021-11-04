@@ -88,7 +88,8 @@
                       :name="'cell('+cell.key+')'"
                       v-bind="{model, index, field: cell.key}">
                     <slot name="cell()" v-bind="{model,index,field: cell.key}">
-                      <bk-view-inner v-if="cell.key!=='buttonActions'" no-label :model="model" :field="cell.key"/>
+                      <bk-view-inner v-if="!datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'" no-label :model="model" :field="cell.key"/>
+                      <bk-inner-input v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'" :model="model" :field="cell.key"/>
                     </slot>
                   </slot>
                 </td>
@@ -142,6 +143,7 @@
     components: {BkPagination, BkButtonIcon,BkModal,BkForm,BkViewInner},
     props: {
       fields: Array,
+      editableFields: [String,Array],
       modalFields: [String,Array],
       modalExclude: [String,Array],
       sort: {

@@ -91,6 +91,13 @@ export default {
 
     where() {
       let definition = this.model.getDefinition(this.field);
+      if (!definition.where && this.readonly) {
+        return {
+          search: {
+            _id: {$in: this.getId}
+          }
+        }
+      }
       let where = definition.where.call(
         this.model, // set this in where function to this.model
         this.getId, this.value, I18n.getLanguage(),
@@ -311,7 +318,7 @@ export default {
         return
       }
       */
-      this.relationList = this.getOptionsFromRelations(result)
+      this.relationList = this.getOptionsFromRelations(records)
       /*
       if (this.relationList.length === 1) {
         this.onSelectRow(this.relationList[0])
@@ -334,6 +341,7 @@ export default {
           }
         }).sort((a,b) => (a.text <= b.text) ? -1 : 1)
 
+      // else (if subscription or readonly (maybe already subscribed))
       return relationClass && relationClass.find(where.search).map(record => {
         return {
           'value': record._id,

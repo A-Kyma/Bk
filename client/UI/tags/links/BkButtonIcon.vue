@@ -20,7 +20,7 @@
       @click="onClick(null,$event)"
       :alt="label">
     <slot>
-      <span v-if="computedIcon">
+      <span v-if="computedIcon" class="text-nowrap">
         <b-icon :class="'BkButton ' + iconClass" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
         <t v-if="label" :key="label">{{label}}</t>
       </span>

@@ -1,29 +1,38 @@
 <template>
 
-    <multiselect v-if="!plaintext && $props['for'] !== 'view'"
-        ref="select"
-        v-model="inputRelation"
-        :options="relationList"
-        label="text"
-        track-by="text"
-        :show-labels="false"
-        :disabled="disabled"
-        :placeholder="placeholder"
-        :tagPlaceholder="tagPlaceholder"
-        :loading="!ready"
-        :taggable="true"
-        :close-on-select="!selectInput"
-        :clear-on-select="!selectInput"
-        multiple
-        searchable
-        @search-change="search"
-        @select="onSelectRow"
-        @remove="onRemoveTag"
-    >
-      <span slot="noResult"><t>app.notFound</t></span>
-      <span slot="noOptions"><t>app.noData</t></span>
-      <i slot="clear" class="multiselect__clear" @mousedown.prevent="onRemoveAllTags"/>
-    </multiselect>
+  <multiselect v-if="!plaintext && $props['for'] !== 'view'"
+      ref="select"
+      v-bind="$attrs"
+      v-model="inputRelation"
+      :options="relationList"
+      label="text"
+      track-by="text"
+      :show-labels="false"
+      :disabled="disabled"
+      :placeholder="placeholder"
+      :tagPlaceholder="tagPlaceholder"
+      :loading="!ready"
+      :taggable="taggable"
+      :close-on-select="!selectInput"
+      :clear-on-select="!selectInput"
+      :limit="limit"
+      multiple
+      searchable
+      @search-change="search"
+      @select="onSelectRow"
+      @remove="onRemoveTag"
+  >
+
+    <span slot="noResult"><t>app.notFound</t></span>
+    <span slot="noOptions"><t>app.noData</t></span>
+    <strong slot="limit">
+      <t v-if="isArray" :options="{'count': getId.length}">app.selected</t>
+      <t v-else :options="{'count': getId? 1:0}">app.selected</t>
+      <i v-if="limit===0" slot="clear" class="multiselect__clear" @mousedown.prevent="onRemoveAllTags"/>
+    </strong>
+    <i v-if="taggable" slot="clear" class="multiselect__clear" @mousedown.prevent="onRemoveAllTags"/>
+
+  </multiselect>
 
   <span v-else>
     {{viewInputRelation}}
@@ -43,17 +52,15 @@ export default {
   components: {Multiselect},
   mixins: [relationSubscriptionMixin],
   props: {
+    taggable: {
+      type: Boolean,
+      default: true,
+    },
+    limit: Number,
   },
   data() {
     return {
-      options: [
-      { text: 'Vue.js', language: 'JavaScript' },
-      { text: 'Adonis', language: 'JavaScript' },
-      { text: 'Rails', language: 'Ruby' },
-      { text: 'Sinatra', language: 'Ruby' },
-      { text: 'Laravel', language: 'PHP' },
-      { text: 'Phoenix', language: 'Elixir' }
-    ]
+
     }
   },
   meteor: {

@@ -99,6 +99,7 @@
         :model="model"
         :field="field"
         :for="$props['for']"
+        :plaintext="plaintextComputed"
         :readonly="plaintextComputed"
         :disabled="plaintextComputed"
       />

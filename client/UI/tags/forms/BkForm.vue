@@ -3,6 +3,8 @@
         v-bind="$attrs"
         :inline="inline"
         @submit="onSubmit"
+        @keyup.ctrl.enter="onSubmit"
+        @keyup.meta.enter="onSubmit"
         @reset="onReset">
       <b-overlay :show="isOverlay">
         <template #overlay>
@@ -20,7 +22,7 @@
         </b-alert>
 
         <slot v-bind="{...$props,...$attrs}" :model="formModel">
-          <bk-field-list v-bind="$attrs" :for="$props['for']" @change="onChangeInput">
+          <bk-field-list v-bind="$attrs" :model="formModel" :for="$props['for']" @change="onChangeInput">
 
             <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
               <slot :name="slot" v-bind="props" />
@@ -59,6 +61,10 @@ export default {
         default: true
       },
       meteorMethod: String,
+      meteorMethodArgs: {
+        type: Array,
+        default() { return []}
+      }
     },
     data() {
       return {
@@ -153,7 +159,7 @@ export default {
         let callback = function(err,id) {
           self.hideOverlay();
             if (err) {
-              let f=new Event("submitFailed");
+              let f=new Event("submitFailed",{cancelable: true});
               self.$emit("submitFailed",f,self,model,err)
               if (f.defaultPrevented) return
 
@@ -164,12 +170,13 @@ export default {
                 self.$refs.form.scrollIntoView({behavior: "smooth"});
               })
             } else {
-              let s=new Event("submitSuccess");
+              self.showAlert = false;
+              self.showSuccess()
+
+              let s=new Event("submitSuccess", {cancelable: true});
               self.$emit("submitSuccess",s,self,model)
               if (s.defaultPrevented) return
 
-              self.showAlert = false;
-              self.showSuccess()
               if (self.modal) {
                 self.$bvModal.hide(self.modal)
               } else if (self.toast) {
@@ -180,28 +187,26 @@ export default {
             }
         }
         if (this.meteorMethod) {
-          model.callMethod(this.meteorMethod,callback)
+          model.applyMethod(this.meteorMethod,this.meteorMethodArgs,callback)
         } else {
           model.save({fields, stopOnFirstError:false, simulation: this.simulation},callback)
         }
-
-        this.formModel.set(model);
+        //this.formModel.set(model)
       },
       onReset(e) {
         this.$emit("reset",e,this,this.model);
         // Allow catching the event on components using this tag
         if (e.defaultPrevented) return;
         e.preventDefault()
-        let model = this.formModel;
-        let newModel;
-        if (model.isPersisted()) {
-          newModel = model.constructor.findOne(model._id);
-        } else {
-          newModel = new (model.constructor)();
-        }
         this.showAlert = false;
         this.formModel.clearError();
-        this.formModel.set(newModel.raw());
+
+        if (this.formModel.isPersisted())
+          this.formModel.reload()
+        else {
+          let newModel = new (this.formModel.constructor)()
+          this.formModel.set(newModel.raw())
+        }
       },
       onCancel(e) {
         this.$emit("cancel",e,this,this.model);
@@ -214,7 +219,6 @@ export default {
         } else {
           this.$router.go(-1);
         }
-        console.log("cancel");
       }
     },
   }

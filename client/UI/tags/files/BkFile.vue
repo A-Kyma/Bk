@@ -158,6 +158,7 @@ export default {
     showFilesList: Boolean,
     showFilesCards: Boolean,
     accept: String, // accept="image/*" for images
+    default: String,
   },
   data() {
     return {
@@ -242,6 +243,7 @@ export default {
     staticLink(format) {
       let fileId = this.model[this.field]
       if (!format) format="original"
+      if (fileId === undefined && this.default) return this.default
       return "/cdn/storage/Files/" + fileId + "/" + format + "/" + fileId + ".jpg"
     },
     // Avoid issues on touch screens

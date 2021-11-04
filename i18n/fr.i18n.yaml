@@ -55,6 +55,8 @@ fr:
     confirm: "Confirmer"
     yes: "Oui"
     no: "Non"
+    and: "et"
+    or: "ou"
     maybe: "Peut-être"
     remove: "Supprimer"
     submitConfirmation: "Voulez-vous confirmer la soumission ?"
@@ -67,6 +69,10 @@ fr:
     undefined: "n/a"
     login: "Se connecter"
     forgottenPassword: "Envoyer"
+    selected:
+      zero: "Aucun élément sélectionné"
+      one: "Un élément sélectionné"
+      other: "{{count}} éléments sélectionnés"
     day:
       0: "Lundi"
       1: "Mardi"

@@ -55,6 +55,8 @@ en:
     confirm: "Confirm"
     yes: "Yes"
     no: "No"
+    and: "and"
+    or: "or"
     maybe: "Maybe"
     remove: "Remove"
     submitConfirmation: "Do you confirm your submission?"
@@ -67,6 +69,10 @@ en:
     undefined: "n/a"
     login: "Login"
     forgottenPassword: "Send"
+    selected:
+      zero: "no element selected"
+      one: "one element selected"
+      other: "{{count}} elements selected"
     day:
       0: "Monday"
       1: "Tuesday"
