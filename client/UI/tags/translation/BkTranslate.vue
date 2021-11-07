@@ -29,7 +29,7 @@
             return this.model.constructor.getLabelKey(this.field);
           }
         }
-        return this.$slots.default[0].text;
+        return this.$slots.default[0].text.trim();
       },
     },
     meteor: {
