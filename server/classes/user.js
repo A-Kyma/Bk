@@ -99,7 +99,7 @@ User.extend({
       }
     },
     setDevice(jsonData){
-      if (jsonData){
+      if (jsonData.userId){
         const device = new Device()
 
         device.id = jsonData.userId
