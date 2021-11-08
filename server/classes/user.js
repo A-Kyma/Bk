@@ -101,12 +101,12 @@ User.extend({
     setDevice(jsonData){
       let userId = undefined
 
-      if (jsonData.userId){
-        userId = jsonData.userId
-      } else if (typeof jsonData === "string"){
+      if (typeof jsonData === "string"){
         if (jsonData.match('^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$') !== null){
-          userId = jsonData.userId
+          userId = jsonData
         }
+      } else if (jsonData.userId){
+        userId = jsonData.userId
       }
 
       if (userId){
