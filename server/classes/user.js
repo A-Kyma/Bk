@@ -108,7 +108,6 @@ User.extend({
       } else if (jsonData?.userId){
         userId = jsonData.userId
       }
-
       if (userId){
         const device = new Device()
 
@@ -143,16 +142,16 @@ User.extend({
               //already a device in collection.
               let found = false
               for (let deviceItem of user.profile.devices) {
-                //identifier already exists.
-                if (deviceItem.identifier === oneSignalUserDevice.identifier) {
-                  //If the player_id is different we have to update it otherwise do nothing
+                if (deviceItem.device_model === oneSignalUserDevice.device_model && deviceItem.device_os === oneSignalUserDevice.device_os) {
                   found = true
-                  if (deviceItem.id !== oneSignalUserDevice.id) {
-                    deviceItem.id = oneSignalUserDevice.id
-                    deviceItem.session_count = oneSignalUserDevice.session_count
-                    deviceItem.updated_at = oneSignalUserDevice.updated_at
-                    user.save(param);
+                  deviceItem.id = oneSignalUserDevice.id
+                  deviceItem.session_count = oneSignalUserDevice.session_count
+                  deviceItem.updated_at = oneSignalUserDevice.updated_at
+                  if (deviceItem.identifier !== oneSignalUserDevice.identifier) {
+                    deviceItem.identifier = oneSignalUserDevice.identifier
                   }
+                  user.save(param);
+                  break;
                 }
               }
               if (!found) {
@@ -162,8 +161,6 @@ User.extend({
               }
             }
             ;
-          } else {
-            throw new Meteor.Error(500, JSON.stringify(result))
           }
         })
       }else{
