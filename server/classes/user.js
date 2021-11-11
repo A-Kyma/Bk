@@ -98,7 +98,8 @@ User.extend({
         throw new Meteor.Error(400, "You don't have rights to change password")
       }
     },
-    setDevice(jsonData){
+    setDevice(jsonData,send_notification=true){
+      if (!Meteor.userId()) return
       let userId
 
       if (typeof jsonData === "string"){
@@ -124,7 +125,7 @@ User.extend({
             oneSignalUserDevice.created_at = new Date(result.created_at * 1000)
             oneSignalUserDevice.updated_at = new Date()
             oneSignalUserDevice.last_active = new Date(result.last_active * 1000)
-            oneSignalUserDevice.send_notification = true //default notification set to true
+            oneSignalUserDevice.send_notification = send_notification //default notification set to true
 
             let param = {
               fields: ['profile.devices'],
