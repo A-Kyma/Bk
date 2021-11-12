@@ -43,6 +43,7 @@ en:
     cancel: "Cancel"
     add: "Add"
     back: "Retour"
+    export: "Export"
     filter: "Filter"
     min: "Minimum"
     max: "Maximum"

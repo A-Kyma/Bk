@@ -121,8 +121,9 @@ export default {
         case "new": return "success";
         case "update": return "success";
         case "delete": return "danger";
-        case "add": return "outline-primary"
-        case "back": return "outline-dark"
+        case "add": return "outline-primary";
+        case "back": return "outline-dark";
+        case "export": return "outline-dark"
         default: return this.variant;
       }
     },
@@ -224,6 +225,10 @@ export default {
       }
       if (this.$props.for === "back") {
         this.$router.go(-1)
+        return
+      }
+      if (this.$props.for === 'export') {
+        this.$parent.datatable.exportToCsv()
         return
       }
       if (this.$props.for || this.route) {
