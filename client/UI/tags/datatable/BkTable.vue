@@ -19,9 +19,9 @@
                       for="back"
                       v-bind="$attrs"
       />
-
-      <br/>
     </slot>
+    <slot name="customHeader" v-bind="{datatable, model, actions}"/>
+    <br/>
     <div v-if="datatable.handler">
       <div v-if="datatable.firstReady">
         <slot name="pagination-top" v-bind="{datatable, scroll, perPage}">
@@ -143,6 +143,7 @@
     components: {BkPagination, BkButtonIcon,BkModal,BkForm,BkViewInner},
     props: {
       fields: Array,
+      exportFields: String,
       editableFields: [String,Array],
       modalFields: [String,Array],
       modalExclude: [String,Array],

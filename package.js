@@ -43,6 +43,7 @@ Package.onUse(function(api) {
   api.use('reactive-dict');
   api.use('ostrio:files') // For file upload
   api.use('fetch'); // make http calls
+  api.use('pfafman:filesaver@1.3.2'); // use SaveAs()
 
   // VueJS
   //api.use('akryum:vue'); // Vue and imported in NPM
