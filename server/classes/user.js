@@ -165,7 +165,10 @@ User.extend({
           }
         })
       }else{
-        throw new Meteor.Error(500, JSON.stringify(jsonData))
+        throw new Meteor.Error("Meteor Error: Device userID empty", JSON.stringify({
+          user: Meteor.userId(),
+          jsonData
+        }))
       }
     }
   }
