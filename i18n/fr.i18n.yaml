@@ -44,6 +44,7 @@ fr:
     add: "Ajouter"
     back: "Retour"
     export: "Exporter"
+    import: "Importer"
     filter: "Filtrer"
     min: "Minimum"
     max: "Maximum"
