@@ -124,6 +124,7 @@ export default {
         case "add": return "outline-primary";
         case "back": return "outline-dark";
         case "export": return "outline-dark"
+        case "import": return "outline-dark"
         default: return this.variant;
       }
     },
@@ -229,6 +230,10 @@ export default {
       }
       if (this.$props.for === 'export') {
         this.$parent.datatable.exportToCsv()
+        return
+      }
+      if (this.$props.for === 'import') {
+        this.$router.push('import')
         return
       }
       if (this.$props.for || this.route) {

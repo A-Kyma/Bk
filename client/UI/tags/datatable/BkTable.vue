@@ -24,6 +24,11 @@
                       for="export"
                       v-bind="$attrs"
       />
+      <bk-button-icon v-if="actions.includes('import')"
+                      label="app.import"
+                      for="import"
+                      v-bind="$attrs"
+      />
     </slot>
     <slot name="customHeader" v-bind="{datatable, model, actions}"/>
     <br/>
@@ -71,7 +76,7 @@
                 <td v-for="cell in labeledFields" :key="cell.key" role="cell" class="align-middle">
                   <bk-button-icon
                       v-if="cell.key==='buttonActions'"
-                      v-for="action in actions.filter(x=>!['add','back','export'].includes(x))"
+                      v-for="action in actions.filter(x=>!['add','back','export','import'].includes(x))"
                       :for="action"
                       :model="model"
                       :fields="modalFields"
