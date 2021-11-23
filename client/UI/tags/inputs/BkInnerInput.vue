@@ -80,6 +80,18 @@
               :placeholder="placeholder"
               :disabled="plaintextComputed"
       />
+
+      <b-form-rating
+          v-else-if="definitionField === 'Rating'"
+          v-model="value"
+          :variant="ui.variant"
+          :color="color"
+          :readonly="plaintextComputed"
+          :size="size"
+          show-clear
+          icon-clear="x-circle"
+      />
+
       <bk-belongs-to-input
           v-else-if="definitionField === 'Relation'"
           v-bind="$attrs"
@@ -310,6 +322,9 @@ import BkCardListClass from "../forms/BkCardListClass";
           }
           if (fieldType === "Image") {
             return "Image"
+          }
+          if (fieldType === "Rating") {
+            return "Rating"
           }
           return "Scalar";
         }
