@@ -163,6 +163,8 @@ export default {
               self.$emit("submitFailed",f,self,model,err)
               if (f.defaultPrevented) return
 
+              // TODO: check if field is in the form, hence show error in global instead of local for field
+
               model.setError(err);
               self.showAlert = true;
               // Scroll to alert after DOM was updated
