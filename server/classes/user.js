@@ -39,7 +39,8 @@ Meteor.publish("myUser",function() {
     fields: {
       username: 1,
       emails: 1,
-      profile: 1
+      profile: 1,
+      "profile.devices": 0,
     }
   })
 })

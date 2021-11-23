@@ -164,6 +164,9 @@ en:
     username:
       label: "Username"
   UserProfile:
+    avatar:
+      label: "Avatar"
+      placeholder: "Choose your avatar"
     firstname:
       label: "Firstname"
       placeholder: " "

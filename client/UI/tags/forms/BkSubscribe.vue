@@ -8,6 +8,7 @@
           dismissible
           @dismissed="showAlert=false">
         <t>app.failed</t>
+        <br><span v-if="!!globalError"><t>{{globalError}}</t></span>
       </b-alert>
       <bk-field-list v-bind="{...$props,...$attrs}"
                      :model="formModel.profile"
@@ -16,7 +17,6 @@
                      variant="secondary"
                      size="sm"
                      label-cols-sm="4"
-                     label-cols-lg="3"
       />
       <bk-submit @cancel="onCancel" v-bind="$attrs"/>
     </b-overlay>
@@ -59,6 +59,11 @@ export default {
     requiredFields() {
       return this.fields || this.user.profile.constructor.getFieldsNamesByFilter({required: true});
     },
+  },
+  meteor: {
+    globalError() {
+      return this.formModel.getError('MeteorError');
+    }
   },
   methods: {
     showSuccess() {

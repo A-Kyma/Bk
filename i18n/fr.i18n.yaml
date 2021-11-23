@@ -162,6 +162,9 @@ fr:
     username:
       label: "Nom d'utilisateur"
   UserProfile:
+    avatar:
+      label: "Avatar"
+      placeholder: "Choisissez votre avatar"
     firstname:
       label: "Prénom"
       placeholder: " "
