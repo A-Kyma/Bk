@@ -60,8 +60,8 @@ User.extend({
       })
 
       this.profile.validate({fields,stopOnFirstError: false})
-      if (this.profile.password)
-        this.profile.validate({fields: ["password"], stopOnFirstError: false})
+      //if (this.profile.password)
+      //  this.profile.validate({fields: ["password"], stopOnFirstError: false})
 
       let profile = this.profile.raw()
       delete profile._errors;

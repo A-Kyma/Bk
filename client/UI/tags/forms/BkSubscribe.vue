@@ -94,6 +94,8 @@ export default {
           self.showSuccess()
           let s=new Event("submitSuccess");
           self.$emit("submitSuccess",s,self,model)
+          if (self.formModel.profile?.password)
+            Meteor.loginWithPassword(self.formModel.profile.email, self.formModel.profile.password);
           if (self.modal) {
             self.$bvModal.hide(self.modal)
           } else {

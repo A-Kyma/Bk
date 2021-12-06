@@ -172,6 +172,9 @@ fr:
     lastname:
       label: "Nom"
       placeholder: " "
+    mobile:
+      label: "GSM"
+      placeholder: " "
     email:
       label: "Email"
       placeholder: " "
@@ -185,7 +188,7 @@ fr:
       label: "Mot de passe"
       placeholder: " "
     passwordConfirmation:
-      label: "Confirmez votre mot de passe"
+      label: "Confirmation mot de passe"
       placeholder: " "
     language:
       label: "Langue"
