@@ -59,7 +59,14 @@ import BkChangePassword from "./tags/forms/BkChangePassword"
 import BkSubmit from "./tags/forms/BkSubmit"
 import BkSubscribe from "./tags/forms/BkSubscribe";
 import BkTable from "./tags/datatable/BkTable"
-import BkTranslate from "./tags/translation/BkTranslate"
+import BkTranslate from "./tags/translation/BkTranslate";
+import LineChart from "./tags/charts/LineCharts";
+import PieChart from "./tags/charts/PieCharts";
+import BarChart from "./tags/charts/BarCharts";
+import PolarChart from "./tags/charts/PolarAreaCharts";
+import DoughnutChart from "./tags/charts/DoughnutCharts";
+import RadarChart from "./tags/charts/RadarCharts";
+import BkChart from "./tags/charts/BkChart";
 import BkView from "./tags/views/BkView";
 import BkViewInner from "./tags/views/BkViewInner";
 import BkViewClean from "./tags/views/BkViewClean";
@@ -97,7 +104,14 @@ const BkUI = {
   BkViewInner,
   BkViewClean,
   errorPopupMixin,
-  relationSubscriptionMixin
+  relationSubscriptionMixin,
+  LineChart,
+  PieChart,
+  BarChart,
+  DoughnutChart,
+  PolarChart,
+  RadarChart,
+  BkChart
 }
 
 BkUI.install = function (Vue, config = {}) {

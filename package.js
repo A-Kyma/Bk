@@ -19,6 +19,8 @@ Npm.depends({
   "vue-smooth-dnd": "0.8.1",
   "vue-multiselect": "2.1.4",
   "gm": "1.23.1", // GraphicsMagick or ImageMagick for creating Thumbnails
+  "chart.js": "2.9.4", // basic Chart js
+  "vue-chartjs":"3.5.1", // Vue for Chart
 });
 
 // See https://guide.meteor.com/writing-atmosphere-packages.html
