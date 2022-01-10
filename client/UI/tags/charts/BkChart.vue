@@ -59,7 +59,7 @@ export default {
 
 <style>
 .small {
-  max-width: 200px;
+  max-width: 250px;
   margin: 20px;
 }
 </style>
