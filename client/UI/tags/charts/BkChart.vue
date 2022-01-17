@@ -1,12 +1,12 @@
 <template>
   <div class="small">
     <div v-if="datacollection">
-      <line-chart v-if="type=='line'" :chart-data="datacollection"></line-chart>
-      <pie-chart v-if="type=='pie'" :chart-data="datacollection"></pie-chart>
-      <bar-chart v-if="type=='bar'" :chart-data="datacollection"></bar-chart>
-      <doughnut-chart v-if="type=='doughnut'" :chart-data="datacollection"></doughnut-chart>
-      <polar-chart v-if="type=='polar'" :chart-data="datacollection"></polar-chart>
-      <radar-chart v-if="type=='radar'" :chart-data="datacollection"></radar-chart>
+      <line-chart v-if="type=='line'" :chart-data="datacollection" :options="options"></line-chart>
+      <pie-chart v-if="type=='pie'" :chart-data="datacollection" :options="options"></pie-chart>
+      <bar-chart v-if="type=='bar'" :chart-data="datacollection" :options="options"></bar-chart>
+      <doughnut-chart v-if="type=='doughnut'" :chart-data="datacollection" :options="options"></doughnut-chart>
+      <polar-chart v-if="type=='polar'" :chart-data="datacollection" :options="options"></polar-chart>
+      <radar-chart v-if="type=='radar'" :chart-data="datacollection" :options="options"></radar-chart>
     </div>
     <div v-else>
       Pas de stat actuellement.
@@ -35,7 +35,8 @@ export default {
   },
   data () {
     return {
-      datacollection: {}
+      datacollection: {},
+      options: {}
     }
   },
   mounted () {
@@ -49,7 +50,14 @@ export default {
           this.datacollection = undefined
           console.log(err)
         } else {
-          this.datacollection = result
+          if (result?.data){
+            this.datacollection = result.data
+            if (result?.options){
+              this.options = result.options
+            }
+          } else {
+            this.datacollection = result
+          }
         }
       })
     }
