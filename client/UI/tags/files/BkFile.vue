@@ -67,10 +67,32 @@
 
       </b-container>
     </div>
+
+    <b-avatar v-if="isAvatar && $props['for'] === 'view'"
+              v-bind="$attrs"
+              :src="staticLink('normal')"
+    />
+
     <b-overlay v-if="$props['for'] !== 'view'" :show="currentUpload">
+
+      <!-- Avatar management .. -->
+      <a href="#"
+         v-if="isAvatar"
+         @click="$refs.inputFile.$el.firstElementChild.click()">
+        <b-avatar v-if="isAvatar"
+                  v-bind="$attrs"
+                  :src="staticLink('normal') || link(listFiles[0])"
+        >
+          <template #badge v-if="$props['for'] !== 'view'">
+            <b-icon-pencil/>
+          </template>
+        </b-avatar>
+      </a>
+      <!-- .. avatar management -->
 
       <b-form-file
           ref="inputFile"
+          v-show="!isAvatar"
           v-bind="$attrs"
           v-model="inputFiles"
           :multiple="isFieldArray"
@@ -199,6 +221,11 @@ export default {
       let filesField = this.model && this.model[this.field]
       return (this.isFieldArray) ? filesField : [filesField]
     },
+    isAvatar() {
+      let definition = this.model.getDefinition(this.field)
+      if (definition instanceof ListField) return false
+      return definition.type.name === "Avatar";
+    }
   },
   watch: {
     // findFiles(newValue,oldValue) {
@@ -233,6 +260,7 @@ export default {
       })
     },
     link(file,format) {
+      if (!file) return
       // Return locally uploaded file to avoid downloading unusefully
       if (this.localFilesLinks[file.name+file.size]) {
         return this.localFilesLinks[file.name+file.size]
@@ -244,6 +272,7 @@ export default {
       let fileId = this.model[this.field]
       if (!format) format="original"
       if (fileId === undefined && this.default) return this.default
+      if (fileId === undefined) return
       return "/cdn/storage/Files/" + fileId + "/" + format + "/" + fileId + ".jpg"
     },
     // Avoid issues on touch screens
@@ -382,6 +411,10 @@ export default {
 .card-ghost-drop {
   transition: transform 0.18s ease-in-out;
   transform: rotateZ(0deg);
+}
+
+a > .b-avatar:hover {
+  filter: brightness(150%);
 }
 
 .overflow-x {

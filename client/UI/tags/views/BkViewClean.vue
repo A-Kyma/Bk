@@ -18,6 +18,12 @@
 
     <b-form-checkbox v-else-if="classDefinitionName === 'Boolean'" v-model="value" disabled/>
 
+    <b-avatar v-else-if="classDefinitionName === 'Avatar'"
+              v-bind="$attrs"
+              :src="staticLink('normal')"
+              :key="value"
+    />
+
     <span v-else>{{value}}</span>
   </slot>
   </span>
@@ -56,7 +62,17 @@ export default {
       return this.model.getValue(this.field, this.format);
     }
   },
-  }
+
+  methods: {
+    staticLink(format) {
+      let fileId = this.value
+      if (!format) format="original"
+      if (fileId === undefined && this.default) return this.default
+      if (fileId === undefined) return
+      return "/cdn/storage/Files/" + fileId + "/" + format + "/" + fileId + ".jpg"
+    },
+  },
+}
 </script>
 
 <style scoped>
