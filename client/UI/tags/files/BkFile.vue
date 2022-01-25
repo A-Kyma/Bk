@@ -81,7 +81,7 @@
          @click="$refs.inputFile.$el.firstElementChild.click()">
         <b-avatar v-if="isAvatar"
                   v-bind="$attrs"
-                  :src="staticLink('normal') || link(listFiles[0])"
+                  :src="link(listFiles[0]) || staticLink('normal')"
         >
           <template #badge v-if="$props['for'] !== 'view'">
             <b-icon-pencil/>
