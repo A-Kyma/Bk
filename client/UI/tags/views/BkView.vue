@@ -23,6 +23,7 @@
       noHtml: Boolean,
       format: String,
       locale: String,
+      fileFormat: String,
     },
   }
 </script>

@@ -81,7 +81,7 @@
          @click="$refs.inputFile.$el.firstElementChild.click()">
         <b-avatar v-if="isAvatar"
                   v-bind="$attrs"
-                  :src="link(listFiles[0]) || staticLink('normal')"
+                  :src="link(listFiles[0]) || staticLink(fileFormat)"
         >
           <template #badge v-if="$props['for'] !== 'view'">
             <b-icon-pencil/>
@@ -181,6 +181,10 @@ export default {
     showFilesCards: Boolean,
     accept: String, // accept="image/*" for images
     default: String,
+    fileFormat: {
+      type: String,
+      default: "normal"
+    }
   },
   data() {
     return {
@@ -273,7 +277,7 @@ export default {
       if (!format) format="original"
       if (fileId === undefined && this.default) return this.default
       if (fileId === undefined) return
-      return "/cdn/storage/Files/" + fileId + "/" + format + "/" + fileId + ".jpg"
+      return Meteor.absoluteUrl("/cdn/storage/Files/" + fileId + "/" + format + "/" + fileId + ".jpg")
     },
     // Avoid issues on touch screens
     fixActionRestriction() {

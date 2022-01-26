@@ -23,6 +23,7 @@
       noLabel: Boolean,
       format: String,
       locale: String,
+      fileFormat: String,
     },
     computed: {
       url() {

@@ -20,7 +20,7 @@
 
     <b-avatar v-else-if="classDefinitionName === 'Avatar'"
               v-bind="$attrs"
-              :src="staticLink('normal')"
+              :src="staticLink(fileFormat)"
               :key="value"
     />
 
@@ -42,6 +42,10 @@ export default {
     field: String,
     format: String,
     locale: String,
+    fileFormat: {
+      type: String,
+      default: "normal"
+    }
   },
   computed: {
     classDefinition() {
@@ -69,7 +73,7 @@ export default {
       if (!format) format="original"
       if (fileId === undefined && this.default) return this.default
       if (fileId === undefined) return
-      return "/cdn/storage/Files/" + fileId + "/" + format + "/" + fileId + ".jpg"
+      return Meteor.absoluteUrl("/cdn/storage/Files/" + fileId + "/" + format + "/" + fileId + ".jpg")
     },
   },
 }
