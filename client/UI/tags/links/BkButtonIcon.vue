@@ -27,6 +27,82 @@
       <b-button v-else :class="iconClass" :variant="computedVariant">
         <t :key="label">{{label}}</t>
       </b-button>
+      <bk-modal :id="modalImportId"
+                v-if="$props['for'] === 'import'"
+                :model="model"
+                ok-only
+                size="lg"
+                v-bind="$attrs"
+                >
+        <template v-slot:title>
+          <t>{{model}}.import</t>
+        </template>
+        <b-button v-b-toggle.collapse-1 variant="primary" size="sm">voir/caché le formulaire</b-button>
+        <div class="h-divider"/>
+        <b-collapse visible id="collapse-1">
+          <div>
+            <h6>Veuillez remplir les informations sur le format du fichier</h6>
+            <b-form id="form-csv-link" inline>
+              <b-input-group prepend="Séparateur de colone" class="mb-2 mr-sm-2">
+                <b-form-input style="width: 70px" v-model="separator" id="inline-form-input-separator" placeholder="Défaut ;"></b-form-input>
+              </b-input-group>
+              <b-input-group prepend="Séparateur de liste" class="mb-2 mr-sm-2">
+                <b-form-input style="width: 70px" v-model="listSeparator" id="inline-form-input-listseparator" placeholder="Défaut ,"></b-form-input>
+              </b-input-group>
+              <h6>Veuillez remplir le numéro de colone de votre fichier avec les champs. (* champ obligatoire)</h6>
+              <b-input-group v-for="item in getImportModelFields()" :prepend="item.label" class="mb-2 mr-sm-2">
+                <b-form-input style="width: 120px" v-model="csvColumns[item.name]" :id="'inline-form-input-'+item.name" type="number" :placeholder="item.placeholder"></b-form-input>
+              </b-input-group>
+            </b-form>
+          </div>
+          <b-form id="form-csv-upload" >
+            <b-form-file
+                ref="file-input"
+                accept=".csv"
+                browse-text="Parcourir"
+                v-model="importFile"
+                placeholder="Choisissez ou déposez un fichier"
+                drop-placeholder="Déposez le fichier..."
+            />
+
+            <b-form-checkbox
+                id="headerPresent"
+                v-model="header"
+                name="headerPresent"
+                value="accepted"
+                unchecked-value="not_accepted"
+            >
+              La première ligne contient le nom des champs
+            </b-form-checkbox>
+          </b-form>
+          <div class="h-divider"/>
+        </b-collapse>
+
+        <b-container class=" pt-3" id="result-import">
+          <div v-if="error !== null">
+            <b-alert show variant="danger">{{ error }}</b-alert>
+          </div>
+          <b-alert v-if="result.length > 0" v-for="item in result" show variant="light">
+            <div>
+              <span v-for="field in item.fields">{{ field }} </span>
+              <b-badge class= " float-right badge-lg" v-if="item.statusCode === 'success'" variant="success">{{ item.statusLabel }}</b-badge>
+              <b-badge class= " float-right badge-lg" v-if="item.statusCode === 'error'" variant="danger">{{ item.statusLabel }}</b-badge>
+            </div>
+            <div v-if="item.statusCode === 'error'" style="color: darkred">
+              {{ item.reason }}
+            </div>
+          </b-alert>
+        </b-container>
+        <b-button
+            v-if="importFile !== null"
+            class="mt-2"
+            variant="success"
+            @click="onSubmitImportModal"
+        >
+          <t>app.import.btn.label</t>
+        </b-button>
+
+      </bk-modal>
       <bk-modal :id="modalAddId"
                 v-if="$props['for'] === 'add' && getTypeField"
                 @ok="onSubmitModal">
@@ -100,6 +176,13 @@ export default {
     return {
       inputModel: undefined,
       modalModel: undefined,
+      separator: null,
+      listSeparator: null,
+      importFile: null,
+      header: 'not_accepted',
+      result: [],
+      error: null,
+      csvColumns: {}
     }
   },
   created() {
@@ -159,6 +242,9 @@ export default {
     },
     tableClass() {
       return this.inputModel?.constructor
+    },
+    modalImportId() {
+      return 'modalImport_' + this._uid;
     },
     modalAddId() {
       return 'modalAdd_' + this._uid;
@@ -233,7 +319,8 @@ export default {
         return
       }
       if (this.$props.for === 'import') {
-        this.$router.push('import')
+        this.$bvModal.show(this.modalImportId);
+        this.$emit("click",e)
         return
       }
       if (this.$props.for || this.route) {
@@ -325,10 +412,110 @@ export default {
         )
       }
     },
+    getImportModelFields(){
+      let modelClass = Class.getModel(this.model)
+      return modelClass.constructor.getImportFieldsClass()
+    },
     onSubmitModalForm(e) {
       this.$refs.modalForm.onSubmit(e)
+    },
+    onSubmitImportModal(e){
+      this.$root.$emit('bv::toggle::collapse', 'collapse-1')
+
+      let component = this
+      component.error = null
+      component.result = []
+
+      let csvFile = component.importFile
+      if (csvFile === null){
+        component.error = "Aucun fichier sélectionné"
+        return
+      }
+
+      let csvColumns = Object.entries(component.csvColumns).map((e) => ( { 'field':e[0],'column': parseInt(e[1]) } ))
+      let csvColumnsKeys = Object.keys(component.csvColumns)
+
+      let modelClass = component.inputModel
+      if (modelClass === undefined){
+        modelClass = Class.getModel(component.model)
+      }
+
+      if (modelClass === undefined) return
+
+      component.result.push("En cours de chargement...")
+
+      let fields = modelClass.constructor.getImportFieldsClass()
+
+      let missingMandatoryField = false
+      let index = 1
+      fields.forEach(function(item){
+        if (item.optional === false) {
+          if (!csvColumnsKeys.includes(item.name)){
+            missingMandatoryField = true
+            if (index === 1){
+              component.error = "Un ou plusieurs N° de colone obligatoire sont manquants: " + item.label.replace('*','')
+              index = index + 1
+            }else{
+              component.error = component.error + ", " + item.label.replace('*','')
+              index = index + 1
+            }
+          }
+        }
+      })
+      if (missingMandatoryField){
+        component.result = []
+        return
+      }
+
+      let header = component.header
+      let separator = (component.separator === null) ? ";" : component.separator
+      let listSeparator = (component.listSeparator === null) ? "," : component.listSeparator
+      if (separator === listSeparator){
+        component.result = []
+        component.error = "le séparateur de colone et le séparateur de liste ne peuvent-être identique"
+        return
+      }
+
+      this.readFile(component,function(content) {
+
+        let fileArray = content.split(/\r\n|\n/)
+        if (header === 'accepted') fileArray.splice(0,1);
+
+        let param = {}
+        param.separator = separator
+        param.listSeparator = listSeparator
+        param.csvColumns = csvColumns
+
+        component.result = []
+
+        fileArray.forEach(function (line){
+          if (line === "") return
+          param.data = line
+
+          modelClass.callMethod('import',param,(err, result) => {
+            if (err){
+              component.result.push(err)
+            } else {
+              if (result){
+                component.result.push(result)
+              }
+            }
+          })
+
+        })
+      })
+    },
+    readFile(component,onLoadCallback) {
+      let csvFile = component.importFile
+      let reader = new FileReader();
+      reader.onload = function (){
+        let content=this.result
+        onLoadCallback(content);
+      }
+      reader.readAsText(csvFile);
     }
   },
+
 }
 </script>
 
@@ -338,5 +525,19 @@ export default {
   }
   .BkButton {
     margin-right: 2px;
+  }
+  .h-divider{
+    margin-top:15px;
+    margin-bottom:10px;
+    height:1px;
+    width:100%;
+    border-top:1px solid lightgray;
+  }
+  .badge-lg{
+    font-size: 1em;
+  }
+  .alert{
+    margin-bottom: 0.5rem!important;
+    padding: 0.5rem 1.25rem!important;
   }
 </style>

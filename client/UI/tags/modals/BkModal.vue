@@ -13,10 +13,12 @@
     </template>
 
     <template #modal-ok>
+      <slot name="ok">
       <t>app.ok</t>
+      </slot>
     </template>
     <template #modal-cancel>
-      <t>app.cancel</t>
+        <t>app.cancel</t>
     </template>
 
     <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">

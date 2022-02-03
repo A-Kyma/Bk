@@ -25,9 +25,10 @@
                       v-bind="$attrs"
       />
       <bk-button-icon v-if="actions.includes('import')"
-                      label="app.import"
+                      label="app.import.btn.label"
                       for="import"
                       v-bind="$attrs"
+                      :model="model"
       />
     </slot>
     <slot name="customHeader" v-bind="{datatable, model, actions}"/>

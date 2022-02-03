@@ -44,7 +44,11 @@ fr:
     add: "Ajouter"
     back: "Retour"
     export: "Exporter"
-    import: "Importer"
+    import:
+      btn:
+        label: "Importer"
+      column:
+        label: "N° colone CSV"
     filter: "Filtrer"
     min: "Minimum"
     max: "Maximum"
