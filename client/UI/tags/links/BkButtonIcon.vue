@@ -35,7 +35,7 @@
                 v-bind="$attrs"
                 >
         <template v-slot:title>
-          <t>{{model}}.import</t>
+          <t>{{model}}.import.title</t>
         </template>
         <b-button
             :class="visible ? null : 'collapsed'"
