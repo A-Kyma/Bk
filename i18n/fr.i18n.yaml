@@ -45,6 +45,11 @@ fr:
     back: "Retour"
     export: "Exporter"
     import:
+      nofile: "Aucun fichier sélectionné"
+      uploading: "En cours de chargement..."
+      error:
+        missingcolumn: "Un ou plusieurs N° de colone obligatoire sont manquants: "
+        identicalseparator: "le séparateur de colone et le séparateur de liste ne peuvent-être identique"
       btn:
         label: "Importer"
       column:

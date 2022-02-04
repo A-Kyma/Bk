@@ -37,9 +37,17 @@
         <template v-slot:title>
           <t>{{model}}.import</t>
         </template>
-        <b-button v-b-toggle.collapse-1 variant="primary" size="sm">voir/caché le formulaire</b-button>
+        <b-button
+            :class="visible ? null : 'collapsed'"
+            :aria-expanded="visible ? 'true' : 'false'"
+            aria-controls="collapse-1"
+            @click="visible = !visible"
+            variant="primary"
+            size="sm">
+          voir/caché le formulaire
+        </b-button>
         <div class="h-divider"/>
-        <b-collapse visible id="collapse-1">
+        <b-collapse visible id="collapse-1" v-model="visible" >
           <div>
             <h6>Veuillez remplir les informations sur le format du fichier</h6>
             <b-form id="form-csv-link" inline>
@@ -182,7 +190,8 @@ export default {
       header: 'not_accepted',
       result: [],
       error: null,
-      csvColumns: {}
+      csvColumns: {},
+      visible: true
     }
   },
   created() {
@@ -420,7 +429,8 @@ export default {
       this.$refs.modalForm.onSubmit(e)
     },
     onSubmitImportModal(e){
-      this.$root.$emit('bv::toggle::collapse', 'collapse-1')
+
+      this.visible = false
 
       let component = this
       component.error = null
@@ -428,7 +438,7 @@ export default {
 
       let csvFile = component.importFile
       if (csvFile === null){
-        component.error = "Aucun fichier sélectionné"
+        component.error = I18n.get("app.import.nofile")
         return
       }
 
@@ -442,7 +452,7 @@ export default {
 
       if (modelClass === undefined) return
 
-      component.result.push("En cours de chargement...")
+      component.result.push(I18n.get("app.import.uploading"))
 
       let fields = modelClass.constructor.getImportFieldsClass()
 
@@ -453,7 +463,7 @@ export default {
           if (!csvColumnsKeys.includes(item.name)){
             missingMandatoryField = true
             if (index === 1){
-              component.error = "Un ou plusieurs N° de colone obligatoire sont manquants: " + item.label.replace('*','')
+              component.error = I18n.get("app.import.error.missingcolumn") + item.label.replace('*','')
               index = index + 1
             }else{
               component.error = component.error + ", " + item.label.replace('*','')
@@ -472,7 +482,7 @@ export default {
       let listSeparator = (component.listSeparator === null) ? "," : component.listSeparator
       if (separator === listSeparator){
         component.result = []
-        component.error = "le séparateur de colone et le séparateur de liste ne peuvent-être identique"
+        component.error = I18n.get("app.import.error.identicalseparator")
         return
       }
 
