@@ -45,14 +45,31 @@ fr:
     back: "Retour"
     export: "Exporter"
     import:
+      file:
+        switchheader: "La première ligne contient le nom des champs"
+        browse: "Parcourir"
+        placeholder: "Choisissez ou déposez un fichier"
+        drop: "Déposez le fichier..."
+      toogleform: "voir/caché le formulaire"
       nofile: "Aucun fichier sélectionné"
       uploading: "En cours de chargement..."
+      filecolumns:
+        title: "Veuillez remplir le numéro de colone de votre fichier avec les champs. (* champ obligatoire)"
+      fileformat:
+        title: "Veuillez remplir les informations sur le format du fichier"
       error:
         missingcolumn: "Un ou plusieurs N° de colone obligatoire sont manquants: "
         identicalseparator: "le séparateur de colone et le séparateur de liste ne peuvent-être identique"
       btn:
         label: "Importer"
+      list:
+        default:
+          placeholder: "Défaut ,"
+        separator: "Séparateur de liste"
       column:
+        default:
+          placeholder: "Défault ;"
+        separator: "Séparateur de colone"
         label: "N° colone CSV"
     filter: "Filtrer"
     min: "Minimum"

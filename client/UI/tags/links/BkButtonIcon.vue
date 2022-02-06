@@ -44,20 +44,20 @@
             @click="visible = !visible"
             variant="primary"
             size="sm">
-          voir/caché le formulaire
+          <t>app.import.toogleform</t>
         </b-button>
         <div class="h-divider"/>
         <b-collapse visible id="collapse-1" v-model="visible" >
           <div>
-            <h6>Veuillez remplir les informations sur le format du fichier</h6>
+            <h6><t>app.import.fileformat.title</t></h6>
             <b-form id="form-csv-link" inline>
-              <b-input-group prepend="Séparateur de colone" class="mb-2 mr-sm-2">
-                <b-form-input style="width: 70px" v-model="separator" id="inline-form-input-separator" placeholder="Défaut ;"></b-form-input>
+              <b-input-group :prepend="getI18n('app.import.column.separator')" class="mb-2 mr-sm-2">
+                <b-form-input style="width: 70px" v-model="separator" id="inline-form-input-separator" :placeholder="getI18n('app.import.column.default.placeholder')"></b-form-input>
               </b-input-group>
-              <b-input-group prepend="Séparateur de liste" class="mb-2 mr-sm-2">
-                <b-form-input style="width: 70px" v-model="listSeparator" id="inline-form-input-listseparator" placeholder="Défaut ,"></b-form-input>
+              <b-input-group :prepend="getI18n('app.import.list.separator')" class="mb-2 mr-sm-2">
+                <b-form-input style="width: 70px" v-model="listSeparator" id="inline-form-input-listseparator" :placeholder="getI18n('app.import.list.default.placeholder')"></b-form-input>
               </b-input-group>
-              <h6>Veuillez remplir le numéro de colone de votre fichier avec les champs. (* champ obligatoire)</h6>
+              <h6><t>app.import.filecolumns.title</t></h6>
               <b-input-group v-for="item in getImportModelFields()" :prepend="item.label" class="mb-2 mr-sm-2">
                 <b-form-input style="width: 120px" v-model="csvColumns[item.name]" :id="'inline-form-input-'+item.name" type="number" :placeholder="item.placeholder"></b-form-input>
               </b-input-group>
@@ -67,10 +67,10 @@
             <b-form-file
                 ref="file-input"
                 accept=".csv"
-                browse-text="Parcourir"
+                :browse-text="getI18n('app.import.file.browse')"
                 v-model="importFile"
-                placeholder="Choisissez ou déposez un fichier"
-                drop-placeholder="Déposez le fichier..."
+                :placeholder="getI18n('app.import.file.placeholder')"
+                :drop-placeholder="getI18n('app.import.file.drop')"
             />
 
             <b-form-checkbox
@@ -80,7 +80,7 @@
                 value="accepted"
                 unchecked-value="not_accepted"
             >
-              La première ligne contient le nom des champs
+              <t>app.import.file.switchheader</t>
             </b-form-checkbox>
           </b-form>
           <div class="h-divider"/>
@@ -292,6 +292,9 @@ export default {
     },
   },
   methods: {
+    getI18n(key){
+      return I18n.get(key)
+    },
     onChange(payload) {
       this.$emit("change",payload)
     },
