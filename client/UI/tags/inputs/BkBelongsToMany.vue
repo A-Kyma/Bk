@@ -56,7 +56,7 @@ export default {
       type: Boolean,
       default: true,
     },
-    limit: Number,
+    limit: Number
   },
   data() {
     return {

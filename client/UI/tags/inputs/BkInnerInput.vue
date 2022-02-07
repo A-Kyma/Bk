@@ -37,7 +37,7 @@
       </bk-card-list-class>
 
       <b-form-checkbox-group
-          v-else-if="definitionField === 'ListEnum'"
+          v-else-if="definitionField === 'ListEnum' && !ui.template"
           v-bind="{...$props,...$attrs}"
           v-model="value"
           :name="field"
@@ -248,7 +248,7 @@ import BkCardListClass from "../forms/BkCardListClass";
         }
 
         // isNew is only known in the formModel, not in embedded models
-        let isNew = this.formModel.constructor.isNew(this.formModel);
+        let isNew = (this.formModel) ? this.formModel.constructor.isNew(this.formModel) : this.model.constructor.isNew(this.model)
 
         // Check canEdit at model level instead of traversing formModel
         // to avoid to much calculation. But, we could do this also

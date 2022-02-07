@@ -32,6 +32,26 @@
       />
     </slot>
     <slot name="customHeader" v-bind="{datatable, model, actions}"/>
+    <slot name="filterHeader" v-bind="{datatable,model,actions}">
+      <b-form v-if="filterFields"
+              @submit="onSubmitFormFilter"
+              @reset="onResetFormFilter"
+              id="filter-header"
+              inline class="mt-2">
+        <b-input-group
+            v-for="field of filterFields"
+            class="mb-2 mr-sm-2 mb-sm-0">
+          <template #prepend>
+            <b-input-group-text>
+              <t>{{datatable.filterModel.constructor.getLabelKey(field)}}</t>
+            </b-input-group-text>
+          </template>
+          <bk-inner-input  :model="datatable.filterModel" :field="field" />
+        </b-input-group>
+        <b-button type="reset" variant="outline-dark" class="mr-2"><t>app.reset</t></b-button>
+        <b-button type="submit" variant="outline-primary"><t>app.filter</t></b-button>
+      </b-form>
+    </slot>
     <br/>
     <div v-if="datatable.handler">
       <div v-if="datatable.firstReady">
@@ -156,6 +176,7 @@
       fields: Array,
       exportFields: String,
       editableFields: [String,Array],
+      filterFields: Array,
       modalFields: [String,Array],
       modalExclude: [String,Array],
       sort: {
@@ -231,6 +252,15 @@
       },
       onRemove(subModel) {
         this.$emit("remove",subModel)
+      },
+      onSubmitFormFilter(e) {
+        e.preventDefault()
+        this.datatable.applyFilter()
+      },
+      onResetFormFilter(e) {
+        e.preventDefault()
+        this.filterFields.forEach(field => this.datatable.filterModel.set(field))
+        this.datatable.applyFilter()
       }
     },
     meteor: {

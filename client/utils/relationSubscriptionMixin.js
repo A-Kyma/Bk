@@ -11,6 +11,7 @@ export default {
     plaintext: Boolean,
     disabled: Boolean,
     method: String,
+    options: Array
   },
   mixins: [errorPopupMixin],
   data() {
@@ -76,7 +77,7 @@ export default {
       return false
     },
     selectInput() {
-      return this.minCharacters === 0;
+      return this.minCharacters === 0 || this.options !== undefined;
     },
     minCharacters() {
       let definition = this.definition
@@ -90,6 +91,7 @@ export default {
     },
 
     where() {
+      if (this.options) return {} // When used as a multi select for Enum
       let definition = this.model.getDefinition(this.field);
       if (!definition.where && this.readonly) {
         return {
@@ -177,6 +179,7 @@ export default {
       return this.relations;
     },
     relations() {
+      if (this.options) return
       if (this.isArray)
         return this.model[this.field + "Instances"]();
       else
@@ -303,6 +306,10 @@ export default {
 
     },
     populate(records) {
+      if (this.options) {
+        this.relationList = this.options
+        return
+      }
       if (this.selectInput) {
         this.relationList = this.getOptionsFromRelations(records)
         if (this.relationList.length === 1 && !this.definition.optional) {
