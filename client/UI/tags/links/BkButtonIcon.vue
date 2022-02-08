@@ -18,7 +18,9 @@
   <b-link
       v-else-if="computedPermission"
       @click="onClick(null,$event)"
-      :alt="label">
+      :alt="label"
+      :title="title"
+  >
     <slot>
       <span v-if="computedIcon" :class="textNoWrap">
         <b-icon :class="'BkButton ' + iconClass" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
@@ -173,6 +175,7 @@ export default {
     exclude: [Array,String],
     noConfirm: Boolean,
     label: String,
+    title: String,
     route: String,
     nowrap: Boolean,
     params: {
@@ -426,6 +429,8 @@ export default {
     },
     getImportModelFields(){
       let modelClass = Class.getModel(this.model)
+      console.log("enter getImportModelFields ")
+      console.log(modelClass)
       return modelClass.constructor.getImportFieldsClass()
     },
     onSubmitModalForm(e) {
