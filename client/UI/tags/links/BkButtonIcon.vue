@@ -429,8 +429,6 @@ export default {
     },
     getImportModelFields(){
       let modelClass = Class.getModel(this.model)
-      console.log("enter getImportModelFields ")
-      console.log(modelClass)
       return modelClass.constructor.getImportFieldsClass()
     },
     onSubmitModalForm(e) {
