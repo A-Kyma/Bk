@@ -436,8 +436,6 @@ export default {
     },
     onSubmitImportModal(e){
 
-      this.visible = false
-
       let component = this
       component.error = null
       component.result = []
@@ -491,6 +489,8 @@ export default {
         component.error = I18n.get("app.import.error.identicalseparator")
         return
       }
+
+      this.visible = false
 
       this.readFile(component,function(content) {
 
