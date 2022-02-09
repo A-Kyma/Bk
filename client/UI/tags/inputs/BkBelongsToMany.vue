@@ -22,7 +22,9 @@
       @select="onSelectRow"
       @remove="onRemoveTag"
   >
-
+    <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+      <slot :name="slot" v-bind="props" />
+    </template>
     <span slot="noResult"><t>app.notFound</t></span>
     <span slot="noOptions"><t>app.noData</t></span>
     <strong slot="limit">
