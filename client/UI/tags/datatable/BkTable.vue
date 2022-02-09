@@ -78,7 +78,7 @@
             <th v-for="data in labeledFields"
                 :key="data.key"
                 role="columnheader"
-                class="b-table-sort-icon-left align-middle"
+                :class="'b-table-sort-icon-left align-middle ' + data.key"
                 :aria-sort="datatable.getAriaSort(data.key)"
                 @click="onSort(data.key)"
             >
