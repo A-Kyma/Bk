@@ -3,9 +3,9 @@
     <span>
         <bk-label v-if="!noLabel" for="view" :model="model" :field="field" :locale="locale"/>
         <a v-if="url !== undefined" :href="url">
-            <bk-view-clean v-bind="$props"/>
+            <bk-view-clean v-bind="{...$props,...$attrs}"/>
         </a>
-        <bk-view-clean v-else v-bind="$props"/>
+        <bk-view-clean v-else v-bind="{...$props,...$attrs}"/>
     </span>
 </template>
 
