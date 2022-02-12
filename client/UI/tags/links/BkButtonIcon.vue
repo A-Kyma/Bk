@@ -501,6 +501,9 @@ export default {
         param.separator = separator
         param.listSeparator = listSeparator
         param.csvColumns = csvColumns
+        if (component.$router.currentRoute.params){
+          param.routeParams = component.$router.currentRoute.params
+        }
 
         component.result = []
 
