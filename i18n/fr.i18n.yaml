@@ -44,6 +44,9 @@ fr:
     add: "Ajouter"
     back: "Retour"
     export: "Exporter"
+    drag:
+      order:
+        title: "Ordonné"
     import:
       file:
         switchheader: "La première ligne contient le nom des champs"
