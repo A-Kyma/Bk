@@ -47,6 +47,7 @@ en:
     check: "Field {{field}} is not valid"
     unique: "Field {{field}} is already chosen"
     lifecyle: "Status {{value}} is unreachable from status {{param}}"
+    hex: "{{field}} is not a valid hexadecimal number"
 fr:
   Error:
     required: "Le champ {{field}} est obligatoire"
@@ -96,3 +97,4 @@ fr:
     check: "Le champ {{field}} n'est pas valide"
     unique: "Le champ {{field}} a déjà été choisi"
     lifecycle: "Le statut {{value}} n'est pas accessible depuis le statut {{param}}"
+    hex: "{{field}} n'est pas un nombre hexadécimal valide"
