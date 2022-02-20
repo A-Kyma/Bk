@@ -191,6 +191,10 @@ import BkCardListClass from "../forms/BkCardListClass";
         type: Boolean,
         default: false
       },
+      validateServerSide: {
+        type: Boolean,
+        default: false
+      }
     },
     inject: ["formModel"],
     data() {
@@ -208,23 +212,26 @@ import BkCardListClass from "../forms/BkCardListClass";
     computed: {
       value: {
         set: function (value) {
+          let validateServerSide = this.definition.validateServerSide || this.validateServerSide
           if (value === null || value === "") { value = undefined }
           this.model.set(this.field, value, {cast: true})
-          this.model.isValid(this.field);
+          this.model.isValid(this.field,{simulationOnly: !validateServerSide});
           this.$emit("input",value)
         },
         get: function () {
           return this.model.get(this.field);
         }
       },
-
-      ui() {
-        if (this.noUI) {return {}};
+      definition() {
         let fieldDefinition = this.model.getDefinition(this.field);
-        if (!fieldDefinition || !fieldDefinition.ui) {
+        if (!fieldDefinition) {
           return {};
         }
-        return fieldDefinition.ui;
+        return fieldDefinition
+      },
+      ui() {
+        if (this.noUI) {return {}}
+        return this.definition.ui || {}
       },
 
       uiSwitch() {

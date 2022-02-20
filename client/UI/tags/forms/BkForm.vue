@@ -22,7 +22,13 @@
         </b-alert>
 
         <slot v-bind="{...$props,...$attrs}" :model="formModel">
-          <bk-field-list v-bind="$attrs" :model="formModel" :for="$props['for']" @change="onChangeInput">
+          <bk-field-list
+              v-bind="$attrs"
+              :model="formModel"
+              :for="$props['for']"
+              @change="onChangeInput"
+              :validate-server-side="validateServerSide"
+          >
 
             <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
               <slot :name="slot" v-bind="props" />
@@ -64,6 +70,10 @@ export default {
       meteorMethodArgs: {
         type: Array,
         default() { return []}
+      },
+      validateServerSide: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
@@ -151,7 +161,7 @@ export default {
         //model.isValid();
 
         // Save only fields that is declared as to be shown in the form
-        let fields = self.model.constructor.getFieldsNamesByFilter({
+        let fields = model.constructor.getFieldsNamesByFilter({
           fields: self.$attrs.fields,
           exclude: self.$attrs.exclude
         })
