@@ -131,7 +131,7 @@
                 @shown="$emit('shown')"
                 @hide="$emit('hide')"
                 :size="size"
-                :title="'app.' + $props['for']">
+                :title="title || 'app.' + $props['for']">
         <bk-form
             ref="modalForm"
             :model="modalModel"
@@ -202,6 +202,7 @@ export default {
   },
   computed: {
     computedIcon() {
+      if (!!this.icon) return this.icon
       switch (this.$props.for) {
         case "view": return "zoom-in";
         case "new": return "plus-circle";
@@ -211,6 +212,7 @@ export default {
       }
     },
     computedVariant() {
+      if (!!this.variant) return this.variant
       switch (this.$props.for) {
         case "view": return "primary"
         case "new": return "success";
