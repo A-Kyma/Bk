@@ -160,7 +160,7 @@ export default {
         self.showOverlay();
         //model.isValid();
 
-        // Save only fields that is declared as to be shown in the form
+        // Save only fields that are declared to be shown in the form
         let fields = model.constructor.getFieldsNamesByFilter({
           fields: self.$attrs.fields,
           exclude: self.$attrs.exclude
