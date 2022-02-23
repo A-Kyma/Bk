@@ -151,11 +151,8 @@
 </template>
 
 <script>
-import {Class, ValidationError, ScalarField, ObjectField, ListField, Union} from 'meteor/jagi:astronomy';
-import Enum from "../../../../lib/modules/customFields/customs/Enum"
-import Lifecycle from "../../../../lib/modules/customFields/customs/Lifecycle";
-import Image from "../../../../lib/modules/customFields/classes/Image";
-import I18n from "../../../../lib/classes/i18n";
+import {Class, ValidationError, ScalarField, ObjectField, ListField, Union} from 'meteor/jagi:astronomy'
+import {I18n,DateTime,Enum,Lifecycle,Image} from "meteor/a-kyma:bk"
 import _ from "lodash";
 import BkBelongsToInput from "./BkBelongsToInput";
 import BkFieldList from "../forms/BkFieldList";
@@ -165,7 +162,7 @@ import BkCardListClass from "../forms/BkCardListClass";
     let fieldType = originalFieldType.toLowerCase();
     // Field Type is a generic Input Type
     // Number removed, since Number authorizes decimals. Integer will use "number" input type
-    return ["text", "email", "password", "search", "url", "tel", "time", "range", "color"].includes(fieldType);
+    return ["text", "email", "password", "search", "url", "tel", "date", "time", "range", "color"].includes(fieldType);
 
   }
 
@@ -219,7 +216,11 @@ import BkCardListClass from "../forms/BkCardListClass";
           this.$emit("input",value)
         },
         get: function () {
-          return this.model.get(this.field);
+          let v = this.model.get(this.field)
+          if (v instanceof Date && this.definition.type.name === "Date") {
+            return DateTime.getISODateString(v)
+          }
+          return v
         }
       },
       definition() {
@@ -375,6 +376,7 @@ import BkCardListClass from "../forms/BkCardListClass";
           return "BFormInput";
         }
 
+        /*
         if (fieldType === "Date") {
           return "BFormDatepicker"
         }
@@ -382,6 +384,7 @@ import BkCardListClass from "../forms/BkCardListClass";
         if (fieldType === "Time") {
           return "BFormTimepicker"
         }
+        */
 
         if (fieldType === "DateTime") {
           return "BkDatePicker";
