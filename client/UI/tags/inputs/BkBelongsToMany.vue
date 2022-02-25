@@ -21,6 +21,7 @@
       @search-change="search"
       @select="onSelectRow"
       @remove="onRemoveTag"
+      @input="$emit('input')"
   >
     <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
       <slot :name="slot" v-bind="props" />
@@ -141,6 +142,7 @@ fieldset[disabled] .multiselect {
   position: relative;
   width: 100%;
   min-height: 40px;
+  min-width: 180px;
   text-align: left;
   color: #35495e
 }

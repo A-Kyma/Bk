@@ -103,6 +103,7 @@
           :plaintext="plaintextComputed"
           :readonly="plaintextComputed"
           :disabled="plaintextComputed"
+          @input="$emit('input')"
       />
 
       <bk-belongs-to-many
@@ -114,6 +115,7 @@
         :plaintext="plaintextComputed"
         :readonly="plaintextComputed"
         :disabled="plaintextComputed"
+        @input="$emit('input')"
       />
       <!-- TODO: is span OK ?-->
       <span v-else-if="definitionField === 'ListValue'">
@@ -505,5 +507,10 @@ import BkCardListClass from "../forms/BkCardListClass";
 </script>
 
 <style scoped>
-
+#filter-header div.btn-group-toggle {
+  padding: 0;
+}
+#filter-header .btn-group-toggle label.btn {
+  display: inline-block;
+}
 </style>

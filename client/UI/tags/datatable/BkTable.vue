@@ -46,10 +46,16 @@
               <t>{{datatable.filterModel.constructor.getLabelKey(field)}}</t>
             </b-input-group-text>
           </template>
-          <bk-inner-input  :model="datatable.filterModel" :field="field" />
+          <bk-inner-input
+              :model="datatable.filterModel"
+              :field="field"
+              buttons
+              button-variant="outline-primary"
+              @input="onAutoFilterSubmit"
+          />
         </b-input-group>
         <b-button type="reset" variant="outline-dark" class="mr-2"><t>app.reset</t></b-button>
-        <b-button type="submit" variant="outline-primary"><t>app.filter</t></b-button>
+        <b-button v-if="!autoFilterSubmit" type="submit" variant="outline-primary"><t>app.filter</t></b-button>
       </b-form>
     </slot>
     <br/>
@@ -239,6 +245,7 @@
       page: Number,
       filter: Object, // default filter used, cannot be changer afterwards
       initialFilter: Object, // initial applied filter, can be changed at any time using table filters
+      autoFilterSubmit: Boolean,
       scroll: Boolean,
       multi: Boolean,
       full: Boolean,
@@ -358,6 +365,10 @@
         e.preventDefault()
         this.datatable.applyFilter()
       },
+      onAutoFilterSubmit(e) {
+        if (this.autoFilterSubmit)
+          this.datatable.applyFilter()
+      },
       onResetFormFilter(e) {
         e.preventDefault()
         this.filterFields.forEach(field => this.datatable.filterModel.set(field))
@@ -385,4 +396,5 @@
     transition: transform 0.18s ease-in-out;
     transform: rotateZ(0deg);
   }
+
 </style>
