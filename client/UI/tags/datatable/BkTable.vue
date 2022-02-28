@@ -79,7 +79,7 @@
     </div>
     <slot name="main" v-bind="{items,labeledFields,datatable, model, actions}">
       <div v-if="card || width < minTableWidth">
-        <b-card v-for="(model,index) in items" class="m-2">
+        <b-card v-for="(model,index) in items" class="mt-2 mb-2">
           <template #header>
             {{model.defaultName()}}
             <bk-button-icon
