@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="m-2">
     <slot name="header" v-bind="{datatable, model, actions}">
       <bk-button-icon v-if="actions.includes('add')"
                       label="app.add"
@@ -78,6 +78,47 @@
       </div>
     </div>
     <slot name="main" v-bind="{items,labeledFields,datatable, model, actions}">
+      <div v-if="card || width < minTableWidth">
+        <b-card v-for="(model,index) in items" class="m-2">
+          <template #header>
+            {{model.defaultName()}}
+            <bk-button-icon
+                v-for="action in actions.filter(x=>!['add','back','export','import'].includes(x))"
+                :for="action"
+                :model="model"
+                :fields="modalFields"
+                :exclude="modalExclude"
+                v-bind="$attrs"
+                @remove="onRemove"
+                class="float-right"
+            >
+              <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+                <slot :name="slot" v-bind="props" />
+              </template>
+            </bk-button-icon>
+            <slot
+                name="customActions"
+                v-bind="{model, index}"
+            />
+          </template>
+          <b-card-text role="row" :key="model._id">
+            <slot name="row()" v-bind="{model,index,fields: labeledFields}">
+              <div v-for="cell in labeledFields" :key="cell.key" role="cell" class="align-middle">
+                <slot
+                    v-if="cell.key!=='buttonActions'"
+                    :name="'cell('+cell.key+')'"
+                    v-bind="{model, index, field: cell.key}">
+                  <slot name="cell()" v-bind="{model,index,field: cell.key}">
+                    <bk-view-inner v-if="!datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'" no-label :model="model" :field="cell.key"/>
+                    <bk-inner-input v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'" :model="model" :field="cell.key"/>
+                  </slot>
+                </slot>
+              </div>
+            </slot>
+          </b-card-text>
+          <slot name="afterRow" v-bind="{model, index}"/>
+        </b-card>
+      </div>
       <table role="table" class="table b-table table-hover mt-3">
         <slot name="tableHead" v-bind="{items,labeledFields,datatable, model, actions}">
           <thead>
@@ -252,6 +293,8 @@
       array: Array,
       model: [String,Class],
       draggable: Boolean,
+      card: Boolean,
+      minTableWidth: Number,
       actions: {
         type: Array,
         default: function() {return []}
@@ -262,7 +305,8 @@
         default: function() { return {} }
       },
       subscription: String,
-      updateRoute: Boolean
+      updateRoute: Boolean,
+      importFileType: String
     },
     data() {
       return {
@@ -270,7 +314,15 @@
         sortDescSync: this.sortDesc,
         datatable: new Datatable(this),
         tableModel: Class.getModel(this.model),
+        width: window.innerWidth,
+        height: window.innerHeight
       }
+    },
+    created() {
+      window.addEventListener("resize", this.onResize);
+    },
+    distroyed() {
+      window.removeEventListener("resize", this.onResize);
     },
     computed: {
       tableClass() {
@@ -297,6 +349,10 @@
       },
     },
     methods: {
+      onResize(e) {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+      },
       onDrop(dropResult){
         if (dropResult.removedIndex === dropResult.addedIndex) return
 
@@ -396,5 +452,7 @@
     transition: transform 0.18s ease-in-out;
     transform: rotateZ(0deg);
   }
-
+  .card {
+    box-shadow: 0 2px 4px rgb(0 0 0/20%);
+  }
 </style>

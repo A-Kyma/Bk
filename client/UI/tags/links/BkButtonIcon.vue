@@ -68,7 +68,7 @@
           <b-form id="form-csv-upload" >
             <b-form-file
                 ref="file-input"
-                accept=".csv"
+                accept=".csv, .xls"
                 :browse-text="getI18n('app.import.file.browse')"
                 v-model="importFile"
                 :placeholder="getI18n('app.import.file.placeholder')"
@@ -181,7 +181,8 @@ export default {
     params: {
       type: Object,
       default() { {} },
-    }
+    },
+    importFileType: String,
   },
   data() {
     return {
