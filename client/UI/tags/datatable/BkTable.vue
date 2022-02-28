@@ -119,7 +119,7 @@
           <slot name="afterRow" v-bind="{model, index}"/>
         </b-card>
       </div>
-      <table role="table" class="table b-table table-hover mt-3">
+      <table v-else role="table" class="table b-table table-hover mt-3">
         <slot name="tableHead" v-bind="{items,labeledFields,datatable, model, actions}">
           <thead>
             <tr role="row">
