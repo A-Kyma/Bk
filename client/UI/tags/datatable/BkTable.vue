@@ -293,7 +293,7 @@
     watch: {
       routeQuery(newValue, oldValue) {
         if (this.updateRoute)
-          this.datatable.setContext(newValue)
+          this.datatable.restoreFilterFromRoute()
       },
     },
     methods: {
