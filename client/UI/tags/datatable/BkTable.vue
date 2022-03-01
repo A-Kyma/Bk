@@ -81,7 +81,11 @@
       <div v-if="card || width < minTableWidth">
         <b-card v-for="(model,index) in items" class="mt-2 mb-2">
           <template #header>
-            <span class="mr-2">{{model.defaultName()}}</span>
+            <span class="mr-2">
+              <slot name="cardheader" v-bind="{model,index,fields: labeledFields}">
+                {{model.defaultName()}}
+              </slot>
+            </span>
             <bk-button-icon
                 v-for="action in actions.filter(x=>!['add','back','export','import'].includes(x))"
                 :for="action"
@@ -102,7 +106,7 @@
             />
           </template>
           <b-card-text role="row" :key="model._id">
-            <slot name="row()" v-bind="{model,index,fields: labeledFields}">
+            <slot name="cardrow()" v-bind="{model,index,fields: labeledFields}">
               <div v-for="cell in labeledFields" :key="cell.key" role="cell" class="align-middle">
                 <slot
                     v-if="cell.key!=='buttonActions'"
