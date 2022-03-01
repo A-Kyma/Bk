@@ -81,7 +81,7 @@
       <div v-if="card || width < minTableWidth">
         <b-card v-for="(model,index) in items" class="mt-2 mb-2">
           <template #header>
-            {{model.defaultName()}}
+            <span class="mr-2">{{model.defaultName()}}</span>
             <bk-button-icon
                 v-for="action in actions.filter(x=>!['add','back','export','import'].includes(x))"
                 :for="action"
@@ -294,7 +294,7 @@
       model: [String,Class],
       draggable: Boolean,
       card: Boolean,
-      minTableWidth: Number,
+      minTableWidth: [Number,String],
       actions: {
         type: Array,
         default: function() {return []}
