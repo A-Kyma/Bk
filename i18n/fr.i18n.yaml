@@ -43,6 +43,8 @@ fr:
     cancel: "Annuler"
     add: "Ajouter"
     back: "Retour"
+    next: "Suivant"
+    previous: "Précédent"
     export: "Exporter"
     drag:
       order:

@@ -21,7 +21,6 @@
       @search-change="search"
       @select="onSelectRow"
       @remove="onRemoveTag"
-      @input="$emit('input')"
   >
     <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
       <slot :name="slot" v-bind="props" />

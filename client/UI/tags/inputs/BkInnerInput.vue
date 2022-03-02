@@ -510,6 +510,9 @@ import BkCardListClass from "../forms/BkCardListClass";
 #filter-header div.btn-group-toggle {
   padding: 0;
 }
+#filter-header .input-group {
+  width: auto;
+}
 #filter-header .btn-group-toggle label.btn {
   display: inline-block;
 }

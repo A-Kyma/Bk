@@ -45,6 +45,8 @@ en:
     back: "Retour"
     export: "Export"
     import: "Import"
+    next: "Next"
+    previous: "Previous"
     filter: "Filter"
     min: "Minimum"
     max: "Maximum"

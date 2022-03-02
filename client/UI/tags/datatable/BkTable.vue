@@ -51,7 +51,7 @@
               :field="field"
               buttons
               button-variant="outline-primary"
-              @input="onAutoFilterSubmit"
+              @input="onAutoFilterSubmit($event,field)"
           />
         </b-input-group>
         <b-button type="reset" variant="outline-dark" class="mr-2"><t>app.reset</t></b-button>
@@ -270,6 +270,7 @@
   import BkViewInner from "../views/BkViewInner";
   import BkPagination from "./BkPagination";
   import BkLoading from "../loading/BkLoading";
+  import {EJSON} from "meteor/ejson";
 
   export default {
     name: "BkTable",
@@ -425,14 +426,15 @@
         e.preventDefault()
         this.datatable.applyFilter()
       },
-      onAutoFilterSubmit(e) {
+      onAutoFilterSubmit(e,field) {
+        this.$emit("inputFilter",{field, value: e})
         if (this.autoFilterSubmit)
           this.datatable.applyFilter()
       },
       onResetFormFilter(e) {
         e.preventDefault()
         this.filterFields.forEach(field => this.datatable.filterModel.set(field))
-        this.datatable.applyFilter()
+        this.datatable.setFilter(this.initialFilter)
       }
     },
     meteor: {
