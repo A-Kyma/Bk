@@ -117,7 +117,7 @@
                       <bk-view-inner  no-label :model="model" :field="cell.key"/>
                     </span>
                     <span v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'">
-                      <bk-input v-if="cardWithLabel" :model="model" :field="cell.key"/>
+                      <bk-input v-if="cardWithLabel" :model="model" :field="cell.key" label-cols/>
                       <bk-inner-input v-else :model="model" :field="cell.key"/>
                     </span>
                   </slot>
