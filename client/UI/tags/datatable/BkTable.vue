@@ -110,11 +110,16 @@
               <div v-for="cell in labeledFields" :key="cell.key" role="cell" class="align-middle">
                 <slot
                     v-if="cell.key!=='buttonActions'"
-                    :name="'cell('+cell.key+')'"
+                    :name="'cardcell('+cell.key+')'"
                     v-bind="{model, index, field: cell.key}">
-                  <slot name="cell()" v-bind="{model,index,field: cell.key}">
-                    <bk-view-inner v-if="!datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'" no-label :model="model" :field="cell.key"/>
-                    <bk-inner-input v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'" :model="model" :field="cell.key"/>
+                  <slot name="cardcell()" v-bind="{model,index,field: cell.key}">
+                    <span v-if="!datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'">
+                      <bk-view-inner  no-label :model="model" :field="cell.key"/>
+                    </span>
+                    <span v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'">
+                      <bk-input v-if="cardWithLabel" :model="model" :field="cell.key"/>
+                      <bk-inner-input v-else :model="model" :field="cell.key"/>
+                    </span>
                   </slot>
                 </slot>
               </div>
@@ -299,6 +304,7 @@
       model: [String,Class],
       draggable: Boolean,
       card: Boolean,
+      cardWithLabel: Boolean,
       minTableWidth: [Number,String],
       actions: {
         type: Array,
@@ -320,7 +326,6 @@
         datatable: new Datatable(this),
         tableModel: Class.getModel(this.model),
         width: window.innerWidth,
-        height: window.innerHeight
       }
     },
     created() {
@@ -356,7 +361,6 @@
     methods: {
       onResize(e) {
         this.width = window.innerWidth;
-        this.height = window.innerHeight;
       },
       onDrop(dropResult){
         if (dropResult.removedIndex === dropResult.addedIndex) return
