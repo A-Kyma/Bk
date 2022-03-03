@@ -78,7 +78,7 @@
       </div>
     </div>
     <slot name="main" v-bind="{items,labeledFields,datatable, model, actions}">
-      <div v-if="card || width < minTableWidth">
+      <div v-if="cardMode">
         <b-card v-for="(model,index) in items" class="mt-2 mb-2">
           <template #header>
             <span class="mr-2">
@@ -106,13 +106,13 @@
             />
           </template>
           <b-card-text role="row" :key="model._id">
-            <slot name="cardrow()" v-bind="{model,index,fields: labeledFields}">
+            <slot name="row()" v-bind="{model,index,fields: labeledFields, cardMode}">
               <div v-for="cell in labeledFields" :key="cell.key" role="cell" class="align-middle">
                 <slot
                     v-if="cell.key!=='buttonActions'"
-                    :name="'cardcell('+cell.key+')'"
-                    v-bind="{model, index, field: cell.key}">
-                  <slot name="cardcell()" v-bind="{model,index,field: cell.key}">
+                    :name="'cell('+cell.key+')'"
+                    v-bind="{model, index, field: cell.key, cardMode}">
+                  <slot name="cell()" v-bind="{model,index,field: cell.key, cardMode}">
                     <span v-if="!datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'">
                       <bk-view-inner  no-label :model="model" :field="cell.key"/>
                     </span>
@@ -157,7 +157,7 @@
                       lock-axis="y"
                       :get-child-payload="getChildPayload">
              <Draggable v-for="(model,index) in items" :key="model._id" :tag="{value: 'tr', props: {role: 'row'}}">
-                 <slot name="row()" v-bind="{model,index,fields: labeledFields}">
+                 <slot name="row()" v-bind="{model,index,fields: labeledFields, cardMode}">
                    <td role=cell class="align-middle" style="cursor: pointer"><b-icon icon="arrows-move" aria-hidden="true"></b-icon></td>
                    <td v-for="cell in labeledFields" :key="cell.key" role="cell" class="align-middle">
                      <bk-button-icon
@@ -182,8 +182,8 @@
                      <slot
                          v-if="cell.key!=='buttonActions'"
                          :name="'cell('+cell.key+')'"
-                         v-bind="{model, index, field: cell.key}">
-                       <slot name="cell()" v-bind="{model,index,field: cell.key}">
+                         v-bind="{model, index, field: cell.key, cardMode}">
+                       <slot name="cell()" v-bind="{model,index,field: cell.key, cardMode}">
                          <bk-view-inner v-if="!datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'" no-label :model="model" :field="cell.key"/>
                          <bk-inner-input v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'" :model="model" :field="cell.key"/>
                        </slot>
@@ -350,6 +350,9 @@
       },
       firstReady() {
         return this.datatable.firstReady
+      },
+      cardMode() {
+        return this.card || this.width < this.minTableWidth
       }
     },
     watch: {
