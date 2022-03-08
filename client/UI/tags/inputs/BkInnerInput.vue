@@ -179,8 +179,14 @@ import BkCardListClass from "../forms/BkCardListClass";
     name: "BkInnerInput",
     components: {BkCardListClass, BkBelongsToInput,BkFieldList},
     props: {
-      model: Class,
-      field: String,
+      model: {
+        type: Class,
+        required: true
+      },
+      field: {
+        type: String,
+        required: true
+      },
       formField: String,
       formGenericField: String,
       for: String,

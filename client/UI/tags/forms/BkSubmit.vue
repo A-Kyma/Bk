@@ -19,6 +19,7 @@
                 variant="outline-secondary">
           <t>app.cancel</t>
         </b-button>
+      <slot name="after-submit"/>
     </div>
 </template>
 

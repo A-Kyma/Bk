@@ -42,7 +42,8 @@ Package.onUse(function(api) {
   api.use('jagi:astronomy@2.7.3'); // Model management
   api.use('jagi:reactive-map@2.0.0'); // Used in errors management
   api.use('reactive-var'); // For clickTo... components and other thinks
-  api.use('reactive-dict');
+  api.use('reactive-dict')
+  api.use('webapp','server')
   api.use('ostrio:files') // For file upload
   api.use('fetch'); // make http calls
   api.use('pfafman:filesaver@1.3.2'); // use SaveAs()

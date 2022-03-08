@@ -38,7 +38,10 @@ import Enum from "../../../../lib/modules/customFields/customs/Enum";
 export default {
   name: "BkViewClean",
   props: {
-    model: Class,
+    model: {
+      type: Class,
+      required: true
+    },
     field: String,
     format: String,
     locale: String,

@@ -36,7 +36,8 @@ All tags has to be imported here and should begins with "Bk".
 
  */
 
-import BkBelongstoInput from "./tags/inputs/BkBelongsToInput"
+import BkActionableBadges from "./tags/inputs/BkActionableBadges";
+import BkBelongsToInput from "./tags/inputs/BkBelongsToInput"
 import BkBreadCrumb from "./tags/routes/BkBreadCrumb"
 import BkButtonIcon from "./tags/links/BkButtonIcon"
 import BkCardListClass from "./tags/forms/BkCardListClass"
@@ -54,6 +55,7 @@ import BkLanguage from "./tags/translation/BkLanguage"
 import BkLoading from "./tags/loading/BkLoading"
 import BkLogin from "./tags/forms/BkLogin"
 import BkModal from "./tags/modals/BkModal";
+import BkPage from "./tags/views/BkPage";
 import BkResetPassword from "./tags/forms/BkResetPassword";
 import BkChangePassword from "./tags/forms/BkChangePassword"
 import BkSubmit from "./tags/forms/BkSubmit"
@@ -75,7 +77,8 @@ import errorPopupMixin from "../utils/errorPopupMixin";
 import relationSubscriptionMixin from "../utils/relationSubscriptionMixin"
 
 const BkUI = {
-  BkBelongstoInput,
+  BkActionableBadges,
+  BkBelongsToInput,
   BkBelongsToMany,
   BkDatePicker,
   BkBreadCrumb,
@@ -93,6 +96,7 @@ const BkUI = {
   BkLoading,
   BkLogin,
   BkModal,
+  BkPage,
   BkPagination,
   BkChangePassword,
   BkResetPassword,

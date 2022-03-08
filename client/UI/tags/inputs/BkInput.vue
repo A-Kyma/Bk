@@ -110,8 +110,14 @@
     name: "BkInput",
     components: {BkLabel},
     props: {
-      model: Class,
-      field: String,
+      model: {
+        type: Class,
+        required: true
+      },
+      field: {
+        type: String,
+        required: true
+      },
       for: String,
       formField: String,
       formGenericField: String,
