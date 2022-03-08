@@ -2,6 +2,7 @@
   <b-modal
       :id="id"
       @ok="onOk"
+      @show="onShow"
       v-bind="$attrs"
       @shown="$emit('shown')"
       @hide="$emit('hide')"
@@ -22,8 +23,14 @@
     </template>
 
     <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
-      <slot :name="slot" v-bind="props" />
+      <slot :name="slot" v-bind="props"/>
     </template>
+
+    <template #default="props">
+      <bk-loading v-if="!!subscription && !$subReady[subscription]  && !firstSubReady" type="dots"/>
+      <slot v-else name="default" v-bind="{model: findModel}"></slot>
+    </template>
+    blabla
   </b-modal>
 </template>
 
@@ -39,11 +46,33 @@ export default {
     title: {
       type: String,
       default: "app.chooseType"
+    },
+    subscription: String,
+  },
+  data() {
+    return {
+      firstSubReady: false
     }
+  },
+  computed: {
+    findModel() {
+      if (!this.subscription)
+        return this.model
+      else {
+        this.firstSubReady = true
+        return this.$autorun(() =>
+            this.model.constructor.findOne(this.model._id)
+        )
+      }
+    },
   },
   methods: {
     onOk(e) {
       this.$emit("ok",e);
+    },
+    onShow() {
+      if (!!this.subscription)
+        this.$subscribe(this.subscription,[this.model._id])
     },
     show() {
       this.$bvModal.show(this.id)

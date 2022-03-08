@@ -373,7 +373,8 @@ export default {
             params: {
               for: "new",
               id: this.getRoute,
-            }
+            },
+            query: this.params
           })
         }
         else {

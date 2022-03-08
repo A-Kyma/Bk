@@ -208,19 +208,19 @@ export default {
     }
   },
   methods: {
-    setId(id) {
+    setId(id,record) {
       let definition = this.model.getDefinition(this.field)
       // Array of relation
       if (this.isArray) {
         if (_.isEmpty(this.model[this.field])) this.model[this.field] = [] ;
         if (definition.cache) {
-          this.model[this.field].push({_id: id});
+          this.model[this.field].push(record);
         } else {
           this.model[this.field].push(id);
         }
       } else {
         if (definition.cache) {
-          this.model[this.field] = {_id: id}
+          this.model[this.field] = record
         } else {
           this.model[this.field] = id
         }
@@ -278,9 +278,10 @@ export default {
         Tracker.autorun(() => {
           let ready = this.handler.ready();
           if (ready) {
-            this.ready = true
             oldHandler && oldHandler.stop()
             this.populate()
+            this.ready = true
+            this.$emit("ready")
           }
         })
       } else if (this.meteorMethod) {
@@ -296,12 +297,14 @@ export default {
             else {
               this.populate(result)
               this.ready = true
+              this.$emit("ready")
             }
           }
         )
       } else {
         this.populate()
         this.ready = true
+        this.$emit("ready")
       }
 
     },
@@ -314,7 +317,7 @@ export default {
         this.relationList = this.getOptionsFromRelations(records)
         if (this.relationList.length === 1 && !this.definition.optional) {
           //this.model[this.field] = this.relationList[0].value;
-          this.setId(this.relationList[0].value);
+          this.setId(this.relationList[0].value,this.relationList[0].record);
           if (this.$refs.select) this.$refs.select.$el.disabled = true
         }
         return
@@ -345,7 +348,8 @@ export default {
           let relation = new relationClass(record)
           return {
             'value': relation._id,
-            'text': relation.defaultName && relation.defaultName() || relation._id
+            'text': relation.defaultName && relation.defaultName() || relation._id,
+            'record': record
           }
         }).sort((a,b) => (a.text <= b.text) ? -1 : 1)
 
@@ -353,13 +357,14 @@ export default {
       return relationClass && relationClass.find(where.search).map(record => {
         return {
           'value': record._id,
-          'text': record.defaultName && record.defaultName() || record._id
+          'text': record.defaultName && record.defaultName() || record._id,
+          'record': record.raw()
         }
       }).sort((a,b) => (a.text <= b.text) ? -1 : 1)
     },
     onSelectRow(row) {
       //this.model.set(this.field, row.value, {cast: true})
-      this.setId(row.value)
+      this.setId(row.value,row.record)
       this.value = "";
       if (this.relationList.length !== 1 && !this.selectInput)
         this.activateSubscription(true); // since value length is lower than 3
