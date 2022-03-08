@@ -292,6 +292,7 @@
       },
       sortBy: String,
       sortDesc: Boolean,
+      sortValue: Object,
       perPage: Number,
       page: Number,
       filter: Object, // default filter used, cannot be changer afterwards
