@@ -1,7 +1,9 @@
 <template>
 
-  <multiselect v-if="!plaintext && $props['for'] !== 'view'"
+  <div v-if="!plaintext && $props['for'] !== 'view'" class="input-group">
+  <multiselect
       ref="select"
+      class="form-control p-0"
       v-bind="$attrs"
       v-model="inputRelation"
       :options="relationList"
@@ -17,14 +19,18 @@
       :clear-on-select="!selectInput"
       :limit="limit"
       multiple
-      searchable
+      :searchable="searchableData"
       @search-change="search"
-      @select="onSelectRow"
+      @select="onSelectRow"Ò
       @remove="onRemoveTag"
+      @close="onCloseDropdown"
+      @blur.prevent="false"
   >
+
     <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
       <slot :name="slot" v-bind="props" />
     </template>
+
     <span slot="noResult"><t>app.notFound</t></span>
     <span slot="noOptions"><t>app.noData</t></span>
     <strong slot="limit">
@@ -36,6 +42,15 @@
 
   </multiselect>
 
+      <b-button
+          v-if="searchableComputed"
+          size="sm"
+          @click.prevent="allowSearch"
+          variant="dark"
+          class="input-group-append align-items-center">
+        <b-icon-search class=""/>
+      </b-button>
+  </div>
   <span v-else>
     {{viewInputRelation}}
   </span>
@@ -58,11 +73,22 @@ export default {
       type: Boolean,
       default: true,
     },
+    searchable: {
+      type: Boolean,
+      default: undefined
+    },
     limit: Number
   },
   data() {
     return {
-
+      searchableData: false
+    }
+  },
+  computed: {
+    searchableComputed() {
+      if (this.searchable !== undefined) return this.searchable
+      if (this.definition.searchable !== undefined) return this.definition.searchable
+      return true
     }
   },
   meteor: {
@@ -70,9 +96,24 @@ export default {
       return I18n.get("app.notFound")
     },
     placeholder() {
-      return I18n.get("app.search")
+      if (this.searchableData)
+        return I18n.get("app.search")
+      else
+        return I18n.get("app.select")
     }
-  }
+  },
+  methods: {
+    allowSearch() {
+      const multiselect = this.$refs.select
+      if (!multiselect.isOpen) {
+        this.searchableData = true
+        this.$nextTick(() => multiselect.toggle())
+      }
+    },
+    onCloseDropdown() {
+      this.searchableData = false
+    }
+  },
 }
 </script>
 
@@ -83,6 +124,11 @@ export default {
 <style>
 fieldset[disabled] .multiselect {
   pointer-events: none
+}
+
+.multiselect.form-control {
+  height: auto;
+  border: 0px;
 }
 
 .multiselect__spinner {
@@ -141,7 +187,7 @@ fieldset[disabled] .multiselect {
   position: relative;
   width: 100%;
   min-height: 40px;
-  min-width: 180px;
+  min-width: 180px !important;
   text-align: left;
   color: #35495e
 }
@@ -217,7 +263,8 @@ fieldset[disabled] .multiselect {
 
 .multiselect__single {
   padding-left: 5px;
-  margin-bottom: 8px
+  margin-bottom: 8px;
+  display: none;
 }
 
 .multiselect__tags-wrap {
