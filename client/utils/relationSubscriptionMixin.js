@@ -214,9 +214,11 @@ export default {
       if (this.isArray) {
         if (_.isEmpty(this.model[this.field])) this.model[this.field] = [] ;
         if (definition.cache) {
-          this.model[this.field].push(record);
+          if (!(this.model[this.field].find(e=>e._id === record._id)))
+            this.model[this.field].push(record);
         } else {
-          this.model[this.field].push(id);
+          if (!(this.model[this.field].includes(id)))
+            this.model[this.field].push(id);
         }
       } else {
         if (definition.cache) {
@@ -250,6 +252,7 @@ export default {
       let definition = this.model.getDefinition(this.field)
       if (_.isEmpty(this.model[this.field])) return
       // Array of relation
+      this.$emit("removeAll")
       if (this.isArray)
         this.model[this.field] = []
       else
@@ -364,6 +367,7 @@ export default {
     },
     onSelectRow(row) {
       //this.model.set(this.field, row.value, {cast: true})
+      this.$emit("select",row)
       this.setId(row.value,row.record)
       this.value = "";
       if (this.relationList.length !== 1 && !this.selectInput)
@@ -373,6 +377,7 @@ export default {
       this.$emit("input",this.model[this.field])
     },
     onRemoveTag(row) {
+      this.$emit("remove",row)
       this.removeId(row.value)
       this.$emit("input",this.model[this.field])
     },
