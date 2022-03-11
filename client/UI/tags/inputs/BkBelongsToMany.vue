@@ -21,7 +21,7 @@
       multiple
       :searchable="searchableData"
       @search-change="search"
-      @select="onSelectRow"Ò
+      @select="onSelectRow"
       @remove="onRemoveTag"
       @close="onCloseDropdown"
       @blur.prevent="false"

@@ -6,10 +6,10 @@
     :append="append"
     :class="ui.class">
 
-    <slot :name="'before-'+formGenericFieldComputed" v-bind="$props"/>
+    <slot :name="'before-'+formGenericFieldComputed" v-bind="{...$props, ...{value,oldValue}}"/>
 
     <slot :name="formGenericFieldComputed"
-          v-bind="{...$props,...{plaintext: plaintextComputed, required, placeholder, value, append, prepend, state, options: enumOptions, class: plaintextClass}}"
+          v-bind="{...$props,...{plaintext: plaintextComputed, required, placeholder, value, oldValue, append, prepend, state, options: enumOptions, class: plaintextClass}}"
     >
 
       <bk-field-list
@@ -147,7 +147,7 @@
 
     </slot>
 
-    <slot :name="'after-'+formGenericFieldComputed" v-bind="$props"/>
+    <slot :name="'after-'+formGenericFieldComputed" v-bind="{...$props, ...{value,oldValue}}"/>
 
   </b-input-group>
 </template>
