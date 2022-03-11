@@ -16,6 +16,7 @@ export default {
     model: [Class,String],
     subscription: String,
     waitSubscription: [String,Array],
+    params: [Array,String],
     type: {
       type: String,
       default: "dots"
@@ -23,7 +24,6 @@ export default {
   },
   data() {
     return {
-      params: this.$route.params,
       query: this.$route.query,
       firstSubReady: false
     }
@@ -38,10 +38,19 @@ export default {
         this.$subscribe(this.waitSubscription,[])
       }
     }
-    if (!!this.subscription
+
+    if (!!this.subscription && this.params) {
+      if (typeof this.params === "string")
+        this.$subscribe(this.subscription,[this.params])
+      if (Array.isArray(this.params))
+        this.$subscribe(this.subscription,this.params)
+    }
+
+    else if (!!this.subscription
         && this.$route.params["for"] !== "new"
         && !!this.$route.params.id)
-      this.$subscribe(this.subscription,[this.$route.params.id]);
+      this.$subscribe(this.subscription,[this.$route.params.id])
+
     else
       this.firstSubReady = true
   },
