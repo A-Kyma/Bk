@@ -292,7 +292,7 @@ export default {
           value: record._id,
           text: record.defaultName()
         }
-      });
+      }).sort((a,b) => (a.text <= b.text) ? -1 : 1)
       if (definition.optional && Array.isArray(result)) {
         result.unshift({
           value: undefined,
