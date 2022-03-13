@@ -1,9 +1,11 @@
 <template>
   <div v-if="!ready">
+    <slot name="title"></slot>
     <bk-loading :type="type"/>
   </div>
   <div v-else>
-    <slot v-bind="{model: findModel}"></slot>
+    <slot name="title"></slot>
+    <slot v-bind="{model: findModel, params: $route.params}"></slot>
   </div>
 </template>
 
