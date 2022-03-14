@@ -36,6 +36,7 @@ All tags has to be imported here and should begins with "Bk".
 
  */
 
+import applyDrag from "../utils/applyDrag";
 import BkActionableBadges from "./tags/inputs/BkActionableBadges";
 import BkBelongsToInput from "./tags/inputs/BkBelongsToInput"
 import BkBreadCrumb from "./tags/routes/BkBreadCrumb"
@@ -79,6 +80,7 @@ import relationSubscriptionMixin from "../utils/relationSubscriptionMixin"
 import { Container, Draggable } from "vue-smooth-dnd";
 
 const BkUI = {
+  applyDrag,
   Container,
   Draggable,
   BkActionableBadges,
