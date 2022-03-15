@@ -144,11 +144,14 @@ User.extend({
               //already a device in collection.
               let found = false
               for (let deviceItem of user.profile.devices) {
-                if (deviceItem.device_model === oneSignalUserDevice.device_model && deviceItem.device_os === oneSignalUserDevice.device_os) {
+                if ((deviceItem.device_model === oneSignalUserDevice.device_model && deviceItem.device_os === oneSignalUserDevice.device_os)
+                || (deviceItem.id === oneSignalUserDevice.id && deviceItem.identifier === oneSignalUserDevice.identifier)){
                   found = true
                   deviceItem.id = oneSignalUserDevice.id
                   deviceItem.session_count = oneSignalUserDevice.session_count
                   deviceItem.updated_at = oneSignalUserDevice.updated_at
+                  deviceItem.device_model = oneSignalUserDevice.device_model
+                  deviceItem.device_os = oneSignalUserDevice.device_os
                   if (deviceItem.identifier !== oneSignalUserDevice.identifier) {
                     deviceItem.identifier = oneSignalUserDevice.identifier
                   }
