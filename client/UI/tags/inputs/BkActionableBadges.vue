@@ -1,7 +1,12 @@
 <template>
-  <div v-if="readonly" class="col-12">
-    <b-badge :variant="value">&nbsp;&nbsp;&nbsp;</b-badge>
-  </div>
+  <span v-if="readonly" class="mr-1 ml-1">
+    <b-badge :variant="value" class="p-1">
+      <slot name="default">
+        &nbsp;&nbsp;&nbsp;
+      </slot>
+    </b-badge>
+    <slot name="after"/>
+  </span>
   <div v-else class="col-12 form-control-plaintext">
     <b-badge
         v-for="item in options"
