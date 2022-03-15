@@ -49,10 +49,15 @@
           <bk-inner-input
               :model="datatable.filterModel"
               :field="field"
+              form-field="filter"
               buttons
               button-variant="outline-primary"
               @input="onAutoFilterSubmit($event,field)"
-          />
+          >
+            <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+              <slot :name="slot" v-bind="props" />
+            </template>
+          </bk-inner-input>
         </b-input-group>
         <b-button type="reset" variant="outline-dark" class="mr-2"><t>app.reset</t></b-button>
         <b-button v-if="!autoFilterSubmit" type="submit" variant="outline-primary"><t>app.filter</t></b-button>
