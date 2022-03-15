@@ -98,25 +98,35 @@
           v-model="value"
           :model="model"
           :field="field"
+          :form-field="formFieldComputed"
           :for="$props['for']"
           :placeholder="placeholder"
           :plaintext="plaintextComputed"
           :readonly="plaintextComputed"
           :disabled="plaintextComputed"
           @input="$emit('input')"
-      />
+      >
+        <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+          <slot :name="slot" v-bind="props" />
+        </template>
+      </bk-belongs-to-input>
 
       <bk-belongs-to-many
         v-else-if="definitionField === 'ListRelation'"
         v-bind="$attrs"
         :model="model"
         :field="field"
+        :form-field="formFieldComputed"
         :for="$props['for']"
         :plaintext="plaintextComputed"
         :readonly="plaintextComputed"
         :disabled="plaintextComputed"
         @input="$emit('input')"
-      />
+      >
+        <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+          <slot :name="slot" v-bind="props" />
+        </template>
+      </bk-belongs-to-many>
       <!-- TODO: is span OK ?-->
       <span v-else-if="definitionField === 'ListValue'">
           {{model[field].join(', ')}}

@@ -27,8 +27,12 @@
       @blur.prevent="false"
   >
 
-    <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
-      <slot :name="slot" v-bind="props" />
+    <template #option="data">
+      <slot :name="formFieldComputed + '-option'" v-bind="data"/>
+    </template>
+
+    <template #tag="data">
+      <slot :name="formFieldComputed + '-tag'" v-bind="data"/>
     </template>
 
     <span slot="noResult"><t>app.notFound</t></span>
@@ -77,7 +81,8 @@ export default {
       type: Boolean,
       default: undefined
     },
-    limit: Number
+    limit: Number,
+    formField: String,
   },
   data() {
     return {
@@ -89,7 +94,10 @@ export default {
       if (this.searchable !== undefined) return this.searchable
       if (this.definition.searchable !== undefined) return this.definition.searchable
       return true
-    }
+    },
+    formFieldComputed() {
+      return this.formField || this.field;
+    },
   },
   meteor: {
     tagPlaceholder() {
