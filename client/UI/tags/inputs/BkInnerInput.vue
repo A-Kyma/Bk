@@ -460,6 +460,7 @@ import BkCardListClass from "../forms/BkCardListClass";
 
     meteor: {
       placeholder() {
+        if (this.plaintextComputed) return ""
         return I18n.t(this.model.constructor.getPlaceHolderKey(this.field));
       },
       append() {
