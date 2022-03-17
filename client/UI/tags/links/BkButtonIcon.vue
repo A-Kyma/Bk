@@ -50,7 +50,7 @@
         </b-button>
         <div class="h-divider"/>
         <b-collapse visible id="collapse-1" v-model="visible" >
-          <div>
+          <div v-if="getImportFileType !== 'xls'">
             <h6><t>app.import.fileformat.title</t></h6>
             <b-form id="form-csv-link" inline>
               <b-input-group :prepend="getI18n('app.import.column.separator')" class="mb-2 mr-sm-2">
@@ -178,11 +178,11 @@ export default {
     title: String,
     route: String,
     nowrap: Boolean,
+    importFileType: String,
     params: {
       type: Object,
       default() { {} },
     },
-    importFileType: String,
   },
   data() {
     return {
@@ -202,6 +202,10 @@ export default {
     if (this.model) {this.inputModel = Class.getModel(this.model,this.params)}
   },
   computed: {
+    getImportFileType(){
+      console.log(this.$props)
+      return "csv"
+    },
     computedIcon() {
       if (!!this.icon) return this.icon
       switch (this.$props.for) {

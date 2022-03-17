@@ -29,6 +29,7 @@
                       for="import"
                       v-bind="$attrs"
                       :model="model"
+                      :import-file-type="importFileType"
       />
     </slot>
     <slot name="customHeader" v-bind="{datatable, model, actions}"/>
@@ -341,6 +342,10 @@
       window.removeEventListener("resize", this.onResize);
     },
     computed: {
+      getFileType(){
+        console.log(this.$props.importFileType)
+        return this.$props.importFileType
+      },
       tableClass() {
         if (typeof this.model === "string") {
           return Class.get(this.model)
