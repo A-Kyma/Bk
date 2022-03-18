@@ -1,6 +1,6 @@
 <template>
 
-  <div v-if="!plaintext && $props['for'] !== 'view'" class="input-group">
+  <div v-if="!plaintext && $props['for'] !== 'view'" :class="'input-group ' + classSingleOrTag">
   <multiselect
       ref="select"
       class="form-control p-0"
@@ -10,7 +10,7 @@
       label="text"
       track-by="text"
       :show-labels="false"
-      :disabled="disabled"
+      :disabled="disabledData"
       :placeholder="placeholder"
       :tagPlaceholder="tagPlaceholder"
       :loading="!ready"
@@ -18,11 +18,12 @@
       :close-on-select="!selectInput"
       :clear-on-select="!selectInput"
       :limit="limit"
-      multiple
+      :multiple="isArray"
       :searchable="searchableData"
       @search-change="search"
       @select="onSelectRow"
       @remove="onRemoveTag"
+      @open="onOpenDropdown"
       @close="onCloseDropdown"
       @blur.prevent="false"
   >
@@ -35,6 +36,10 @@
       <slot :name="formFieldComputed + '-tag'" v-bind="data"/>
     </template>
 
+    <template #singleLabel="data">
+      <slot :name="formFieldComputed + '-single'" v-bind="data"/>
+    </template>
+
     <span slot="noResult"><t>app.notFound</t></span>
     <span slot="noOptions"><t>app.noData</t></span>
     <strong slot="limit">
@@ -42,20 +47,28 @@
       <t v-else :options="{'count': getId? 1:0}">app.selected</t>
       <i v-if="limit===0" slot="clear" class="multiselect__clear" @mousedown.prevent="onRemoveAllTags"/>
     </strong>
-    <i v-if="taggable" slot="clear" class="multiselect__clear" @mousedown.prevent="onRemoveAllTags"/>
-
+    <i v-if="taggable && !disabledData" slot="clear" class="multiselect__clear" @mousedown.prevent="onRemoveAllTags"/>
+    <span v-if="disabledData" slot="caret"></span>
+    <span v-if="isArray" slot="singleLabel" class="d-none"></span>
   </multiselect>
 
+    <b-input-group-append>
       <b-button
-          v-if="searchableComputed"
+          v-if="searchableComputed && selectInput && !disabledData"
           size="sm"
           @click.prevent="allowSearch"
           variant="dark"
           class="input-group-append align-items-center">
         <b-icon-search class=""/>
       </b-button>
+
+      <slot
+          :name="formFieldComputed + '-append'"
+          v-bind="{...$props, ...{oldValue, value: getId}}"
+      />
+    </b-input-group-append>
   </div>
-  <span v-else>
+  <span v-else class="form-control-plaintext">
     {{viewInputRelation}}
   </span>
 
@@ -86,41 +99,38 @@ export default {
   },
   data() {
     return {
-      searchableData: false
+      searchableData: undefined,
+      disabledData: this.disabled
     }
   },
   computed: {
     searchableComputed() {
-      if (this.searchable !== undefined) return this.searchable
-      if (this.definition.searchable !== undefined) return this.definition.searchable
+      if (!this.selectInput) return true // if it's an autocomplete tag
+      if (this.searchable !== undefined) return this.searchable // forced by upper tag
+      if (this.definition.searchable !== undefined) return this.definition.searchable // forced by definition
       return true
     },
     formFieldComputed() {
       return this.formField || this.field;
     },
+    classSingleOrTag() {
+      if (!this.isArray) return "bk-multiselect--single"
+      return "bk-multiselect--tag"
+    }
   },
   meteor: {
     tagPlaceholder() {
       return I18n.get("app.notFound")
     },
     placeholder() {
-      if (this.searchableData)
+      if (this.searchableData || !this.selectInput)
         return I18n.get("app.search")
       else
         return I18n.get("app.select")
     }
   },
   methods: {
-    allowSearch() {
-      const multiselect = this.$refs.select
-      if (!multiselect.isOpen) {
-        this.searchableData = true
-        this.$nextTick(() => multiselect.toggle())
-      }
-    },
-    onCloseDropdown() {
-      this.searchableData = false
-    }
+
   },
 }
 </script>
@@ -272,6 +282,9 @@ fieldset[disabled] .multiselect {
 .multiselect__single {
   padding-left: 5px;
   margin-bottom: 8px;
+}
+
+.bk-multiselect--tag .multiselect__single {
   display: none;
 }
 

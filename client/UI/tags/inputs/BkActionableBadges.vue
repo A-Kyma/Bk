@@ -16,7 +16,9 @@
         href="#"
         @click="onClick(item)"
     >
-      <t>{{item.key}}</t>
+      <slot name="default">
+        <t>{{item.key}}</t>
+      </slot>
     </b-badge>
   </div>
 </template>

@@ -26,6 +26,8 @@ export default {
   },
 
   created() {
+    this.searchableData = !this.selectInput
+
     this.oldValue = this.getId
 
     if (!_.isEmpty(this.oldValue) || this.selectInput)
@@ -38,6 +40,13 @@ export default {
   computed: {
     definition() {
       return this.model.getDefinition(this.field)
+    },
+
+    optional() {
+      if (typeof this.definition.optional === "function")
+        return this.definition.optional(this.model)
+      else
+        return this.definition.optional
     },
 
     readonly() {
@@ -117,8 +126,9 @@ export default {
         this.value = value;
 
         // We subscribe if at least 3 characters
-        if (value.length >= this.minCharacters && this.minCharacters !== 0)
+        if (value.length >= this.minCharacters && this.minCharacters !== 0) {
           this.activateSubscription(true);
+        }
         // We unsubscribe if subscription exists and if not 3 characters
         if (_.isEmpty(this.getId) && value.length < this.minCharacters) {
           this.handler && this.handler.stop();
@@ -257,6 +267,9 @@ export default {
         this.model[this.field] = []
       else
         this.model[this.field] = undefined
+
+      if (!this.selectInput)
+        this.relationList = []
     },
     search(query) {
       this.inputValue = query;
@@ -316,30 +329,19 @@ export default {
         this.relationList = this.options
         return
       }
-      if (this.selectInput) {
-        this.relationList = this.getOptionsFromRelations(records)
-        if (this.relationList.length === 1 && !this.definition.optional) {
-          //this.model[this.field] = this.relationList[0].value;
-          this.setId(this.relationList[0].value,this.relationList[0].record);
-          if (this.$refs.select) this.$refs.select.$el.disabled = true
-        }
-        return
-      }
-      /*
-      if (!_.isEmpty(this.getId)) {
-        let relation = this.model[this.field + "Instance"]();
-        this.relationOne = relation && relation.defaultName();
-        return
-      }
-      */
+
       this.relationList = this.getOptionsFromRelations(records)
-      /*
-      if (this.relationList.length === 1) {
-        this.onSelectRow(this.relationList[0])
-        this.populate()
-        return
+      if (this.relationList.length === 1 && !this.optional) {
+        //this.model[this.field] = this.relationList[0].value;
+        this.setId(this.relationList[0].value,this.relationList[0].record);
+        if (this.selectInput) {
+          this.searchableData = false
+          this.disabledData = true
+        } else {
+          this.$refs.select.deactivate()
+        }
       }
-       */
+
     },
     getOptionsFromRelations(records) {
       let definition = this.model.getDefinition(this.field);
@@ -385,6 +387,20 @@ export default {
       if (this.plaintext || this.disabled) return
       this.removeAll()
       this.$emit("input",this.model[this.field])
+    },
+    allowSearch() {
+      const multiselect = this.$refs.select
+      if (!multiselect.isOpen) {
+        this.searchableData = true
+        this.$nextTick(() => multiselect.toggle())
+      }
+    },
+    onOpenDropdown() {
+
+    },
+    onCloseDropdown() {
+      if (this.selectInput)
+        this.searchableData = false
     }
   }
 }

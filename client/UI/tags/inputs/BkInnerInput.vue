@@ -9,7 +9,7 @@
     <slot :name="'before-'+formGenericFieldComputed" v-bind="{...$props, ...{value,oldValue}}"/>
 
     <slot :name="formGenericFieldComputed"
-          v-bind="{...$props,...{plaintext: plaintextComputed, required, placeholder, value, oldValue, append, prepend, state, options: enumOptions, class: plaintextClass}}"
+          v-bind="{...$props,...{plaintext: plaintextComputed, required: !optional, placeholder, value, oldValue, append, prepend, state, options: enumOptions, class: plaintextClass}}"
     >
 
       <bk-field-list
@@ -92,7 +92,7 @@
           icon-clear="x-circle"
       />
 
-      <bk-belongs-to-input
+      <bk-belongs-to-many
           v-else-if="definitionField === 'Relation'"
           v-bind="$attrs"
           v-model="value"
@@ -109,7 +109,7 @@
         <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
           <slot :name="slot" v-bind="props" />
         </template>
-      </bk-belongs-to-input>
+      </bk-belongs-to-many>
 
       <bk-belongs-to-many
         v-else-if="definitionField === 'ListRelation'"
@@ -286,6 +286,12 @@ import BkCardListClass from "../forms/BkCardListClass";
       },
       required() {
         return false; //!this.model.getDefinition(this.field, "optional");
+      },
+      optional() {
+        if (typeof this.definition.optional === "function")
+          return this.definition.optional(this.model)
+        else
+          return this.definition.optional
       },
       getUnionTypes() {
         let fieldDefinition = this.model.getDefinition(this.field);
@@ -476,10 +482,7 @@ import BkCardListClass from "../forms/BkCardListClass";
         return prepend;
       },
       enumOptions() {
-        let fieldDefinition = this.model.getDefinition(this.field);
-        if (!fieldDefinition) {
-          return ;
-        }
+        let fieldDefinition = this.definition
 
         let fieldType = fieldDefinition.type.name;
         let EnumClass = fieldDefinition.type.class
@@ -492,7 +495,7 @@ import BkCardListClass from "../forms/BkCardListClass";
             }
         )
 
-        if (fieldDefinition.optional && fieldDefinition instanceof ScalarField) {
+        if (this.optional && fieldDefinition instanceof ScalarField) {
           let key = "app.undefined"
           options.splice(0,0,{ text: I18n.t(key), key, value: null})
         }
