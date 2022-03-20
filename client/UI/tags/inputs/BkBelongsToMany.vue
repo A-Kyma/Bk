@@ -15,7 +15,7 @@
       :tagPlaceholder="tagPlaceholder"
       :loading="!ready"
       :taggable="taggable"
-      :close-on-select="!selectInput"
+      :close-on-select="!selectInput || !isArray"
       :clear-on-select="!selectInput"
       :limit="limit"
       :multiple="isArray"
