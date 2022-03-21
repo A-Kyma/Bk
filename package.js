@@ -21,6 +21,7 @@ Npm.depends({
   "gm": "1.23.1", // GraphicsMagick or ImageMagick for creating Thumbnails
   "chart.js": "2.9.4", // basic Chart js
   "vue-chartjs":"3.5.1", // Vue for Chart
+  "xlsx":"0.18.4", //parse XLS
 });
 
 // See https://guide.meteor.com/writing-atmosphere-packages.html

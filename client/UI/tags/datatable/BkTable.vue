@@ -29,7 +29,6 @@
                       for="import"
                       v-bind="$attrs"
                       :model="model"
-                      :import-file-type="importFileType"
       />
     </slot>
     <slot name="customHeader" v-bind="{datatable, model, actions}"/>

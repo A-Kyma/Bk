@@ -50,14 +50,17 @@
         </b-button>
         <div class="h-divider"/>
         <b-collapse visible id="collapse-1" v-model="visible" >
-          <div v-if="getImportFileType !== 'xls'">
+          <div>
             <h6><t>app.import.fileformat.title</t></h6>
             <b-form id="form-csv-link" inline>
-              <b-input-group :prepend="getI18n('app.import.column.separator')" class="mb-2 mr-sm-2">
+              <b-input-group v-if="getImportFileType !== 'xls'" :prepend="getI18n('app.import.column.separator')" class="mb-2 mr-sm-2">
                 <b-form-input style="width: 70px" v-model="separator" id="inline-form-input-separator" :placeholder="getI18n('app.import.column.default.placeholder')"></b-form-input>
               </b-input-group>
               <b-input-group :prepend="getI18n('app.import.list.separator')" class="mb-2 mr-sm-2">
                 <b-form-input style="width: 70px" v-model="listSeparator" id="inline-form-input-listseparator" :placeholder="getI18n('app.import.list.default.placeholder')"></b-form-input>
+              </b-input-group>
+              <b-input-group :prepend="getI18n('app.import.datetime.format')" class="mb-2 mr-sm-2">
+                <b-form-input style="width: 200px" v-model="dateTimeFormat" id="inline-form-input-dateTimeFormat" :placeholder="getI18n('app.import.datetime.default.placeholder')"></b-form-input>
               </b-input-group>
               <h6><t>app.import.filecolumns.title</t></h6>
               <b-input-group v-for="item in getImportModelFields()" :prepend="item.label" class="mb-2 mr-sm-2">
@@ -68,7 +71,7 @@
           <b-form id="form-csv-upload" >
             <b-form-file
                 ref="file-input"
-                accept=".csv, .xls"
+                :accept="getExtension"
                 :browse-text="getI18n('app.import.file.browse')"
                 v-model="importFile"
                 :placeholder="getI18n('app.import.file.placeholder')"
@@ -156,6 +159,7 @@
 import { Class } from "meteor/jagi:astronomy";
 import {Role,I18n} from "meteor/a-kyma:bk"
 import errorPopupMixin from "../../../utils/errorPopupMixin";
+import * as XLSX from 'xlsx/xlsx.mjs';
 
 export default {
   name: "BkButtonIcon",
@@ -190,6 +194,7 @@ export default {
       modalModel: undefined,
       separator: null,
       listSeparator: null,
+      dateTimeFormat: null,
       importFile: null,
       header: 'not_accepted',
       result: [],
@@ -202,9 +207,11 @@ export default {
     if (this.model) {this.inputModel = Class.getModel(this.model,this.params)}
   },
   computed: {
+    getExtension(){
+      return this.$props.importFileType === "xls" ? ".xls,.xlsx" : ".csv"
+    },
     getImportFileType(){
-      console.log(this.$props)
-      return "csv"
+      return this.$props.importFileType
     },
     computedIcon() {
       if (!!this.icon) return this.icon
@@ -437,7 +444,7 @@ export default {
     },
     getImportModelFields(){
       let modelClass = Class.getModel(this.model)
-      return modelClass.constructor.getImportFieldsClass()
+      return modelClass.constructor.getImportFieldsClass({importFileType: this.$props.importFileType})
     },
     onSubmitModalForm(e) {
       this.$refs.modalForm.onSubmit(e)
@@ -488,58 +495,99 @@ export default {
         component.result = []
         return
       }
-
       let header = component.header
-      let separator = (component.separator === null) ? ";" : component.separator
-      let listSeparator = (component.listSeparator === null) ? "," : component.listSeparator
-      if (separator === listSeparator){
-        component.result = []
-        component.error = I18n.get("app.import.error.identicalseparator")
-        return
+      let separator
+      let listSeparator
+      if (component.$props.importFileType === undefined){
+        separator = (component.separator === null) ? ";" : component.separator
+        listSeparator = (component.listSeparator === null) ? "," : component.listSeparator
+        if (separator === listSeparator){
+          component.result = []
+          component.error = I18n.get("app.import.error.identicalseparator")
+          return
+        }
       }
 
       this.visible = false
+      if (component.$props.importFileType === undefined){
+        this.readFile(component,function(content) {
 
-      this.readFile(component,function(content) {
+          let fileArray = content.split(/\r\n|\n/)
+          if (header === 'accepted') fileArray.splice(0,1);
 
-        let fileArray = content.split(/\r\n|\n/)
-        if (header === 'accepted') fileArray.splice(0,1);
+          let param = {}
+          param.separator = separator
+          param.listSeparator = listSeparator
+          param.csvColumns = csvColumns
+          if (component.$router.currentRoute.params){
+            param.routeParams = component.$router.currentRoute.params
+          }
 
-        let param = {}
-        param.separator = separator
-        param.listSeparator = listSeparator
-        param.csvColumns = csvColumns
-        if (component.$router.currentRoute.params){
-          param.routeParams = component.$router.currentRoute.params
-        }
+          component.result = []
 
-        component.result = []
-
-        fileArray.forEach(function (line){
-          if (line === "") return
-          param.data = line
-
-          modelClass.callMethod('import',param,(err, result) => {
-            if (err){
-              component.result.push(err)
-            } else {
-              if (result){
-                component.result.push(result)
+          fileArray.forEach(function (line){
+            if (line === "") return
+            param.data = line
+            modelClass.callMethod('import',param,(err, result) => {
+              if (err){
+                component.result.push(err)
+              } else {
+                if (result){
+                  component.result.push(result)
+                }
               }
-            }
+            })
           })
-
         })
-      })
+      } else{
+        this.readFile(component,function(content) {
+          let workbook = XLSX.read(content, {
+            type: 'binary'
+          });
+          let Sheet = workbook.SheetNames[0];
+          let excelRows = XLSX.utils.sheet_to_csv(workbook.Sheets[Sheet]);
+
+          let fileArray = excelRows.split(/\r\n|\n/)
+          if (header === 'accepted') fileArray.splice(0,1);
+          let param = {}
+          param.separator = ","
+          param.listSeparator = ";"
+          param.dateTimeFormat = (component.dateTimeFormat === null) ? "YYYY/MM/DD HH:m" : component.dateTimeFormat.replace('AAAA','YYYY').replace('JJ','DD')
+          param.csvColumns = csvColumns
+          if (component.$router.currentRoute.params){
+            param.routeParams = component.$router.currentRoute.params
+          }
+
+          component.result = []
+
+          fileArray.forEach(function (line){
+            if (line === "") return
+            param.data = line
+            modelClass.callMethod('import',param,(err, result) => {
+              if (err){
+                component.result.push(err)
+              } else {
+                if (result){
+                  component.result.push(result)
+                }
+              }
+            })
+          })
+        })
+      }
     },
     readFile(component,onLoadCallback) {
-      let csvFile = component.importFile
+      let file = component.importFile
       let reader = new FileReader();
       reader.onload = function (){
         let content=this.result
         onLoadCallback(content);
       }
-      reader.readAsText(csvFile);
+      if (component.$props.importFileType === undefined) {
+        reader.readAsText(file);
+      }else{
+        reader.readAsBinaryString(file)
+      }
     }
   },
 

@@ -61,12 +61,16 @@ fr:
       filecolumns:
         title: "Veuillez remplir le numéro de colone de votre fichier avec les champs. (* champ obligatoire)"
       fileformat:
-        title: "Veuillez remplir les informations sur le format du fichier"
+        title: "Veuillez remplir les informations sur le format du fichier."
       error:
         missingcolumn: "Un ou plusieurs N° de colone obligatoire sont manquants: "
         identicalseparator: "le séparateur de colone et le séparateur de liste ne peuvent-être identique"
       btn:
         label: "Importer"
+      datetime:
+        default:
+          placeholder: "Défaut AAAA/MM/JJ HH:m"
+        format: "Format de date et heure"
       list:
         default:
           placeholder: "Défaut ,"
@@ -75,7 +79,10 @@ fr:
         default:
           placeholder: "Défault ;"
         separator: "Séparateur de colone"
-        label: "N° colone CSV"
+        csv:
+          label: "N° colone CSV"
+        xls:
+          label: "N° colone XLS"
     filter: "Filtrer"
     min: "Minimum"
     max: "Maximum"
