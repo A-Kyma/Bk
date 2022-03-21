@@ -288,7 +288,8 @@ export default {
           this.getId,
           value,
           I18n.getLanguage(),
-          where
+          where,
+          this.readonly
         )
 
         Tracker.autorun(() => {
@@ -307,6 +308,7 @@ export default {
           value,
           I18n.getLanguage(),
           where,
+          this.readonly,
           (err,result) => {
             if (err)
               this.errorCallback(err,result)
