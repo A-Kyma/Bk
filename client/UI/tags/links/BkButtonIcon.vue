@@ -126,7 +126,7 @@
         />
       </bk-modal>
       <bk-modal :id="modalFormId"
-                v-if="model && !getRoute"
+                v-if="model && !getRoute && $props['for'] !== 'delete'"
                 @ok="onSubmitModalForm"
                 @shown="$emit('shown')"
                 @hide="$emit('hide')"
