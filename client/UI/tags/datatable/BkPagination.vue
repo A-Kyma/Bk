@@ -20,10 +20,12 @@
           </div>
         </div>
         <div v-else>
-          <b-pagination @input="(page) => paginate(page)"
-                        :v-model="datatable.page"
-                        :total-rows="datatable.getCount()"
-                        :per-page="perPage"
+          <b-pagination
+              :key="datatable.page"
+              @input="paginate"
+              v-model="datatable.page"
+              :total-rows="datatable.getCount()"
+              :per-page="perPage"
           ></b-pagination>
         </div>
       </div>
@@ -54,13 +56,11 @@ export default {
       let page = this.datatable.page
       this.datatable.setPage(page + 1)
     },
-    paginate(page){
-      if (this.datatable.page !== page){
-        this.datatable.setPage(page)
-        if (this.$props.updateRoute){
-          if (parseInt(this.$route?.query?.currentPage) !== page && page !== null){
-            this.$router.push({name: this.$route.name, query: {currentPage: page}})
-          }
+    paginate(page) {
+      this.datatable.setPage(page)
+      if (this.$props.updateRoute){
+        if (parseInt(this.$route?.query?.currentPage) !== page && page !== null){
+          this.$router.replace({name: this.$route.name, query: {currentPage: page}})
         }
       }
     }
