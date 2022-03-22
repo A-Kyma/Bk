@@ -53,6 +53,10 @@ export default {
       return this.$props["for"] === "view" || this.plaintext || this.disabled
     },
 
+    subscription() {
+      return this.definition.subscription
+    },
+
     meteorMethod() {
       return this.method || this.definition.method
     },
@@ -215,6 +219,16 @@ export default {
           if (!elem) this.removeId(e.value)
         })
       }
+    },
+    getId(newValue,oldValue) {
+      if (newValue === oldValue) return
+      if (!this.subscription) return
+      if (this.isArray) return
+
+      let value = this.relationList.find(e => newValue === e.value)
+
+      if (newValue !== this.oldValue && value === undefined)
+        this.activateSubscription(!this.readonly)
     }
   },
   methods: {
