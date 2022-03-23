@@ -205,7 +205,7 @@ fieldset[disabled] .multiselect {
   position: relative;
   width: 100%;
   min-height: 40px;
-  min-width: 180px !important;
+  /*min-width: 180px !important;*/
   text-align: left;
   color: #35495e
 }
@@ -286,6 +286,14 @@ fieldset[disabled] .multiselect {
 
 .bk-multiselect--tag .multiselect__single {
   display: none;
+}
+
+.bk-multiselect--tag .multiselect {
+  min-width: 180px !important;
+}
+
+.bk-multiselect--single .multiselect {
+  min-width: 120px !important;
 }
 
 .multiselect__tags-wrap {
