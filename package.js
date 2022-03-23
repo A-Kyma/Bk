@@ -12,7 +12,7 @@ Package.describe({
 
 Npm.depends({
   "fs.extra": "1.3.2", // Used for file system read. Needed for creating thumbnails
-  lodash: '4.17.20', // JS Library
+  lodash: '4.17.21', // JS Library
   // to add meteor reactivity in vue : https://github.com/meteor-vue/vue-meteor-tracker
   "vue-meteor-tracker": "2.0.0-beta.5",
   // For Drag & Drop usage : https://github.com/kutlugsahin/vue-smooth-dnd
