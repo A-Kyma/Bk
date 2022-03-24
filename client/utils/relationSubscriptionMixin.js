@@ -202,7 +202,7 @@ export default {
   },
   watch: {
     where(newValue,oldValue) {
-      if (_.isEqual(newValue.search,oldValue.search)) return
+      if (_.isEqual(newValue?.search,oldValue?.search)) return
       let subscriptionName = this.definition.subscription
       if (!subscriptionName && this.selectInput) {
         // if where clause change, repopulate the list
