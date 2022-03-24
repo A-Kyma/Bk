@@ -354,7 +354,7 @@ export default {
           this.searchableData = false
           this.disabledData = true
         } else {
-          this.$refs.select.deactivate()
+          this.$refs.select?.deactivate()
         }
       }
 
