@@ -82,7 +82,7 @@
         </slot>
       </div>
     </div>
-    <slot name="main" v-bind="{items,labeledFields,datatable, model, actions}">
+    <slot name="main" v-bind="{items,labeledFields,datatable, model, actions, filterModel: datatable.filterModel}">
       <div v-if="cardMode">
         <b-card v-for="(model,index) in items" class="mt-2 mb-2">
           <template #header>
@@ -290,6 +290,7 @@
       exportFields: String,
       editableFields: [String,Array],
       filterFields: Array,
+      subscribeFields: String,
       modalFields: [String,Array],
       modalExclude: [String,Array],
       sort: {
@@ -342,7 +343,6 @@
     },
     computed: {
       getFileType(){
-        console.log(this.$props.importFileType)
         return this.$props.importFileType
       },
       tableClass() {
