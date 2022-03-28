@@ -149,6 +149,11 @@ fieldset[disabled] .multiselect {
   border: 0px;
 }
 
+.input-group-append .btn {
+  height: auto;
+  border: 0;
+}
+
 .multiselect__spinner {
   position: absolute;
   right: 1px;
