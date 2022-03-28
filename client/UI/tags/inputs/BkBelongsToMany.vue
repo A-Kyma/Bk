@@ -144,12 +144,9 @@ fieldset[disabled] .multiselect {
   pointer-events: none
 }
 
+.bk-multiselect--tag .input-group-append .btn,
+.bk-multiselect--single .input-group-append .btn,
 .multiselect.form-control {
-  height: auto;
-  border: 0px;
-}
-
-.input-group-append .btn {
   height: auto;
   border: 0;
 }
