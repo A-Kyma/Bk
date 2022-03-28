@@ -137,7 +137,11 @@
           <Draggable v-for="(file,index) in listFiles" :key="file._id" class="mt-2">
             <div class="draggable-item">
             <b-list-group-item class="d-flex align-items-center">
-              <b-avatar :src="link(file,'thumbnail')" :text="file.ext" class="mr-3"/>
+              <b-avatar
+                  :src="link(file,'thumbnail')"
+                  :text="file.ext"
+                  class="mr-3"
+              />
 
               <a :href="link(file)" :alt="file.name" target="_blank">
                 {{file.name}}
@@ -212,7 +216,7 @@ export default {
   },
   computed: {
     typeFile() {
-      if (this.accept.$regex(/^image/)) {
+      if (this.accept?.$regex(/^image/)) {
         return "image"
       } else {
         return "file"
@@ -278,6 +282,20 @@ export default {
       if (fileId === undefined && this.default) return this.default
       if (fileId === undefined) return
       return Meteor.absoluteUrl("/cdn/storage/Files/" + fileId + "/" + format + "/" + fileId + ".jpg")
+    },
+    fileIcon(ext) {
+      switch(ext) {
+        case "pdf": {
+          return "file-earmark-pdf"
+        }
+      }
+    },
+    fileIconVariant(ext) {
+      switch(ext) {
+        case "pdf": {
+          return "outline-danger"
+        }
+      }
     },
     // Avoid issues on touch screens
     fixActionRestriction() {
