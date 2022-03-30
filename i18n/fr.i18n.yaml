@@ -49,6 +49,8 @@ fr:
     drag:
       order:
         title: "Ordonné"
+    stat:
+      nostat: "Pas de stat actuellement."
     import:
       file:
         switchheader: "La première ligne contient le nom des champs"

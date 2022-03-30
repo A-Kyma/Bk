@@ -9,7 +9,7 @@
       <radar-chart v-if="type=='radar'" :chart-data="datacollection" :options="options"></radar-chart>
     </div>
     <div v-else>
-      Pas de stat actuellement.
+      <t>app.stat.nostat</t>
     </div>
   </div>
 </template>
