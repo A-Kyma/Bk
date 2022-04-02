@@ -46,6 +46,19 @@ export default {
       locale: I18n.getLanguage()
     }
   },
+  created() {
+    let minute = this.value.getMinutes()
+    let remainder = minute % 5
+    if (remainder !== 0) {
+      minute = minute + 5 - remainder
+      this.value.setMinutes(minute)
+      let d = DateTime.getISODateString(this.value)
+      let h = this.timeValue
+      this.$emit("input",`${d}T${h}`)
+    }
+
+
+  },
   computed: {
     dateValue: {
       set(value) {
@@ -56,7 +69,7 @@ export default {
           if (this.timeValue === undefined)
             newValue = value + "T00:00"
           else
-            newValue = value + "T" + this.timeValue,{cast: true}
+            newValue = value + "T" + this.timeValue //,{cast: true}
         // $emit to let BkInnerInput manage setting value into model
         this.$emit("input", newValue)
       },
