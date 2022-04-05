@@ -73,6 +73,7 @@
               :scroll="scroll"
               :perPage="perPage"
               :updateRoute="updateRoute"
+              :count="count"
           />
         </slot>
       </div>
@@ -251,6 +252,7 @@
               :scroll="scroll"
               :perPage="perPage"
               :updateRoute="updateRoute"
+              :count="count"
           >
             <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
               <slot :name="slot" v-bind="props" />
@@ -363,7 +365,7 @@
       },
       cardMode() {
         return this.card || this.width < this.minTableWidth
-      }
+      },
     },
     watch: {
       routeQuery(newValue, oldValue) {
@@ -460,6 +462,9 @@
         //return selection;
         return this.datatable.getArray();
       },
+      count() {
+        return this.datatable.getCount()
+      }
     },
     destroyed() {
       this.datatable.stopSubscription();

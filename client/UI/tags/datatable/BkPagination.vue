@@ -24,7 +24,7 @@
               :key="datatable.page"
               @input="paginate"
               v-model="datatable.page"
-              :total-rows="datatable.getCount()"
+              :total-rows="total"
               :per-page="perPage"
           ></b-pagination>
         </div>
@@ -40,10 +40,17 @@ export default {
     datatable: Object,
     perPage: Number,
     scroll: Boolean,
-    updateRoute: Boolean
+    updateRoute: Boolean,
+    count: Number
   },
   data(){
     return {
+    }
+  },
+  computed: {
+    total() {
+      if (!isNaN(this.count)) return this.count
+      return this.datatable.getCount()
     }
   },
   meteor: {
