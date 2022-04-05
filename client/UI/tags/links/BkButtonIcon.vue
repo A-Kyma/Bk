@@ -361,7 +361,7 @@ export default {
           let params = {...this.params,...localParams}
           this.$router.push({ name: this.getRoute, params})
         } else {
-          this.modalModel = this.tableClass.findOne(this.model._id) //new (this.tableClass)(this.model.raw())
+          this.modalModel = this.tableClass.findOne(this.model._id) || this.model //new (this.tableClass)(this.model.raw())
           this.$bvModal.show(this.modalFormId)
         }
       }
