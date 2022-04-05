@@ -26,7 +26,7 @@ en:
     gte: "Field {{field}} must be greater than or equal {{param}}"
     lt: "Field {{field}} must be less than {{param}}"
     lte: "Field {{field}} must be less than or equal {{param}}"
-    eq: "Field {{field}} must be {{param}}"
+    eq: "Field {{field}} must be of length {{param}}"
     min:
       zero: "Field {{field}} must be have at least {{count}} character or be greater than or equal {{count}}"
       one: "Field {{field}} must be have at least {{count}} character or be greater than or equal {{count}}"
@@ -43,6 +43,7 @@ en:
     includes: "Field {{field}} must includes {{param}}"
     missingRoute: "Route {{param}} is missing"
     missingSubType: "Type {{param}} doesn't exist yet"
+    agree: "Form must be accepted"
     confirm: "Field is not the same"
     check: "Field {{field}} is not valid"
     exist: "Field {{field}} doesn't exist in our database"
@@ -77,7 +78,7 @@ fr:
     gte: "Le champ {{field}} doit être supérieur ou égal à {{param}}"
     lt: "Le champ {{field}} doit être strictement inférieur à {{param}}"
     lte: "Le champ {{field}} doit être inférieur ou égal à {{param}}"
-    eq: "Le champ {{field}} doit être {{param}}"
+    eq: "Le champ {{field}} doit être de longueur {{param}}"
     min:
       zero: "Attention, minimum {{count}}"
       one: "Attention, minimum {{count}}"
@@ -94,6 +95,7 @@ fr:
     includes: "Le champ {{field}} doit contenir {{param}}"
     missingRoute: "Route {{param}} est manquante"
     missingSubType: "Le sous-type {{param}} n'existe pas encore"
+    agree: "Le formulaire doit être accepté"
     confirm: "Le champ n'est pas identique"
     check: "Le champ {{field}} n'est pas valide"
     exist: "Le champ {{field}} n'existe pas dans notre base de données"
