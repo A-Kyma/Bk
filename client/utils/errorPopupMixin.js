@@ -6,7 +6,7 @@ export default {
       this.model.setError(err);
       let error = this.model.getError('MeteorError')
       if (error) error = I18n.t(error)
-      else error = I18n.t("Meteor.Error.Unknown error")
+      else error = I18n.t("app.Meteor.Error.Unknown error")
       this.$root.$bvToast.toast(error,{
         title: I18n.t("app.toast.title.failed"),
         variant: "danger",
