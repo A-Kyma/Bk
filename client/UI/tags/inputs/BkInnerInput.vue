@@ -135,7 +135,8 @@
 
       <!-- inputText + view + ... -->
 
-      <component  v-else
+      <component
+          v-else
           v-bind="$attrs"
           :is="inputComponent"
           :class="plaintextClass"
@@ -153,6 +154,8 @@
           :disabled="plaintextComputed"
           :options="enumOptions"
           :switch="uiSwitch"
+          rows="3"
+          max-rows="8"
       />
 
     </slot>
