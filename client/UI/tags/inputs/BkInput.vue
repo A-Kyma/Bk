@@ -73,6 +73,7 @@
                     v-else-if="canView"
                     :label-class="ui.labelClass"
                     :label-size="ui.labelSize"
+                    :description="description"
       >
         <template #label>
           <slot :name="formGenericFieldComputed + '-label'" v-bind="$props">
@@ -105,6 +106,7 @@
   import {Class} from 'meteor/jagi:astronomy';
   import _ from "lodash";
   import BkLabel from "../forms/BkLabel";
+  import { I18n } from "meteor/a-kyma:bk"
 
   export default {
     name: "BkInput",
@@ -184,6 +186,11 @@
           return this.model.constructor.getName()+'_' + this._uid;
         }
       }
+    },
+    meteor: {
+      description() {
+        return I18n.t(this.model.constructor.getDescriptionKey(this.field),{ignoreNotFound: true})
+      },
     },
     methods: {
       onState(state) {
