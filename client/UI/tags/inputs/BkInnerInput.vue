@@ -539,4 +539,9 @@ import BkCardListClass from "../forms/BkCardListClass";
 #filter-header .btn-group-toggle label.btn {
   display: inline-block;
 }
+
+.custom-switch {
+  padding-top: 0.375em;
+  padding-bottom: 0.375em;
+}
 </style>
