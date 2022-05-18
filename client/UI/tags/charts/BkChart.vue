@@ -23,15 +23,37 @@ import DoughnutChart from './DoughnutCharts'
 import PolarChart from "./PolarAreaCharts";
 import RadarChart from './RadarCharts'
 
+/**
+ * This component allows to create a chart based on https://vue-chartjs.org/
+ * ex: <bk-chart type="pie" model="ClubMember" method="getResult" :query-param='getParamMember(model)'/>
+ */
 export default {
+  name: "BkChart",
   components: {
     LineChart,PieChart,BarChart,DoughnutChart,PolarChart,RadarChart
   },
   props: {
-    type: String,
-    model: String,
-    method: String,
-    queryParam: Object
+    // type of possible Charts
+    type: {
+      //`Possible String` line,pie,bar,doughnut,polar,radar
+      type: String,
+      required: true,
+    },
+    // Model name: models can be find in `'%root%/imports/classes'`
+    model: {
+      type: String,
+      required: true,
+    },
+    // Meteor Method used in server model class: `'%root%/imports/classes/server'`
+    method: {
+      type: String,
+      required: true,
+    },
+    // json basic params for the query
+    queryParam: {
+      type: Object,
+      required: true,
+    }
   },
   data () {
     return {
@@ -43,6 +65,8 @@ export default {
     this.fillData()
   },
   methods: {
+    // @vuese
+    // Used to fill the chart after the method call
     fillData () {
       let methodClass = Class.getModel(this.model)
       methodClass.callMethod(this.method,this.queryParam,(err, result) => {
