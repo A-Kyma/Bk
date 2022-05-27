@@ -5,7 +5,7 @@
   </div>
   <div v-else>
     <slot name="title"></slot>
-    <slot v-bind="{model: findModel, params: $route.params}"></slot>
+    <slot v-bind="{model: findModel, params: $route.params, ready: ready}"></slot>
   </div>
 </template>
 
