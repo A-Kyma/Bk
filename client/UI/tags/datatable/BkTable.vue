@@ -120,11 +120,20 @@
                     v-bind="{model, index, field: cell.key, cardMode}">
                   <slot name="cell()" v-bind="{model,index,field: cell.key, cardMode}">
                     <span v-if="!datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'">
-                      <bk-view-inner  no-label :model="model" :field="cell.key"/>
+                      <bk-view-inner no-label :model="model" :field="cell.key"/>
                     </span>
                     <span v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'">
-                      <bk-input v-if="cardWithLabel" :model="model" :field="cell.key" label-cols/>
-                      <bk-inner-input v-else :model="model" :field="cell.key"/>
+                      <bk-input
+                          v-if="cardWithLabel"
+                          :model="model"
+                          :field="cell.key" label-cols
+                          @input="onAutoFieldSubmit(model,cell.key)"
+                      />
+                      <bk-inner-input
+                          v-else :model="model"
+                          :field="cell.key"
+                          @input="onAutoFieldSubmit(model,cell.key)"
+                      />
                     </span>
                   </slot>
                 </slot>
@@ -191,7 +200,12 @@
                          v-bind="{model, index, field: cell.key, cardMode}">
                        <slot name="cell()" v-bind="{model,index,field: cell.key, cardMode}">
                          <bk-view-inner v-if="!datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'" no-label :model="model" :field="cell.key"/>
-                         <bk-inner-input v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'" :model="model" :field="cell.key"/>
+                         <bk-inner-input
+                             v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'"
+                             :model="model"
+                             :field="cell.key"
+                             @input="onAutoFieldSubmit(model,cell.key)"
+                         />
                        </slot>
                      </slot>
                    </td>
@@ -231,7 +245,12 @@
                         v-bind="{model, index, field: cell.key}">
                       <slot name="cell()" v-bind="{model,index,field: cell.key}">
                         <bk-view-inner v-if="!datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'" no-label :model="model" :field="cell.key"/>
-                        <bk-inner-input v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'" :model="model" :field="cell.key"/>
+                        <bk-inner-input
+                            v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'"
+                            :model="model"
+                            :field="cell.key"
+                            @input="onAutoFieldSubmit(model,cell.key)"
+                        />
                       </slot>
                     </slot>
                   </td>
@@ -283,16 +302,18 @@
   import BkPagination from "./BkPagination";
   import BkLoading from "../loading/BkLoading";
   import {EJSON} from "meteor/ejson";
+  import errorPopupMixin from "../../../utils/errorPopupMixin";
 
   export default {
     name: "BkTable",
     components: {BkPagination, BkButtonIcon,BkModal,BkForm,BkViewInner,Container,Draggable },
+    mixins: [errorPopupMixin],
     props: {
       fields: Array,
       exportFields: String,
       editableFields: [String,Array],
       filterFields: Array,
-      subscribeFields: String,
+      subscribeFields: [String,Array],
       modalFields: [String,Array],
       modalExclude: [String,Array],
       sort: {
@@ -305,7 +326,8 @@
       page: Number,
       filter: Object, // default filter used, cannot be changer afterwards
       initialFilter: Object, // initial applied filter, can be changed at any time using table filters
-      autoFilterSubmit: Boolean,
+      autoFilterSubmit: Boolean, // Auto submit filter fields changes
+      autoSubmit: Boolean, // Auto submit editable fields changes
       scroll: Boolean,
       multi: Boolean,
       full: Boolean,
@@ -449,6 +471,17 @@
         this.$emit("inputFilter",{field, value: e})
         if (this.autoFilterSubmit)
           this.datatable.applyFilter()
+      },
+      onAutoFieldSubmit(model,field) {
+        this.$emit("inputField", { model, field })
+        if (this.autoSubmit) {
+          if (model.isModified(field))
+            model.save({fields:[field]},
+                (err,result) => {
+                  this.errorCallback(err,result)
+                }
+            )
+        }
       },
       onResetFormFilter(e) {
         e.preventDefault()
