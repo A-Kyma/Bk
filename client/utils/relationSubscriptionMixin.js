@@ -352,7 +352,7 @@ export default {
         this.setId(this.relationList[0].value,this.relationList[0].record);
         if (this.selectInput) {
           this.searchableData = false
-          this.disabledData = true
+          this.disabledData = !this.optional
         } else {
           this.$refs.select?.deactivate()
         }
