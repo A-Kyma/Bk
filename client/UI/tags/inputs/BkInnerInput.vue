@@ -233,7 +233,7 @@ import BkCardListClass from "../forms/BkCardListClass";
           let validateServerSide = this.definition.validateServerSide || this.validateServerSide
           if (value === null || value === "") { value = undefined }
           this.model.set(this.field, value, {cast: true})
-          this.model.isValid(this.field,{simulationOnly: !validateServerSide});
+          this.model.isValid(this.field,{simulationOnly: !validateServerSide})
           this.$emit("input",value)
         },
         get: function () {
@@ -500,7 +500,7 @@ import BkCardListClass from "../forms/BkCardListClass";
 
         if (this.optional && fieldDefinition instanceof ScalarField) {
           let key = "app.undefined"
-          options.splice(0,0,{ text: I18n.t(key), key, value: null})
+          options.splice(0,0,{ text: I18n.t(key), key, value: undefined})
         }
 
         if (fieldDefinition.sort) {
