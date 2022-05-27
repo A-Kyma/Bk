@@ -1,6 +1,9 @@
 <template>
   <div class="col-12">
-    <b-row>
+    <div v-if="plaintext || $props['for'] === 'view'" class="mt-1">
+      {{readonlyValue}}
+    </div>
+    <b-row v-else>
       <b-col lg="8" md="12" class="nopaddingleft">
         <b-form-datepicker
           ref="datepicker"
@@ -89,6 +92,9 @@ export default {
         return DateTime.getTime(this.value)
       }
     },
+    readonlyValue() {
+      return DateTime.getLongDateTime(this.value,this.locale)
+    }
   },
   meteor: {
     labelClose() {
