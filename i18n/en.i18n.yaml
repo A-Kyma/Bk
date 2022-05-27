@@ -27,6 +27,12 @@ en:
       SuperAdministrator:
         label: "Owner"
 
+    BooleanEnum:
+      true:
+        label: "Yes"
+      false:
+        label: "No"
+
   I18n:
     key:
       label: "Key"

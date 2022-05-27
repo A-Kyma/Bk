@@ -27,6 +27,12 @@ fr:
       SuperAdministrator:
         label: "Propriétaire"
 
+    BooleanEnum:
+      true:
+        label: "Oui"
+      false:
+        label: "Non"
+
   I18n:
     key:
       label: "Clé"
