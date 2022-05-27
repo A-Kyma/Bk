@@ -19,7 +19,7 @@
 <!-- @vuese:BkDatePicker:events:start -->
 |Event Name|Description|Parameters|
 |---|---|---|
-|input|$emit to let BkInnerInput manage setting value into model|-|
+|input|-|-|
 
 <!-- @vuese:BkDatePicker:events:end -->
 

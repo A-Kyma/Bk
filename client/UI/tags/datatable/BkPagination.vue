@@ -33,36 +33,66 @@
 
 <script>
 import I18n from "../../../../lib/classes/i18n";
-
+/**
+ * This component allows to create a pagination in the datatable
+ * used only in the datatable component
+ * ex: <bk-pagination :datatable="datatable" :scroll="scroll" :perPage="perPage" :updateRoute="updateRoute" :count="count"/>
+ */
 export default {
   name: "BkPagination",
   props: {
-    datatable: Object,
-    perPage: Number,
-    scroll: Boolean,
-    updateRoute: Boolean,
-    count: Number
+    // Datatable object
+    datatable: {
+      type: Object,
+      required: true
+    },
+    // number of record per page
+    perPage: {
+      type: Number,
+      required: true
+    },
+    // When set to true, no page number but just a button below to load more data
+    scroll: {
+      type: Boolean
+    },
+    // When set to true, will update the page number in the Route
+    updateRoute: {
+      type: Boolean
+    },
+    // Total number of records even those not yet loaded
+    count: {
+      type: Number,
+      required: true
+    }
   },
   data(){
     return {
     }
   },
   computed: {
+    // @vuese
+    // Compute the total count by calling the datatable getCount function
     total() {
       if (!isNaN(this.count)) return this.count
       return this.datatable.getCount()
     }
   },
   meteor: {
+    // @vuese
+    // check if the scroll button needs to be showed
     viewScrollButton() {
       return (this.datatable.getCount() > this.datatable.getCountLocal())? true :  false
     },
   },
   methods: {
+    // @vuese
+    // set a new page in case of scroll
     seeMore(){
       let page = this.datatable.page
       this.datatable.setPage(page + 1)
     },
+    // @vuese
+    // set a new page in case of pagination
     paginate(page) {
       this.datatable.setPage(page)
       if (this.$props.updateRoute){
