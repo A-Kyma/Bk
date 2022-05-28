@@ -476,10 +476,12 @@
       onAutoFieldSubmit(model,field) {
         this.$emit("inputField", { model, field })
         if (this.autoSubmit) {
-          if (model.isModified(field))
-            model.save({fields:[field]},
-                (err,result) => {
-                  this.errorCallback(err,result)
+          const old = model.constructor.findOne(model._id)
+
+          if (model.get(field) !== old.get(field))
+            model.save({fields: [field]},
+                (err, result) => {
+                  this.errorCallback(err, result)
                 }
             )
         }
