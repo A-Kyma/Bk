@@ -22,7 +22,8 @@ Npm.depends({
   "chart.js": "2.9.4", // basic Chart js
   "vue-chartjs":"3.5.1", // Vue for Chart
   "xlsx":"0.18.4", //parse XLS
-  "@vuese/cli":"2.14.3" //create vue documentation
+  "@vuese/cli":"2.14.3", //create vue documentation
+  "js-yaml":"4.1.0"
 });
 
 // See https://guide.meteor.com/writing-atmosphere-packages.html
