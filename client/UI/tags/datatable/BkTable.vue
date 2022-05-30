@@ -128,11 +128,13 @@
                           v-if="cardWithLabel"
                           :model="model"
                           :field="cell.key" label-cols
+                          debounce="500"
                           @input="onAutoFieldSubmit(model,cell.key)"
                       />
                       <bk-inner-input
                           v-else :model="model"
                           :field="cell.key"
+                          debounce="500"
                           @input="onAutoFieldSubmit(model,cell.key)"
                       />
                     </span>
@@ -205,6 +207,7 @@
                              v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'"
                              :model="model"
                              :field="cell.key"
+                             debounce="500"
                              @input="onAutoFieldSubmit(model,cell.key)"
                          />
                        </slot>
@@ -250,6 +253,7 @@
                             v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'"
                             :model="model"
                             :field="cell.key"
+                            debounce="500"
                             @input="onAutoFieldSubmit(model,cell.key)"
                         />
                       </slot>
