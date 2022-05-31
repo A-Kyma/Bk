@@ -101,7 +101,7 @@
           class="b-form-file">
 
         <template slot="placeholder">
-          <t>{{placeholder}}</t>
+          <t>{{placeholderComputed}}</t>
         </template>
 
         <template slot="drop-placeholder">
@@ -153,7 +153,7 @@
                   variant="danger"
                   class="ml-auto mr-2"
               />
-              <b-icon icon="arrows-move"></b-icon>
+              <b-icon icon="arrows-move" v-if="isFieldArray"></b-icon>
             </b-list-group-item>
             </div>
           </Draggable>
@@ -176,7 +176,7 @@ export default {
   name: "BkFile",
   components: {Container,Draggable},
   props: {
-    placeholder: { type: String, default: "app.file.choose" },
+    placeholder: String,
     dropPlaceholder: { type: String, default: "app.file.drop"},
     model: Class,
     field: String,
@@ -233,6 +233,13 @@ export default {
       let definition = this.model.getDefinition(this.field)
       if (definition instanceof ListField) return false
       return definition.type.name === "Avatar";
+    },
+    placeholderComputed() {
+      if (this.placeholder) return this.placeholder
+      if (this.isFieldArray)
+        return "app.file.choose.other"
+      else
+        return "app.file.choose.one"
     }
   },
   watch: {

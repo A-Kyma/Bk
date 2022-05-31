@@ -195,8 +195,10 @@ fr:
         success: "Confirmation"
         failed: "Erreur"
     file:
-      choose: "Choisissez vos fichiers..."
-      drop: "Déposez vos fichiers ici"
+      choose:
+        one: "Choisissez votre fichier..."
+        other: "Choisissez vos fichiers..."
+      drop: "Déposez ici"
       more: "de plus"
       error: "Une erreur est survenue durant l'opération"
 
@@ -214,28 +216,20 @@ fr:
       placeholder: "Choisissez votre avatar"
     firstname:
       label: "Prénom"
-      placeholder: " "
     lastname:
       label: "Nom"
-      placeholder: " "
     mobile:
       label: "GSM"
-      placeholder: " "
     email:
       label: "Email"
-      placeholder: " "
     emailConfirmation:
       label: "Confirmation de l'email"
-      placeholder: " "
     oldPassword:
       label: "Ancien mot de passe"
-      placeholder: " "
     password:
       label: "Mot de passe"
-      placeholder: " "
     passwordConfirmation:
       label: "Confirmation mot de passe"
-      placeholder: " "
     language:
       label: "Langue"
 

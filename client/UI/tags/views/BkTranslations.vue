@@ -58,7 +58,7 @@ export default {
   props: {
     locales: {
       type: Array,
-      default: I18n.locales
+      default() {return I18n.locales}
     },
   },
   computed: {

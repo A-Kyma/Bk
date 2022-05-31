@@ -159,7 +159,9 @@ en:
         success: "Successful"
         failed: "Failure"
     file:
-      choose: "Choose your files..."
+      choose:
+        one: "Choose tour file..."
+        other: "Choose your files..."
       drop: "Drop your files here"
       more: "mode"
       error: "An error occurs during the operation"
@@ -178,28 +180,20 @@ en:
       placeholder: "Choose your avatar"
     firstname:
       label: "Firstname"
-      placeholder: " "
     lastname:
       label: "Lastname"
-      placeholder: " "
     mobile:
       label: "Mobile"
-      placeholder: " "
     email:
       label: "Email"
-      placeholder: " "
     emailConfirmation:
       label: "Email confirmation"
-      placeholder: " "
     oldPassword:
       label: "Old password"
-      placeholder: " "
     password:
       label: "Password"
-      placeholder: " "
     passwordConfirmation:
       label: "Confirm your password"
-      placeholder: " "
     language:
       label: "Language"
 
