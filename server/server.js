@@ -6,6 +6,7 @@ import "./classes/role"
 import "./classes/files"
 import "./classes/device"
 import "./classes/api"
+import "./meteorMethods/deeplTranslate"
 
 export {
   Bk

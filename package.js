@@ -50,6 +50,7 @@ Package.onUse(function(api) {
   api.use('ostrio:files') // For file upload
   api.use('fetch'); // make http calls
   api.use('pfafman:filesaver@1.3.2'); // use SaveAs()
+  api.use('jkuester:http') // to do http call (used for Deepl, radar)
 
   // VueJS
   //api.use('akryum:vue'); // Vue and imported in NPM

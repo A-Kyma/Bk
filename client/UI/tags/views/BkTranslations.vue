@@ -19,16 +19,25 @@
       </template>
 
       <template #cell()="{model,field}">
-        <b-form-input
-            :id="field + '.' + model._id"
-            :ref="'input-'+field+'.'+model._id"
-            :tabindex="locales.indexOf(field)+1"
-            type="text"
-            v-model="model[field]"
-            lazy
-            @focus="toggleState(model,field,null)"
-            @blur="saveTranslation(model,field,$event)"
-        />
+        <b-input-group>
+          <b-form-input
+              :id="field + '.' + model._id"
+              :ref="'input-'+field+'.'+model._id"
+              :tabindex="locales.indexOf(field)+1"
+              type="text"
+              v-model="model[field]"
+              lazy
+              @focus="toggleState(model,field,null)"
+              @blur="saveTranslation(model,field,$event)"
+          />
+          <b-input-group-append v-if="field!=='fr'">
+            <b-input-group-text>
+              <b-link alt="translate" @click="onTranslate(model,field)">
+                <b-icon-translate variant="primary"/>
+              </b-link>
+            </b-input-group-text>
+          </b-input-group-append>
+        </b-input-group>
       </template>
 
     </bk-table>
@@ -112,13 +121,21 @@ export default {
       )
       //console.log(yml)
       download("translations.yml",yml)
+    },
+    onTranslate(model,locale) {
+      Meteor.call("deeplTranslate", model.fr, locale, (err,result) => {
+        if (result) {
+          model[locale] = result
+          this.saveTranslation(model,locale,{target: {value: result}})
+        }
+      })
     }
   }
 }
 </script>
 
 <style scoped>
-input {
-  width: 300px;
+.input-group {
+  width: 350px;
 }
 </style>
