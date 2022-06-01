@@ -15,7 +15,7 @@
       </template>
 
       <template #cell(_id)="{model,field}">
-          {{model[field]}}
+        <div class="translationkey">{{model[field]}}</div>
       </template>
 
       <template #cell()="{model,field}">
@@ -142,7 +142,12 @@ export default {
 </script>
 
 <style scoped>
+.translationkey {
+  max-width: 200px;
+  overflow-wrap: break-word;
+}
 .input-group {
-  width: 350px;
+  width: auto;
+  min-width: 300px;
 }
 </style>
