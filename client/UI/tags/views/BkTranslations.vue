@@ -122,7 +122,7 @@ export default {
     generateYml() {
       const yml = dump(
           I18n.convertToObjectTranslations(this.translationsList),
-          { sortKeys: true }
+          { sortKeys: true, quotingType: '"', forceQuotes: true }
       )
       //console.log(yml)
       download("translations.yml",yml)
