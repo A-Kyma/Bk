@@ -19,25 +19,30 @@
       </template>
 
       <template #cell()="{model,field}">
-        <b-input-group>
-          <b-form-input
-              :id="field + '.' + model._id"
-              :ref="'input-'+field+'.'+model._id"
-              :tabindex="locales.indexOf(field)+1"
-              type="text"
-              v-model="model[field]"
-              lazy
-              @focus="toggleState(model,field,null)"
-              @blur="saveTranslation(model,field,$event)"
-          />
-          <b-input-group-append v-if="field!=='fr'">
-            <b-input-group-text>
-              <b-link alt="translate" @click="onTranslate(model,field)">
-                <b-icon-translate variant="primary"/>
-              </b-link>
-            </b-input-group-text>
-          </b-input-group-append>
-        </b-input-group>
+        <b-overlay :show="model.overlay === field"
+                   rounded opacity="0.6"
+                   spinner-small
+                   spinner-variant="primary">
+          <b-input-group>
+            <b-form-input
+                :id="field + '.' + model._id"
+                :ref="'input-'+field+'.'+model._id"
+                :tabindex="locales.indexOf(field)+1"
+                type="text"
+                v-model="model[field]"
+                lazy
+                @focus="toggleState(model,field,null)"
+                @blur="saveTranslation(model,field,$event)"
+            />
+            <b-input-group-append v-if="field!=='fr'">
+              <b-input-group-text>
+                <b-link alt="translate" @click="onTranslate(model,field)">
+                  <b-icon-translate variant="primary"/>
+                </b-link>
+              </b-input-group-text>
+            </b-input-group-append>
+          </b-input-group>
+        </b-overlay>
       </template>
 
     </bk-table>
@@ -85,7 +90,7 @@ export default {
     array() {
       let result=[]
       this.availableKeys.forEach(key => {
-        let elem = {_id: key}
+        let elem = {_id: key, overlay: false}
         this.locales.forEach(locale => {
           elem[locale] = this.translationsList[locale + "." + key]
         })
@@ -123,11 +128,13 @@ export default {
       download("translations.yml",yml)
     },
     onTranslate(model,locale) {
+      model.overlay = locale
       Meteor.call("deeplTranslate", model.fr, locale, (err,result) => {
         if (result) {
           model[locale] = result
           this.saveTranslation(model,locale,{target: {value: result}})
         }
+        model.overlay = false
       })
     }
   }
