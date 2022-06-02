@@ -48,7 +48,7 @@ en:
     check: "Field {{field}} is not valid"
     exist: "Field {{field}} doesn't exist in our database"
     unique: "Field {{field}} is already chosen"
-    lifecyle: "Status {{value}} is unreachable from status {{param}}"
+    lifecycle: "Status {{value}} is unreachable from status {{param}}"
     hex: "{{field}} is not a valid hexadecimal number"
 fr:
   Error:
