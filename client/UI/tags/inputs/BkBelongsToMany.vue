@@ -6,7 +6,7 @@
       class="form-control p-0"
       v-bind="$attrs"
       v-model="inputRelation"
-      :options="relationList"
+      :options="options || relationList"
       label="text"
       track-by="text"
       :show-labels="false"

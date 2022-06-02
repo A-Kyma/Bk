@@ -170,6 +170,13 @@ export default {
       },
       get() {
         if (this.emptyId) return
+        if (this.options) {
+          if (this.isArray) {
+            return this.options.filter(e => this.getId.includes(e.value))
+          } else {
+            return this.options.find(e => this.getId === e.value)
+          }
+        }
         if (this.isArray) {
           return this.relationList.filter(e => this.getId.includes(e.value))
           //return this.relations.map(e => { return { value: e._id, text: e.defaultName() }})

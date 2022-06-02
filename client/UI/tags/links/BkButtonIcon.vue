@@ -63,7 +63,7 @@
                 <b-form-input style="width: 200px" v-model="dateTimeFormat" id="inline-form-input-dateTimeFormat" :placeholder="getI18n('app.import.datetime.default.placeholder')"></b-form-input>
               </b-input-group>
               <h6><t>app.import.filecolumns.title</t></h6>
-              <b-input-group v-for="item in getImportModelFields()" :prepend="item.label" class="mb-2 mr-sm-2">
+              <b-input-group v-for="item in getImportModelFields" :prepend="item.label" class="mb-2 mr-sm-2">
                 <b-form-input style="width: 120px" v-model="csvColumns[item.name]" :id="'inline-form-input-'+item.name" type="number" :placeholder="item.placeholder"></b-form-input>
               </b-input-group>
             </b-form>
@@ -307,6 +307,11 @@ export default {
         default: return true
       }
     },
+    getImportModelFields(){
+      if (this.$props['for'] !== 'import') return
+      let modelClass = Class.getModel(this.model)
+      return modelClass.constructor.getImportFieldsClass({importFileType: this.$props.importFileType})
+    },
   },
   methods: {
     getI18n(key){
@@ -442,10 +447,7 @@ export default {
         )
       }
     },
-    getImportModelFields(){
-      let modelClass = Class.getModel(this.model)
-      return modelClass.constructor.getImportFieldsClass({importFileType: this.$props.importFileType})
-    },
+
     onSubmitModalForm(e) {
       this.$refs.modalForm.onSubmit(e)
     },

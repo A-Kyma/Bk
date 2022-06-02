@@ -16,6 +16,7 @@
 
 <script>
 import { Class } from "meteor/jagi:astronomy"
+import { I18n } from "meteor/a-kyma:bk"
 import LineChart from './LineCharts'
 import PieChart from './PieCharts'
 import BarChart from './BarCharts'
@@ -62,12 +63,16 @@ export default {
     }
   },
   mounted () {
-    this.fillData()
+    // To instantly update language if it is changed
+    this.$autorun(() => {
+      this.fillData(I18n.getLanguage())
+    })
+
   },
   methods: {
     // @vuese
     // Used to fill the chart after the method call
-    fillData () {
+    fillData (language) {
       let methodClass = Class.getModel(this.model)
       methodClass.callMethod(this.method,this.queryParam,(err, result) => {
         if (err){

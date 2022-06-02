@@ -97,12 +97,9 @@
           v-model="inputFiles"
           :multiple="isFieldArray"
           :accept="accept"
+          :placeholder="placeholderTranslated"
           @input="onFilesAdded"
           class="b-form-file">
-
-        <template slot="placeholder">
-          <t>{{placeholderComputed}}</t>
-        </template>
 
         <template slot="drop-placeholder">
           <t>{{dropPlaceholder}}</t>
@@ -216,7 +213,7 @@ export default {
   },
   computed: {
     typeFile() {
-      if (this.accept?.$regex(/^image/)) {
+      if (this.accept?.startsWith('image')) {
         return "image"
       } else {
         return "file"
@@ -240,6 +237,11 @@ export default {
         return "app.file.choose.other"
       else
         return "app.file.choose.one"
+    }
+  },
+  meteor: {
+    placeholderTranslated() {
+      return I18n.t(this.placeholderComputed)
     }
   },
   watch: {

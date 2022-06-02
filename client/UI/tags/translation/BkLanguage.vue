@@ -54,9 +54,9 @@
         return Languages.getLabelKey(lang);
       },
       onClick(lang) {
+        this.$emit("change",lang)
         I18n.setLanguage(lang);
         this.active = lang;
-        this.$emit("change",lang)
       }
     },
     meteor: {

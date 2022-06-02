@@ -48,7 +48,7 @@ en:
     reset: "Reset"
     cancel: "Cancel"
     add: "Add"
-    back: "Retour"
+    back: "Back"
     export: "Export"
     import:
       btn:
