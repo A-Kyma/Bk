@@ -23,7 +23,7 @@ Npm.depends({
   "vue-chartjs":"3.5.1", // Vue for Chart
   "xlsx":"0.18.4", //parse XLS
   "@vuese/cli":"2.14.3", //create vue documentation
-  "js-yaml":"4.1.0"
+  "js-yaml":"4.1.0", // for BkTranslations
 });
 
 // See https://guide.meteor.com/writing-atmosphere-packages.html
@@ -68,6 +68,12 @@ Package.onUse(function(api) {
 
   //api.addFiles('%.css','client'); For CSS or SCSS files
   //api.addAssets(['%.eot','%.svg','%.ttf','%.woff'],'client'); // For other types of files
+  api.addAssets(['client/UI/flags/de.svg'],'client') // For svg flags
+  api.addAssets(['client/UI/flags/es.svg'],'client')
+  api.addAssets(['client/UI/flags/fr.svg'],'client')
+  api.addAssets(['client/UI/flags/gb.svg'],'client')
+  api.addAssets(['client/UI/flags/it.svg'],'client')
+  api.addAssets(['client/UI/flags/nl.svg'],'client')
 
   // Load main modules
   api.mainModule('lib/lib.js');

@@ -41,7 +41,6 @@ export default {
   },
   data() {
     return {
-      user: new User(),
       showOverlay: false,
       showAlert: false,
       formModel: this.model || this.user,
@@ -63,7 +62,8 @@ export default {
   meteor: {
     globalError() {
       return this.formModel.getError('MeteorError');
-    }
+    },
+    user() {return new User({profile: {language: I18n.getLanguage()} }) },
   },
   methods: {
     showSuccess() {
