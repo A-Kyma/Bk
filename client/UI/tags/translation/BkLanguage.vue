@@ -56,7 +56,7 @@
       onClick(lang) {
         I18n.setLanguage(lang);
         this.active = lang;
-        this.$emit("language",lang)
+        this.$emit("change",lang)
       }
     },
     meteor: {
