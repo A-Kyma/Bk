@@ -50,7 +50,40 @@ en:
     add: "Add"
     back: "Retour"
     export: "Export"
-    import: "Import"
+    import:
+      btn:
+        label: "Import"
+      column:
+        csv:
+          label: "CSV column number"
+        default:
+          placeholder: "Default;"
+        separator: "Column separator"
+        xls:
+          label: "Column number XLS"
+      datetime:
+        default:
+          placeholder: "Default YYYY/MM/DD HH:m"
+        format: "Date and time format"
+      error:
+        identicalseparator: "the column separator and the list separator cannot be identical"
+        missingcolumn: "One or more mandatory column numbers are missing:"
+      file:
+        browse: "Browse"
+        drop: "Drop the file..."
+        placeholder: "Choose or drop a file"
+        switchheader: "The first line contains the name of the fields"
+      filecolumns:
+        title: "Please fill in the column number of your file with the fields (* required field)"
+      fileformat:
+        title: "Please fill in the information about the file format."
+      list:
+        default:
+          placeholder: "Default ,"
+        separator: "List separator"
+      nofile: "No file selected"
+      toogleform: "see/hide the form"
+      uploading: "Loading..."
     next: "Next"
     previous: "Previous"
     filter: "Filter"
