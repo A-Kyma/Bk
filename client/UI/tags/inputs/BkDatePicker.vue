@@ -8,6 +8,7 @@
         <b-form-datepicker
           ref="datepicker"
           v-model="dateValue"
+          :locale="locale"
           :placeholder="placeholder"
           :state="state"
           :disabled="plaintext"
@@ -43,11 +44,6 @@ export default {
     placeholder: String,
     plaintext: Boolean,
     value: Date,
-  },
-  data() {
-    return {
-      locale: I18n.getLanguage()
-    }
   },
   created() {
     let minute = this.value.getMinutes()
@@ -99,6 +95,9 @@ export default {
   meteor: {
     labelClose() {
       return I18n.get("app.close")
+    },
+    locale() {
+      return I18n.getLanguage()
     }
   },
   methods: {
