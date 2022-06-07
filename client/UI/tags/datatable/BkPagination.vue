@@ -41,7 +41,7 @@ import I18n from "../../../../lib/classes/i18n";
 export default {
   name: "BkPagination",
   props: {
-    // Datatable object
+    // Datatable object (init from datatable.js). can be find in `'%root%/lib/classes'`
     datatable: {
       type: Object,
       required: true
