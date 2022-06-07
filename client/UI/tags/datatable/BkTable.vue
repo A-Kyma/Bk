@@ -72,7 +72,7 @@
               v-if="!full && !scroll"
               :datatable="datatable"
               :scroll="scroll"
-              :perPage="perPage"
+              :perPage="datatable.perPage"
               :updateRoute="updateRoute"
               :count="count"
           />
@@ -274,7 +274,7 @@
               v-if="!full"
               :datatable="datatable"
               :scroll="scroll"
-              :perPage="perPage"
+              :perPage="datatable.perPage"
               :updateRoute="updateRoute"
               :count="count"
           >
