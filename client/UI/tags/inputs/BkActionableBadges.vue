@@ -7,9 +7,9 @@
     </b-badge>
     <slot name="after"/>
   </span>
-  <div v-else class="col-12 form-control-plaintext">
+  <div v-else class="form-control-plaintext">
     <b-badge
-        v-for="item in options"
+        v-for="(item,index) in options"
         :key="item.value"
         :class="'ml-1 mr-1 ' + getClass(item.value)"
         :variant="item.value"
@@ -17,7 +17,7 @@
         @click="onClick(item)"
     >
       <slot name="default">
-        <t>{{item.key}}</t>
+        {{(index+1).toLocaleString('en', {minimumIntegerDigits: options.length.toString().length})}}
       </slot>
     </b-badge>
   </div>
