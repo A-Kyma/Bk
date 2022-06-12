@@ -1,6 +1,6 @@
 <template>
-  <div class="col-12">
-    <div v-if="plaintext || $props['for'] === 'view'" class="mt-1">
+  <div class="col-12 pl-0 pr-0">
+    <div v-if="readonly" class="mt-1">
       {{readonlyValue}}
     </div>
     <b-row v-else>
@@ -46,6 +46,7 @@ export default {
     value: Date,
   },
   created() {
+    if (this.readonly) return
     let minute = this.value.getMinutes()
     let remainder = minute % 5
     if (remainder !== 0) {
@@ -59,6 +60,9 @@ export default {
 
   },
   computed: {
+    readonly() {
+      return (this.plaintext || this.$props.for === "view")
+    },
     dateValue: {
       set(value) {
         let newValue
