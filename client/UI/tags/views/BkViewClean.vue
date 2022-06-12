@@ -22,7 +22,11 @@
               v-bind="$attrs"
               :src="staticLink(fileFormat)"
               :key="value"
-    />
+    >
+      <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+          <slot :name="slot" v-bind="props" />
+      </template>
+    </b-avatar>
 
     <span v-else>{{value}}</span>
   </slot>
