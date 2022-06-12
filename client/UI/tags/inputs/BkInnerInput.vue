@@ -373,6 +373,10 @@ import BkCardListClass from "../forms/BkCardListClass";
             return fieldDefinition.ui.type;
           }
 
+          // Field is type Date and readonly, avoiding showing jj/mm/aaaa when empty value
+          if (fieldType === "Date" && this.plaintextComputed && !this.value)
+            return "text"
+
           // Field Type is a generic Input Type
           if (isGenericInputType(fieldType)) {
             return fieldType.toLowerCase()

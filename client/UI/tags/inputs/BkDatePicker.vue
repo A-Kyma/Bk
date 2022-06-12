@@ -1,6 +1,6 @@
 <template>
   <div class="col-12 pl-0 pr-0">
-    <div v-if="readonly" class="mt-1">
+    <div v-if="readonly" class="form-control-plaintext">
       {{readonlyValue}}
     </div>
     <b-row v-else>
