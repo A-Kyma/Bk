@@ -70,7 +70,7 @@
 
     <b-avatar v-if="isAvatar && $props['for'] === 'view'"
               v-bind="$attrs"
-              :src="staticLink('normal')"
+              :src="staticLink(fileFormat)"
     />
 
     <b-overlay v-if="$props['for'] !== 'view'" :show="currentUpload">
