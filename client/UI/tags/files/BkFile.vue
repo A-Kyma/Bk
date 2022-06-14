@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-2 col-12">
+  <div class="mb-2 w-100">
 
     <div v-if="showFilesCards" @touchend="fixActionRestriction">
       <div v-if="!isFieldArray" class="box">
