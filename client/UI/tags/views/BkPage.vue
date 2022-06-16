@@ -19,6 +19,10 @@ export default {
     subscription: String,
     waitSubscription: [String,Array],
     params: [Array,String],
+    query: {
+      type: Object,
+      default() { return {} }
+    },
     type: {
       type: String,
       default: "dots"
@@ -97,7 +101,7 @@ export default {
 
       else {
         if (this.$route.params["for"] === "new")
-          return new modelClass(this.$route.query, {cast: true})
+          return new modelClass({...this.$route.query,...this.query}, {cast: true})
 
         return this.$autorun(() =>
             modelClass.findOne(this.$route.params.id)
