@@ -187,6 +187,10 @@ export default {
       type: Object,
       default() { {} },
     },
+    query: {
+      type: Object,
+      default() { {} }
+    }
   },
   data() {
     return {
@@ -364,7 +368,7 @@ export default {
           //concatenate params passed to bk-button-icon and params of the line
           let localParams = { id: this.inputModel._id, for: this.$props.for }
           let params = {...this.params,...localParams}
-          this.$router.push({ name: this.getRoute, params})
+          this.$router.push({ name: this.getRoute, params, query: this.query })
         } else {
           this.modalModel = this.tableClass.findOne(this.model._id) || this.model //new (this.tableClass)(this.model.raw())
           this.$bvModal.show(this.modalFormId)
@@ -389,8 +393,9 @@ export default {
             params: {
               for: "new",
               id: this.getRoute,
+              ...this.params
             },
-            query: this.params
+            query: this.query
           })
         }
         else {

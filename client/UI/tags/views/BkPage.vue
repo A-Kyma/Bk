@@ -56,6 +56,12 @@ export default {
     else
       this.firstSubReady = true
   },
+  watch: {
+    ready(newValue, oldValue) {
+      if (newValue !== oldValue && newValue)
+        this.$emit("ready")
+    }
+  },
   computed: {
     waitReady() {
       if (!this.waitSubscription) return true

@@ -4,7 +4,7 @@
     <b-button v-if="classDefinitionName === 'Lifecycle'" name="lifecycle"
               :variant="classDefinition.getStateVariant(model[field])"
               pill disabled>
-      <t :key="value" :locale="locale">{{value}}</t>
+      <t :key="value" :locale="locale" :options="options">{{value}}</t>
     </b-button>
 
     <span v-for="(text, index) in value" v-else-if="classDefinitionName === 'ListEnum'">
@@ -12,7 +12,9 @@
       <t :key="text" :locale="locale">{{text}}</t>
     </span>
 
-    <t v-else-if="classDefinitionName === 'Enum'" :key="value" :locale="locale">{{value}}</t>
+    <t v-else-if="classDefinitionName === 'Enum'" :key="value" :locale="locale" :options="options">
+      {{value}}
+    </t>
 
     <b-icon v-else-if="classDefinitionName === 'Color'" icon="circle-fill" :color="value"></b-icon>
 
@@ -49,6 +51,10 @@ export default {
     field: String,
     format: String,
     locale: String,
+    options: {
+      type: Object,
+      default() { return {}}
+    },
     fileFormat: {
       type: String,
       default: "normal"
