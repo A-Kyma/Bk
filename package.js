@@ -24,6 +24,7 @@ Npm.depends({
   "xlsx":"0.18.4", //parse XLS
   "@vuese/cli":"2.14.3", //create vue documentation
   "js-yaml":"4.1.0", // for BkTranslations
+  "luxon":"2.4.0", // for Date creation using timezone => See DateTime
 });
 
 // See https://guide.meteor.com/writing-atmosphere-packages.html
