@@ -157,7 +157,7 @@
 
 <script>
 import { Class } from "meteor/jagi:astronomy";
-import {Role,I18n} from "meteor/a-kyma:bk"
+import {Role,I18n,DateTime} from "meteor/a-kyma:bk"
 import errorPopupMixin from "../../../utils/errorPopupMixin";
 import * as XLSX from 'xlsx/xlsx.mjs';
 
@@ -521,6 +521,7 @@ export default {
           param.separator = separator
           param.listSeparator = listSeparator
           param.csvColumns = csvColumns
+          param.timeZone = DateTime.getTimeZone()
           if (component.$router.currentRoute.params){
             param.routeParams = component.$router.currentRoute.params
           }
@@ -556,6 +557,7 @@ export default {
           param.listSeparator = ";"
           param.dateTimeFormat = (component.dateTimeFormat === null) ? "YYYY/MM/DD HH:m" : component.dateTimeFormat.replace('AAAA','YYYY').replace('JJ','DD')
           param.csvColumns = csvColumns
+          param.timeZone = DateTime.getTimeZone()
           if (component.$router.currentRoute.params){
             param.routeParams = component.$router.currentRoute.params
           }
