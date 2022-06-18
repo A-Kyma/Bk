@@ -59,10 +59,61 @@
               <b-input-group :prepend="getI18n('app.import.list.separator')" class="mb-2 mr-sm-2">
                 <b-form-input style="width: 70px" v-model="listSeparator" id="inline-form-input-listseparator" :placeholder="getI18n('app.import.list.default.placeholder')"></b-form-input>
               </b-input-group>
-              <b-input-group :prepend="getI18n('app.import.datetime.format')" class="mb-2 mr-sm-2">
+              <b-input-group class="col-12 mb-2">
+                <b-form-checkbox id="inline-form-checkbox-oneDateTimeFormat" v-model="oneDateTime" name="checkbox-1" value="accepted" unchecked-value="not_accepted">
+                  <t>app.import.onedatetime.format</t>
+                </b-form-checkbox>
+              </b-input-group>
+              <b-input-group v-if="oneDateTime === 'accepted'" :prepend="getI18n('app.import.datetime.format')" class="mb-2 mr-sm-2">
                 <b-form-input style="width: 200px" v-model="dateTimeFormat" id="inline-form-input-dateTimeFormat" :placeholder="getI18n('app.import.datetime.default.placeholder')"></b-form-input>
               </b-input-group>
-              <h6><t>app.import.filecolumns.title</t></h6>
+              <b-input-group v-if="oneDateTime !== 'accepted'" class="mb-2 mr-sm-2 w-100">
+              <p style="color: darkred; margin-bottom: 0px"> <t>app.import.dateformat.info</t></p>
+              </b-input-group>
+              <b-input-group v-if="oneDateTime !== 'accepted'" :prepend="getI18n('app.import.date.format')" class="mb-2 mr-sm-2">
+                <b-form-input style="width: 150px" v-model="dateFormat" id="inline-form-input-dateFormat" :placeholder="getI18n('app.import.date.default.placeholder')"></b-form-input>
+              </b-input-group>
+              <b-input-group v-if="oneDateTime !== 'accepted'" :prepend="getI18n('app.import.time.format')" class="mb-2 mr-sm-2">
+                <b-form-input style="width: 150px" v-model="timeFormat" id="inline-form-input-timeFormat" :placeholder="getI18n('app.import.time.default.placeholder')"></b-form-input>
+              </b-input-group>
+              <b-button
+                  :class="visibleDateFormat ? 'mb-2' : 'collapsed mb-2'"
+                  :aria-expanded="visibleDateFormat ? 'true' : 'false'"
+                  aria-controls="collapse-2"
+                  @click="visibleDateFormat = !visibleDateFormat"
+                  variant="primary"
+                  size="sm">
+                <t>app.import.dateformat.show</t>
+              </b-button>
+              <b-collapse visible id="collapse-2" v-model="visibleDateFormat" >
+                <b-alert show class="w-100">
+                  <b-table-simple small class="mb-0">
+                    <b-tr>
+                      <b-th class="bc"><t>app.import.dateformat.year</t></b-th>
+                      <b-th class="bc"><t>app.import.dateformat.month</t></b-th>
+                      <b-th class="bc"><t>app.import.dateformat.day</t></b-th>
+                      <b-th class="bc"><t>app.import.dateformat.hour</t></b-th>
+                      <b-th class="bc"><t>app.import.dateformat.minute</t></b-th>
+                      <b-th class="bc"><t>app.import.dateformat.other</t></b-th>
+                    </b-tr>
+                    <b-tr>
+                      <b-td class="bc">YYYY</b-td>
+                      <b-td class="bc">MM</b-td>
+                      <b-td class="bc">DD</b-td>
+                      <b-td class="bc">HH</b-td>
+                      <b-td class="bc">mm</b-td>
+                      <b-td class="bc">x</b-td>
+                    </b-tr>
+                  </b-table-simple>
+                  <t>app.import.dateformat.example</t>: SA 30/04/2022 10:30 -> xxxDD/MM/YYYYxHH:mm
+                </b-alert>
+              </b-collapse>
+              <b-input-group class="col-12 mb-2">
+                <b-form-checkbox id="inline-form-checkbox-testOnly" v-model="testOnly" name="checkbox-1" value="accepted" unchecked-value="not_accepted">
+                  <t>app.import.testOnly</t>
+                </b-form-checkbox>
+              </b-input-group>
+              <h6 style="width: 100%"><t>app.import.filecolumns.title</t></h6>
               <b-input-group v-for="item in getImportModelFields" :prepend="item.label" class="mb-2 mr-sm-2">
                 <b-form-input style="width: 120px" v-model="csvColumns[item.name]" :id="'inline-form-input-'+item.name" type="number" :placeholder="item.placeholder"></b-form-input>
               </b-input-group>
@@ -200,7 +251,12 @@ export default {
       result: [],
       error: null,
       csvColumns: {},
-      visible: true
+      visible: true,
+      visibleDateFormat: false,
+      oneDateTime: 'not_accepted',
+      dateFormat: null,
+      timeFormat: null,
+      testOnly: 'not_accepted'
     }
   },
   created() {
@@ -463,7 +519,7 @@ export default {
         return
       }
 
-      let csvColumns = Object.entries(component.csvColumns).map((e) => ( { 'field':e[0],'column': parseInt(e[1]) } ))
+      let csvColumns = Object.entries(component.csvColumns).map((e) => ( { 'field':e[0],'column': e[1] } ))
       let csvColumnsKeys = Object.keys(component.csvColumns)
 
       let modelClass = component.inputModel
@@ -498,6 +554,8 @@ export default {
         return
       }
       let header = component.header
+      let oneDateTime = component.oneDateTime
+      let testOnly = component.testOnly
       let separator
       let listSeparator
       if (component.$props.importFileType === undefined){
@@ -522,6 +580,17 @@ export default {
           param.listSeparator = listSeparator
           param.csvColumns = csvColumns
           param.timeZone = DateTime.getTimeZone()
+          param.oneDateFormat = oneDateTime
+          param.testOnly = testOnly
+          if (oneDateTime === 'accepted'){
+            param.dateTimeFormat = (component.dateTimeFormat === null) ? "YYYY/MM/DD HH:mm" : component.dateTimeFormat.replace('AAAA','YYYY').replace('JJ','DD')
+            param.dateFormat = ""
+            param.timeFormat = ""
+          }else{
+            param.dateTimeFormat = ""
+            param.dateFormat = (component.dateFormat === null) ? "YYYY/MM/DD" : component.dateFormat.replace('AAAA','YYYY').replace('JJ','DD')
+            param.timeFormat = (component.timeFormat === null) ? "HH:mm" : component.timeFormat
+          }
           if (component.$router.currentRoute.params){
             param.routeParams = component.$router.currentRoute.params
           }
@@ -555,7 +624,16 @@ export default {
           let param = {}
           param.separator = ","
           param.listSeparator = ";"
-          param.dateTimeFormat = (component.dateTimeFormat === null) ? "YYYY/MM/DD HH:m" : component.dateTimeFormat.replace('AAAA','YYYY').replace('JJ','DD')
+          param.oneDateFormat = oneDateTime
+          if (oneDateTime === 'accepted'){
+            param.dateTimeFormat = (component.dateTimeFormat === null) ? "YYYY/MM/DD HH:mm" : component.dateTimeFormat.replace('AAAA','YYYY').replace('JJ','DD')
+            param.dateFormat = ""
+            param.timeFormat = ""
+          }else{
+            param.dateTimeFormat = ""
+            param.dateFormat = (component.dateFormat === null) ? "YYYY/MM/DD" : component.dateFormat.replace('AAAA','YYYY').replace('JJ','DD')
+            param.timeFormat = (component.timeFormat === null) ? "HH:mm" : component.timeFormat
+          }
           param.csvColumns = csvColumns
           param.timeZone = DateTime.getTimeZone()
           if (component.$router.currentRoute.params){
@@ -599,6 +677,9 @@ export default {
 </script>
 
 <style scoped>
+  .bc {
+    border-color: black;
+  }
   .BkButton:hover{
     transform:scale(1.5);
   }

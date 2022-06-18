@@ -51,6 +51,17 @@ en:
     back: "Back"
     export: "Export"
     import:
+      dateformat:
+        show: "see/hide Date format"
+        info: "if date and time seperated, put the column numbers seperated by ','"
+        year: "Year"
+        month: "Month"
+        day: "Day"
+        hour: "Hour"
+        minute: "Minute"
+        other: "Other characters"
+        example: "Example"
+      testOnly: "Run without saving"
       btn:
         label: "Import"
       column:
@@ -61,10 +72,20 @@ en:
         separator: "Column separator"
         xls:
           label: "Column number XLS"
+      onedatetime:
+        format: "Date and time in one field"
       datetime:
         default:
-          placeholder: "Default YYYY/MM/DD HH:m"
+          placeholder: "Default YYYY/MM/DD HH:mm"
         format: "Date and time format"
+      date:
+        default:
+          placeholder: "Default YYYY/MM/DD"
+        format: "Date format"
+      time:
+        default:
+          placeholder: "Default HH:mm"
+        format: "Time format"
       error:
         identicalseparator: "the column separator and the list separator cannot be identical"
         missingcolumn: "One or more mandatory column numbers are missing:"

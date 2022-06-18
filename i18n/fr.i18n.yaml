@@ -58,6 +58,17 @@ fr:
     stat:
       nostat: "Pas de stat actuellement."
     import:
+      dateformat:
+        show: "voir/caché Format de date"
+        info: "Si la date et l'heure sont séparées, ajoutez les 2 numéros de colonnes séparées par ','"
+        year: "Année"
+        month: "Mois"
+        day: "Jour"
+        hour: "Heure"
+        minute: "Minute"
+        other: "Autres caractères"
+        example: "Exemple"
+      testOnly: "Lancer sans sauvegarder"
       file:
         switchheader: "La première ligne contient le nom des champs"
         browse: "Parcourir"
@@ -75,10 +86,20 @@ fr:
         identicalseparator: "le séparateur de colone et le séparateur de liste ne peuvent-être identique"
       btn:
         label: "Importer"
+      onedatetime:
+        format: "Date et heure en un seul champ"
       datetime:
         default:
-          placeholder: "Défaut AAAA/MM/JJ HH:m"
+          placeholder: "Défaut AAAA/MM/JJ HH:mm"
         format: "Format de date et heure"
+      date:
+        default:
+          placeholder: "Défaut AAAA/MM/JJ"
+        format: "Format de date"
+      time:
+        default:
+          placeholder: "Défaut HH:mm"
+        format: "Format de l'heure"
       list:
         default:
           placeholder: "Défaut ,"
