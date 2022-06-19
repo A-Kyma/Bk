@@ -625,6 +625,7 @@ export default {
           param.separator = ","
           param.listSeparator = ";"
           param.oneDateFormat = oneDateTime
+          param.testOnly = testOnly
           if (oneDateTime === 'accepted'){
             param.dateTimeFormat = (component.dateTimeFormat === null) ? "YYYY/MM/DD HH:mm" : component.dateTimeFormat.replace('AAAA','YYYY').replace('JJ','DD')
             param.dateFormat = ""
