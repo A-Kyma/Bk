@@ -598,7 +598,7 @@ export default {
           component.result = []
 
           fileArray.forEach(function (line){
-            if (line === "") return
+            if (line.length < 11) return
             param.data = line
             modelClass.callMethod('import',param,(err, result) => {
               if (err){
@@ -644,7 +644,7 @@ export default {
           component.result = []
 
           fileArray.forEach(function (line){
-            if (line === "") return
+            if (line.length < 11) return
             param.data = line
             modelClass.callMethod('import',param,(err, result) => {
               if (err){
