@@ -603,7 +603,7 @@ export default {
           component.result = []
 
           fileArray.forEach(function (line){
-            if (line === "") return
+            if (line.length < 11) return
             param.data = line
             modelClass.callMethod('import',param,(err, result) => {
               if (err){
@@ -630,6 +630,7 @@ export default {
           param.separator = ","
           param.listSeparator = ";"
           param.oneDateFormat = oneDateTime
+          param.testOnly = testOnly
           if (oneDateTime === 'accepted'){
             param.dateTimeFormat = (component.dateTimeFormat === null) ? "YYYY/MM/DD HH:mm" : component.dateTimeFormat.replace('AAAA','YYYY').replace('JJ','DD')
             param.dateFormat = ""
@@ -648,7 +649,7 @@ export default {
           component.result = []
 
           fileArray.forEach(function (line){
-            if (line === "") return
+            if (line.length < 11) return
             param.data = line
             modelClass.callMethod('import',param,(err, result) => {
               if (err){
