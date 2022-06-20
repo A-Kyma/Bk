@@ -5,7 +5,7 @@
 <!-- @vuese:BkPagination:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|datatable|Datatable object|`Object`|`true`|-|
+|datatable|Datatable object (init from datatable.js). can be find in `'%root%/lib/classes'`|`Object`|`true`|-|
 |perPage|number of record per page|`Number`|`true`|-|
 |scroll|When set to true, no page number but just a button below to load more data|`Boolean`|`false`|-|
 |updateRoute|When set to true, will update the page number in the Route|`Boolean`|`false`|-|
