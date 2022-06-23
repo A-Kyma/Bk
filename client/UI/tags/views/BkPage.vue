@@ -63,7 +63,7 @@ export default {
   watch: {
     ready(newValue, oldValue) {
       if (newValue !== oldValue && newValue)
-        this.$emit("ready")
+        this.$emit("ready",this.findModel)
     }
   },
   computed: {
