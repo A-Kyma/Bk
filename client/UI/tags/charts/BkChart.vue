@@ -43,9 +43,12 @@ export default {
     // Model name: models can be find in `'%root%/imports/classes'`
     model: {
       type: String,
-      required: true,
+      required: false,
     },
-    // Meteor Method used in server model class: `'%root%/imports/classes/server'`
+    /*
+     Meteor Method used in server model class: `'%root%/imports/classes/server'`
+     or a classic Meteor Method if model not defined
+     */
     method: {
       type: String,
       required: true,
@@ -73,22 +76,29 @@ export default {
     // @vuese
     // Used to fill the chart after the method call
     fillData (language) {
-      let methodClass = Class.getModel(this.model)
-      methodClass.callMethod(this.method,this.queryParam,(err, result) => {
-        if (err){
+      const callback = (err, result) => {
+        if (err) {
           this.datacollection = undefined
           console.log(err)
         } else {
-          if (result?.data){
+          if (result?.data) {
             this.datacollection = result.data
-            if (result?.options){
+            if (result?.options) {
               this.options = result.options
             }
           } else {
             this.datacollection = result
           }
         }
-      })
+      }
+
+      if (this.model) {
+        let methodClass = Class.getModel(this.model)
+        methodClass.callMethod(this.method,this.queryParam,callback)
+      } else {
+        Meteor.call(this.method,this.queryParam,callback)
+      }
+
     }
   }
 }
