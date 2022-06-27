@@ -6,6 +6,7 @@ import "./classes/role"
 import "./classes/files"
 import "./classes/device"
 import "./classes/api"
+import './classes/parameterTablesPublish'
 import "./meteorMethods/deeplTranslate"
 
 export {
