@@ -134,7 +134,7 @@ fr:
     failed: "Veuillez vérifier les erreurs ci-dessous"
     select: "Sélectionner"
     search: "Recherche"
-    chooseType: "Choissez le type"
+    chooseType: "Choisissez le type"
     undefined: "n/a"
     login: "Se connecter"
     forgottenPassword: "Envoyer"
@@ -265,5 +265,31 @@ fr:
       label: "Classe"
     classId:
       label: "Nom"
+
+  ParameterTable:
+    name:
+      label: "Nom de la table"
+    classBehind:
+      label: "Classe à paramétrer"
+    field:
+      label: "Champ de la classe"
+      description: "Permet de distinguer à quel type de document le paramètre sera appliqué"
+    multipleChoice:
+      label: "Choix multiple"
+    options:
+      label: "Paramètres"
+      description: "Ajouter autant de paramètres que nécessaire"
+
+  ParameterTableOption:
+    summary:
+      label: "Liste des paramètres"
+    name:
+      label: "Nom du paramètre"
+    multipleChoice:
+      label: "Choix multiple"
+    inputType:
+      label: "Type de paramètre"
+      description: "Ce sera un champ de type basique ou un Enum"
+
 
 

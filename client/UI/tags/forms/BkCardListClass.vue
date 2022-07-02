@@ -22,7 +22,10 @@
       </b-col>
     </b-row>
 
-    <b-card v-for="(innerModel,index) in model[field]" :key="innerModel._id.valueOf()">
+    <b-card
+        v-for="(innerModel,index) in model[field]" :key="innerModel._id.valueOf()"
+        class="border mb-2"
+    >
       <b-card-header v-if="getTypeField">
 
 
@@ -66,6 +69,13 @@
         </template>
 
       </bk-field-list>
+      <bk-button-icon
+          v-if="!getTypeField && canDelete"
+          @click="onRemove(index)"
+          icon="trash-fill"
+          variant="danger"
+          class="bottom-remove-button"
+      />
 
       <!--
       <b-card-footer v-if="$props['for'] !== 'view'">
@@ -164,10 +174,9 @@ export default {
     },
     enumOptions() {
       let subclass = this.model.getFieldClass(this.field);
+      if (!subclass?.definition?.typeField) return
       let fieldDefinition = subclass.getDefinition(subclass.definition.typeField);
-      if (!fieldDefinition) {
-        return ;
-      }
+      if (!fieldDefinition) return
 
       let fieldType = fieldDefinition.type.name;
       let EnumClass = fieldDefinition.type.class
@@ -242,5 +251,9 @@ export default {
 </script>
 
 <style scoped>
-
+.bottom-remove-button {
+  position: absolute;
+  bottom: 2px;
+  left: 4px;
+}
 </style>

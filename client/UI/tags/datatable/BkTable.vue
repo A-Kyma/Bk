@@ -316,6 +316,9 @@
     mixins: [errorPopupMixin],
     props: {
       fields: Array,
+      exclude: {
+        type: [Array,String]
+      },
       exportFields: String,
       editableFields: [String,Array],
       filterFields: Array,

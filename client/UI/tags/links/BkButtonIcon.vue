@@ -435,7 +435,7 @@ export default {
     onAdd() {
       //add a new model of same type afterwards
       let typefield = this.getTypeField;
-      if (typefield) {
+      if (typefield && (!this.params || !this.params[typefield])) {
         // Ask for new model using same type field
         this.modalModel = new (this.tableClass)(this.params);
         this.$bvModal.show(this.modalAddId);
