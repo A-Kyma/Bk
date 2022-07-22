@@ -1,12 +1,12 @@
 <template>
   <div class="small">
     <div v-if="datacollection">
-      <line-chart v-if="type=='line'" :chart-data="datacollection" :options="options"></line-chart>
-      <pie-chart v-if="type=='pie'" :chart-data="datacollection" :options="options"></pie-chart>
-      <bar-chart v-if="type=='bar'" :chart-data="datacollection" :options="options"></bar-chart>
-      <doughnut-chart v-if="type=='doughnut'" :chart-data="datacollection" :options="options"></doughnut-chart>
-      <polar-chart v-if="type=='polar'" :chart-data="datacollection" :options="options"></polar-chart>
-      <radar-chart v-if="type=='radar'" :chart-data="datacollection" :options="options"></radar-chart>
+      <line-chart v-if="type=='line'" :chart-data="dataCollection" :options="dataOptions"></line-chart>
+      <pie-chart v-if="type=='pie'" :chart-data="dataCollection" :options="dataOptions"></pie-chart>
+      <bar-chart v-if="type=='bar'" :chart-data="dataCollection" :options="dataOptions"></bar-chart>
+      <doughnut-chart v-if="type=='doughnut'" :chart-data="dataCollection" :options="dataOptions"></doughnut-chart>
+      <polar-chart v-if="type=='polar'" :chart-data="dataCollection" :options="dataOptions"></polar-chart>
+      <radar-chart v-if="type=='radar'" :chart-data="dataCollection" :options="dataOptions"></radar-chart>
     </div>
     <div v-else>
       <t>app.stat.nostat</t>
@@ -61,8 +61,8 @@ export default {
   },
   data () {
     return {
-      datacollection: {},
-      options: {}
+      dataCollection: {},
+      dataOptions: {}
     }
   },
   mounted () {
@@ -78,16 +78,16 @@ export default {
     fillData (language) {
       const callback = (err, result) => {
         if (err) {
-          this.datacollection = undefined
+          this.dataCollection = undefined
           console.log(err)
         } else {
           if (result?.data) {
-            this.datacollection = result.data
+            this.dataCollection = result.data
             if (result?.options) {
-              this.options = result.options
+              this.dataOptions = result.options
             }
           } else {
-            this.datacollection = result
+            this.dataCollection = result
           }
         }
       }
