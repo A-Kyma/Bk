@@ -95,11 +95,6 @@ export default {
     // set a new page in case of pagination
     paginate(page) {
       this.datatable.setPage(page)
-      if (this.$props.updateRoute){
-        if (parseInt(this.$route?.query?.currentPage) !== page && page !== null){
-          this.$router.replace({name: this.$route.name, query: {currentPage: page}})
-        }
-      }
     }
   }
 }
