@@ -12,6 +12,7 @@
           :placeholder="placeholder"
           :state="state"
           :disabled="plaintext"
+          start-weekday="1"
           @hidden="selectTime"
         />
       </b-col>
