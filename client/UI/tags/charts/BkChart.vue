@@ -1,6 +1,6 @@
 <template>
   <div class="small">
-    <div v-if="datacollection">
+    <div v-if="dataCollection">
       <line-chart v-if="type=='line'" :chart-data="dataCollection" :options="dataOptions"></line-chart>
       <pie-chart v-if="type=='pie'" :chart-data="dataCollection" :options="dataOptions"></pie-chart>
       <bar-chart v-if="type=='bar'" :chart-data="dataCollection" :options="dataOptions"></bar-chart>
@@ -51,26 +51,36 @@ export default {
      */
     method: {
       type: String,
-      required: true,
+      required: false,
     },
     // json basic params for the query
     queryParam: {
       type: Object,
-      required: true,
+      required: false,
+    },
+    data: {
+      type: Object,
+      default() { return {}},
+      required: false,
+    },
+    options: {
+      type: Object,
+      default() { return {}},
+      required: false,
     }
   },
   data () {
     return {
-      dataCollection: {},
-      dataOptions: {}
+      dataCollection: this.data,
+      dataOptions: this.options
     }
   },
   mounted () {
     // To instantly update language if it is changed
-    this.$autorun(() => {
-      this.fillData(I18n.getLanguage())
-    })
-
+    if (!!this.method)
+      this.$autorun(() => {
+        this.fillData(I18n.getLanguage())
+      })
   },
   methods: {
     // @vuese

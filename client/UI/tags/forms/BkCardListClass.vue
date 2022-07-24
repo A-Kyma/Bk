@@ -221,7 +221,6 @@ export default {
     onRemove(index) {
       //remove the model
       this.model[this.field].splice(index,1);
-      console.log("r");
     },
     onHoverTrashIcon(hovered) {
       this.hoverTrashIcon = hovered;
