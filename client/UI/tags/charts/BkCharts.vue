@@ -1,5 +1,5 @@
 <template>
-  <b-row v-if="chartsData" align-content="center">
+  <b-row v-if="chartsData && chartsData.length > 0" align-content="center">
     <template v-for="chartData in chartsData">
       <slot v-bind="chartData">
         <b-col>
