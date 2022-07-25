@@ -1,12 +1,12 @@
 <template>
-  <div class="small">
+  <div class="small m-0 m-auto">
     <div v-if="dataCollection">
-      <line-chart v-if="type=='line'" :chart-data="dataCollection" :options="dataOptions"></line-chart>
-      <pie-chart v-if="type=='pie'" :chart-data="dataCollection" :options="dataOptions"></pie-chart>
-      <bar-chart v-if="type=='bar'" :chart-data="dataCollection" :options="dataOptions"></bar-chart>
-      <doughnut-chart v-if="type=='doughnut'" :chart-data="dataCollection" :options="dataOptions"></doughnut-chart>
-      <polar-chart v-if="type=='polar'" :chart-data="dataCollection" :options="dataOptions"></polar-chart>
-      <radar-chart v-if="type=='radar'" :chart-data="dataCollection" :options="dataOptions"></radar-chart>
+      <line-chart v-if="type=='line'" :chart-data="data || dataCollection" :options="dataOptions"></line-chart>
+      <pie-chart v-if="type=='pie'" :chart-data="data || dataCollection" :options="dataOptions"></pie-chart>
+      <bar-chart v-if="type=='bar'" :chart-data="data || dataCollection" :options="dataOptions"></bar-chart>
+      <doughnut-chart v-if="type=='doughnut'" :chart-data="data || dataCollection" :options="dataOptions"></doughnut-chart>
+      <polar-chart v-if="type=='polar'" :chart-data="data || dataCollection" :options="dataOptions"></polar-chart>
+      <radar-chart v-if="type=='radar'" :chart-data="data || dataCollection" :options="dataOptions"></radar-chart>
     </div>
     <div v-else>
       <t>app.stat.nostat</t>

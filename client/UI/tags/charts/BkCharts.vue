@@ -3,12 +3,16 @@
     <template v-for="chartData in chartsData">
       <slot v-bind="chartData">
         <b-col>
-          <b-card class="text-center">
+          <b-card class="text-center" body-class="p-2 p-sm-3 p-m-5">
             <template #header>
-              <t>{{chartData.title}}</t>
+              <t :options="translationOptions">{{chartData.title}}</t>
             </template>
             <b-card-text>
-              <bk-chart :type="chartData.type" :data="chartData.data" :options="chartData.options"/>
+              <bk-chart
+                  :type="chartData.type"
+                  :data="chartData.data"
+                  :options="chartData.options"
+              />
             </b-card-text>
           </b-card>
         </b-col>
@@ -44,6 +48,10 @@ export default {
     queryParam: {
       type: Object,
       required: true,
+    },
+    translationOptions: {
+      type: Object,
+      required: false,
     }
   },
   data () {
@@ -60,7 +68,7 @@ export default {
   methods: {
     // @vuese
     // Used to fill the chart after the method call
-    fillData (language) {
+    fillData(language) {
       const callback = (err, result) => {
         if (err) {
           this.chartsData = undefined
@@ -70,11 +78,12 @@ export default {
         }
       }
 
+      const queryParam = {...this.queryParam, locale: language}
       if (this.model) {
         let methodClass = Class.getModel(this.model)
-        methodClass.callMethod(this.method,this.queryParam,callback)
+        methodClass.callMethod(this.method,queryParam,callback)
       } else {
-        Meteor.call(this.method,this.queryParam,callback)
+        Meteor.call(this.method,queryParam,callback)
       }
 
     }
