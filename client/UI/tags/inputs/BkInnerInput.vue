@@ -202,6 +202,11 @@ import BkCardListClass from "../forms/BkCardListClass";
       },
       formField: String,
       formGenericField: String,
+      // When true, formGenericField doesn't append ".field" in computeFormGenericField
+      isCompleteFormGenericField: {
+        type: Boolean,
+        default: false,
+      },
       for: String,
       plaintext: Boolean,
       showAlert: Boolean,
@@ -262,8 +267,11 @@ import BkCardListClass from "../forms/BkCardListClass";
       },
 
       formGenericFieldComputed() {
-        if (this.formGenericField) return this.formGenericField + "." + this.field;
-        return this.formFieldComputed;
+        if (this.formGenericField && this.isCompleteFormGenericField)
+          return this.formGenericField
+        if (this.formGenericField)
+          return this.formGenericField + "." + this.field
+        return this.formFieldComputed
       },
 
       formFieldComputed() {

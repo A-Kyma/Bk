@@ -128,16 +128,30 @@
                       <bk-input
                           v-if="cardWithLabel"
                           :model="model"
-                          :field="cell.key" label-cols
-                          debounce="500"
-                          @input="onAutoFieldSubmit(model,cell.key)"
-                      />
-                      <bk-inner-input
-                          v-else :model="model"
                           :field="cell.key"
+                          :form-generic-field="'cell('+cell.key+')'"
+                          is-complete-form-generic-field
+                          label-cols
                           debounce="500"
                           @input="onAutoFieldSubmit(model,cell.key)"
-                      />
+                      >
+                        <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+                          <slot :name="slot" v-bind="props" />
+                        </template>
+                      </bk-input>
+                      <bk-inner-input
+                          v-else
+                          :model="model"
+                          :field="cell.key"
+                          :form-generic-field="'cell('+cell.key+')'"
+                          is-complete-form-generic-field
+                          debounce="500"
+                          @input="onAutoFieldSubmit(model,cell.key)"
+                      >
+                        <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+                          <slot :name="slot" v-bind="props" />
+                        </template>
+                      </bk-inner-input>
                     </span>
                   </slot>
                 </slot>
@@ -168,7 +182,7 @@
             </tr>
           </thead>
         </slot>
-         <template v-if="draggable">
+        <template v-if="draggable">
            <Container @drop="onDrop"
                       drag-class="card-ghost bg-primary"
                       drop-class="card-ghost-drop"
@@ -208,9 +222,15 @@
                              v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'"
                              :model="model"
                              :field="cell.key"
+                             :form-generic-field="'cell('+cell.key+')'"
+                             is-complete-form-generic-field
                              debounce="500"
                              @input="onAutoFieldSubmit(model,cell.key)"
-                         />
+                         >
+                           <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+                             <slot :name="slot" v-bind="props" />
+                           </template>
+                         </bk-inner-input>
                        </slot>
                      </slot>
                    </td>
@@ -254,9 +274,15 @@
                             v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'"
                             :model="model"
                             :field="cell.key"
+                            :form-generic-field="'cell('+cell.key+')'"
+                            is-complete-form-generic-field
                             debounce="500"
                             @input="onAutoFieldSubmit(model,cell.key)"
-                        />
+                        >
+                          <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+                            <slot :name="slot" v-bind="props" />
+                          </template>
+                        </bk-inner-input>
                       </slot>
                     </slot>
                   </td>
