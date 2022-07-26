@@ -65,7 +65,6 @@
         <b-button v-if="!autoFilterSubmit" type="submit" variant="outline-primary"><t>app.filter</t></b-button>
       </b-form>
     </slot>
-    <br/>
     <div v-if="datatable.handler">
       <div v-if="datatable.firstReady">
         <slot name="pagination-top" v-bind="{datatable, scroll, perPage}">

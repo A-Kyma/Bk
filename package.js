@@ -76,6 +76,12 @@ Package.onUse(function(api) {
   api.addAssets(['client/UI/flags/it.svg'],'client')
   api.addAssets(['client/UI/flags/nl.svg'],'client')
 
+  api.addAssets(['client/UI/flags/1x1/de.svg'],'client') // For svg flags in 1x1 format
+  api.addAssets(['client/UI/flags/1x1/es.svg'],'client')
+  api.addAssets(['client/UI/flags/1x1/fr.svg'],'client')
+  api.addAssets(['client/UI/flags/1x1/gb.svg'],'client')
+  api.addAssets(['client/UI/flags/1x1/it.svg'],'client')
+  api.addAssets(['client/UI/flags/1x1/nl.svg'],'client')
   // Load main modules
   api.mainModule('lib/lib.js');
   // Load client files
