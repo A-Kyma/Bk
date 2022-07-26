@@ -14,7 +14,7 @@
 
       <bk-field-list
               v-if="definitionField === 'Object'"
-              v-bind="{...$props,...$attrs}"
+              v-bind="{...$props,...$attrs,...uiComponentProps}"
               class="col-12"
               :model="model[field]"
               :form-field="formFieldComputed"
@@ -27,7 +27,7 @@
 
       <bk-card-list-class
           v-else-if="definitionField === 'ListClass'"
-          v-bind="{...$props,...$attrs}"
+          v-bind="{...$props,...$attrs,...uiComponentProps}"
           :model="model"
           :field="field"
           :form-field="formFieldComputed">
@@ -38,7 +38,7 @@
 
       <b-form-checkbox-group
           v-else-if="definitionField === 'ListEnum' && !ui.template"
-          v-bind="{...$props,...$attrs}"
+          v-bind="{...$props,...$attrs,...uiComponentProps}"
           v-model="value"
           :name="field"
           :disabled="plaintextComputed"
@@ -58,7 +58,7 @@
       -->
       <b-form-radio-group
           v-else-if="inputComponent === 'BFormRadioGroup' && definitionField === 'Enum'"
-          v-bind="{...$props,...$attrs}"
+          v-bind="{...$props,...$attrs,...uiComponentProps}"
           v-model="value"
           :name="formFieldComputed"
           :disabled="plaintextComputed"
@@ -71,6 +71,7 @@
 
       <b-form-tags
               v-else-if="definitionField === 'ListString'"
+              v-bind="uiComponentProps"
               v-model="value"
               :state="state"
               remove-on-delete
@@ -83,6 +84,7 @@
 
       <b-form-rating
           v-else-if="definitionField === 'Rating'"
+          v-bind="uiComponentProps"
           v-model="value"
           :variant="ui.variant"
           :color="color"
@@ -94,7 +96,7 @@
 
       <bk-belongs-to-many
           v-else-if="definitionField === 'Relation'"
-          v-bind="$attrs"
+          v-bind="{...$attrs,...uiComponentProps}"
           v-model="value"
           :model="model"
           :field="field"
@@ -113,7 +115,7 @@
 
       <bk-belongs-to-many
         v-else-if="definitionField === 'ListRelation'"
-        v-bind="$attrs"
+        v-bind="{...$attrs,...uiComponentProps}"
         :model="model"
         :field="field"
         :form-field="formFieldComputed"
@@ -137,7 +139,7 @@
 
       <component
           v-else
-          v-bind="$attrs"
+          v-bind="{...$attrs,...uiComponentProps}"
           :is="inputComponent"
           :class="plaintextClass"
           :type="inputType"
@@ -264,6 +266,11 @@ import BkCardListClass from "../forms/BkCardListClass";
       uiSwitch() {
         if (this.ui.switch === undefined) return true
         return this.ui.switch
+      },
+
+      uiComponentProps() {
+        if (this.ui.props && typeof this.ui.props === "object") return this.ui.props
+        return {}
       },
 
       formGenericFieldComputed() {
