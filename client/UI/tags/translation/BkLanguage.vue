@@ -26,7 +26,7 @@
         <template #button-content>
           <span :class="'flags rounded-circle flags fi-1x1-'+active"> </span>
         </template>
-        <b-dropdown-item v-for="lang in locales" @click="onClick(lang)" class="flag-item">
+        <b-dropdown-item v-for="lang in locales" v-if="lang !== active" @click="onClick(lang)" class="flag-item">
           <span :class="'rounded-circle flags fi-1x1-'+lang"> </span>
         </b-dropdown-item>
       </b-nav-item-dropdown>
