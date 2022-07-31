@@ -8,7 +8,7 @@
       v-model="inputRelation"
       :options="options || relationList"
       label="text"
-      track-by="text"
+      track-by="value"
       :show-labels="false"
       :disabled="disabledData"
       :placeholder="placeholder"
