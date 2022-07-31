@@ -269,6 +269,8 @@ fr:
   ParameterTable:
     name:
       label: "Nom de la table"
+    description:
+      label: "Description"
     classBehind:
       label: "Classe à paramétrer"
     field:
@@ -285,6 +287,8 @@ fr:
       label: "Liste des paramètres"
     name:
       label: "Nom du paramètre"
+    description:
+      label: "Description"
     multipleChoice:
       label: "Choix multiple"
     inputType:

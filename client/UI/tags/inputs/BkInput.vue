@@ -189,6 +189,9 @@
     },
     meteor: {
       description() {
+        if (this.model.constructor.parentClassName === "ParameterTableElement")
+          return this.model.constructor.getDescription(this.field)
+
         return I18n.t(this.model.constructor.getDescriptionKey(this.field),{ignoreNotFound: true})
       },
     },
