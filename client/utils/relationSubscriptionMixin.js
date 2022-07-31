@@ -175,7 +175,9 @@ export default {
         if (this.emptyId) return
         if (this.options) {
           if (this.isArray) {
-            return this.options.filter(e => this.getId.includes(e.value))
+            return this.options.filter(e => this.getId.includes(e.value)).sort(
+              (a,b) => this.getId.indexOf(a.value) - this.getId.indexOf(b.value)
+            )
           } else {
             return this.options.find(e => this.getId === e.value)
           }
