@@ -64,21 +64,24 @@ export default {
     isArray() {
       return this.definition instanceof ListField
     },
+    fieldValue() {
+      return this.model[this.field]
+    },
     getId() {
       let definition = this.definition
       // Array of relation
       if (this.isArray) {
         if (definition.cache) {
-          return this.model[this.field].map(x => x._id)
+          return this.fieldValue.map(x => x._id)
         } else {
-          return this.model[this.field]
+          return this.fieldValue
         }
       // belongs to relation
       } else {
-        if (definition.cache && typeof this.model[this.field] === "object") {
-          return this.model[this.field] && this.model[this.field]._id
+        if (definition.cache && typeof this.fieldValue === "object") {
+          return this.fieldValue && this.fieldValue._id
         } else {
-          return this.model[this.field]
+          return this.fieldValue
         }
       }
     },
