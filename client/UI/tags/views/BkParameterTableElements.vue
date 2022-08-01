@@ -19,6 +19,7 @@
             'classBehind': model.classBehind,
             'field': model.field
           }"
+          :sort="{'name': 1}"
       >
 
       </bk-table>
