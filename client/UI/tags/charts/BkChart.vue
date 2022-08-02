@@ -23,6 +23,10 @@ import BarChart from './BarCharts'
 import DoughnutChart from './DoughnutCharts'
 import PolarChart from "./PolarAreaCharts";
 import RadarChart from './RadarCharts'
+// Needed to be able to use Luxon date formatting and chart axis of type time -->
+import {Chart} from 'chart.js';
+import 'chartjs-adapter-luxon';
+// <--
 
 /**
  * This component allows to create a chart based on https://vue-chartjs.org/
