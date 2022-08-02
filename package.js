@@ -25,6 +25,7 @@ Npm.depends({
   "@vuese/cli":"2.14.3", //create vue documentation
   "js-yaml":"4.1.0", // for BkTranslations
   "luxon":"2.4.0", // for Date creation using timezone => See DateTime
+  "chartjs-adapter-luxon":"1.1.0" // For chart js using date (axis type time)
 });
 
 // See https://guide.meteor.com/writing-atmosphere-packages.html
