@@ -390,7 +390,9 @@ export default {
         // remove doesn't exist if model is not linked to a database
 
         let conf = true
-        if (!this.noConfirm) conf = confirm(I18n.get("app.removeConfirmation"))
+        if (!this.noConfirm) conf = confirm(I18n.get("app.removeConfirmationLabel",{
+          label: typeof this.inputModel?.defaultName === "function" && this.inputModel.defaultName() || ""
+        }))
         if (conf){
           if (this.inputModel?.remove)
             this.inputModel?.remove(this.errorCallback)

@@ -125,6 +125,7 @@ en:
     remove: "Remove"
     submitConfirmation: "Do you confirm your submission?"
     removeConfirmation: "Do you want to remove?"
+    removeConfirmationLabel: "Do you want to remove {{label}}?"
     success: "Form submitted successfully"
     failed: "There is an error while submitting your form. Please, check below"
     select: "Select"

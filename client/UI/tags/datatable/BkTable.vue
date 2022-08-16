@@ -86,7 +86,7 @@
     </div>
     <slot name="main" v-bind="{items,labeledFields,datatable, model, actions, filterModel: datatable.filterModel}">
       <div v-if="cardMode">
-        <b-card v-for="(model,index) in items" class="mt-2 mb-2">
+        <b-card v-for="(model,index) in items" class="mt-2 mb-2" :key="model._id">
           <template #header>
             <span class="mr-2">
               <slot name="cardheader" v-bind="{model,index,fields: labeledFields}">

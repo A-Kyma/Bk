@@ -130,6 +130,7 @@ fr:
     remove: "Supprimer"
     submitConfirmation: "Voulez-vous confirmer la soumission ?"
     removeConfirmation: "Voulez-vous supprimer ?"
+    removeConfirmationLabel: "Voulez-vous supprimer {{label}}?"
     success: "Formulaire soumis avec succès"
     failed: "Veuillez vérifier les erreurs ci-dessous"
     select: "Sélectionner"
