@@ -34,14 +34,15 @@ const Api = Class.create({
                 reqParam.body = JSON.stringify(data)
             }
 
+            let response
             try {
-                let response = await fetch(this.url, reqParam);
+                response = await fetch(this.url, reqParam);
                 let result = await response.json();
                 // return could still give a http error
                 return result
             } catch (err) {
                 //technical issue
-                throw new Meteor.Error(500, JSON.stringify(err))
+                throw new Meteor.Error(500, JSON.stringify({err,response}))
              }
         }
     }
