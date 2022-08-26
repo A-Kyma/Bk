@@ -42,7 +42,7 @@
         <b-input-group
             v-for="field of filterFields"
             class="mb-2 mr-sm-2 mb-sm-0">
-          <template #prepend>
+          <template #prepend v-if="!noFilterLabel">
             <b-input-group-text>
               <t>{{datatable.filterModel.constructor.getLabelKey(field)}}</t>
             </b-input-group-text>
@@ -61,7 +61,7 @@
             </template>
           </bk-inner-input>
         </b-input-group>
-        <b-button type="reset" variant="outline-dark" class="mr-2"><t>app.reset</t></b-button>
+        <b-button v-if="!noFilterReset" type="reset" variant="outline-dark" class="mr-2"><t>app.reset</t></b-button>
         <b-button v-if="!autoFilterSubmit" type="submit" variant="outline-primary"><t>app.filter</t></b-button>
       </b-form>
     </slot>
@@ -347,6 +347,10 @@
       exportFields: String,
       editableFields: [String,Array],
       filterFields: Array,
+      noFilterLabel: {
+        type: Boolean,
+        default: false
+      },
       subscribeFields: [String,Array],
       modalFields: [String,Array],
       modalExclude: [String,Array],
@@ -361,6 +365,11 @@
       filter: Object, // default filter used, cannot be changer afterwards
       initialFilter: Object, // initial applied filter, can be changed at any time using table filters
       autoFilterSubmit: Boolean, // Auto submit filter fields changes
+      // Hide Reset button in filters
+      noFilterReset: {
+        type: Boolean,
+        default: false
+      },
       autoSubmit: Boolean, // Auto submit editable fields changes
       scroll: Boolean,
       multi: Boolean,
