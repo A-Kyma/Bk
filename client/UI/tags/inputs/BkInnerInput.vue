@@ -4,7 +4,9 @@
     v-bind="$attrs"
     :prepend="prepend"
     :append="append"
-    :class="ui.class">
+    :class="ui.class"
+    :key="definitionKey"
+  >
 
     <slot :name="'before-'+formGenericFieldComputed" v-bind="{...$props, ...{value,oldValue}}"/>
 
@@ -261,6 +263,12 @@ import BkCardListClass from "../forms/BkCardListClass";
       ui() {
         if (this.noUI) {return {}}
         return this.definition.ui || {}
+      },
+      definitionKey() {
+        let key = this.definition.key
+        if (typeof key === "function")
+          key = key(this.formModel || this.model)
+        return key
       },
 
       uiSwitch() {
