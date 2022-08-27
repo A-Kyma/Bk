@@ -63,6 +63,7 @@
         </b-input-group>
         <b-button v-if="!noFilterReset" type="reset" variant="outline-dark" class="mr-2"><t>app.reset</t></b-button>
         <b-button v-if="!autoFilterSubmit" type="submit" variant="outline-primary"><t>app.filter</t></b-button>
+        <slot name="afterFilterButtons" v-bind="{datatable,model}"/>
       </b-form>
     </slot>
     <div v-if="datatable.handler">
