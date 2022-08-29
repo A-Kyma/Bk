@@ -517,7 +517,7 @@
           this.datatable.applyFilter()
       },
       onAutoFieldSubmit(model,field) {
-        this.$emit("inputField", { model, field })
+        this.$emit("change", { model, field, value: model.get(field) })
         if (this.autoSubmit) {
           const old = model.constructor.findOne(model._id)
 
@@ -525,6 +525,8 @@
             model.save({fields: [field]},
                 (err, result) => {
                   this.errorCallback(err, result)
+                  if (!err)
+                    this.$emit("changed", { model, field, value: model.get(field) })
                 }
             )
         }
