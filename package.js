@@ -40,28 +40,28 @@ Package.onUse(function(api) {
   api.use('check');
   api.use('accounts-base@1.5.0||2.0.1');
   api.use('accounts-password@1.5.2||2.0.1');
-  api.use('tmeasday:publish-counts'); // For datatable
-  api.use('reywood:publish-composite'); // To enable multiple send in one subscription
+  api.use('tmeasday:publish-counts@0.8.0'); // For datatable
+  api.use('reywood:publish-composite@1.3.6'); // To enable multiple send in one subscription
   //api.use('ejson'); // Needed to .json files
-  api.use('slaivyn:yaml'); // Needed to manage .yml files (for I18n)
+  api.use('slaivyn:yaml@1.0.1'); // Needed to manage .yml files (for I18n)
   api.use('jagi:astronomy@2.7.3'); // Model management
   api.use('jagi:reactive-map@2.0.0'); // Used in errors management
   api.use('reactive-var'); // For clickTo... components and other thinks
   api.use('reactive-dict')
   api.use('webapp','server')
-  api.use('ostrio:files') // For file upload
+  api.use('ostrio:files@2.0.1') // For file upload
   api.use('fetch'); // make http calls
   api.use('pfafman:filesaver@1.3.2'); // use SaveAs()
-  api.use('jkuester:http') // to do http call (used for Deepl, radar)
+  api.use('jkuester:http@2.0.1') // to do http call (used for Deepl, radar)
 
   // VueJS
   //api.use('akryum:vue'); // Vue and imported in NPM
-  api.use('akryum:vue-component');
-  api.use('akryum:vue-router2'); // See https://github.com/meteor-vue/vue-meteor/tree/master/packages/vue-router2
+  api.use('akryum:vue-component@0.15.2');
+  api.use('akryum:vue-router2@0.2.3'); // See https://github.com/meteor-vue/vue-meteor/tree/master/packages/vue-router2
   //api.use('akryum:vue-ssr');
 
   //Blaze
-  api.use('templating','client'); // to be able to create tag in package
+  api.use('templating@1.0.9','client'); // to be able to create tag in package
   // Import Blaze UI tags and routes
 
   api.addFiles([
