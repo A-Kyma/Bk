@@ -19,7 +19,7 @@
       </slot>
     </template>
   </b-row>
-  <div v-else>
+  <div v-else class="ml-3">
     <t>app.stat.nostat</t>
   </div>
 </template>
