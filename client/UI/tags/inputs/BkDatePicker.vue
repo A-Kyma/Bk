@@ -34,7 +34,7 @@
 
 <script>
 import {Class} from "meteor/jagi:astronomy"
-import {DateTime,I18n} from "meteor/a-kyma:bk"
+import {DateTime,I18n} from "meteor/akyma:bk"
 
 
 export default {

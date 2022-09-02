@@ -37,7 +37,7 @@
 <script>
 import {Class} from "meteor/jagi:astronomy"
 import BkForm from "./BkForm"
-import { User } from "meteor/a-kyma:bk"
+import { User } from "meteor/akyma:bk"
 import { Accounts } from "meteor/accounts-base"
 
 export default {

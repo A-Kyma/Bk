@@ -49,7 +49,7 @@
 
 <script>
 import {Class} from "meteor/jagi:astronomy";
-import {I18n} from "meteor/a-kyma:bk"
+import {I18n} from "meteor/akyma:bk"
 import BkFieldList from "./BkFieldList";
 import BkSubmit from "./BkSubmit";
 

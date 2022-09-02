@@ -26,7 +26,7 @@
 <script>
 import { Class } from "meteor/jagi:astronomy"
 import I18n from "../../../../lib/classes/i18n"
-import { User } from "meteor/a-kyma:bk"
+import { User } from "meteor/akyma:bk"
 import BkSubmit from "./BkSubmit";
 
 export default {

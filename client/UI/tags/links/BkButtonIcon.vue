@@ -208,7 +208,7 @@
 
 <script>
 import { Class } from "meteor/jagi:astronomy";
-import {Role,I18n,DateTime} from "meteor/a-kyma:bk"
+import {Role,I18n,DateTime} from "meteor/akyma:bk"
 import errorPopupMixin from "../../../utils/errorPopupMixin";
 import * as XLSX from 'xlsx/xlsx.mjs';
 

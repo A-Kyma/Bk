@@ -27,7 +27,7 @@
 
 <script>
 import {Class} from "meteor/jagi:astronomy"
-import {I18n} from "meteor/a-kyma:bk"
+import {I18n} from "meteor/akyma:bk"
 
 export default {
   name: "BkParameterTables",

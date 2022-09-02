@@ -13,7 +13,7 @@ import configure from "./configure";
  import Vue from "vue";
  import VueMeteorTracker from 'vue-meteor-tracker';
  import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
- import { BkUI } from 'meteor/a-kyma:bk';
+ import { BkUI } from 'meteor/akyma:bk';
  Vue.use(VueMeteorTracker);
  Vue.use(BootstrapVue);
  Vue.use(IconsPlugin);

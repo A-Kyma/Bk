@@ -1,6 +1,6 @@
 Package.describe({
-  name: 'a-kyma:bk',
-  version: '2.0.0',
+  name: 'akyma:bk',
+  version: '2.0.1',
   // Brief, one-line summary of the package.
   summary: 'Package which helps creating web applications',
   // URL to the Git repository containing the source code for this package.
@@ -94,6 +94,6 @@ Package.onUse(function(api) {
 Package.onTest(function(api) {
   api.use('ecmascript');
   api.use('tinytest');
-  api.use('a-kyma:bk');
+  api.use('akyma:bk');
   api.mainModule('test/bk-tests.js');
 });

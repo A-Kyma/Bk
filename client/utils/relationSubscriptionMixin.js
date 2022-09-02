@@ -1,4 +1,4 @@
-import {I18n} from "meteor/a-kyma:bk";
+import {I18n} from "meteor/akyma:bk";
 import {_} from "lodash";
 import {Class, ValidationError, ScalarField, ObjectField, ListField, Union} from 'meteor/jagi:astronomy';
 import errorPopupMixin from "./errorPopupMixin";

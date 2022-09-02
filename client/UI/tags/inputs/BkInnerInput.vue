@@ -171,7 +171,7 @@
 
 <script>
 import {Class, ValidationError, ScalarField, ObjectField, ListField, Union} from 'meteor/jagi:astronomy'
-import {I18n,DateTime,Enum,Lifecycle,Image} from "meteor/a-kyma:bk"
+import {I18n,DateTime,Enum,Lifecycle,Image} from "meteor/akyma:bk"
 import _ from "lodash";
 import BkBelongsToInput from "./BkBelongsToInput";
 import BkFieldList from "../forms/BkFieldList";

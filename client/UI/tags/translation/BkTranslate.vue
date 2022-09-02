@@ -4,7 +4,7 @@
 
 <script>
   import {Class} from "meteor/jagi:astronomy"
-  import {Role} from "meteor/a-kyma:bk"
+  import {Role} from "meteor/akyma:bk"
   import I18n from "../../../../lib/classes/i18n";
   import BkForm from "../forms/BkForm";
 

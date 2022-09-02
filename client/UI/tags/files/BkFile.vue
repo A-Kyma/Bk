@@ -164,7 +164,7 @@
 <script>
 import { Class, ListField } from "meteor/jagi:astronomy"
 import { Match } from "meteor/check"
-import { Files } from "meteor/a-kyma:bk"
+import { Files } from "meteor/akyma:bk"
 import { Container, Draggable } from "vue-smooth-dnd";
 import applyDrag from "../../../utils/applyDrag";
 import I18n from "../../../../lib/classes/i18n";

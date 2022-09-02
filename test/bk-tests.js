@@ -2,7 +2,7 @@
 import { Tinytest } from "meteor/tinytest";
 
 // Import and rename a variable exported by bk.js.
-import { name as packageName } from "meteor/a-kyma:bk";
+import { name as packageName } from "meteor/akyma:bk";
 
 // Write your tests here!
 // Here is an example.

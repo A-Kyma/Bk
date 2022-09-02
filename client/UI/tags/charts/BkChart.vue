@@ -16,7 +16,7 @@
 
 <script>
 import { Class } from "meteor/jagi:astronomy"
-import { I18n } from "meteor/a-kyma:bk"
+import { I18n } from "meteor/akyma:bk"
 import LineChart from './LineCharts'
 import PieChart from './PieCharts'
 import BarChart from './BarCharts'

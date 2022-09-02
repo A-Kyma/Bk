@@ -127,7 +127,7 @@
 
 <script>
 import { Class } from "meteor/jagi:astronomy"
-import { Enum } from "meteor/a-kyma:bk"
+import { Enum } from "meteor/akyma:bk"
 import BkButtonIcon from "../links/BkButtonIcon";
 import BkFieldList from "./BkFieldList";
 import BkModal from "../modals/BkModal";

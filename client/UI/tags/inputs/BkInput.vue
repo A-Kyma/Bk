@@ -106,7 +106,7 @@
   import {Class} from 'meteor/jagi:astronomy';
   import _ from "lodash";
   import BkLabel from "../forms/BkLabel";
-  import { I18n } from "meteor/a-kyma:bk"
+  import { I18n } from "meteor/akyma:bk"
 
   export default {
     name: "BkInput",
