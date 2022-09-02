@@ -70,7 +70,7 @@
       <div v-if="datatable.firstReady">
         <slot name="pagination-top" v-bind="{datatable, scroll, perPage}">
           <bk-pagination
-              v-if="!full && !scroll"
+              v-if="!full && !scroll && count!==0"
               :datatable="datatable"
               :scroll="scroll"
               :perPage="datatable.perPage"
