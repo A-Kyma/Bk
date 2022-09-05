@@ -512,6 +512,9 @@ import BkCardListClass from "../forms/BkCardListClass";
         return prepend;
       },
       enumOptions() {
+        // Avoid passing an array to bkViewClean which expect an object for translations options
+        if (this.plaintextComputed) return
+
         let fieldDefinition = this.definition
 
         let fieldType = fieldDefinition.type.name;
