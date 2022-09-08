@@ -26,10 +26,11 @@ import _cloneDeep from "lodash"
 
 Meteor.publish("usersData", function(selector,options={}) {
   if (!this.userId) return this.ready();
-  let fields = {};
   if (Role.is("SuperAdministrator")) {
-    publishCount(this, 'usersData-count', Meteor.users.find({}, { fields: { _id: true }}), { noReady: true });
-    return Meteor.users.find(selector,options)
+    publishCount(this, 'usersData-count', Meteor.users.find(selector, { fields: { _id: true }}), { noReady: true });
+    // usersData collection is only on client side. This is used in order to manage datatable when logged in
+    Mongo.Collection._publishCursor(Meteor.users.find(selector,options),this,"usersData")
+    return this.ready()
   }
   return Meteor.users.find({"_id": this.userId})
 })
