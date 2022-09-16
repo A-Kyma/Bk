@@ -67,6 +67,9 @@
           v-bind="{...$props, ...{oldValue, value: getId}}"
       />
     </b-input-group-append>
+    <slot :name="formFieldComputed+'-after'"
+          v-bind="{...$props, oldValue, value: getId, options: relationList, ready, removeId, removeAll}"
+    />
   </div>
   <span v-else class="form-control-plaintext">
     {{viewInputRelation}}

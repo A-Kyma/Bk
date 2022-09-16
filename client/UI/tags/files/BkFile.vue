@@ -71,7 +71,11 @@
     <b-avatar v-if="isAvatar && $props['for'] === 'view'"
               v-bind="$attrs"
               :src="staticLink(fileFormat)"
-    />
+    >
+      <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+        <slot :name="slot" v-bind="props" />
+      </template>
+    </b-avatar>
 
     <b-overlay v-if="$props['for'] !== 'view'" :show="currentUpload">
 
@@ -83,8 +87,10 @@
                   v-bind="$attrs"
                   :src="link(listFiles[0]) || staticLink(fileFormat)"
         >
-          <template #badge v-if="$props['for'] !== 'view'">
-            <b-icon-pencil/>
+          <template #badge>
+            <slot name="badge" v-bind="{$props}">
+              <b-icon-pencil/>
+            </slot>
           </template>
         </b-avatar>
       </a>

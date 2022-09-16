@@ -109,6 +109,7 @@
           :readonly="plaintextComputed"
           :disabled="plaintextComputed"
           @input="$emit('input')"
+          @ready="$emit('ready')"
       >
         <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
           <slot :name="slot" v-bind="props" />
@@ -126,6 +127,7 @@
         :readonly="plaintextComputed"
         :disabled="plaintextComputed"
         @input="$emit('input')"
+        @ready="$emit('ready')"
       >
         <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
           <slot :name="slot" v-bind="props" />

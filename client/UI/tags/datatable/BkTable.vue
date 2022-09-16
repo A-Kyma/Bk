@@ -54,6 +54,7 @@
               buttons
               button-variant="outline-primary"
               @input="onAutoFilterSubmit($event,field)"
+              @ready="$emit('filterReady',field)"
               debounce="250"
           >
             <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">

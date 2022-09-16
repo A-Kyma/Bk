@@ -15,14 +15,25 @@ import {Class} from "meteor/jagi:astronomy"
 export default {
   name: "BkPage",
   props: {
+    // Model Class or String to use for this page
     model: [Class,String],
+    // Main model subscription
     subscription: String,
+    // Subscription to wait before showing the content
     waitSubscription: [String,Array],
-    params: [Array,String],
+    /***
+     * Parameters used for the subscription of the main model
+     * if undefined, takes {id: this.$route.params.id}
+     */
+    params: {
+      type: [Array, String, Object]
+    },
+    // Query is used to instanciate the New model
     query: {
       type: Object,
       default() { return {} }
     },
+    // Type of waiting icons for bk-loading
     type: {
       type: String,
       default: "dots"
@@ -44,8 +55,8 @@ export default {
       }
     }
 
-    if (!!this.subscription && this.params) {
-      if (typeof this.params === "string")
+    if (!!this.subscription && !!this.params) {
+      if (typeof this.params === "string" || typeof this.params === "object")
         this.$subscribe(this.subscription,[this.params])
       if (Array.isArray(this.params))
         this.$subscribe(this.subscription,this.params)

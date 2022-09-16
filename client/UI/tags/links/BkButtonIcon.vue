@@ -338,9 +338,6 @@ export default {
     modalFormId() {
       return 'modalForm_' + this._uid;
     },
-    modalModelClass() {
-      return this.model.getFieldClass(this.field);
-    },
     getTypeField() {
       return this.tableClass?.definition.typeField;
     },
