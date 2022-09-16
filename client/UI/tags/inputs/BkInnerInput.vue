@@ -515,7 +515,12 @@ import BkCardListClass from "../forms/BkCardListClass";
       },
       enumOptions() {
         // Avoid passing an array to bkViewClean which expect an object for translations options
-        if (this.plaintextComputed) return
+        if (this.plaintextComputed
+            && this.inputComponent === "BkViewClean"
+            && this.definitionField !== 'ListEnum'
+            && !this.ui.template
+        )
+          return
 
         let fieldDefinition = this.definition
 

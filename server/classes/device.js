@@ -39,7 +39,7 @@ Device.sendNotification = function(data) {
                       const user = Meteor.users.findOne({"profile.devices.id": id})
                       if (!user) return
                       let i = user.profile.devices.findIndex(device => device.id === id)
-                      if (i === undefined) return
+                      if (i === undefined || user._id === undefined) return
                       Meteor.users.update(user._id, {
                           $set: {
                               ["profile.devices." + i + ".send_notification"]: false
