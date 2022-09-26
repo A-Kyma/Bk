@@ -5,14 +5,14 @@
       <div v-if="!isFieldArray" class="box">
         <div v-if="$props['for'] !== 'view'" class="box-right"/>
 
-        <a v-if="listFiles[0]" :href="link(listFiles[0])" :alt="listFiles[0].name" target="_blank" >
+        <a v-if="listFiles[0]" :href="link(listFiles[0])" :alt="listFiles[0].name" :target="target">
           <b-img thumbnail
                  :src="link(listFiles[0],'thumbnail')"
                  :alt="listFiles[0].name"
                  class="crop-height"/>
         </a>
 
-        <a v-else :href="staticLink()" alt="" target="_blank">
+        <a v-else :href="staticLink()" alt="" :target="target">
           <b-img thumbnail
                  :src="staticLink('thumbnail')"
                  alt=""
@@ -45,7 +45,7 @@
 
                 <div v-if="$props['for'] !== 'view'" class="box-right"/>
 
-                <a :href="link(file)" :alt="file.name" target="_blank">
+                <a :href="link(file)" :alt="file.name" :target="target">
                   <b-img thumbnail
                          :src="link(file,'thumbnail')"
                          :alt="file.name"
@@ -146,7 +146,7 @@
                   class="mr-3"
               />
 
-              <a :href="link(file)" :alt="file.name" target="_blank">
+              <a :href="link(file)" :alt="file.name" :target="target">
                 {{file.name}}
               </a>
 
@@ -188,6 +188,10 @@ export default {
     showFilesCards: Boolean,
     accept: String, // accept="image/*" for images
     default: String,
+    target: {
+      type: String,
+      default: "_blank"
+    },
     fileFormat: {
       type: String,
       default: "normal"
