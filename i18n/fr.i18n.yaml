@@ -217,6 +217,7 @@ fr:
         success: "Confirmation"
         failed: "Erreur"
     file:
+      manage: "Gérez les fichiers"
       choose:
         one: "Choisissez votre fichier..."
         other: "Choisissez vos fichiers..."

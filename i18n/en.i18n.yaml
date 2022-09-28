@@ -214,6 +214,7 @@ en:
         success: "Successful"
         failed: "Failure"
     file:
+      manage: "Manage Files"
       choose:
         one: "Choose tour file..."
         other: "Choose your files..."

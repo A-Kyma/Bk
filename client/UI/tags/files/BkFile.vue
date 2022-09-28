@@ -132,7 +132,34 @@
     />
 
     <div v-if="showFilesList" @touchend="fixActionRestriction">
-      <b-list-group>
+      <b-list-group v-if="showFilesCounter">
+        <b-list-group-item>
+          <div>
+            <b-avatar-group size="4rem">
+              <b-avatar
+                  v-for="(file,index) in listFiles" :key="file._id"
+                  :src="link(file,'car')"
+                  :text="file.ext"
+              />
+              <b-avatar
+                  variant="primary"
+                  :text="listFiles.length.toString()"
+              />
+            </b-avatar-group>
+          </div>
+          <div class="pt-2" v-if="listFiles.length > 0">
+            <b-button
+                :class="visible ? 'collapsed': null"
+                :aria-expanded="visible ? 'true' : 'false'"
+                aria-controls="collapse-1"
+                @click="visible = !visible"
+            >
+              <t>app.file.manage</t>
+            </b-button>
+          </div>
+        </b-list-group-item>
+      </b-list-group>
+      <b-list-group id="collapse-1" :class="visible ? 'filesListShow': 'filesListHide'">
         <Container @drop="onDrop"
                    drag-class="card-ghost bg-info"
                    drop-class="card-ghost-drop">
@@ -184,6 +211,7 @@ export default {
     model: Class,
     field: String,
     for: String,
+    showFilesCounter: Boolean,
     showFilesList: Boolean,
     showFilesCards: Boolean,
     accept: String, // accept="image/*" for images
@@ -207,6 +235,7 @@ export default {
       listFiles: [],
       isInForm: this.$props["for"],
       localFilesLinks: {},
+      visible: this.showFilesCounter ? false : true
     }
   },
   created() {
@@ -247,7 +276,7 @@ export default {
         return "app.file.choose.other"
       else
         return "app.file.choose.one"
-    }
+    },
   },
   meteor: {
     placeholderTranslated() {
@@ -503,5 +532,10 @@ a > .b-avatar:hover {
 .dragicon:hover{
   transform:scale(1.3);
 }
-
+.filesListHide{
+  display: none;
+}
+.filesListShow{
+  display: block;
+}
 </style>
