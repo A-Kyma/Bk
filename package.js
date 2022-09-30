@@ -1,6 +1,6 @@
 Package.describe({
   name: 'akyma:bk',
-  version: '2.0.11',
+  version: '2.0.12',
   // Brief, one-line summary of the package.
   summary: 'Package which helps creating web applications',
   // URL to the Git repository containing the source code for this package.

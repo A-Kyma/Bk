@@ -56,10 +56,11 @@ export default {
     }
 
     if (!!this.subscription && !!this.params) {
-      if (typeof this.params === "string" || typeof this.params === "object")
-        this.$subscribe(this.subscription,[this.params])
       if (Array.isArray(this.params))
         this.$subscribe(this.subscription,this.params)
+
+      else if (typeof this.params === "string" || typeof this.params === "object")
+        this.$subscribe(this.subscription,[this.params])
     }
 
     else if (!!this.subscription
