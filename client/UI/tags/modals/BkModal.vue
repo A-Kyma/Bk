@@ -30,7 +30,6 @@
       <bk-loading v-if="!!subscription && !$subReady[subscription]  && !firstSubReady" type="dots"/>
       <slot v-else name="default" v-bind="{model: findModel}"></slot>
     </template>
-    blabla
   </b-modal>
 </template>
 
