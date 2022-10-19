@@ -52,7 +52,7 @@ export default {
     format: String,
     locale: String,
     options: {
-      type: Object,
+      type: [Object, Array],
       default() { return {}}
     },
     fileFormat: {
