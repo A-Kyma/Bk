@@ -8,11 +8,13 @@
               <t :options="translationOptions">{{chartData.title}}</t>
             </template>
             <b-card-text>
-              <bk-chart
-                  :type="chartData.type"
-                  :data="chartData.data"
-                  :options="chartData.options"
-              />
+              <slot :name="'chart-'+chartData.type" v-bind="chartData">
+                <bk-chart
+                    :type="chartData.type"
+                    :data="chartData.data"
+                    :options="chartData.options"
+                />
+              </slot>
             </b-card-text>
           </b-card>
         </b-col>

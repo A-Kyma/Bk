@@ -7,6 +7,7 @@
       <doughnut-chart v-if="type=='doughnut'" :chart-data="data || dataCollection" :options="dataOptions"></doughnut-chart>
       <polar-chart v-if="type=='polar'" :chart-data="data || dataCollection" :options="dataOptions"></polar-chart>
       <radar-chart v-if="type=='radar'" :chart-data="data || dataCollection" :options="dataOptions"></radar-chart>
+      <bullet-chart v-if="type=='bullet'" :chart-data="data || dataCollection"></bullet-chart>
     </div>
     <div v-else>
       <t>app.stat.nostat</t>
@@ -23,6 +24,7 @@ import BarChart from './BarCharts'
 import DoughnutChart from './DoughnutCharts'
 import PolarChart from "./PolarAreaCharts";
 import RadarChart from './RadarCharts'
+import BulletChart from './BulletCharts'
 // Needed to be able to use Luxon date formatting and chart axis of type time -->
 import {Chart} from 'chart.js';
 import 'chartjs-adapter-luxon';
@@ -35,12 +37,12 @@ import 'chartjs-adapter-luxon';
 export default {
   name: "BkChart",
   components: {
-    LineChart,PieChart,BarChart,DoughnutChart,PolarChart,RadarChart
+    LineChart,PieChart,BarChart,DoughnutChart,PolarChart,RadarChart,BulletChart
   },
   props: {
     // type of possible Charts
     type: {
-      //`Possible String` line,pie,bar,doughnut,polar,radar
+      //`Possible String` line,pie,bar,doughnut,polar,radar,bullet
       type: String,
       required: true,
     },
