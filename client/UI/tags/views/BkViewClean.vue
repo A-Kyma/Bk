@@ -30,6 +30,13 @@
       </template>
     </b-avatar>
 
+    <b-form-rating
+        v-else-if="classDefinitionName === 'Rating'"
+        v-model="value"
+        readonly
+        v-bind="$attrs"
+    />
+
     <span v-else>{{value}}</span>
   </slot>
   </span>
