@@ -59,6 +59,7 @@ export default {
   data () {
     return {
       chartsData: [],
+      ready: false,
     }
   },
   mounted () {
@@ -78,6 +79,8 @@ export default {
         } else {
           this.chartsData = result
         }
+        this.ready=true
+        this.$emit("ready")
       }
 
       const queryParam = {...this.queryParam, locale: language}
