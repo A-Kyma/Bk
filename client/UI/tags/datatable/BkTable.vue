@@ -386,7 +386,7 @@
         type: Array,
         default: function() {return []}
       },
-      customActions: String,
+      customActions: Array,
       selector: {
         type: Object,
         default: function() { return {} }
