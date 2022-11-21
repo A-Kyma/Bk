@@ -1,195 +1,218 @@
 <template>
-  <div class="mb-2 w-100">
-
-    <div v-if="showFilesCards" @touchend="fixActionRestriction">
-      <div v-if="!isFieldArray" class="box">
-        <div v-if="$props['for'] !== 'view'" class="box-right"/>
-
-        <a v-if="listFiles[0]" :href="link(listFiles[0])" :alt="listFiles[0].name" :target="target">
-          <b-img thumbnail
-                 :src="link(listFiles[0],'thumbnail')"
-                 :alt="listFiles[0].name"
-                 class="crop-height"/>
-        </a>
-
-        <a v-else :href="staticLink()" alt="" :target="target">
-          <b-img thumbnail
-                 :src="staticLink('thumbnail')"
-                 alt=""
-                 class="crop-height"/>
-        </a>
-
-        <div v-if="$props['for'] !== 'view' && listFiles[0]" class="box-bottom">
-          <bk-button-icon
-              @click="onRemove(listFiles[0],index)"
-              icon="trash-fill"
-              variant="danger"
-              class="ml-auto mr-2"
-          />
-        </div>
-
+  <div>
+    <div v-if="$props['for'] === 'view' && $props['type'] === 'grid-justify'">
+      <b-modal ref="image-modal" hide-footer hide-header centered size="lg">
+        <button @click="closeModal()" type="button" aria-label="Close" class="close">×</button>
+        <b-img
+            :src="activeImageSrc"
+            :text="activeImageText"
+        />
+      </b-modal>
+      <div class="container mb-2">
+        <ul class="justified-image-grid" :style="cssProps">
+          <template v-for="(file,index) in listFiles">
+            <li :key="file._id" :style="'--width: '+file.meta.width+'; --height: ' + file.meta.height + ';'">
+              <b-img
+                  @click="openModal($event,file)"
+                  :src="link(file,'car')"
+                  :text="file.name"
+              />
+            </li>
+          </template>
+        </ul>
       </div>
-      <b-container v-else class="p-2 bg-dark overflow-x">
+    </div>
+    <div v-else class="mb-2 w-100">
+      <div v-if="showFilesCards" @touchend="fixActionRestriction">
+        <div v-if="!isFieldArray" class="box">
+          <div v-if="$props['for'] !== 'view'" class="box-right"/>
 
+          <a v-if="listFiles[0]" :href="link(listFiles[0])" :alt="listFiles[0].name" :target="target">
+            <b-img thumbnail
+                   :src="link(listFiles[0],'thumbnail')"
+                   :alt="listFiles[0].name"
+                   class="crop-height"/>
+          </a>
+
+          <a v-else :href="staticLink()" alt="" :target="target">
+            <b-img thumbnail
+                   :src="staticLink('thumbnail')"
+                   alt=""
+                   class="crop-height"/>
+          </a>
+
+          <div v-if="$props['for'] !== 'view' && listFiles[0]" class="box-bottom">
+            <bk-button-icon
+                @click="onRemove(listFiles[0],index)"
+                icon="trash-fill"
+                variant="danger"
+                class="ml-auto mr-2"
+            />
+          </div>
+
+        </div>
+        <b-container v-else class="p-2 bg-dark overflow-x">
+
+            <Container @drop="onDrop"
+                       orientation="horizontal"
+                       behaviour="contain"
+                       drag-class="card-ghost bg-info"
+                       drop-class="card-ghost-drop">
+              <Draggable v-for="(file,index) in listFiles" :key="file._id" class="mt-2">
+                <div class="box draggable-item-horizontal">
+
+                  <div v-if="$props['for'] !== 'view' && isFieldArray" class="box-top">
+                    <b-icon class="dragicon" icon="arrows-move"></b-icon>
+                  </div>
+
+                  <div v-if="$props['for'] !== 'view'" class="box-right"/>
+
+                  <a :href="link(file)" :alt="file.name" :target="target">
+                    <b-img thumbnail
+                           :src="link(file,'thumbnail')"
+                           :alt="file.name"
+                           class="crop-height"/>
+                  </a>
+
+                  <div v-if="$props['for'] !== 'view'" class="box-bottom">
+                    <bk-button-icon
+                        @click="onRemove(file,index)"
+                        icon="trash-fill"
+                        variant="danger"
+                        class="ml-auto mr-2"
+                    />
+                  </div>
+
+                </div>
+              </Draggable>
+            </Container>
+
+        </b-container>
+      </div>
+
+      <b-avatar v-if="isAvatar && $props['for'] === 'view'"
+                v-bind="$attrs"
+                :src="staticLink(fileFormat)"
+      >
+        <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+          <slot :name="slot" v-bind="props" />
+        </template>
+      </b-avatar>
+
+      <b-overlay v-if="$props['for'] !== 'view'" :show="currentUpload">
+
+        <!-- Avatar management .. -->
+        <a href="#"
+           v-if="isAvatar"
+           @click="$refs.inputFile.$el.firstElementChild.click()">
+          <b-avatar v-if="isAvatar"
+                    v-bind="$attrs"
+                    :src="link(listFiles[0]) || staticLink(fileFormat)"
+          >
+            <template #badge>
+              <slot name="badge" v-bind="{$props}">
+                <b-icon-pencil/>
+              </slot>
+            </template>
+          </b-avatar>
+        </a>
+        <!-- .. avatar management -->
+
+        <b-form-file
+            ref="inputFile"
+            v-show="!isAvatar"
+            v-bind="$attrs"
+            v-model="inputFiles"
+            :multiple="isFieldArray"
+            :accept="accept"
+            :placeholder="placeholderTranslated"
+            @input="onFilesAdded"
+            class="b-form-file">
+
+          <template slot="drop-placeholder">
+            <t>{{dropPlaceholder}}</t>
+          </template>
+
+          <template slot="file-name" slot-scope="{ names }">
+            <b-badge variant="dark">{{ names[0] }}</b-badge>
+            <b-badge v-if="names.length > 1" variant="dark" class="ml-1">
+              + {{ names.length - 1 }} <t>app.file.more</t>
+            </b-badge>
+          </template>
+
+        </b-form-file>
+
+      </b-overlay>
+
+      <b-progress
+          v-if="currentUpload"
+          :value="progress"
+          show-progress
+          animated
+          striped
+          class="mt-2 mb-2"
+      />
+
+      <div v-if="showFilesList" @touchend="fixActionRestriction">
+        <b-list-group v-if="showFilesCounter">
+          <b-list-group-item>
+            <div>
+              <b-avatar-group size="4rem">
+                <b-avatar
+                    v-for="(file,index) in listFiles" :key="file._id"
+                    :src="link(file,'car')"
+                    :text="file.ext"
+                />
+                <b-avatar
+                    variant="primary"
+                    :text="listFiles.length.toString()"
+                />
+              </b-avatar-group>
+            </div>
+            <div class="pt-2" v-if="listFiles.length > 0">
+              <b-button
+                  :class="visible ? 'collapsed': null"
+                  :aria-expanded="visible ? 'true' : 'false'"
+                  aria-controls="collapse-1"
+                  @click="visible = !visible"
+              >
+                <t>app.file.manage</t>
+              </b-button>
+            </div>
+          </b-list-group-item>
+        </b-list-group>
+        <b-list-group id="collapse-1" :class="visible ? 'filesListShow': 'filesListHide'">
           <Container @drop="onDrop"
-                     orientation="horizontal"
-                     behaviour="contain"
                      drag-class="card-ghost bg-info"
                      drop-class="card-ghost-drop">
+
             <Draggable v-for="(file,index) in listFiles" :key="file._id" class="mt-2">
-              <div class="box draggable-item-horizontal">
-
-                <div v-if="$props['for'] !== 'view' && isFieldArray" class="box-top">
-                  <b-icon class="dragicon" icon="arrows-move"></b-icon>
-                </div>
-
-                <div v-if="$props['for'] !== 'view'" class="box-right"/>
+              <div class="draggable-item">
+              <b-list-group-item class="d-flex align-items-center">
+                <b-avatar
+                    :src="link(file,'thumbnail')"
+                    :text="file.ext"
+                    class="mr-3"
+                />
 
                 <a :href="link(file)" :alt="file.name" :target="target">
-                  <b-img thumbnail
-                         :src="link(file,'thumbnail')"
-                         :alt="file.name"
-                         class="crop-height"/>
+                  {{file.name}}
                 </a>
 
-                <div v-if="$props['for'] !== 'view'" class="box-bottom">
-                  <bk-button-icon
-                      @click="onRemove(file,index)"
-                      icon="trash-fill"
-                      variant="danger"
-                      class="ml-auto mr-2"
-                  />
-                </div>
-
+                <bk-button-icon
+                    @click="onRemove(file,index)"
+                    icon="trash-fill"
+                    variant="danger"
+                    class="ml-auto mr-2"
+                />
+                <b-icon icon="arrows-move" v-if="isFieldArray"></b-icon>
+              </b-list-group-item>
               </div>
             </Draggable>
+
           </Container>
-
-      </b-container>
-    </div>
-
-    <b-avatar v-if="isAvatar && $props['for'] === 'view'"
-              v-bind="$attrs"
-              :src="staticLink(fileFormat)"
-    >
-      <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
-        <slot :name="slot" v-bind="props" />
-      </template>
-    </b-avatar>
-
-    <b-overlay v-if="$props['for'] !== 'view'" :show="currentUpload">
-
-      <!-- Avatar management .. -->
-      <a href="#"
-         v-if="isAvatar"
-         @click="$refs.inputFile.$el.firstElementChild.click()">
-        <b-avatar v-if="isAvatar"
-                  v-bind="$attrs"
-                  :src="link(listFiles[0]) || staticLink(fileFormat)"
-        >
-          <template #badge>
-            <slot name="badge" v-bind="{$props}">
-              <b-icon-pencil/>
-            </slot>
-          </template>
-        </b-avatar>
-      </a>
-      <!-- .. avatar management -->
-
-      <b-form-file
-          ref="inputFile"
-          v-show="!isAvatar"
-          v-bind="$attrs"
-          v-model="inputFiles"
-          :multiple="isFieldArray"
-          :accept="accept"
-          :placeholder="placeholderTranslated"
-          @input="onFilesAdded"
-          class="b-form-file">
-
-        <template slot="drop-placeholder">
-          <t>{{dropPlaceholder}}</t>
-        </template>
-
-        <template slot="file-name" slot-scope="{ names }">
-          <b-badge variant="dark">{{ names[0] }}</b-badge>
-          <b-badge v-if="names.length > 1" variant="dark" class="ml-1">
-            + {{ names.length - 1 }} <t>app.file.more</t>
-          </b-badge>
-        </template>
-
-      </b-form-file>
-
-    </b-overlay>
-
-    <b-progress
-        v-if="currentUpload"
-        :value="progress"
-        show-progress
-        animated
-        striped
-        class="mt-2 mb-2"
-    />
-
-    <div v-if="showFilesList" @touchend="fixActionRestriction">
-      <b-list-group v-if="showFilesCounter">
-        <b-list-group-item>
-          <div>
-            <b-avatar-group size="4rem">
-              <b-avatar
-                  v-for="(file,index) in listFiles" :key="file._id"
-                  :src="link(file,'car')"
-                  :text="file.ext"
-              />
-              <b-avatar
-                  variant="primary"
-                  :text="listFiles.length.toString()"
-              />
-            </b-avatar-group>
-          </div>
-          <div class="pt-2" v-if="listFiles.length > 0">
-            <b-button
-                :class="visible ? 'collapsed': null"
-                :aria-expanded="visible ? 'true' : 'false'"
-                aria-controls="collapse-1"
-                @click="visible = !visible"
-            >
-              <t>app.file.manage</t>
-            </b-button>
-          </div>
-        </b-list-group-item>
-      </b-list-group>
-      <b-list-group id="collapse-1" :class="visible ? 'filesListShow': 'filesListHide'">
-        <Container @drop="onDrop"
-                   drag-class="card-ghost bg-info"
-                   drop-class="card-ghost-drop">
-
-          <Draggable v-for="(file,index) in listFiles" :key="file._id" class="mt-2">
-            <div class="draggable-item">
-            <b-list-group-item class="d-flex align-items-center">
-              <b-avatar
-                  :src="link(file,'thumbnail')"
-                  :text="file.ext"
-                  class="mr-3"
-              />
-
-              <a :href="link(file)" :alt="file.name" :target="target">
-                {{file.name}}
-              </a>
-
-              <bk-button-icon
-                  @click="onRemove(file,index)"
-                  icon="trash-fill"
-                  variant="danger"
-                  class="ml-auto mr-2"
-              />
-              <b-icon icon="arrows-move" v-if="isFieldArray"></b-icon>
-            </b-list-group-item>
-            </div>
-          </Draggable>
-
-        </Container>
-      </b-list-group>
+        </b-list-group>
+      </div>
     </div>
   </div>
 </template>
@@ -211,9 +234,11 @@ export default {
     model: Class,
     field: String,
     for: String,
+    type: String,
     showFilesCounter: Boolean,
     showFilesList: Boolean,
     showFilesCards: Boolean,
+    lastRowBackground: String,
     accept: String, // accept="image/*" for images
     default: String,
     target: {
@@ -235,7 +260,10 @@ export default {
       listFiles: [],
       isInForm: this.$props["for"],
       localFilesLinks: {},
-      visible: this.showFilesCounter ? false : true
+      visible: this.showFilesCounter ? false : true,
+      imagesLastRowBackground: this.lastRowBackground ? this.lastRowBackground : "rgb(3, 124, 168)",
+      activeImageSrc: String,
+      activeImageText: String,
     }
   },
   created() {
@@ -277,6 +305,11 @@ export default {
       else
         return "app.file.choose.one"
     },
+    cssProps() {
+      return {
+        '--last-row-background': this.imagesLastRowBackground,
+      }
+    }
   },
   meteor: {
     placeholderTranslated() {
@@ -323,6 +356,14 @@ export default {
       }
       // Return original link if version not found
       return (file.versions[format]) ? Files.link(file,format) : Files.link(file);
+    },
+    openModal(e, file){
+      this.activeImageSrc = e.target.src
+      this.activeImageText = file.name
+      this.$refs['image-modal'].show()
+    },
+    closeModal(e){
+      this.$refs['image-modal'].hide()
     },
     staticLink(format) {
       let fileId = this.model[this.field]
@@ -537,5 +578,43 @@ a > .b-avatar:hover {
 }
 .filesListShow{
   display: block;
+}
+/* Settings start */
+.justified-image-grid {
+  text-align: left !important;
+  --space: 4px;
+  --min-height: 190px;
+}
+/* Settings end */
+
+.justified-image-grid {
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: var(--space);
+  list-style: none;
+  margin: 0 !important; /* We use !important to avoid gaps in some environments. */
+  padding: 0 !important; /* We use !important to avoid gaps in some environments. */
+}
+
+.justified-image-grid > * {
+  flex-grow: calc(var(--width) * (100000 / var(--height)));
+  flex-basis: calc(var(--min-height) * (var(--width) / var(--height)));
+  aspect-ratio: var(--width) / var(--height);
+  position: relative;
+  overflow: hidden;
+  margin: 0 !important; /* We use !important to avoid gaps in some environments. */
+  padding: 0 !important; /* We use !important to avoid gaps in some environments. */
+}
+
+.justified-image-grid > * > img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.justified-image-grid::after {
+  content: " ";
+  flex-grow: 1000000000;
+  background: var(--last-row-background);
 }
 </style>
