@@ -3,15 +3,26 @@
     <b-link
         v-for="transition in transitions"
         @click="onClick(transition,$event)"
+        :class="(transition.label) ? 'btn':''"
         :alt="transition.alt">
       <slot>
+        <b-button
+          v-if="button"
+          :class="transition.class"
+          :variant="transition.variant"
+        >
+          <b-icon :icon="transition.icon" :animation="transition.animation" aria-hidden="true"/>
+          <t v-if="transition.label" :key="transition.label">{{transition.label}}</t>
+        </b-button>
+
         <b-icon
+            v-else
             :class="'BkButton ' + iconClass"
             :font-scale="fontScale"
             :icon="transition.icon"
             :variant="transition.variant"
         />
-        <t v-if="transition.label">{{transition.label}}</t>
+        <t v-if="!button && transition.label" :key="transition.label">{{transition.label}}</t>
       </slot>
     </b-link>
   </span>
@@ -22,7 +33,7 @@
       :title="title"
   >
     <slot>
-      <span v-if="computedIcon" :class="textNoWrap">
+      <span v-if="computedIcon && !button" :class="textNoWrap">
         <b-icon :class="'BkButton ' + iconClass" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
         <t v-if="label" :key="label">{{label}}</t>
       </span>
@@ -238,6 +249,11 @@ export default {
       type: Object,
       default() { {} },
     },
+    button: {
+      // Force button mode
+      type: Boolean,
+      default: false,
+    },
     query: {
       type: Object,
       default() { {} }
@@ -314,7 +330,6 @@ export default {
     transitions: function () {
       let result = []
       let lifecycleFields = this.model.getFieldsByType("Lifecycle")
-      let role = Role.check(this.model)
 
       lifecycleFields.forEach(field => {
         result=result.concat(field.type.class.getTransitionsForModel(this.model, field.name))
@@ -377,8 +392,15 @@ export default {
     onChange(payload) {
       this.$emit("change",payload)
     },
+    click(event) {
+      this.onClick(null,event)
+    },
     onClick(transition,e) {
       if (transition !== null) {
+        const event = new Event("transition",{cancelable: true})
+        this.$emit("transition",transition,event)
+        if (event.defaultPrevented) return
+        if (transition.to === null) return
         this.model[transition.field] = transition.to
         this.model.save({fields:[transition.field]},this.errorCallback);
         return

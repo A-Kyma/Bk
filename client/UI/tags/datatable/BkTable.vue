@@ -53,6 +53,7 @@
               form-field="filter"
               buttons
               button-variant="outline-primary"
+              @change="onAutoFilterSubmit($event,field)"
               @input="onAutoFilterSubmit($event,field)"
               @ready="$emit('filterReady',field)"
               debounce="250"
@@ -77,6 +78,7 @@
               :perPage="datatable.perPage"
               :updateRoute="updateRoute"
               :count="count"
+              @page-click="$emit('page-click',$event)"
           />
         </slot>
       </div>
@@ -88,7 +90,10 @@
     </div>
     <slot name="main" v-bind="{items,labeledFields,datatable, model, actions, filterModel: datatable.filterModel}">
       <div v-if="cardMode">
-        <b-card v-for="(model,index) in items" class="mt-2 mb-2" :key="model._id">
+        <b-card
+            v-for="(model,index) in items"
+            class="mt-2 mb-2"
+            :key="model._id">
           <template #header>
             <span class="mr-2">
               <slot name="cardheader" v-bind="{model,index,fields: labeledFields}">
@@ -96,7 +101,7 @@
               </slot>
             </span>
             <bk-button-icon
-                v-for="action in actions.filter(x=>!['add','back','export','import'].includes(x))"
+                v-for="action in actions.filter(x=>!['add','back','export','import','custom'].includes(x))"
                 :for="action"
                 :model="model"
                 :fields="modalFields"
@@ -196,7 +201,7 @@
                    <td v-for="cell in labeledFields" :key="cell.key" role="cell" class="align-middle">
                      <bk-button-icon
                          v-if="cell.key==='buttonActions'"
-                         v-for="action in actions.filter(x=>!['add','back','export','import'].includes(x))"
+                         v-for="action in actions.filter(x=>!['add','back','export','import','custom'].includes(x))"
                          :for="action"
                          :model="model"
                          :fields="modalFields"
@@ -243,12 +248,12 @@
         <template v-else>
           <tbody role="rowgroup">
             <template v-for="(model,index) in items">
-              <tr role="row" :key="model._id">
+              <tr role="row" :key="model._id" @click="$emit('row-clicked',model)">
                 <slot name="row()" v-bind="{model,index,fields: labeledFields}">
                   <td v-for="cell in labeledFields" :key="cell.key" role="cell" class="align-middle">
                     <bk-button-icon
                         v-if="cell.key==='buttonActions'"
-                        v-for="action in actions.filter(x=>!['add','back','export','import'].includes(x))"
+                        v-for="action in actions.filter(x=>!['add','back','export','import','custom'].includes(x))"
                         :for="action"
                         :model="model"
                         :fields="modalFields"
@@ -305,6 +310,7 @@
               :perPage="datatable.perPage"
               :updateRoute="updateRoute"
               :count="count"
+              @page-click="$emit('page-click',$event)"
           >
             <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
               <slot :name="slot" v-bind="props" />
@@ -342,7 +348,7 @@
     components: {BkPagination, BkButtonIcon,BkModal,BkForm,BkViewInner,Container,Draggable },
     mixins: [errorPopupMixin],
     props: {
-      fields: Array,
+      fields: [Array,String],
       exclude: {
         type: [Array,String]
       },

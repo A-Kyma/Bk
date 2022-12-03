@@ -188,6 +188,7 @@ en:
         "Please verify your email first. Check the email and follow the link!": "Please verify your email first. Check the email and follow the link!"
         "A new email has been sent to you. If the email doesn't show up in your inbox, be sure to check your spam folder.": "A new email has been sent to you. If the email doesn't show up in your inbox, be sure to check your spam folder."
         "Unknown error": "Unknown error"
+        "Validation error": "Validation error"
         "Error, too many requests. Please slow down. You must wait 10 seconds before trying again.": "Error, too many requests. Please slow down. You must wait 10 seconds before trying again."
         "Error, too many requests. Please slow down. You must wait 9 seconds before trying again.": "Error, too many requests. Please slow down. You must wait 9 seconds before trying again."
         "Error, too many requests. Please slow down. You must wait 8 seconds before trying again.": "Error, too many requests. Please slow down. You must wait 8 seconds before trying again."

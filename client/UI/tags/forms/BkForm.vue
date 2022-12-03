@@ -19,6 +19,9 @@
             <t>app.failed</t>
           <!-- Show global error thrown by Meteor.Error -->
           <br><span v-if="!!globalError"><t>{{globalError}}</t></span>
+          <div v-for="error in allErrorsOnHiddenFields" :key="error.name">
+            <span><t>{{error.message}}</t> ({{error.value}})</span>
+          </div>
         </b-alert>
 
         <slot v-bind="{...$props,...$attrs}" :model="formModel">
@@ -36,7 +39,8 @@
 
           </bk-field-list>
         </slot>
-        <slot name="formButtons" v-bind="{...$props,...$attrs}" :model="formModel">
+        <slot name="after-form" v-bind="{...$props,...$attrs, model: formModel}"/>
+        <slot name="formButtons" v-bind="{...$props,...$attrs, model: formModel}">
           <bk-submit v-if="!modal" v-bind="$attrs" :for="submitFor" :toast="toast" @cancel="onCancel">
             <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
               <slot :name="slot" v-bind="props" />
@@ -99,6 +103,13 @@ export default {
     meteor: {
       globalError() {
           return this.formModel.getError('MeteorError');
+      },
+      allErrorsArray() {
+        return Object.values(this.formModel.getError()).flat()
+      },
+      allErrorsOnHiddenFields() {
+        if (!!this.globalError) return []
+        return this.allErrorsArray.filter(e => !this.formModel.canView(e.name))
       }
     },
     // provides formModel to all descendant, if necessary, and avoiding to add formModel as a property of each children

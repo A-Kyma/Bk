@@ -95,6 +95,7 @@ export default {
     // set a new page in case of pagination
     paginate(page) {
       this.datatable.setPage(page)
+      this.$emit("page-click",page)
     }
   }
 }
