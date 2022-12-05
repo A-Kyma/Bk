@@ -226,6 +226,16 @@ en:
   datatable:
     buttonsActions: "Actions"
 
+  Meta:
+    createdAt:
+      label: "Creation date"
+    updatedAt:
+      label: "Update date"
+    createUser:
+      label: "Creation user"
+    updateUser:
+      label: "Updated user"
+
   User:
     profile:
       label: "Profile"

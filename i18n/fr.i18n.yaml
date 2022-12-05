@@ -269,6 +269,16 @@ fr:
     classId:
       label: "Nom"
 
+  Meta:
+    createdAt:
+      label: "Date de création"
+    updatedAt:
+      label: "Date de mise à jour"
+    createUser:
+      label: "Utilisateur de création"
+    updateUser:
+      label: "Utilisateur de dernière modification"
+
   ParameterTable:
     name:
       label: "Nom de la table"

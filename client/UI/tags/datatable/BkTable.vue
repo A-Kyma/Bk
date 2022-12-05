@@ -93,6 +93,7 @@
         <b-card
             v-for="(model,index) in items"
             class="mt-2 mb-2"
+            @click="$emit('row-clicked',model)"
             :key="model._id">
           <template #header>
             <span class="mr-2">
@@ -128,7 +129,7 @@
                     v-bind="{model, index, field: cell.key, cardMode}">
                   <slot name="cell()" v-bind="{model,index,field: cell.key, cardMode}">
                     <span v-if="!datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'">
-                      <bk-view-inner no-label :model="model" :field="cell.key"/>
+                      <bk-view-inner :no-label="!cardWithLabel" :model="model" :field="cell.key"/>
                     </span>
                     <span v-else-if="datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions'">
                       <bk-input

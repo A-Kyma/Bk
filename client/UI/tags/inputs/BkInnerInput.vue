@@ -11,7 +11,7 @@
     <slot :name="'before-'+formGenericFieldComputed" v-bind="{...$props, ...{value,oldValue}}"/>
 
     <slot :name="formGenericFieldComputed"
-          v-bind="{...$props,...{plaintext: plaintextComputed, required: !optional, placeholder, value, oldValue, append, prepend, state, options: enumOptions, class: plaintextClass}}"
+          v-bind="{...$props,formModel, plaintext: plaintextComputed, required: !optional, placeholder, value, oldValue, append, prepend, state, options: enumOptions, class: plaintextClass}"
     >
 
       <bk-field-list
