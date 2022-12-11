@@ -398,12 +398,16 @@ export default {
     onClick(transition,e) {
       if (transition !== null) {
         const event = new Event("transition",{cancelable: true})
+        let conf
+        if (transition.confirm) {
+          conf = confirm(I18n.get("app.submitConfirmation", {
+            label: I18n.get(transition.label)
+          }))
+          if (!conf) return
+        }
         this.$emit("transition",transition,event)
         if (event.defaultPrevented) return
-        if (transition.to === null) return
-        this.model[transition.field] = transition.to
-        this.model.save({fields:[transition.field]},this.errorCallback);
-        return
+        return this.model[transition.name](this.errorCallback)
       }
       if (this.$props.for === "delete") {
         // remove doesn't exist if model is not linked to a database

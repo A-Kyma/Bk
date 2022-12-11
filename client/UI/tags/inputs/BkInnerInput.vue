@@ -305,7 +305,7 @@ import BkCardListClass from "../forms/BkCardListClass";
         let isNew = (this.formModel) ? this.formModel.constructor.isNew(this.formModel) : this.model.constructor.isNew(this.model)
 
         // Check canEdit at model level instead of traversing formModel
-        // to avoid to much calculation. But, we could do this also
+        // to avoid too much calculation. But, we could do this also
         // !this.formModel.canEdit(this.formField)
         if (!this.model.canEdit(this.field,isNew)) {
           return true;

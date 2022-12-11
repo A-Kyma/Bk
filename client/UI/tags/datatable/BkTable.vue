@@ -34,6 +34,7 @@
     </slot>
     <slot name="customHeader" v-bind="{datatable, model, actions}"/>
     <slot name="filterHeader" v-bind="{datatable,model,actions}">
+      <slot name="beforeFilter" v-bind="{datatable,model,actions}"/>
       <b-form v-if="filterFields"
               @submit="onSubmitFormFilter"
               @reset="onResetFormFilter"

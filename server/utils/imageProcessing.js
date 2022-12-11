@@ -185,7 +185,7 @@ const createThumbnails = (collection, fileRef, cb) => {
                 });
               };
 
-              if (!size.square) {
+              if (!size.square && !size.squareExtent) {
                 if (features.width > size.width) {
                   if (size.height) {
                     // Check ratio
@@ -219,7 +219,8 @@ const createThumbnails = (collection, fileRef, cb) => {
                 } else {
                   copyPaste();
                 }
-              } else {
+              } else if (size.square) {
+                // square cropped
                 let x = 0;
                 let y = 0;
                 const widthRatio  = features.width / size.width;
@@ -241,6 +242,28 @@ const createThumbnails = (collection, fileRef, cb) => {
                   .resize(widthNew, heightNew)
                   .crop(size.width, size.width, x, y)
                   .interlace('Line')
+                  .write(path, updateAndSave);
+              } else {
+                // Square border added
+                const widthRatio  = features.width / size.width;
+                const heightRatio = features.height / size.width;
+                let widthNew      = size.width;
+                let heightNew     = size.width;
+
+                if (heightRatio < widthRatio) {
+                  heightNew = (size.width * features.height) / features.width;
+                }
+
+                if (heightRatio > widthRatio) {
+                  widthNew = (size.width * features.width) / features.height;
+                }
+
+                img
+                  .resize(widthNew, heightNew)
+                  .gravity('Center')
+                  .extent(size.width,size.width)
+                  .interlace('Line')
+                  .transparent("white")
                   .write(path, updateAndSave);
               }
             } else {
