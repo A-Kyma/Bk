@@ -1,6 +1,6 @@
 Package.describe({
   name: 'akyma:bk',
-  version: '2.1.3',
+  version: '2.1.4',
   // Brief, one-line summary of the package.
   summary: 'Package which helps creating web applications',
   // URL to the Git repository containing the source code for this package.
@@ -49,7 +49,7 @@ Package.onUse(function(api) {
   api.use('reactive-var'); // For clickTo... components and other thinks
   api.use('reactive-dict')
   api.use('webapp','server')
-  api.use('ostrio:files@2.0.1') // For file upload
+  api.use('ostrio:files@2.3.2') // For file upload
   api.use('fetch'); // make http calls
   api.use('pfafman:filesaver@1.3.2'); // use SaveAs()
   api.use('jkuester:http@2.0.1') // to do http call (used for Deepl, radar)
