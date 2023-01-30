@@ -226,6 +226,18 @@ en:
   datatable:
     buttonsActions: "Actions"
 
+  Device:
+    id:
+      label: "OneSignal Player Id"
+    device_os:
+      label: "OS"
+    device_model:
+      label: "Model"
+    created_at:
+      label: "Created date"
+    send_notification:
+      label: "Send notifications"
+
   Meta:
     createdAt:
       label: "Creation date"
@@ -242,6 +254,8 @@ en:
     username:
       label: "Username"
   UserProfile:
+    devices:
+      label: "Devices"
     avatar:
       label: "Avatar"
       placeholder: "Choose your avatar"

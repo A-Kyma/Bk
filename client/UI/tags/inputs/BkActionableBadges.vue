@@ -1,5 +1,5 @@
 <template>
-  <span v-if="readonly" class="mr-1 ml-1">
+  <span v-if="readonly && !isArray && !options" class="mr-1 ml-1">
     <b-badge :variant="value" class="p-1">
       <slot name="default">
         &nbsp;&nbsp;&nbsp;
@@ -7,6 +7,27 @@
     </b-badge>
     <slot name="after"/>
   </span>
+  <div v-else-if="readonly && options" class="form-control-plaintext">
+    <b-badge
+        v-for="item in options"
+        :key="item._id"
+        :variant="item.variant"
+        class="p-1 mr-1"
+    >
+      <slot name="default" v-bind="{item}">
+        &nbsp;&nbsp;&nbsp;
+      </slot>
+    </b-badge>
+    <slot name="after"/>
+  </div>
+  <div v-else-if="readonly && isArray && !options" class="form-control-plaintext">
+    <b-badge v-for="variant in value" :key="variant" :variant="variant" class="p-1 mr-1">
+      <slot name="default">
+        &nbsp;&nbsp;&nbsp;
+      </slot>
+    </b-badge>
+    <slot name="after"/>
+  </div>
   <div v-else class="form-control-plaintext">
     <b-badge
         v-for="(item,index) in options"
@@ -38,15 +59,20 @@ export default {
     for: String,
     disabled: Boolean,
     state: Boolean,
-    value: String
+    value: [String,Array]
   },
   computed: {
     readonly() {
       return this.$props['for'] === "view" || this.disabled
     },
+    isArray() {
+      return Array.isArray(this.value)
+    }
   },
   methods: {
     getClass(itemValue) {
+      if (this.isArray && this.value.includes(itemValue))
+        return "checked"
       if (itemValue === this.value)
         return "checked"
       return ""

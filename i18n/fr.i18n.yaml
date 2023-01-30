@@ -235,6 +235,8 @@ fr:
     username:
       label: "Nom d'utilisateur"
   UserProfile:
+    devices:
+      label: "Appareils"
     avatar:
       label: "Avatar"
       placeholder: "Choisissez votre avatar"
@@ -268,6 +270,18 @@ fr:
       label: "Classe"
     classId:
       label: "Nom"
+
+  Device:
+    id:
+      label: "OneSignal Player Id"
+    device_os:
+      label: "OS"
+    device_model:
+      label: "Modèle"
+    created_at:
+      label: "Date d'ajout"
+    send_notification:
+      label: "Envoi des notifications"
 
   Meta:
     createdAt:

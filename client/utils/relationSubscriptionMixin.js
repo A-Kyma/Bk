@@ -10,6 +10,7 @@ export default {
     for: String,
     plaintext: Boolean,
     disabled: Boolean,
+    single: Boolean,
     method: String,
     options: Array
   },
@@ -62,6 +63,7 @@ export default {
     },
 
     isArray() {
+      if (this.single) return false
       return this.definition instanceof ListField
     },
     fieldValue() {
