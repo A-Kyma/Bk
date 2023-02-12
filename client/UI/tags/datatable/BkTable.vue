@@ -118,7 +118,7 @@
             </bk-button-icon>
             <slot
                 name="customActions"
-                v-bind="{model, index}"
+                v-bind="{model, index, cardMode}"
             />
           </template>
           <b-card-text role="row" :key="model._id">
@@ -218,7 +218,7 @@
                      <slot
                          v-if="cell.key==='buttonActions'"
                          name="customActions"
-                         v-bind="{model, index, field: cell.key}"
+                         v-bind="{model, index, field: cell.key, cardMode}"
                      />
                      <slot
                          v-if="cell.key!=='buttonActions'"
@@ -270,7 +270,7 @@
                     <slot
                         v-if="cell.key==='buttonActions'"
                         name="customActions"
-                        v-bind="{model, index, field: cell.key}"
+                        v-bind="{model, index, field: cell.key, cardMode}"
                     />
                     <slot
                         v-if="cell.key!=='buttonActions'"

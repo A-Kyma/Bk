@@ -1,5 +1,5 @@
 <template>
-  <div class="small m-0 m-auto">
+  <div :class="sizeClass">
     <div v-if="dataCollection">
       <line-chart v-if="type=='line'" :chart-data="data || dataCollection" :options="dataOptions"></line-chart>
       <pie-chart v-if="type=='pie'" :chart-data="data || dataCollection" :options="dataOptions"></pie-chart>
@@ -17,7 +17,7 @@
 
 <script>
 import { Class } from "meteor/jagi:astronomy"
-import { I18n } from "meteor/akyma:bk"
+import { I18n, DateTime } from "meteor/akyma:bk"
 import LineChart from './LineCharts'
 import PieChart from './PieCharts'
 import BarChart from './BarCharts'
@@ -73,12 +73,24 @@ export default {
       type: Object,
       default() { return {}},
       required: false,
+    },
+    size: {
+      type: String,
+      default: "sm",
+      validator(value) {
+        return ["sm","md","lg"].includes(value)
+      }
     }
   },
   data () {
     return {
       dataCollection: this.data,
       dataOptions: this.options
+    }
+  },
+  computed: {
+    sizeClass() {
+      return "BkChart-"+this.size + " m-0 m-auto"
     }
   },
   mounted () {
@@ -108,6 +120,7 @@ export default {
         }
       }
 
+      const queryParam = {...this.queryParam, locale: language, timeZone: DateTime.getTimeZone()}
       if (this.model) {
         let methodClass = Class.getModel(this.model)
         methodClass.callMethod(this.method,this.queryParam,callback)
@@ -121,8 +134,16 @@ export default {
 </script>
 
 <style>
-.small {
+.BkChart-sm {
   max-width: 250px;
+  margin: 20px;
+}
+.BkChart-md {
+  max-width: 500px;
+  margin: 20px;
+}
+.BkChart-lg {
+  max-width: 95%;
   margin: 20px;
 }
 </style>

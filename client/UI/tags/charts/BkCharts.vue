@@ -2,7 +2,7 @@
   <b-row v-if="chartsData && chartsData.length > 0" align-content="center">
     <template v-for="chartData in chartsData">
       <slot v-bind="chartData">
-        <b-col>
+        <b-col :class="size">
           <b-card class="text-center" body-class="p-2 p-sm-3 p-m-5">
             <template #header>
               <t :options="translationOptions">{{chartData.title}}</t>
@@ -13,6 +13,7 @@
                     :type="chartData.type"
                     :data="chartData.data"
                     :options="chartData.options"
+                    :size="size"
                 />
               </slot>
             </b-card-text>
@@ -28,7 +29,7 @@
 
 <script>
 import {Class} from "meteor/jagi:astronomy"
-import { I18n } from "meteor/akyma:bk"
+import { I18n, DateTime } from "meteor/akyma:bk"
 
 export default {
   name: "BkCharts",
@@ -54,6 +55,13 @@ export default {
     translationOptions: {
       type: Object,
       required: false,
+    },
+    size: {
+      type: String,
+      default: "sm",
+      validator(value) {
+        return ["sm","md","lg"].includes(value)
+      }
     }
   },
   data () {
@@ -83,7 +91,7 @@ export default {
         this.$emit("ready")
       }
 
-      const queryParam = {...this.queryParam, locale: language}
+      const queryParam = {...this.queryParam, locale: language, timeZone: DateTime.getTimeZone()}
       if (this.model) {
         let methodClass = Class.getModel(this.model)
         methodClass.callMethod(this.method,queryParam,callback)
@@ -101,9 +109,21 @@ export default {
   box-shadow: 0 2px 4px rgb(0 0 0 / 20%)!important;
   margin-bottom: 10px!important;
 }
-.col{
+.col.sm{
   padding-bottom: 5px!important;
   min-width: 300px;
   max-width: 510px;
+}
+
+.col.md{
+  padding-bottom: 5px!important;
+  /*min-width: 400px;*/
+  max-width: 600px;
+}
+
+.col.lg{
+  padding-bottom: 5px!important;
+  /*min-width: 500px;*/
+  width: 90%;
 }
 </style>
