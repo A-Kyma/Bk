@@ -59,8 +59,8 @@ fr:
       nostat: "Pas de stat actuellement."
     import:
       dateformat:
-        show: "voir/caché Format de date"
-        info: "Si la date et l'heure sont séparées, ajoutez les 2 numéros de colonnes séparées par ','"
+        show: "voir/cacher Format de date"
+        info: "Si la date et l'heure sont séparées, ajoutez les 2 numéros de colonnes séparés par ','"
         year: "Année"
         month: "Mois"
         day: "Jour"
@@ -82,8 +82,8 @@ fr:
       fileformat:
         title: "Veuillez remplir les informations sur le format du fichier."
       error:
-        missingcolumn: "Un ou plusieurs N° de colone obligatoire sont manquants: "
-        identicalseparator: "le séparateur de colone et le séparateur de liste ne peuvent-être identique"
+        missingcolumn: "Un ou plusieurs N° de colonnes obligatoires sont manquants: "
+        identicalseparator: "le séparateur de colonne et le séparateur de liste ne peuvent être identiques"
       btn:
         label: "Importer"
       onedatetime:
