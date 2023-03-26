@@ -25,6 +25,7 @@
     <b-card
         v-for="(innerModel,index) in model[field]" :key="innerModel._id.valueOf()"
         class="border mb-2"
+        body-class="pt-2 pl-2 pr-4 pb-0"
     >
       <b-card-header v-if="getTypeField">
 
@@ -74,7 +75,7 @@
           @click="onRemove(index)"
           icon="trash-fill"
           variant="danger"
-          class="bottom-remove-button"
+          class="remove-button"
       />
 
       <!--
@@ -250,9 +251,9 @@ export default {
 </script>
 
 <style scoped>
-.bottom-remove-button {
+.remove-button {
   position: absolute;
-  bottom: 2px;
-  left: 4px;
+  top: 2px;
+  right: 4px;
 }
 </style>

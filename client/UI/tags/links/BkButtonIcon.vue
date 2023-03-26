@@ -46,7 +46,7 @@
                 ok-only
                 size="lg"
                 v-bind="$attrs"
-                >
+      >
         <template v-slot:title>
           <t>{{model}}.import.title</t>
         </template>

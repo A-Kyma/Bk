@@ -201,7 +201,7 @@
                     class="mr-3"
                 />
 
-                <a :href="link(file)" :alt="file.name" :target="target">
+                <a :href="link(file)" :alt="file.name" :target="target" @click="openLink(link(file))">
                   {{file.name}}
                 </a>
 
@@ -249,7 +249,11 @@ export default {
     default: String,
     target: {
       type: String,
-      default: "_blank"
+      default() {
+          if (Meteor.isCordova)
+            return "_system"
+          return "_blank"
+      }
     },
     fileFormat: {
       type: String,
@@ -377,6 +381,9 @@ export default {
       if (fileId === undefined && this.default) return this.default
       if (fileId === undefined) return
       return Meteor.absoluteUrl("/cdn/storage/Files/" + fileId + "/" + format + "/" + fileId + ".jpg")
+    },
+    openLink(link) {
+      window.open(link,this.target)
     },
     fileIcon(ext) {
       switch(ext) {

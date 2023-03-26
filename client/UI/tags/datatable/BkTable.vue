@@ -39,10 +39,13 @@
               @submit="onSubmitFormFilter"
               @reset="onResetFormFilter"
               id="filter-header"
-              inline class="mt-2">
+              inline
+              class="mt-2"
+      >
         <b-input-group
             v-for="field of filterFields"
-            class="mb-2 mr-sm-2 mb-sm-0">
+            class="mb-2 mr-sm-2 mb-sm-0 flex-nowrap max100vw"
+        >
           <template #prepend v-if="!noFilterLabel">
             <b-input-group-text>
               <t>{{datatable.filterModel.constructor.getLabelKey(field)}}</t>
@@ -51,8 +54,9 @@
           <bk-inner-input
               :model="datatable.filterModel"
               :field="field"
+              for="filter"
               form-field="filter"
-              buttons
+              :buttons="true"
               button-variant="outline-primary"
               @change="onAutoFilterSubmit($event,field)"
               @input="onAutoFilterSubmit($event,field)"
@@ -572,5 +576,8 @@
   }
   .card {
     box-shadow: 0 2px 4px rgb(0 0 0/20%);
+  }
+  .max100vw {
+      max-width: calc(100vw - 1rem);
   }
 </style>

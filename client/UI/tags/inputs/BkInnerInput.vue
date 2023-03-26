@@ -2,9 +2,10 @@
 
   <b-input-group
     v-bind="$attrs"
+    v-dragscroll.x="true"
     :prepend="prepend"
     :append="append"
-    :class="ui.class"
+    :class="inputGroupClass"
     :key="definitionKey"
   >
 
@@ -18,7 +19,7 @@
               v-if="definitionField === 'Object'"
               v-bind="{...$props,...$attrs,...uiComponentProps}"
               class="col-12"
-              :model="model[field]"
+              :model="model.get(field)"
               :form-field="formFieldComputed"
               @change="$emit('change')"
               fields="">
@@ -474,6 +475,15 @@ import BkCardListClass from "../forms/BkCardListClass";
           return "form-control-plaintext"
         return ""
       },
+      inputGroupClass() {
+        let defaultClass = this.ui.class || ""
+        if (this.$props['for'] === "filter"
+        && (this.definitionField === 'ListEnum' && !this.ui.template
+         || this.inputComponent === 'BFormRadioGroup' && this.definitionField === 'Enum')
+        )
+          return defaultClass + " overflow-scroll-x"
+        return defaultClass
+      },
     },
 
     methods: {
@@ -580,5 +590,16 @@ import BkCardListClass from "../forms/BkCardListClass";
 .custom-switch {
   padding-top: 0.375em;
   padding-bottom: 0.375em;
+}
+
+.overflow-scroll-x {
+    overflow-x: scroll;
+    overflow-y: visible;
+    overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.overflow-scroll-x::-webkit-scrollbar {
+    display: none;
 }
 </style>
