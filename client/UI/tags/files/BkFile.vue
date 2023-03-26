@@ -27,14 +27,20 @@
         <div v-if="!isFieldArray" class="box">
           <div v-if="$props['for'] !== 'view'" class="box-right"/>
 
-          <a v-if="listFiles[0]" :href="link(listFiles[0])" :alt="listFiles[0].name" :target="target">
+          <a
+            v-if="listFiles[0]"
+            :href="link(listFiles[0])"
+            :alt="listFiles[0].name"
+            :target="target"
+            @click="openLink(link(listFiles[0]))"
+          >
             <b-img thumbnail
                    :src="link(listFiles[0],'thumbnail')"
                    :alt="listFiles[0].name"
                    class="crop-height"/>
           </a>
 
-          <a v-else :href="staticLink()" alt="" :target="target">
+          <a v-else :href="staticLink()" alt="" :target="target" @click="openLink(staticLink())">
             <b-img thumbnail
                    :src="staticLink('thumbnail')"
                    alt=""
@@ -67,7 +73,7 @@
 
                   <div v-if="$props['for'] !== 'view'" class="box-right"/>
 
-                  <a :href="link(file)" :alt="file.name" :target="target">
+                  <a :href="link(file)" :alt="file.name" :target="target" @click="openLink(link(file))">
                     <b-img thumbnail
                            :src="link(file,'thumbnail')"
                            :alt="file.name"
