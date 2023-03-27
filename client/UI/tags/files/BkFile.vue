@@ -32,7 +32,7 @@
             :href="link(listFiles[0])"
             :alt="listFiles[0].name"
             :target="target"
-            @click="openLink(link(listFiles[0]))"
+            @click="openLink(link(listFiles[0]),$event)"
           >
             <b-img thumbnail
                    :src="link(listFiles[0],'thumbnail')"
@@ -40,7 +40,7 @@
                    class="crop-height"/>
           </a>
 
-          <a v-else :href="staticLink()" alt="" :target="target" @click="openLink(staticLink())">
+          <a v-else :href="staticLink()" alt="" :target="target" @click="openLink(staticLink(),$event)">
             <b-img thumbnail
                    :src="staticLink('thumbnail')"
                    alt=""
@@ -73,7 +73,7 @@
 
                   <div v-if="$props['for'] !== 'view'" class="box-right"/>
 
-                  <a :href="link(file)" :alt="file.name" :target="target" @click="openLink(link(file))">
+                  <a :href="link(file)" :alt="file.name" :target="target" @click="openLink(link(file),$event)">
                     <b-img thumbnail
                            :src="link(file,'thumbnail')"
                            :alt="file.name"
@@ -201,7 +201,7 @@
                     class="mr-3"
                 />
 
-                <a :href="link(file)" :alt="file.name" :target="target" @click="openLink(link(file))">
+                <a :href="link(file)" :alt="file.name" :target="target" @click="openLink(link(file),$event)">
                   {{file.name}}
                 </a>
 
@@ -382,8 +382,11 @@ export default {
       if (fileId === undefined) return
       return Meteor.absoluteUrl("/cdn/storage/Files/" + fileId + "/" + format + "/" + fileId + ".jpg")
     },
-    openLink(link) {
-      window.open(link,this.target)
+    openLink(link,e) {
+      if (Meteor.isCordova && cordova?.InAppBrowser) {
+        e.preventDefault()
+        cordova.InAppBrowser.open(link, this.target)
+      }
     },
     fileIcon(ext) {
       switch(ext) {
