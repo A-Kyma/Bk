@@ -386,6 +386,9 @@ export default {
       if (Meteor.isCordova && cordova?.InAppBrowser) {
         e.preventDefault()
         cordova.InAppBrowser.open(link, this.target)
+      } else {
+        e.preventDefault()
+        window.open(link, this.target)
       }
     },
     fileIcon(ext) {
