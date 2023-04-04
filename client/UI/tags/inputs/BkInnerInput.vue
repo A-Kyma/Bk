@@ -3,6 +3,7 @@
   <b-input-group
     v-bind="$attrs"
     v-dragscroll.x="true"
+    v-dragscroll.y="false"
     :prepend="prepend"
     :append="append"
     :class="inputGroupClass"
