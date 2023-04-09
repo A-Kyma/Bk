@@ -10,7 +10,7 @@
           </b-form-select-option>
         </b-form-select>
       </b-col>
-      <b-col>
+      <b-col v-if="!$attrs.noNumber">
         <b-form-input type="number" v-model="insertModel.number"/>
       </b-col>
       <b-col>
@@ -111,7 +111,7 @@
           </b-form-select-option>
         </b-form-select>
       </b-col>
-      <b-col>
+      <b-col v-if="!$attrs.noNumber">
         <b-form-input type="number" v-model="insertModel.number"/>
       </b-col>
       <b-col>
@@ -142,7 +142,7 @@ export default {
       model: Class,
       field: String,
       formField: String,
-      for: String,
+      for: String
     },
   data() {
     return {
