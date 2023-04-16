@@ -102,7 +102,7 @@ fr:
         format: "Format de l'heure"
       list:
         default:
-          placeholder: "Défaut ,"
+          placeholder: "Défaut ;"
         separator: "Séparateur de liste"
       column:
         default:

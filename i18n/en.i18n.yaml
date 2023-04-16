@@ -100,7 +100,7 @@ en:
         title: "Please fill in the information about the file format."
       list:
         default:
-          placeholder: "Default ,"
+          placeholder: "Default ;"
         separator: "List separator"
       nofile: "No file selected"
       toogleform: "see/hide the form"

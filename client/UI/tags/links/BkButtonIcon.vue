@@ -162,8 +162,12 @@
               <span v-for="field in item.fields">{{ field }} </span>
               <b-badge class= " float-right badge-lg" v-if="item.statusCode === 'success'" variant="success">{{ item.statusLabel }}</b-badge>
               <b-badge class= " float-right badge-lg" v-if="item.statusCode === 'error'" variant="danger">{{ item.statusLabel }}</b-badge>
+              <b-badge class= " float-right badge-lg" v-if="item.statusCode === 'warning'" variant="warning">{{ item.statusLabel }}</b-badge>
             </div>
             <div v-if="item.statusCode === 'error'" style="color: darkred">
+              {{ item.reason }}
+            </div>
+            <div v-if="item.statusCode === 'warning'">
               {{ item.reason }}
             </div>
           </b-alert>
