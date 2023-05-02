@@ -110,6 +110,7 @@
           :plaintext="plaintextComputed"
           :readonly="plaintextComputed"
           :disabled="plaintextComputed"
+          :max-tags="maxTags"
           @input="$emit('input')"
           @ready="$emit('ready')"
       >
@@ -128,6 +129,7 @@
         :plaintext="plaintextComputed"
         :readonly="plaintextComputed"
         :disabled="plaintextComputed"
+        :max-tags="maxTags"
         @input="$emit('input')"
         @ready="$emit('ready')"
       >
@@ -162,6 +164,7 @@
           :disabled="plaintextComputed"
           :options="enumOptions"
           :switch="uiSwitch"
+          :max-tags="maxTags"
           rows="3"
           max-rows="8"
       />
@@ -267,6 +270,12 @@ import BkCardListClass from "../forms/BkCardListClass";
       ui() {
         if (this.noUI) {return {}}
         return this.definition.ui || {}
+      },
+      maxTags() {
+        const maxTags = this.ui.maxTags
+        if (typeof maxTags === "function")
+            return maxTags(this.formModel || this.model)
+        return maxTags
       },
       definitionKey() {
         let key = this.definition.key

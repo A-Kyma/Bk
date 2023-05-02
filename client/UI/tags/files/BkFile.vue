@@ -14,7 +14,7 @@
             <li :key="file._id" :style="'--width: '+file.meta.width+'; --height: ' + file.meta.height + ';'">
               <b-img
                   @click="openModal($event,file)"
-                  :src="link(file,'car')"
+                  :src="link(file,fileFormat)"
                   :text="file.name"
               />
             </li>
@@ -258,7 +258,11 @@ export default {
     fileFormat: {
       type: String,
       default: "normal"
-    }
+    },
+    slideFormat: {
+      type: String,
+      default: "slide"
+    },
   },
   data() {
     return {
@@ -368,7 +372,7 @@ export default {
       return (file.versions[format]) ? Files.link(file,format) : Files.link(file);
     },
     openModal(e, file){
-      this.activeImageSrc = e.target.src
+      this.activeImageSrc = this.link(file,this.slideFormat)
       this.activeImageText = file.name
       this.$refs['image-modal'].show()
     },

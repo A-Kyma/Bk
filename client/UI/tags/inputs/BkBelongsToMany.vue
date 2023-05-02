@@ -20,6 +20,7 @@
       :limit="limit"
       :multiple="isArray"
       :searchable="searchableData"
+      :max="maxTags"
       @search-change="search"
       @select="onSelectRow"
       @remove="onRemoveTag"
@@ -38,6 +39,10 @@
 
     <template #singleLabel="data">
       <slot :name="formFieldComputed + '-single'" v-bind="data"/>
+    </template>
+
+    <template #maxElements>
+        <t :options="{'count': maxTags}">app.maxTags</t>
     </template>
 
     <span slot="noResult"><t>app.notFound</t></span>
@@ -92,6 +97,9 @@ export default {
     taggable: {
       type: Boolean,
       default: true,
+    },
+    maxTags: {
+        type: Number,
     },
     searchable: {
       type: Boolean,

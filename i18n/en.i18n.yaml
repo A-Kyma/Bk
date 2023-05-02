@@ -138,6 +138,10 @@ en:
       zero: "no element selected"
       one: "one element selected"
       other: "{{count}} elements selected"
+    maxTags:
+      zero: "No element authorized"
+      one: "Only one element authorized"
+      other: "Maximum {{count}} elements authorized"
     day:
       0: "Monday"
       1: "Tuesday"

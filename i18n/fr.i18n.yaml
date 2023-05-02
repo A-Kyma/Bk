@@ -143,6 +143,10 @@ fr:
       zero: "Aucun élément sélectionné"
       one: "Un élément sélectionné"
       other: "{{count}} éléments sélectionnés"
+    maxTags:
+      zero: "Aucun élément autorisé"
+      one: "Un seul élément est autorisé"
+      other: "Un maximum de {{count}} éléments est autorisé"
     day:
       0: "Lundi"
       1: "Mardi"

@@ -189,6 +189,7 @@
     },
     meteor: {
       description() {
+        if (this.plaintext) return
         if (this.model.constructor.parentClassName === "ParameterTableElement")
           return this.model.constructor.getDescription(this.field)
 
