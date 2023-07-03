@@ -48,7 +48,7 @@
           :disabled="plaintextComputed"
           class="form-control-plaintext">
         <b-form-checkbox v-for="item in enumOptions"
-                         :value="item.value">
+                         :value="item.value" :key="item.value">
           <t>{{item.key}}</t>
         </b-form-checkbox>
       </b-form-checkbox-group>
@@ -68,7 +68,7 @@
           :disabled="plaintextComputed"
           class="form-control-plaintext">
         <b-form-radio v-for="item in enumOptions"
-                      :value="item.value">
+                      :value="item.value" :key="item.value">
           <t>{{item.key}}</t>
         </b-form-radio>
       </b-form-radio-group>
@@ -111,8 +111,10 @@
           :readonly="plaintextComputed"
           :disabled="plaintextComputed"
           :max-tags="maxTags"
+          @select="$emit('select',$event)"
           @input="$emit('input')"
           @ready="$emit('ready')"
+          @tag="$emit('tag',$event)"
       >
         <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
           <slot :name="slot" v-bind="props" />
@@ -130,8 +132,10 @@
         :readonly="plaintextComputed"
         :disabled="plaintextComputed"
         :max-tags="maxTags"
+        @select="$emit('select',$event)"
         @input="$emit('input')"
         @ready="$emit('ready')"
+        @tag="$emit('tag',$event)"
       >
         <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
           <slot :name="slot" v-bind="props" />
@@ -547,7 +551,7 @@ import BkCardListClass from "../forms/BkCardListClass";
         let fieldType = fieldDefinition.type.name;
         let EnumClass = fieldDefinition.type.class
         if (! Enum.enums[fieldType]) { return }
-        let identifiers = EnumClass.getIdentifiers()
+        let identifiers = EnumClass.getIdentifiers(this.formModel || this.model)
 
         let options = _.map(identifiers, x => {
               let key = EnumClass.getLabelKey(x);

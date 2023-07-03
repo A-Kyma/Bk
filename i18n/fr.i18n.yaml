@@ -117,6 +117,7 @@ fr:
     max: "Maximum"
     notFound: "Recherche non trouvée"
     noData : "Aucune donnée à afficher"
+    clickAdd: "Cliquer pour soumettre"
     seeMore: "Voir plus"
     view: "Consultation"
     ok: "Ok"

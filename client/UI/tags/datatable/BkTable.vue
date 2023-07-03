@@ -8,6 +8,7 @@
                       :params="filter"
                       :fields="modalFields"
                       :exclude="modalExclude"
+                      @tag="$emit('tag',$event)"
                       v-bind="$attrs"
       >
         <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
@@ -47,9 +48,15 @@
             class="mb-2 mr-sm-2 mb-sm-0 flex-nowrap max100vw"
         >
           <template #prepend v-if="!noFilterLabel">
-            <b-input-group-text>
-              <t>{{datatable.filterModel.constructor.getLabelKey(field)}}</t>
-            </b-input-group-text>
+
+            <slot :name="'prependFilter-'+field" v-bind="{datatable,model,field,label:datatable.filterModel.constructor.getLabelKey(field)}">
+              <slot name="prependFilter" v-bind="{datatable,model,field,label: datatable.filterModel.constructor.getLabelKey(field)}">
+                <b-input-group-text>
+                  <t>{{datatable.filterModel.constructor.getLabelKey(field)}}</t>
+                </b-input-group-text>
+              </slot>
+            </slot>
+
           </template>
           <bk-inner-input
               :model="datatable.filterModel"
@@ -114,6 +121,7 @@
                 :exclude="modalExclude"
                 v-bind="$attrs"
                 @remove="onRemove"
+                @tag="$emit('tag',$event)"
                 class="float-right"
             >
               <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
@@ -213,6 +221,7 @@
                          :fields="modalFields"
                          :exclude="modalExclude"
                          v-bind="$attrs"
+                         @tag="$emit('tag',$event)"
                          @remove="onRemove"
                      >
                        <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
@@ -265,6 +274,7 @@
                         :fields="modalFields"
                         :exclude="modalExclude"
                         v-bind="$attrs"
+                        @tag="$emit('tag',$event)"
                         @remove="onRemove"
                     >
                       <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
@@ -360,6 +370,7 @@
       },
       exportFields: String,
       editableFields: [String,Array],
+      filterClass: Class,
       filterFields: Array,
       noFilterLabel: {
         type: Boolean,

@@ -27,7 +27,7 @@ export default {
   },
 
   created() {
-    this.searchableData = !this.selectInput
+    this.searchableData = !this.selectInput || this.definition.searchable
 
     this.oldValue = this.getId
 
@@ -246,7 +246,9 @@ export default {
     }
   },
   methods: {
-    setId(id,record) {
+    setId(row) {
+      const id = row.value
+      const record = row.record
       let definition = this.model.getDefinition(this.field)
       // Array of relation
       if (this.isArray) {
@@ -265,6 +267,7 @@ export default {
           this.model[this.field] = id
         }
       }
+      this.$emit("select",row)
     },
     removeId(id) {
       let definition = this.model.getDefinition(this.field)
@@ -363,8 +366,8 @@ export default {
       this.relationList = this.getOptionsFromRelations(records)
       if (this.relationList.length === 1 && !this.optional) {
         //this.model[this.field] = this.relationList[0].value;
-        this.setId(this.relationList[0].value,this.relationList[0].record);
-        if (this.selectInput) {
+        this.setId(this.relationList[0]);
+        if (this.selectInput && !this.definition.searchable) {
           this.searchableData = false
           this.disabledData = !this.optional
         } else {
@@ -399,8 +402,7 @@ export default {
     },
     onSelectRow(row) {
       //this.model.set(this.field, row.value, {cast: true})
-      this.$emit("select",row)
-      this.setId(row.value,row.record)
+      this.setId(row)
       this.value = "";
       if (this.relationList.length !== 1 && !this.selectInput)
         this.activateSubscription(true); // since value length is lower than 3
@@ -429,7 +431,7 @@ export default {
 
     },
     onCloseDropdown() {
-      if (this.selectInput)
+      if (this.selectInput && !this.definition.searchable)
         this.searchableData = false
     }
   }

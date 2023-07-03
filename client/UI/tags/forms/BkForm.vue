@@ -30,6 +30,7 @@
               :model="formModel"
               :for="$props['for']"
               @change="onChangeInput"
+              @tag="$emit('tag',$event)"
               :validate-server-side="validateServerSide"
           >
 

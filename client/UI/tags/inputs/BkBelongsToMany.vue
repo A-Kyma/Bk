@@ -23,6 +23,7 @@
       :max="maxTags"
       @search-change="search"
       @select="onSelectRow"
+      @tag="$emit('tag',{model,field,value: $event})"
       @remove="onRemoveTag"
       @open="onOpenDropdown"
       @close="onCloseDropdown"
@@ -45,7 +46,13 @@
         <t :options="{'count': maxTags}">app.maxTags</t>
     </template>
 
-    <span slot="noResult"><t>app.notFound</t></span>
+    <template #noResult>
+      <span>
+        <slot :name="formFieldComputed + '-noResult'">
+          <t>app.notFound</t>
+        </slot>
+      </span>
+    </template>
     <span slot="noOptions"><t>app.noData</t></span>
     <strong slot="limit">
       <t v-if="isArray" :options="{'count': getId.length}">app.selected</t>
@@ -131,6 +138,8 @@ export default {
   },
   meteor: {
     tagPlaceholder() {
+      if (this.definition.searchable)
+        return I18n.get("app.clickAdd")
       return I18n.get("app.notFound")
     },
     placeholder() {

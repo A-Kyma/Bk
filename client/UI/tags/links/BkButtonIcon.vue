@@ -211,6 +211,7 @@
             :for="$props['for']"
             v-bind="$attrs"
             @change="onChange"
+            @tag="$emit('tag',$event)"
         >
           <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
             <slot :name="slot" v-bind="props" />

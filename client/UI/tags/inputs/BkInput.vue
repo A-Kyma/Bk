@@ -30,6 +30,8 @@
                 :model="inputModel"
                 @input="$emit('input')"
                 @change="$emit('change')"
+                @select="$emit('select',$event)"
+                @tag="$emit('tag',$event)"
             >
 
               <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
@@ -56,6 +58,8 @@
                 @validationError="onError"
                 @input="$emit('input')"
                 @change="$emit('change')"
+                @select="$emit('select',$event)"
+                @tag="$emit('tag',$event)"
                 :model="inputModel">
 
           <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
@@ -86,6 +90,8 @@
               @state="onState"
               @validationError="onError"
               @input="$emit('input')"
+              @select="$emit('select',$event)"
+              @tag="$emit('tag',$event)"
               :model="inputModel">
 
             <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
