@@ -401,6 +401,14 @@ export default {
       }).sort((a,b) => (a.text <= b.text) ? -1 : 1)
     },
     onSelectRow(row) {
+      // If selecting another value, send remove event before select event
+      if (!this.isArray && !!this.getId)
+        this.$emit("remove",{
+          record: {
+            _id: this.getId
+          },
+          value: this.getId
+        })
       //this.model.set(this.field, row.value, {cast: true})
       this.setId(row)
       this.value = "";

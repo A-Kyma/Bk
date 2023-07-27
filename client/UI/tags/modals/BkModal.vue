@@ -70,6 +70,7 @@ export default {
       this.$emit("ok",e);
     },
     onShow() {
+      this.$emit('show')
       if (!!this.subscription)
         this.$subscribe(this.subscription,[this.model._id])
     },

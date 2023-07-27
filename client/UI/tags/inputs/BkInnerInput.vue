@@ -254,7 +254,9 @@ import BkCardListClass from "../forms/BkCardListClass";
           if (value === null || value === "") { value = undefined }
           this.model.set(this.field, value, {cast: true})
           this.model.isValid(this.field,{simulationOnly: !validateServerSide})
-          this.$emit("input",value)
+          // Avoid emit input 2 times but still needed on BkBelongsToMany tags because of filter purpose
+          if (!['ListRelation','Relation'].includes(this.definitionField))
+            this.$emit("input",value)
         },
         get: function () {
           let v = this.model.get(this.field)
