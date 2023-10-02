@@ -37,6 +37,17 @@
         v-bind="$attrs"
     />
 
+    <b-progress
+      v-else-if="classDefinitionName === 'Percentage'"
+      max="100"
+      show-progress
+      animated
+    >
+      <b-progress-bar :value="value">
+        <span v-if="value">{{value}}%</span>
+      </b-progress-bar>
+    </b-progress>
+
     <span v-else>{{value}}</span>
   </slot>
   </span>

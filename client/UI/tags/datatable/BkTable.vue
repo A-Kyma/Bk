@@ -395,6 +395,11 @@
         type: Boolean,
         default: false
       },
+      // Params transmitted to subscription's 3rd argument
+      params: {
+        type: Object,
+        default() { return {} }
+      },
       autoSubmit: Boolean, // Auto submit editable fields changes
       scroll: Boolean,
       multi: Boolean,
