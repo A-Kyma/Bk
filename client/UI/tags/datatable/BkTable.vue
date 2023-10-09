@@ -396,7 +396,7 @@
         default: false
       },
       // Params transmitted to subscription's 3rd argument
-      params: {
+      subscriptionParams: {
         type: Object,
         default() { return {} }
       },
