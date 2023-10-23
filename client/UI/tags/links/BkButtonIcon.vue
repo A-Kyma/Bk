@@ -68,7 +68,13 @@
                 <b-form-input style="width: 70px" v-model="separator" id="inline-form-input-separator" :placeholder="getI18n('app.import.column.default.placeholder')"></b-form-input>
               </b-input-group>
               <b-input-group :prepend="getI18n('app.import.list.separator')" class="mb-2 mr-sm-2">
-                <b-form-input style="width: 70px" v-model="listSeparator" id="inline-form-input-listseparator" :placeholder="getI18n('app.import.list.default.placeholder')"></b-form-input>
+                <b-form-input
+                  style="width: 70px"
+                  v-model="listSeparator"
+                  id="inline-form-input-listseparator"
+                  :placeholder="getI18n('app.import.list.default.placeholder')"
+                  :readonly="getImportFileType === 'xls'"
+                />
               </b-input-group>
               <b-input-group class="col-12 mb-2">
                 <b-form-checkbox id="inline-form-checkbox-oneDateTimeFormat" v-model="oneDateTime" name="checkbox-1" value="accepted" unchecked-value="not_accepted">
@@ -652,13 +658,13 @@ export default {
             type: 'binary'
           });
           let Sheet = workbook.SheetNames[0];
-          let excelRows = XLSX.utils.sheet_to_csv(workbook.Sheets[Sheet]);
+          let excelRows = XLSX.utils.sheet_to_csv(workbook.Sheets[Sheet],{FS: ";"});
 
           let fileArray = excelRows.split(/\r\n|\n/)
           if (header === 'accepted') fileArray.splice(0,1);
           let param = {}
-          param.separator = ","
-          param.listSeparator = ";"
+          param.separator = ";"
+          param.listSeparator = ","
           param.oneDateFormat = oneDateTime
           param.testOnly = testOnly
           if (oneDateTime === 'accepted'){

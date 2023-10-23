@@ -78,7 +78,7 @@ fr:
       nofile: "Aucun fichier sélectionné"
       uploading: "En cours de chargement..."
       filecolumns:
-        title: "Veuillez remplir le numéro de colone de votre fichier avec les champs. (* champ obligatoire)"
+        title: "Veuillez remplir le numéro de colonne de votre fichier avec les champs. (* champ obligatoire)"
       fileformat:
         title: "Veuillez remplir les informations sur le format du fichier."
       error:
@@ -102,16 +102,16 @@ fr:
         format: "Format de l'heure"
       list:
         default:
-          placeholder: "Défaut ;"
+          placeholder: "Défaut ,"
         separator: "Séparateur de liste"
       column:
         default:
           placeholder: "Défault ;"
-        separator: "Séparateur de colone"
+        separator: "Séparateur de colonne"
         csv:
-          label: "N° colone CSV"
+          label: "N° colonne CSV"
         xls:
-          label: "N° colone XLS"
+          label: "N° colonne XLS"
     filter: "Filtrer"
     min: "Minimum"
     max: "Maximum"

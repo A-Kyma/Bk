@@ -169,6 +169,7 @@
           :options="enumOptions"
           :switch="uiSwitch"
           :max-tags="maxTags"
+          :debounce="debounce"
           rows="3"
           max-rows="8"
       />
@@ -276,6 +277,15 @@ import BkCardListClass from "../forms/BkCardListClass";
       ui() {
         if (this.noUI) {return {}}
         return this.definition.ui || {}
+      },
+      debounce() {
+        if (this.$attrs.debounce)
+          return this.$attrs.debounce
+        let validateServerSide = this.definition.validateServerSide || this.validateServerSide
+        if (this.definition.debounce > 0)
+          return this.definition.debounce
+        if (validateServerSide)
+          return 250
       },
       maxTags() {
         const maxTags = this.ui.maxTags
@@ -445,7 +455,7 @@ import BkCardListClass from "../forms/BkCardListClass";
         let templateType = fieldType.toLowerCase();
         let fieldClass = fieldDefinition.type.class;
 
-        if (isGenericInputType(fieldType) || fieldType === "String") {
+        if (isGenericInputType(fieldType) || fieldType === "String" || fieldType === "TrimmedString") {
           return "BFormInput";
         }
 
