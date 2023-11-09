@@ -268,6 +268,9 @@ export default {
     query: {
       type: Object,
       default() { {} }
+    },
+    transition: {
+      type: Object
     }
   },
   data() {
@@ -345,6 +348,8 @@ export default {
       lifecycleFields.forEach(field => {
         result=result.concat(field.type.class.getTransitionsForModel(this.model, field.name))
       })
+      if (!!this.transition)
+        return result.filter(t => t.name === this.transition.name)
       return result;
     },
     textNoWrap() {
@@ -408,6 +413,7 @@ export default {
     },
     onClick(transition,e) {
       if (transition !== null) {
+        // Allow to use @transition.prevent
         const event = new Event("transition",{cancelable: true})
         let conf
         if (transition.confirm) {
@@ -416,7 +422,7 @@ export default {
           }))
           if (!conf) return
         }
-        this.$emit("transition",transition,event)
+        this.$emit("transition",event,transition)
         if (event.defaultPrevented) return
         return this.model[transition.name](this.errorCallback)
       }
