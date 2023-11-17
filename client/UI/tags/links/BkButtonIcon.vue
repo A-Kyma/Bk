@@ -472,7 +472,8 @@ export default {
           this.$bvModal.show(this.modalFormId)
         }
       }
-      this.$emit("click",e,this.model);
+      const event = new Event("click",{cancelable: true})
+      this.$emit("click",event,this.model);
     },
     onAdd() {
       //add a new model of same type afterwards

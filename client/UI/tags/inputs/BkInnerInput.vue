@@ -505,7 +505,7 @@ import BkCardListClass from "../forms/BkCardListClass";
         let defaultClass = this.ui.class || ""
         if (this.$props['for'] === "filter"
         && (this.definitionField === 'ListEnum' && !this.ui.template
-         || this.inputComponent === 'BFormRadioGroup' && this.definitionField === 'Enum')
+         || this.inputComponent === 'BFormRadioGroup')
         )
           return defaultClass + " overflow-scroll-x"
         return defaultClass

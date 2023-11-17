@@ -1,7 +1,20 @@
 <template>
-
-  <div v-if="!plaintext && $props['for'] !== 'view'" :class="'input-group ' + classSingleOrTag">
-  <multiselect
+  <b-form-radio-group
+    v-if="!plaintext && $props['for'] !== 'view' && ui.template === 'BFormRadioGroup'"
+    v-bind="{...$props,...$attrs,...uiComponentProps}"
+    v-model="model[field]"
+    :name="formFieldComputed"
+    :disabled="plaintext"
+    class="form-control-plaintext"
+    @change="onSelectRow({value: $event})"
+  >
+    <b-form-radio v-for="item in options || relationList"
+                  :value="item.value" :key="item.value">
+      {{item.text}}
+    </b-form-radio>
+  </b-form-radio-group>
+  <div v-else-if="!plaintext && $props['for'] !== 'view'" :class="'input-group ' + classSingleOrTag">
+    <multiselect
       ref="select"
       class="form-control p-0"
       v-bind="$attrs"
@@ -28,7 +41,7 @@
       @open="onOpenDropdown"
       @close="onCloseDropdown"
       @blur.prevent="false"
-  >
+    >
 
     <template #option="data">
       <slot :name="formFieldComputed + '-option'" v-bind="data"/>
@@ -658,5 +671,8 @@ fieldset[disabled] .multiselect {
   to {
     transform: rotate(2turn)
   }
+}
+#filter-header .btn-group-toggle label.btn {
+  display: inline-block;
 }
 </style>

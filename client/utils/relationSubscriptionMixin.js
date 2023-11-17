@@ -14,6 +14,7 @@ export default {
     method: String,
     options: Array
   },
+  inject: ["formModel"],
   mixins: [errorPopupMixin],
   data() {
     return {
@@ -42,7 +43,13 @@ export default {
     definition() {
       return this.model.getDefinition(this.field)
     },
-
+    ui() {
+      return this.definition.ui || {}
+    },
+    uiComponentProps() {
+      if (this.ui.props && typeof this.ui.props === "object") return this.ui.props
+      return {}
+    },
     optional() {
       if (typeof this.definition.optional === "function")
         return this.definition.optional(this.model)
@@ -120,7 +127,10 @@ export default {
       }
       let where = definition.where.call(
         this.model, // set this in where function to this.model
-        this.getId, this.value, I18n.getLanguage(),
+        this.getId, // id or [ids]
+        this.value, // filter
+        I18n.getLanguage(), // locale
+        this.formModel // upmost parent model
       ) //TODO where not found
       if (!where) return;
       if (!where.search && !where.param) where = { search: where }
