@@ -258,6 +258,7 @@
                  </slot>
                <slot name="afterRow" v-bind="{model, index}"/>
              </Draggable>
+             <slot name="afterAllRows" v-bind="{datatable,items}"/>
            </Container>
          </template>
         <template v-else>
@@ -312,6 +313,7 @@
               </tr>
               <slot name="afterRow" v-bind="{model, index}"/>
             </template>
+            <slot name="afterAllRows" v-bind="{datatable,items}"/>
           </tbody>
         </template>
       </table>

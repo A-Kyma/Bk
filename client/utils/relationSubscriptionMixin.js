@@ -323,7 +323,11 @@ export default {
       let where = this.where
       let value = (allAccessible) ? this.value : undefined
       let subscriptionName = this.definition.subscription
-      if (subscriptionName) {
+      if (this.options) {
+        this.populate()
+        this.ready = true
+        this.$emit("ready")
+      } else if (subscriptionName) {
         this.handler = Meteor.subscribe(
           subscriptionName,
           this.getId,
