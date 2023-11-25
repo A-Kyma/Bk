@@ -170,6 +170,7 @@
           :switch="uiSwitch"
           :max-tags="maxTags"
           :debounce="debounce"
+          :step="step"
           rows="3"
           max-rows="8"
       />
@@ -199,7 +200,8 @@ import BkCardListClass from "../forms/BkCardListClass";
 
   function getInheritedFieldType(originalFieldType = "") {
     let inheritedFieldType = {
-      "integer": "number"
+      "integer": "number",
+      "amount": "number"
     }
     return inheritedFieldType[originalFieldType.toLowerCase()];
   }
@@ -273,6 +275,9 @@ import BkCardListClass from "../forms/BkCardListClass";
           return {};
         }
         return fieldDefinition
+      },
+      fieldType() {
+        return this.definition.type.name
       },
       ui() {
         if (this.noUI) {return {}}
@@ -438,6 +443,14 @@ import BkCardListClass from "../forms/BkCardListClass";
 
         }
         return undefined;
+      },
+      step() {
+        const steps = {
+          "Amount": "0.01",
+          "Number": "0.001",
+          "Integer": "1"
+        }
+        return steps[this.fieldType]
       },
       inputComponent() {
         let fieldDefinition = this.model.getDefinition(this.field);
