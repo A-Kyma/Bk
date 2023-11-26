@@ -260,6 +260,9 @@ export default {
       type: Object,
       default() { {} },
     },
+    typeField:{
+      type: String,
+    },
     button: {
       // Force button mode
       type: Boolean,
@@ -370,7 +373,7 @@ export default {
       return 'modalForm_' + this._uid;
     },
     getTypeField() {
-      return this.tableClass?.definition.typeField;
+      return (this.typeField) ? this.typeField : this.tableClass?.definition.typeField
     },
     getRoute() {
       let routeName
