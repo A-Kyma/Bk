@@ -539,6 +539,7 @@ export default {
           params: {
             for: "new",
             id: this.modalModel[this.getTypeField],
+            ...this.params
           }
         })
       }
