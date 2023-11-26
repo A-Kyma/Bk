@@ -520,17 +520,7 @@ export default {
       }
     },
     onSubmitModal(e) {
-      e.preventDefault();
-      let modelClass = Class.get(this.modalModel.type);
-      if (!modelClass) {
-        this.modalModel.throwError(
-            this.getTypeField,
-            "TypeError",
-            "Error.missingSubType",
-            this.modalModel.type
-        )
-        return;
-      }
+      e.preventDefault()
       if (!this.modalModel.isValid(this.getTypeField)) {
         // if modal form content not valid, do not close it
         return;
