@@ -192,12 +192,13 @@
                 v-if="$props['for'] === 'add' && getTypeField"
                 @ok="onSubmitModal">
         <bk-form
-            :model="modalModel"
-            :fields="getTypeField"
-            :modal="modalAddId"
-            for="add"
-            v-bind="$attrs"
-            @change="onChange"
+          ref="modalAddForm"
+          :model="modalModel"
+          :fields="getTypeField"
+          :modal="modalAddId"
+          for="add"
+          v-bind="$attrs"
+          @change="onChange"
         />
       </bk-modal>
       <bk-modal :id="modalFormId"
@@ -220,9 +221,12 @@
             @tag="$emit('tag',$event)"
         >
           <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
-            <slot :name="slot" v-bind="props" />
+            <slot :name="slot" v-bind="{...props,model: modalModel}" />
           </template>
         </bk-form>
+        <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+          <slot :name="slot" v-bind="{...props,model: modalModel}" />
+        </template>
       </bk-modal>
     </slot>
   </b-link>
@@ -413,6 +417,27 @@ export default {
     },
     click(event) {
       this.onClick(null,event)
+    },
+    closeModal() {
+      if (this.$props['for'] === 'add') {
+        this.$bvModal.hide(this.modalAddId)
+      } else {
+        this.$bvModal.hide(this.modalFormId)
+      }
+    },
+    showOverlay() {
+      if (this.$props['for'] === 'add') {
+        this.$refs.modalAddForm.showOverlay()
+      } else {
+        this.$refs.modalForm.showOverlay()
+      }
+    },
+    hideOverlay() {
+      if (this.$props['for'] === 'add') {
+        this.$refs.modalAddForm.hideOverlay()
+      } else {
+        this.$refs.modalForm.hideOverlay()
+      }
     },
     onClick(transition,e) {
       if (transition !== null) {
