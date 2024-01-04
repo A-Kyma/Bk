@@ -463,7 +463,7 @@ export default {
         }))
         if (conf){
           if (this.inputModel?.remove)
-            this.inputModel?.remove(this.errorCallback)
+            this.inputModel?.remove((err,result)=>this.errorCallback(err,result,this.inputModel))
           else
             this.$emit("remove",this.inputModel)
         }
