@@ -1,7 +1,0 @@
-<template name="filtersList">
-    {{> table model="Filter" fields="name" editableFields="name" sort='{"name": 1}' actions="consult,delete" perPage=20}}
-</template>
-
-<template name="filterPage">
-  {{> table title=currentFilter.name subscription=options.subscription model=options.model fields=options.fields sort=options.defaultSort filter=options.defaultFilter initialFilter=options.filters color=options.color width=options.width actions=options.actions customActions=options.customActions subscribeFields=options.subscribeFields}}
-</template>
