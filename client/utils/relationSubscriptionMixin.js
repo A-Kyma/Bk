@@ -125,7 +125,7 @@ export default {
           }
         }
       }
-      let where = definition.where.call(
+      let where = definition?.where?.call(
         this.model, // set this in where function to this.model
         this.getId, // id or [ids]
         this.value, // filter
