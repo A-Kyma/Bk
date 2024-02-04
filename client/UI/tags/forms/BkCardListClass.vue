@@ -171,7 +171,7 @@ export default {
     },
     canDelete() {
       if (this.$props.for === "view") return false;
-      return this.model.canDelete(this.field);
+      return this.model.canUpdate(this.field);
     },
     enumOptions() {
       let subclass = this.model.getFieldClass(this.field);
@@ -199,7 +199,9 @@ export default {
         else
           innerModel = this.model.getFieldClass(this.field);
 
-        this.model[this.field].splice(index,0,new innerModel());
+        const newInner = new innerModel()
+        newInner._parent = this.model
+        this.model[this.field].splice(index,0,newInner);
       }
       this.insertModel.selected = undefined
       this.insertModel.number = 1
