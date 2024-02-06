@@ -181,7 +181,7 @@
           <slot name="afterRow" v-bind="{model, index}"/>
         </b-card>
       </div>
-      <table v-else role="table" class="table b-table table-hover mt-3">
+      <table v-else role="table" :class="'table b-table table-hover mt-3 ' + tblClass">
         <slot name="tableHead" v-bind="{items,labeledFields,datatable, model, actions}">
           <thead>
             <tr role="row">
@@ -211,8 +211,8 @@
                       :get-child-payload="getChildPayload">
              <Draggable v-for="(model,index) in items" :key="model._id" :tag="{value: 'tr', props: {role: 'row'}}">
                  <slot name="row()" v-bind="{model,index,fields: labeledFields, cardMode}">
-                   <td role=cell class="align-middle" style="cursor: pointer"><b-icon icon="arrows-move" aria-hidden="true"></b-icon></td>
-                   <td v-for="cell in labeledFields" :key="cell.key" role="cell" class="align-middle">
+                   <td role=cell :class="'align-middle ' + tdClass" style="cursor: pointer"><b-icon icon="arrows-move" aria-hidden="true"></b-icon></td>
+                   <td v-for="cell in labeledFields" :key="cell.key" role="cell" :class="'align-middle ' + tdClass">
                      <bk-button-icon
                          v-if="cell.key==='buttonActions'"
                          v-for="action in actions.filter(x=>!['add','back','export','import','custom'].includes(x))"
@@ -264,9 +264,9 @@
         <template v-else>
           <tbody role="rowgroup">
             <template v-for="(model,index) in items">
-              <tr role="row" :key="model._id" @click="$emit('row-clicked',model)">
+              <tr :class="trClass" role="row" :key="model._id" @click="$emit('row-clicked',model)">
                 <slot name="row()" v-bind="{model,index,fields: labeledFields}">
-                  <td v-for="cell in labeledFields" :key="cell.key" role="cell" class="align-middle">
+                  <td v-for="cell in labeledFields" :key="cell.key" role="cell" :class="'align-middle ' + tdClass">
                     <bk-button-icon
                         v-if="cell.key==='buttonActions'"
                         v-for="action in actions.filter(x=>!['add','back','export','import','custom'].includes(x))"
@@ -423,7 +423,10 @@
       },
       subscription: String,
       updateRoute: Boolean,
-      importFileType: String
+      importFileType: String,
+      tdClass: String,
+      trClass: String,
+      tblClass: String
     },
     data() {
       return {
