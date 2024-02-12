@@ -14,6 +14,7 @@
                     :data="chartData.data"
                     :options="chartData.options"
                     :size="size"
+                    :height="height"
                 />
               </slot>
             </b-card-text>
@@ -62,6 +63,12 @@ export default {
       validator(value) {
         return ["sm","md","lg"].includes(value)
       }
+    },
+    // must be used with maintainAspectRatio: false as chartDetails.options
+    // https://www.chartjs.org/docs/latest/configuration/responsive.html
+    height:{
+      type: String,
+      default: "",
     }
   },
   data () {

@@ -1,13 +1,13 @@
 <template>
   <div :class="sizeClass">
     <div v-if="dataCollection">
-      <line-chart v-if="type=='line'" :chart-data="data || dataCollection" :options="dataOptions"></line-chart>
-      <pie-chart v-if="type=='pie'" :chart-data="data || dataCollection" :options="dataOptions"></pie-chart>
-      <bar-chart v-if="type=='bar'" :chart-data="data || dataCollection" :options="dataOptions"></bar-chart>
-      <doughnut-chart v-if="type=='doughnut'" :chart-data="data || dataCollection" :options="dataOptions"></doughnut-chart>
-      <polar-chart v-if="type=='polar'" :chart-data="data || dataCollection" :options="dataOptions"></polar-chart>
-      <radar-chart v-if="type=='radar'" :chart-data="data || dataCollection" :options="dataOptions"></radar-chart>
-      <bullet-chart v-if="type=='bullet'" :chart-data="data || dataCollection"></bullet-chart>
+      <line-chart v-if="type=='line'" :class="height" :chart-data="data || dataCollection" :options="dataOptions"></line-chart>
+      <pie-chart v-if="type=='pie'" :class="height" :chart-data="data || dataCollection" :options="dataOptions"></pie-chart>
+      <bar-chart v-if="type=='bar'" :class="height" :chart-data="data || dataCollection" :options="dataOptions"></bar-chart>
+      <doughnut-chart v-if="type=='doughnut'" :class="height" :chart-data="data || dataCollection" :options="dataOptions"></doughnut-chart>
+      <polar-chart v-if="type=='polar'" :class="height" :chart-data="data || dataCollection" :options="dataOptions"></polar-chart>
+      <radar-chart v-if="type=='radar'" :class="height" :chart-data="data || dataCollection" :options="dataOptions"></radar-chart>
+      <bullet-chart v-if="type=='bullet'" :class="height" :chart-data="data || dataCollection"></bullet-chart>
     </div>
     <div v-else>
       <t>app.stat.nostat</t>
@@ -80,6 +80,12 @@ export default {
       validator(value) {
         return ["sm","md","lg"].includes(value)
       }
+    },
+    // must be used with maintainAspectRatio: false as chartDetails.options
+    // https://www.chartjs.org/docs/latest/configuration/responsive.html
+    height:{
+      type: String,
+      default: "",
     }
   },
   data () {
