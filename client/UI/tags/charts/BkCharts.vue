@@ -13,6 +13,7 @@
                     :type="chartData.type"
                     :data="chartData.data"
                     :options="chartData.options"
+                    :query-param="queryParam"
                     :size="size"
                     :height="height"
                 />
@@ -103,7 +104,11 @@ export default {
         let methodClass = Class.getModel(this.model)
         methodClass.callMethod(this.method,queryParam,callback)
       } else {
+        console.log('call from BKCharts')
+        console.log(this.method)
+        console.log(queryParam)
         Meteor.call(this.method,queryParam,callback)
+        //Meteor.apply(this.method,[queryParam],callback)
       }
 
     }

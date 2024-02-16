@@ -1,5 +1,10 @@
 <template>
   <div :class="sizeClass">
+    <div v-if="hasSelect">
+      <b-form-select @change="updateDataCollection" v-model="selected" class="mb-3">
+        <b-form-select-option v-for="item in selectableItems" :value="item.value"><t>{{item.label}}</t></b-form-select-option>
+      </b-form-select>
+    </div>
     <div v-if="dataCollection">
       <line-chart v-if="type=='line'" :class="height" :chart-data="data || dataCollection" :options="dataOptions"></line-chart>
       <pie-chart v-if="type=='pie'" :class="height" :chart-data="data || dataCollection" :options="dataOptions"></pie-chart>
@@ -91,12 +96,21 @@ export default {
   data () {
     return {
       dataCollection: this.data,
-      dataOptions: this.options
+      dataOptions: this.options,
     }
   },
   computed: {
     sizeClass() {
       return "BkChart-"+this.size + " m-0 m-auto"
+    },
+    hasSelect(){
+      return (this.queryParam.select !== undefined)? true : false
+    },
+    selectableItems(){
+      if (this.queryParam !== undefined){
+        return this.queryParam.select
+      }
+      return []
     }
   },
   mounted () {
@@ -106,7 +120,18 @@ export default {
         this.fillData(I18n.getLanguage())
       })
   },
+  watch: {
+    dataCollection(newValue, oldValue) {
+      console.log(newValue)
+      console.log(oldValue)
+    },
+  },
   methods: {
+    updateDataCollection(e){
+      this.queryParam.selected = e
+      if (this.queryParam.method)
+        this.fillData(I18n.getLanguage())
+    },
     // @vuese
     // Used to fill the chart after the method call
     fillData (language) {
@@ -131,7 +156,11 @@ export default {
         let methodClass = Class.getModel(this.model)
         methodClass.callMethod(this.method,this.queryParam,callback)
       } else {
-        Meteor.call(this.method,this.queryParam,callback)
+        if (this.method === undefined && this.queryParam.method ){
+          Meteor.call(this.queryParam.method,this.queryParam,callback)
+        }else{
+          Meteor.call(this.method,this.queryParam,callback)
+        }
       }
 
     }
