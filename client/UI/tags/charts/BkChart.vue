@@ -120,12 +120,6 @@ export default {
         this.fillData(I18n.getLanguage())
       })
   },
-  watch: {
-    dataCollection(newValue, oldValue) {
-      console.log(newValue)
-      console.log(oldValue)
-    },
-  },
   methods: {
     updateDataCollection(e){
       this.queryParam.selected = e
