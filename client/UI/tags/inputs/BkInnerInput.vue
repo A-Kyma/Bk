@@ -552,13 +552,13 @@ import BkCardListClass from "../forms/BkCardListClass";
       },
       append() {
         let append = this.ui.append;
-        if (typeof append === "function") append = append({model:this.model, field:this.field});
+        if (typeof append === "function") append = append({model:this.model, doc:this.model, parent: this.formModel, field:this.field});
         if (append && append.includes(".")) return I18n.t(append);
         return append;
       },
       prepend() {
         let prepend = this.ui.prepend;
-        if (typeof prepend === "function") prepend = prepend({model:this.model, field:this.field});
+        if (typeof prepend === "function") prepend = prepend({model:this.model, doc:this.model, parent: this.formModel, field:this.field});
         if (prepend && prepend.includes(".")) return I18n.t(prepend);
         return prepend;
       },
