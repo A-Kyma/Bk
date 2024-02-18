@@ -26,6 +26,7 @@
               v-model="datatable.page"
               :total-rows="total"
               :per-page="perPage"
+              class="mt-1 mb-1"
           ></b-pagination>
         </div>
       </div>

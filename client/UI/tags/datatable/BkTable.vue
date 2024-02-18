@@ -1,6 +1,9 @@
 <template>
   <div class="m-2">
     <slot name="header" v-bind="{datatable, model, actions}">
+      <b-button  v-if="filterButton && filterFields" v-b-toggle.filter-collapse size="md" class="">
+        <b-icon icon="filter-circle-fill" aria-hidden="true"></b-icon>
+      </b-button>
       <bk-button-icon v-if="actions.includes('add')"
                       label="app.add"
                       for="add"
@@ -36,12 +39,13 @@
     <slot name="customHeader" v-bind="{datatable, model, actions}"/>
     <slot name="filterHeader" v-bind="{datatable,model,actions}">
       <slot name="beforeFilter" v-bind="{datatable,model,actions}"/>
+      <b-collapse v-if="filterButton && filterFields" id="filter-collapse">
       <b-form v-if="filterFields"
               @submit="onSubmitFormFilter"
               @reset="onResetFormFilter"
               id="filter-header"
               inline
-              class="mt-2"
+              class="mt-2 mb-1"
       >
         <b-input-group
             v-for="field of filterFields"
@@ -79,6 +83,52 @@
         <b-button v-if="!autoFilterSubmit" type="submit" variant="outline-primary"><t>app.filter</t></b-button>
         <slot name="afterFilterButtons" v-bind="{datatable,model}"/>
       </b-form>
+      </b-collapse>
+      <div v-else>
+      <b-form v-if="filterFields"
+              @submit="onSubmitFormFilter"
+              @reset="onResetFormFilter"
+              id="filter-header"
+              inline
+              class="mt-2 mb-1"
+      >
+        <b-input-group
+            v-for="field of filterFields"
+            class="mb-2 mr-sm-2 mb-sm-0 flex-nowrap max100vw"
+        >
+          <template #prepend v-if="!noFilterLabel">
+
+            <slot :name="'prependFilter-'+field" v-bind="{datatable,model,field,label:datatable.filterModel.constructor.getLabelKey(field)}">
+              <slot name="prependFilter" v-bind="{datatable,model,field,label: datatable.filterModel.constructor.getLabelKey(field)}">
+                <b-input-group-text>
+                  <t>{{datatable.filterModel.constructor.getLabelKey(field)}}</t>
+                </b-input-group-text>
+              </slot>
+            </slot>
+
+          </template>
+          <bk-inner-input
+              :model="datatable.filterModel"
+              :field="field"
+              for="filter"
+              form-field="filter"
+              :buttons="true"
+              button-variant="outline-primary"
+              @change="onAutoFilterSubmit($event,field)"
+              @input="onAutoFilterSubmit($event,field)"
+              @ready="$emit('filterReady',field)"
+              debounce="250"
+          >
+            <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+              <slot :name="slot" v-bind="props" />
+            </template>
+          </bk-inner-input>
+        </b-input-group>
+        <b-button v-if="!noFilterReset" type="reset" variant="outline-dark" class="mr-2"><t>app.reset</t></b-button>
+        <b-button v-if="!autoFilterSubmit" type="submit" variant="outline-primary"><t>app.filter</t></b-button>
+        <slot name="afterFilterButtons" v-bind="{datatable,model}"/>
+      </b-form>
+      </div>
     </slot>
     <div v-if="datatable.handler">
       <div v-if="datatable.firstReady">
@@ -375,6 +425,10 @@
       filterClass: Class,
       filterFields: Array,
       noFilterLabel: {
+        type: Boolean,
+        default: false
+      },
+      filterButton: {
         type: Boolean,
         default: false
       },
