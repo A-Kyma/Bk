@@ -104,7 +104,7 @@ export default {
       return "BkChart-"+this.size + " m-0 m-auto"
     },
     hasSelect(){
-      return (this.queryParam.select !== undefined)? true : false
+      return (this.queryParam?.select !== undefined)? true : false
     },
     selectableItems(){
       if (this.queryParam !== undefined){
