@@ -339,7 +339,7 @@ import BkCardListClass from "../forms/BkCardListClass";
         // Check canEdit at model level instead of traversing formModel
         // to avoid too much calculation. But, we could do this also
         // !this.formModel.canEdit(this.formField)
-        if (!this.model.canEdit(this.field,isNew)) {
+        if (!this.model.canEdit(this.field,isNew,this.formModel)) {
           return true;
         }
         return this.$props.plaintext;

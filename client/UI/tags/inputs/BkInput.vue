@@ -165,7 +165,7 @@
         return this.$props.plaintext;
       },
       canView() {
-        return this.inputModel.canView(this.field);
+        return this.inputModel.canView(this.field,undefined,this.formModel);
       },
       placeholder() {
         return "Enter " + this.field

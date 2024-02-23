@@ -35,7 +35,7 @@ export default {
         this.showError(err,model)
       } else {
         this.showSuccess()
-        this.$emit("success",result)
+        this.$emit("success",result,model)
       }
     }
   }
