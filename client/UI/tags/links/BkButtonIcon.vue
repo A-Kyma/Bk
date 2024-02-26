@@ -33,10 +33,16 @@
       :title="title"
   >
     <slot>
-      <span v-if="computedIcon && !button" :class="textNoWrap">
-        <b-icon :class="'BkButton ' + iconClass" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
+      <span v-if="computedIcon && !button && !buttonIcon" :class="textNoWrap">
+        <b-icon v-if="noTransform" :class="'mr-1' + iconClass" :scale="scale" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
+        <b-icon v-else :class="'BkButton ' + iconClass" :scale="scale" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
         <t v-if="label" :key="label">{{label}}</t>
       </span>
+      <b-button v-else-if="computedIcon && buttonIcon" :class="iconClass">
+        <b-icon v-if="noTransform" :class="'mr-1' + iconClass" :scale="scale" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
+        <b-icon v-else :class="'BkButton ' + iconClass" :scale="scale" :font-scale="fontScale" :icon="computedIcon" :variant="computedVariant"/>
+        <t :key="label">{{label}}</t>
+      </b-button>
       <b-button v-else :class="iconClass" :variant="computedVariant">
         <t :key="label">{{label}}</t>
       </b-button>
@@ -247,6 +253,13 @@ export default {
       type: String,
       default: Meteor.settings.public.UI?.buttonScale || "1"
     },
+    scale: {
+      type: String,
+      default: Meteor.settings.public.UI?.buttonScale || "1"
+    },
+    noTransform:{
+      type: Boolean,
+    },
     size: String, // modal size
     variant: String,
     iconClass: String,
@@ -263,6 +276,9 @@ export default {
     params: {
       type: Object,
       default() { {} },
+    },
+    buttonIcon: {
+      type: Boolean
     },
     typeField:{
       type: String,

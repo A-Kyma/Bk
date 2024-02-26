@@ -1,6 +1,12 @@
 <template>
   <div class="m-2">
     <slot name="header" v-bind="{datatable, model, actions}">
+      <slot name="customFrontHeader" v-bind="{datatable, model, actions}"/>
+      <bk-button-icon v-if="actions.includes('back')"
+                      label="app.back"
+                      for="back"
+                      v-bind="$attrs"
+      />
       <b-button  v-if="filterButton && filterFields" v-b-toggle.filter-collapse size="md" class="">
         <b-icon icon="filter-circle-fill" aria-hidden="true"></b-icon>
       </b-button>
@@ -18,11 +24,6 @@
           <slot :name="slot" v-bind="props" />
         </template>
       </bk-button-icon>
-      <bk-button-icon v-if="actions.includes('back')"
-                      label="app.back"
-                      for="back"
-                      v-bind="$attrs"
-      />
       <bk-button-icon v-if="actions.includes('export')"
                       label="app.export"
                       for="export"
