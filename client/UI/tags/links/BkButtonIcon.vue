@@ -251,7 +251,7 @@ export default {
     icon: String,
     fontScale: {
       type: String,
-      default: Meteor.settings.public.UI?.buttonScale || "1"
+      default: Meteor.settings.public.UI?.buttonFontScale || "1"
     },
     scale: {
       type: String,
