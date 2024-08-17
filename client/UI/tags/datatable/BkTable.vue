@@ -398,7 +398,7 @@
 </template>
 
 <script>
-  import { Class, ValidationError } from "meteor/jagi:astronomy";
+  import { Class, ValidationError } from "meteor/akyma:astronomy";
   import _omit from "lodash/omit";
   import { Container, Draggable } from "vue-smooth-dnd";
   import I18n from "../../../../lib/classes/i18n";

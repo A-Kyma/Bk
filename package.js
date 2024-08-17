@@ -44,7 +44,7 @@ Package.onUse(function(api) {
   api.use('reywood:publish-composite@1.8.9'); // To enable multiple send in one subscription
   //api.use('ejson'); // Needed to .json files
   api.use('slaivyn:yaml@1.0.1'); // Needed to manage .yml files (for I18n)
-  api.use('jagi:astronomy@2.7.3'); // Model management
+  api.use('akyma:astronomy@3.0.1'); // Model management
   api.use('jagi:reactive-map@2.0.0'); // Used in errors management
   api.use('reactive-var'); // For clickTo... components and other thinks
   api.use('reactive-dict')

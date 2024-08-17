@@ -183,7 +183,7 @@
 </template>
 
 <script>
-import {Class, ValidationError, ScalarField, ObjectField, ListField, Union} from 'meteor/jagi:astronomy'
+import {Class, ValidationError, ScalarField, ObjectField, ListField, Union} from 'meteor/akyma:astronomy'
 import {I18n,DateTime,Enum,Lifecycle,Image} from "meteor/akyma:bk"
 import _ from "lodash";
 import BkBelongsToInput from "./BkBelongsToInput";

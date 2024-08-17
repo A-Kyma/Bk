@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import {Class} from "meteor/jagi:astronomy"
+  import {Class} from "meteor/akyma:astronomy"
   import {Role} from "meteor/akyma:bk"
   import I18n from "../../../../lib/classes/i18n";
   import BkForm from "../forms/BkForm";

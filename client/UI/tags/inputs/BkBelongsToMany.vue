@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import {Class} from "meteor/jagi:astronomy"
+import {Class} from "meteor/akyma:astronomy"
 import Multiselect from 'vue-multiselect'
 import I18n from "../../../../lib/classes/i18n";
 import relationSubscriptionMixin from "../../../utils/relationSubscriptionMixin";

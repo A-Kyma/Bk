@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import {Class} from "meteor/jagi:astronomy"
+import {Class} from "meteor/akyma:astronomy"
 import {DateTime,I18n} from "meteor/akyma:bk"
 
 

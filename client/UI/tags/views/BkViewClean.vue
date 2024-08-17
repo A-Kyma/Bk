@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import {Class,ListField} from "meteor/jagi:astronomy"
+import {Class,ListField} from "meteor/akyma:astronomy"
 import Lifecycle from "../../../../lib/modules/customFields/customs/Lifecycle";
 import Enum from "../../../../lib/modules/customFields/customs/Enum";
 

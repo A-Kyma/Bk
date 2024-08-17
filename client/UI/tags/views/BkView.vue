@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import { Class } from "meteor/jagi:astronomy"
+  import { Class } from "meteor/akyma:astronomy"
   import BkViewInner from "./BkViewInner";
   export default {
     name: "BkView",

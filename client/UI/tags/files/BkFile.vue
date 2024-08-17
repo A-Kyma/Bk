@@ -224,7 +224,7 @@
 </template>
 
 <script>
-import { Class, ListField } from "meteor/jagi:astronomy"
+import { Class, ListField } from "meteor/akyma:astronomy"
 import { Match } from "meteor/check"
 import { Files } from "meteor/akyma:bk"
 import { Container, Draggable } from "vue-smooth-dnd";
