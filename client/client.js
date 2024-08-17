@@ -1,6 +1,5 @@
 // Library
 import Bk from "../lib/modules/core/utils/Bk";
-import "./utils/BkClientCore";
 
 import UserData from "./classes/userData";
 // Error management
