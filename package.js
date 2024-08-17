@@ -64,9 +64,9 @@ Package.onUse(function(api) {
   api.use('templating@1.0.9','client'); // to be able to create tag in package
   // Import Blaze UI tags and routes
 
-  api.addFiles([
-    'client/UI/ui.js',
-  ],'client');
+  // api.addFiles([
+  //   'client/UI/ui.js',
+  // ],'client');
 
   //api.addFiles('%.css','client'); For CSS or SCSS files
   //api.addAssets(['%.eot','%.svg','%.ttf','%.woff'],'client'); // For other types of files
