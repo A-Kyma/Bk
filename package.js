@@ -1,6 +1,6 @@
 Package.describe({
   name: 'akyma:bk',
-  version: '2.1.24',
+  version: '3.0.0',
   // Brief, one-line summary of the package.
   summary: 'Package which helps creating web applications',
   // URL to the Git repository containing the source code for this package.
@@ -41,7 +41,7 @@ Package.onUse(function(api) {
   api.use('accounts-base@1.5.0||2.0.1');
   api.use('accounts-password@1.5.2||2.0.1');
   api.use('tmeasday:publish-counts@0.8.0'); // For datatable
-  api.use('reywood:publish-composite@1.3.6'); // To enable multiple send in one subscription
+  api.use('reywood:publish-composite@1.8.9'); // To enable multiple send in one subscription
   //api.use('ejson'); // Needed to .json files
   api.use('slaivyn:yaml@1.0.1'); // Needed to manage .yml files (for I18n)
   api.use('jagi:astronomy@2.7.3'); // Model management
