@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { Class } from "meteor/jagi:astronomy"
+import { Class } from "meteor/akyma:astronomy"
 import { I18n, DateTime } from "meteor/akyma:bk"
 import LineChart from './LineCharts'
 import PieChart from './PieCharts'

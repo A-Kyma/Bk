@@ -1,6 +1,6 @@
 import {I18n} from "meteor/akyma:bk";
 import {_} from "lodash";
-import {Class, ValidationError, ScalarField, ObjectField, ListField, Union} from 'meteor/jagi:astronomy';
+import {Class, ValidationError, ScalarField, ObjectField, ListField, Union} from 'meteor/akyma:astronomy';
 import errorPopupMixin from "./errorPopupMixin";
 
 export default {

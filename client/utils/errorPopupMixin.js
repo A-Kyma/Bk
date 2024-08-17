@@ -1,5 +1,5 @@
 import I18n from "../../lib/classes/i18n";
-import { ValidationError } from "meteor/jagi:astronomy"
+import { ValidationError } from "meteor/akyma:astronomy"
 
 export default {
   methods: {

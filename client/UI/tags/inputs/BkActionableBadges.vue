@@ -47,7 +47,7 @@
 <script>
 // TODO choose variant color or other using actionable badge (it's selected when "focus")
 // See https://bootstrap-vue.org/docs/components/badge#actionable-badges
-import {Class} from "meteor/jagi:astronomy"
+import {Class} from "meteor/akyma:astronomy"
 import I18n from "../../../../lib/classes/i18n";
 
 export default {

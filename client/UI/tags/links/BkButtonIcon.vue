@@ -239,7 +239,7 @@
 </template>
 
 <script>
-import { Class } from "meteor/jagi:astronomy";
+import { Class } from "meteor/akyma:astronomy";
 import {Role,I18n,DateTime} from "meteor/akyma:bk"
 import errorPopupMixin from "../../../utils/errorPopupMixin";
 import * as XLSX from 'xlsx/xlsx.mjs';

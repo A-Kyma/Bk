@@ -1,6 +1,6 @@
 import { check }  from 'meteor/check';
 import { Meteor } from 'meteor/meteor';
-import { Class as AstroClass } from 'meteor/jagi:astronomy'
+import { Class as AstroClass } from 'meteor/akyma:astronomy'
 import _noop from 'lodash/noop';
 
 // See https://github.com/veliovgroup/meteor-files-website/blob/master/imports/server/image-processing.js

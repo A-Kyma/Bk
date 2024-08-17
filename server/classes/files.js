@@ -1,4 +1,4 @@
-import { Class as AstroClass } from 'meteor/jagi:astronomy'
+import { Class as AstroClass } from 'meteor/akyma:astronomy'
 import Files from "../../lib/classes/files";
 import createThumbnails from "../utils/imageProcessing";
 import {Meteor} from "meteor/meteor";

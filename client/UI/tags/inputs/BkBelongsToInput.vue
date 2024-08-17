@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import {Class} from "meteor/jagi:astronomy";
+import {Class} from "meteor/akyma:astronomy";
 import {I18n} from "meteor/akyma:bk";
 import {_} from "lodash";
 

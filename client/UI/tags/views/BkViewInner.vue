@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import {Class} from "meteor/jagi:astronomy"
+  import {Class} from "meteor/akyma:astronomy"
   import BkLabel from "../forms/BkLabel";
   import BkViewClean from "./BkViewClean";
 

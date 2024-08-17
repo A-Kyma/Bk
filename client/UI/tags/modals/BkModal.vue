@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import {Class} from "meteor/jagi:astronomy"
+import {Class} from "meteor/akyma:astronomy"
 
 export default {
   name: "BkModal",

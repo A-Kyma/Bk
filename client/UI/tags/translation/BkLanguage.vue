@@ -35,7 +35,7 @@
 </template>
 
 <script>
-  import {Class} from "meteor/jagi:astronomy"
+  import {Class} from "meteor/akyma:astronomy"
   import I18n from "../../../../lib/classes/i18n";
   import Languages from "../../../../lib/modules/customFields/types/language";
   import config from "../../../../lib/core/config";

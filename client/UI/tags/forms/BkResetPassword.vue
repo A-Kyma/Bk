@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { Class } from "meteor/jagi:astronomy"
+import { Class } from "meteor/akyma:astronomy"
 import { User } from "meteor/akyma:bk"
 import BkForm from "./BkForm"
 import { Accounts } from "meteor/accounts-base"

@@ -142,7 +142,7 @@
 </template>
 
 <script>
-import { Class } from "meteor/jagi:astronomy"
+import { Class } from "meteor/akyma:astronomy"
 import { Enum } from "meteor/akyma:bk"
 import BkButtonIcon from "../links/BkButtonIcon";
 import BkFieldList from "./BkFieldList";
