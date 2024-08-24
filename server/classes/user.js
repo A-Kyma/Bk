@@ -4,7 +4,7 @@ import {User} from "../../lib/classes/user";
 import {Device} from "../../lib/classes/device";
 import Role from "../../lib/classes/role";
 import {Accounts} from "meteor/accounts-base";
-import { Counts, publishCount } from "meteor/tmeasday:publish-counts";
+import { Counts, publishCount } from "meteor/akyma:publish-counts";
 import _cloneDeep from "lodash"
 
 // Accounts.onCreateUser((options,user) => {

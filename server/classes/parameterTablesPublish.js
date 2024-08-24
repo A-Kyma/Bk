@@ -1,6 +1,6 @@
 import Role from "../../lib/classes/role";
 import ParameterTables from "../../lib/classes/parameterTable";
-import { Counts, publishCount } from "meteor/tmeasday:publish-counts";
+import { Counts, publishCount } from "meteor/akyma:publish-counts";
 import ParameterTableElements from "../../lib/classes/parameterTableElement";
 
 Meteor.publish("BkParameterTablesPublish", function(selector,options) {
