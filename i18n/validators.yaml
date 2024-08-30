@@ -51,6 +51,10 @@ en:
     unique: "Field {{field}} is already chosen"
     lifecycle: "Status {{value}} is unreachable from status {{param}}"
     hex: "{{field}} is not a valid hexadecimal number"
+    trim: "{{field}} must be a String"
+    capitalize: "{{field}} must be a String"
+    lowercase: "{{field}} must be a String"
+    uppercase: "{{field}} must be a String"
 fr:
   Error:
     required: "Le champ {{field}} est obligatoire"
@@ -104,3 +108,8 @@ fr:
     unique: "Le champ {{field}} a déjà été choisi"
     lifecycle: "Le statut {{value}} n'est pas accessible depuis le statut {{param}}"
     hex: "{{field}} n'est pas un nombre hexadécimal valide"
+    trim: "{{field}} doit être de type String"
+    capitalize: "{{field}} doit être de type String"
+    lowercase: "{{field}} doit être de type String"
+    uppercase: "{{field}} doit être de type String"
+

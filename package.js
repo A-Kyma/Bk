@@ -1,6 +1,6 @@
 Package.describe({
   name: 'akyma:bk',
-  version: '2.1.24',
+  version: '2.1.25',
   // Brief, one-line summary of the package.
   summary: 'Package which helps creating web applications',
   // URL to the Git repository containing the source code for this package.
@@ -31,7 +31,7 @@ Npm.depends({
 // See https://guide.meteor.com/writing-atmosphere-packages.html
 // Do a meteor update on the project while adding this package
 Package.onUse(function(api) {
-  api.versionsFrom('1.9.3');
+  api.versionsFrom('1.9.3','2.14');
   api.use('ecmascript'); // For ES6 javascript
   api.use('deps', 'client');
   api.use('tracker', 'client');
