@@ -74,7 +74,7 @@ fr:
         browse: "Parcourir"
         placeholder: "Choisissez ou déposez un fichier"
         drop: "Déposez le fichier..."
-      toogleform: "voir/caché le formulaire"
+      toogleform: "voir/cacher le formulaire"
       nofile: "Aucun fichier sélectionné"
       uploading: "En cours de chargement..."
       filecolumns:
