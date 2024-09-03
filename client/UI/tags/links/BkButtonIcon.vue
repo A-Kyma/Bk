@@ -666,12 +666,12 @@ export default {
           param.oneDateFormat = oneDateTime
           param.testOnly = testOnly
           if (oneDateTime === 'accepted'){
-            param.dateTimeFormat = (component.dateTimeFormat === null) ? "YYYY/MM/DD HH:mm" : component.dateTimeFormat.replace('AAAA','YYYY').replace('JJ','DD')
+            param.dateTimeFormat = (component.dateTimeFormat === null) ? "YYYY/MM/DD HH:mm" : component.dateTimeFormat.replace(/AA/g,'YY', ).replace('JJ','DD')
             param.dateFormat = ""
             param.timeFormat = ""
           }else{
             param.dateTimeFormat = ""
-            param.dateFormat = (component.dateFormat === null) ? "YYYY/MM/DD" : component.dateFormat.replace('AAAA','YYYY').replace('JJ','DD')
+            param.dateFormat = (component.dateFormat === null) ? "YYYY/MM/DD" : component.dateFormat.replace(/AA/g,'YY').replace('JJ','DD')
             param.timeFormat = (component.timeFormat === null) ? "HH:mm" : component.timeFormat
           }
           if (component.$router.currentRoute.params){
@@ -710,12 +710,12 @@ export default {
           param.oneDateFormat = oneDateTime
           param.testOnly = testOnly
           if (oneDateTime === 'accepted'){
-            param.dateTimeFormat = (component.dateTimeFormat === null) ? "YYYY/MM/DD HH:mm" : component.dateTimeFormat.replace('AAAA','YYYY').replace('JJ','DD')
+            param.dateTimeFormat = (component.dateTimeFormat === null) ? "YYYY/MM/DD HH:mm" : component.dateTimeFormat.replace(/AA/g,'YY').replace('JJ','DD')
             param.dateFormat = ""
             param.timeFormat = ""
           }else{
             param.dateTimeFormat = ""
-            param.dateFormat = (component.dateFormat === null) ? "YYYY/MM/DD" : component.dateFormat.replace('AAAA','YYYY').replace('JJ','DD')
+            param.dateFormat = (component.dateFormat === null) ? "YYYY/MM/DD" : component.dateFormat.replace(/AA/g,'YY').replace('JJ','DD')
             param.timeFormat = (component.timeFormat === null) ? "HH:mm" : component.timeFormat
           }
           param.csvColumns = csvColumns
