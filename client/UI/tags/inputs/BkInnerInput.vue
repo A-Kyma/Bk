@@ -18,7 +18,7 @@
 
       <bk-field-list
               v-if="definitionField === 'Object'"
-              v-bind="{...$props,...$attrs,...uiComponentProps}"
+              v-bind="{...$props,...$attrs,...uiComponentProps, plaintext: plaintextComputed }"
               class="col-12"
               :model="model.get(field)"
               :form-field="formFieldComputed"
