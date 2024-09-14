@@ -9,7 +9,7 @@
           <div v-if="viewScrollButton">
             <div class="text-center">
               <div v-if="datatable.handler.ready()" class="btn btn-primary">
-                <a @click="seeMore()">
+                <a @click="seeMore()" v-b-visible.once.50="seeMoreIfVisible">
                   <t key="app.seeMore">app.seeMore</t>
                 </a>
               </div>
@@ -82,7 +82,7 @@ export default {
     // @vuese
     // check if the scroll button needs to be showed
     viewScrollButton() {
-      return (this.datatable.getCount() > this.datatable.getCountLocal())? true :  false
+      return (this.datatable.getCount() > this.datatable.getCountLocal())
     },
   },
   methods: {
@@ -91,6 +91,11 @@ export default {
     seeMore(){
       let page = this.datatable.page
       this.datatable.setPage(page + 1)
+    },
+    // See https://bootstrap-vue.org/docs/directives/visible
+    seeMoreIfVisible(isVisible) {
+      if (isVisible)
+        this.seeMore()
     },
     // @vuese
     // set a new page in case of pagination
