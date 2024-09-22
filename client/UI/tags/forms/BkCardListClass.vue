@@ -200,7 +200,7 @@ export default {
           innerModel = this.model.getFieldClass(this.field);
 
         const newInner = new innerModel()
-        newInner._parent = this.model
+        newInner._getParent = () => this.model
         this.model[this.field].splice(index,0,newInner);
       }
       this.insertModel.selected = undefined

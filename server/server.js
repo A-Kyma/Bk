@@ -8,6 +8,9 @@ import "./classes/device"
 import "./classes/api"
 import './classes/parameterTablesPublish'
 import "./meteorMethods/deeplTranslate"
+import "./meteorMethods/BkXlsExportMethod"
+
+import "./WebHooks/xlsWebhook"
 
 export {
   Bk

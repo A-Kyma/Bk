@@ -41,6 +41,7 @@ import BkActionableBadges from "./tags/inputs/BkActionableBadges";
 import BkBelongsToInput from "./tags/inputs/BkBelongsToInput"
 import BkBreadCrumb from "./tags/routes/BkBreadCrumb"
 import BkButtonIcon from "./tags/links/BkButtonIcon"
+import BkExportToXlsxButton from "./tags/links/BkExportToXlsxButton.vue";
 import BkCardListClass from "./tags/forms/BkCardListClass"
 import BkDatalistInput from "./tags/inputs/BkDatalistInput"
 import BkBelongsToMany from "./tags/inputs/BkBelongsToMany"
@@ -76,6 +77,7 @@ import BkViewInner from "./tags/views/BkViewInner";
 import BkViewClean from "./tags/views/BkViewClean";
 import BkPagination from "./tags/datatable/BkPagination"
 import errorPopupMixin from "../utils/errorPopupMixin";
+import xlsExportMixins from "../utils/xlsExportMixins";
 import relationSubscriptionMixin from "../utils/relationSubscriptionMixin"
 
 import { Container, Draggable } from "vue-smooth-dnd";
@@ -90,6 +92,7 @@ const BkUI = {
   BkDatePicker,
   BkBreadCrumb,
   BkButtonIcon,
+  BkExportToXlsxButton,
   BkCardListClass,
   BkDatalistInput,
   BkDropdown,
@@ -117,6 +120,7 @@ const BkUI = {
   BkViewClean,
   errorPopupMixin,
   relationSubscriptionMixin,
+  xlsExportMixins,
   LineChart,
   PieChart,
   BarChart,
