@@ -1,12 +1,10 @@
 import {Meteor} from "meteor/meteor";
 import {Class} from "meteor/jagi:astronomy"
-import {Accounts} from "meteor/accounts-base"
 import {check} from "meteor/check"
 import {I18n,User,Role} from "meteor/akyma:bk"
-import * as XLSX from 'xlsx/xlsx.mjs'
 import { EJSON } from 'meteor/ejson';
-import ParameterTableElement from "../../lib/classes/parameterTableElement";
 import config from "../../lib/core/config";
+import _get from "lodash/get"
 
 // see webhook xlsWebhook
 
@@ -91,7 +89,7 @@ const BkXlsExportMethod = async function(args) {
       // Ensure column are correctly assigned
       const columnKeys = parameterElement.columns.map(elem => elem.key)
       data = rows.map(row => {
-        let result = columnKeys.map(elem => row[elem])
+        let result = columnKeys.map(key => _get(row,key)) // Allow usage of dotted key
         return result
       })
     } else {

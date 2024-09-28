@@ -495,7 +495,8 @@ export default {
         return
       }
       if (this.$props.for === 'export') {
-        this.$parent.datatable.exportToCsv()
+        this.$emit("export")
+        //this.$parent.datatable.exportToCsv()
         return
       }
       if (this.$props.for === 'import') {

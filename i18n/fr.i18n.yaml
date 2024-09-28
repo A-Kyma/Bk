@@ -344,4 +344,11 @@ fr:
       label: "Type d'Enum"
     lifecycleType:
       label: "Type de lifecycle"
+    classType:
+      label: "Type de Classe"
+      description: "Récupérer la classe dans l'aggrégat"
+    classField:
+      label: "Champ à récupérer"
+      placeholder: "defaultName()"
+      description: "Par défaut, reprendra le defaultName() de la classe"
 

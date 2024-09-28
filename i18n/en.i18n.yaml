@@ -341,3 +341,10 @@ en:
       label: "Enum type"
     lifecycleType:
       label: "Lifecycle type"
+    classType:
+      label: "Class type"
+      description: "Retrieve cached class in aggregate"
+    classField:
+      label: "Field to retrieve"
+      placeholder: "defaultName()"
+      description: "By default, takes the defaultName() of the Class"

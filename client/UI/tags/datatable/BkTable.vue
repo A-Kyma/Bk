@@ -24,11 +24,18 @@
           <slot :name="slot" v-bind="props" />
         </template>
       </bk-button-icon>
-      <bk-button-icon v-if="actions.includes('export')"
-                      label="app.export"
-                      for="export"
-                      v-bind="$attrs"
+      <bk-export-to-xlsx-button
+        v-if="actions.includes('export')"
+        from-bk-table
+        :params="{...filter,...datatable.filters}"
+        @export="datatable.exportToCsv()"
+        v-bind="$attrs"
       />
+<!--      <bk-button-icon v-if="actions.includes('export')"-->
+<!--                      label="app.export"-->
+<!--                      for="export"-->
+<!--                      v-bind="$attrs"-->
+<!--      />-->
       <bk-button-icon v-if="actions.includes('import')"
                       label="app.import.btn.label"
                       for="import"
@@ -410,10 +417,11 @@
   import BkLoading from "../loading/BkLoading";
   import {EJSON} from "meteor/ejson";
   import errorPopupMixin from "../../../utils/errorPopupMixin";
+  import BkExportToXlsxButton from "../links/BkExportToXlsxButton.vue";
 
   export default {
     name: "BkTable",
-    components: {BkPagination, BkButtonIcon,BkModal,BkForm,BkViewInner,Container,Draggable },
+    components: {BkExportToXlsxButton, BkPagination, BkButtonIcon,BkModal,BkForm,BkViewInner,Container,Draggable },
     mixins: [errorPopupMixin],
     props: {
       fields: [Array,String],

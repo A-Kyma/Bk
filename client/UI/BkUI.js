@@ -77,7 +77,6 @@ import BkViewInner from "./tags/views/BkViewInner";
 import BkViewClean from "./tags/views/BkViewClean";
 import BkPagination from "./tags/datatable/BkPagination"
 import errorPopupMixin from "../utils/errorPopupMixin";
-import xlsExportMixins from "../utils/xlsExportMixins";
 import relationSubscriptionMixin from "../utils/relationSubscriptionMixin"
 
 import { Container, Draggable } from "vue-smooth-dnd";
@@ -120,7 +119,6 @@ const BkUI = {
   BkViewClean,
   errorPopupMixin,
   relationSubscriptionMixin,
-  xlsExportMixins,
   LineChart,
   PieChart,
   BarChart,
