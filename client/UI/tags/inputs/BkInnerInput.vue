@@ -84,7 +84,11 @@
               :invalid-tag-text="invalidTagText"
               :placeholder="placeholder"
               :disabled="plaintextComputed"
-      />
+      >
+        <template #add-button-text>
+          <t>app.add</t>
+        </template>
+      </b-form-tags>
 
       <b-form-rating
           v-else-if="definitionField === 'Rating'"
@@ -388,7 +392,9 @@ import BkCardListClass from "../forms/BkCardListClass";
             return "ListClass";
           }
           // We can have a form tag since we have string values
-          if (fieldDefinition.type.class.prototype instanceof String) {
+          if (fieldClass.prototype instanceof String
+          || typeof fieldClass === "string"
+          || fieldType === "String") {
             //this.value = this.value.join(", ");
             return "ListString"
           }
@@ -576,6 +582,12 @@ import BkCardListClass from "../forms/BkCardListClass";
         let fieldType = fieldDefinition.type.name;
         let EnumClass = fieldDefinition.type.class
         if (! Enum.enums[fieldType]) { return }
+
+        return EnumClass.getOptions({
+          optional: this.optional && fieldDefinition instanceof ScalarField,
+          sort: fieldDefinition.sort
+        });
+        /*
         let identifiers = EnumClass.getIdentifiers(this.formModel || this.model)
 
         let options = _.map(identifiers, x => {
@@ -592,7 +604,9 @@ import BkCardListClass from "../forms/BkCardListClass";
         if (fieldDefinition.sort) {
           return options.sort((x,y) => x.text.localeCompare(y.text))
         }
+
         return options;
+        */
       },
       state() {
         let errors = this.model.getError(this.field);

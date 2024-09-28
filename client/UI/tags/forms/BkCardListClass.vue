@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12">
+  <div ref="parent" class="col-12 d-block">
     <b-row class="mb-2" v-if="$props['for'] !== 'view'">
       <b-col v-if="getTypeField">
         <b-form-select v-model="insertModel.selected">
@@ -22,73 +22,84 @@
       </b-col>
     </b-row>
 
-    <b-card
-        v-for="(innerModel,index) in model[field]" :key="innerModel._id.valueOf()"
-        class="border mb-2"
-        body-class="pt-2 pl-2 pr-4 pb-0"
+    <Container
+      ref="container"
+      behaviour="move"
+      drag-class="card-ghost bg-warning"
+      drop-class="card-ghost-drop"
+      @drop="onDrop"
+      :get-ghost-parent="getGhostParent"
     >
-      <b-card-header v-if="getTypeField">
 
-
-        <bk-view-clean
-            v-bind="$attrs"
-            :model="innerModel"
-            :field="getTypeField"
-            :form-field="formField + '.' + index"
-            :form-generic-field="formField"
-        />
-
-        <bk-button-icon
-                v-if="canDelete"
-                @click="onRemove(index)"
-                icon="trash-fill"
-                variant="danger"
-        />
-        <!--{{getIndexForModel(innerModel,index)}}-->
-
-        <bk-input
-            v-if="innerModel.getDefinition('isActive')!==undefined"
-            :model="innerModel"
-            field="isActive"
-            :for="$props['for']"
-            :form-field="formField + '.' + index"
-            :form-generic-field="formField"
-        />
-
-      </b-card-header>
-      <bk-field-list
-          v-if="innerModel.getDefinition('isActive')===undefined || innerModel.isActive"
-          v-bind="$attrs"
-          :for="$props['for']"
-          :model="innerModel"
-          :form-field="formField + '.' + index"
-          :form-generic-field="formField"
-          :exclude="['isActive',getTypeField]">
-
-        <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
-          <slot :name="slot" v-bind="props" />
-        </template>
-
-      </bk-field-list>
-      <bk-button-icon
-          v-if="!getTypeField && canDelete"
-          @click="onRemove(index)"
-          icon="trash-fill"
-          variant="danger"
-          class="remove-button"
-      />
-
-      <!--
-      <b-card-footer v-if="$props['for'] !== 'view'">
-        <b-button
-            variant="outline-secondary"
-            @click="onAdd(index+1,innerModel)"
+      <Draggable v-for="(innerModel,index) in model[field]" :key="innerModel._id.valueOf()">
+        <b-card
+            class="border mb-2 drag-hover"
+            body-class="pt-2 pl-2 pr-4 pb-0"
         >
-          <t>app.add</t>
-        </b-button>
-      </b-card-footer>
-      -->
-    </b-card>
+          <b-card-header v-if="getTypeField">
+
+
+            <bk-view-clean
+                v-bind="$attrs"
+                :model="innerModel"
+                :field="getTypeField"
+                :form-field="formField + '.' + index"
+                :form-generic-field="formField"
+            />
+
+            <bk-button-icon
+                    v-if="canDelete"
+                    @click="onRemove(index)"
+                    icon="trash-fill"
+                    variant="danger"
+            />
+            <!--{{getIndexForModel(innerModel,index)}}-->
+
+            <bk-input
+                v-if="innerModel.getDefinition('isActive')!==undefined"
+                :model="innerModel"
+                field="isActive"
+                :for="$props['for']"
+                :form-field="formField + '.' + index"
+                :form-generic-field="formField"
+            />
+
+          </b-card-header>
+          <bk-field-list
+              v-if="innerModel.getDefinition('isActive')===undefined || innerModel.isActive"
+              v-bind="$attrs"
+              :for="$props['for']"
+              :model="innerModel"
+              :form-field="formField + '.' + index"
+              :form-generic-field="formField"
+              :exclude="['isActive',getTypeField]">
+
+            <template v-for="(_, slot) in $scopedSlots" v-slot:[slot]="props">
+              <slot :name="slot" v-bind="props" />
+            </template>
+
+          </bk-field-list>
+          <bk-button-icon
+              v-if="!getTypeField && canDelete"
+              @click="onRemove(index)"
+              icon="trash-fill"
+              variant="danger"
+              class="remove-button"
+          />
+
+          <!--
+          <b-card-footer v-if="$props['for'] !== 'view'">
+            <b-button
+                variant="outline-secondary"
+                @click="onAdd(index+1,innerModel)"
+            >
+              <t>app.add</t>
+            </b-button>
+          </b-card-footer>
+          -->
+        </b-card>
+      </Draggable>
+    </Container>
     <!--
     <b-button
         v-if="model[field].length === 0 && $props['for'] !== 'view'"
@@ -134,10 +145,12 @@ import BkFieldList from "./BkFieldList";
 import BkModal from "../modals/BkModal";
 import BkInput from "../inputs/BkInput";
 import BkViewClean from "../views/BkViewClean";
+import { Container, Draggable } from "vue-smooth-dnd";
+import applyDrag from "../../../utils/applyDrag";
 
 export default {
     name: "BkCardListClass",
-    components: {BkButtonIcon,BkFieldList,BkModal,BkInput,BkViewClean},
+    components: {BkButtonIcon,BkFieldList,BkModal,BkInput,BkViewClean,Container,Draggable},
     props: {
       model: Class,
       field: String,
@@ -152,7 +165,7 @@ export default {
       insertModel: {
         selected: undefined,
         number: 1,
-      }
+      },
     }
   },
   computed: {
@@ -225,6 +238,7 @@ export default {
       //remove the model
       this.model[this.field].splice(index,1);
     },
+    /* @deprecated */
     onHoverTrashIcon(hovered) {
       this.hoverTrashIcon = hovered;
     },
@@ -247,9 +261,15 @@ export default {
         x[typeField] = innerModel[typeField]
       })
       return index;
+    },
+    getGhostParent() {
+      return document.body
+    },
+    onDrop(e) {
+      applyDrag(this.model[this.field],e)
     }
   },
-  }
+}
 </script>
 
 <style scoped>
@@ -257,5 +277,18 @@ export default {
   position: absolute;
   top: 2px;
   right: 4px;
+}
+.drag-hover:hover {
+  cursor: grab;
+}
+.card-ghost {
+  transition: transform 0.18s ease;
+  transform: rotateZ(1deg);
+  cursor: grabbing;
+}
+.card-ghost-drop {
+  transition: transform 0.18s ease-in-out;
+  transform: rotateZ(0deg);
+  cursor: grab;
 }
 </style>

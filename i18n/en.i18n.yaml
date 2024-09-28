@@ -157,6 +157,7 @@ en:
         "Creating from the client is not allowed": "Creating is not allowed"
         "Updating from the client is not allowed": "Updating is not allowed"
         "Deleting from the client is not allowed": "Deleting is not allowed"
+        "Viewing from the client is not allowed": "Access is not allowed"
         #---- accounts-base
         "Token expired": "Token is expired"
         "Login forbidden": "Login forbidden"
@@ -167,6 +168,9 @@ en:
         "Invalid login token": "Invalid login token"
         #"Service " + options.service + " already configured": "Le service " + options.service + " est déjà configuré"
         "Service unknown": "Service unknown"
+        "Service forbidden": "Service forbidden"
+        "noData": "No data returned"
+        "Bad query": "Bad query used. Ensure all lines return same number of fields"
         "Unrecognized options for login request": "Unrecognized options for login request"
         "User validation failed": "User validation failed"
         "Username already exists.": "Username already exists."
@@ -194,6 +198,7 @@ en:
         "A new email has been sent to you. If the email doesn't show up in your inbox, be sure to check your spam folder.": "A new email has been sent to you. If the email doesn't show up in your inbox, be sure to check your spam folder."
         "Unknown error": "Unknown error"
         "Validation error": "Validation error"
+        "Bad configuration": "Bad configuration"
         "Match failed": "Technical error: incorrect data"
         "Error, too many requests. Please slow down. You must wait 10 seconds before trying again.": "Error, too many requests. Please slow down. You must wait 10 seconds before trying again."
         "Error, too many requests. Please slow down. You must wait 9 seconds before trying again.": "Error, too many requests. Please slow down. You must wait 9 seconds before trying again."
@@ -296,3 +301,43 @@ en:
     classId:
       label: "Name"
 
+  ParameterTable:
+    name:
+      label: "Table name"
+    description:
+      label: "Description"
+    classBehind:
+      label: "Class to configure"
+    field:
+      label: "Class field"
+      description: "Allow to know to which document type the parameter will be applied"
+    multipleChoice:
+      label: "Multiple choice"
+    options:
+      label: "Parameters"
+      description: "Add as many as needed"
+
+  ParameterTableOption:
+    summary:
+      label: "List of parameters"
+    name:
+      label: "Name of parameter"
+    description:
+      label: "Description"
+    multipleChoice:
+      label: "Multiple choice"
+    inputType:
+      label: "Parameter type"
+      description: "This field will be of basic or enum type"
+
+  XlsExportColumnParam:
+    label:
+      label: "Column label"
+    key:
+      label: "Aggregate key"
+    columnType:
+      label: "Column type"
+    enumType:
+      label: "Enum type"
+    lifecycleType:
+      label: "Lifecycle type"

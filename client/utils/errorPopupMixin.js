@@ -22,6 +22,18 @@ export default {
       })
       this.$emit("error",error,err)
     },
+    showMeteorError(err) {
+      if (!err.errorType === "Meteor.Error")
+        return
+
+      const error = I18n.t("app.Meteor.Error." + err.error)
+      this.$root.$bvToast.toast(error,{
+        title: I18n.t("app.toast.title.failed"),
+        variant: "danger",
+        autoHideDelay: 5000
+      })
+      this.$emit("error",error,err)
+    },
     showSuccess(key="app.toast.title.success") {
       // Toast launched from $root to avoid its destruction while leaving this page
       this.$root.$bvToast.toast(I18n.t("app.success"),{

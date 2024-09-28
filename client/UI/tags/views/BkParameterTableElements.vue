@@ -22,6 +22,16 @@
           :sort="{'name': 1}"
       >
 
+          <template #cell()="{model,index,field}">
+            <span v-if="Array.isArray(model[field]) && isSubClass(model,field)">
+              {{model[field].length}}
+            </span>
+            <span v-else-if="typeof model[field] === 'string' && model[field].length > 25">
+              {{model[field].substring(0,20)}}...
+            </span>
+            <bk-view-inner v-else no-label :model="model" :field="field"/>
+          </template>
+
       </bk-table>
     </template>
   </bk-page>
@@ -38,6 +48,12 @@ export default {
         return ['_id','type','field']
       else
         return ['_id','type','classBehind','field','fieldValue']
+    },
+    isSubClass(model,field) {
+      const definition = model.getDefinition(field)
+      if (!definition) return false
+      if (Class.includes(definition.type.class)) return true
+      return false
     }
   },
 }

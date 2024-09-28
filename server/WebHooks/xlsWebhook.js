@@ -2,9 +2,9 @@ import { WebApp } from 'meteor/webapp'
 import {Meteor} from "meteor/meteor";
 import {Accounts} from "meteor/accounts-base"
 import {check} from "meteor/check"
-import {I18n} from "meteor/akyma:bk"
-import * as XLSX from 'xlsx/xlsx.mjs'
+import {write} from 'xlsx/xlsx.mjs'
 import XlsExportTreatment from "../../lib/utils/XlsExportTreatment";
+import BkXlsExportMethod from "../meteorMethods/BkXlsExportMethod";
 
 // see https://docs.sheetjs.com/docs/
 // see https://docs.sheetjs.com/docs/getting-started/examples/export/
@@ -15,8 +15,7 @@ Meteor.startup(() => {
   WebApp.connectHandlers.use(
     '/webhook/xls/generate.xlsx',
     async (req, res, next) => {
-      const { user, key, locale, timeZone, exportName, method,...params } = req.query
-      if (!method) return sendError(400, res)
+      const { user, key, exportName, ...params } = req.query
 
       let token = Accounts._hashLoginToken(key)
       check(token,String)
@@ -30,19 +29,21 @@ Meteor.startup(() => {
 
       //let rows = [{name: "test", value: "25", date: new Date() }]
 
-      let rows
+      let result
       try {
-        rows = await Meteor.callAsync(method, {
-          user: User,
-          locale,
-          timeZone,
-          ...params,
-        })
+        result = await BkXlsExportMethod.call({userId: user, user: User}, params)
+      // try {
+      //   rows = await Meteor.callAsync(method, {
+      //     user: User,
+      //     locale,
+      //     timeZone,
+      //     ...params,
+      //   })
       } catch (e) {
         return sendError(500, res)
       }
 
-      if (rows.length === 0)
+      if (result.length === 0)
         return sendError(416, res)
 
       const filename = `Export-${exportName}.xlsx`
@@ -53,9 +54,9 @@ Meteor.startup(() => {
 
       // Extract from MongoDB, in an array of fields (non embedded)
 
-      const workbook = XlsExportTreatment(rows,req.query)
+      const workbook = XlsExportTreatment(result, params)
 
-      const buf = XLSX.write(workbook, {type: "buffer", bookType: 'xlsx'})
+      const buf = write(workbook, {type: "buffer", bookType: 'xlsx'})
 
       res.end(buf)
 

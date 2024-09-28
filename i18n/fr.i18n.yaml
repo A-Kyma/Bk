@@ -161,6 +161,7 @@ fr:
         "Creating from the client is not allowed": "Le création ne vous est pas autorisée"
         "Updating from the client is not allowed": "La mise à jour ne vous est pas autorisée"
         "Deleting from the client is not allowed": "La suppression ne vous est pas autorisée"
+        "Viewing from the client is not allowed": "L'accès ne vous est pas autorisé"
         "Token expired": "Le lien est expiré"
         "Login forbidden": "Connexion interdite"
         "User not found": "L'utilisateur n'a pas été trouvé"
@@ -170,6 +171,9 @@ fr:
         "Invalid login token": "Jeton d'authentification invalide"
         #"Service " + options.service + " already configured": "Le service " + options.service + " est déjà configuré"
         "Service unknown": "Service inconnu"
+        "Service forbidden": "Service interdit"
+        "noData": "Aucune donnée renvoyée"
+        "Bad query": "Mauvaise requête utilisée. Assurez-vous que toutes les lignes renvoient le même nombre de champs"
         "Unrecognized options for login request": "Options inconnues pour la requête d'authentification"
         "User validation failed": "Échec de la validation de l'utilisateur"
         "Username already exists.": "Nom d'utilisateur déjà utilisé."
@@ -197,6 +201,7 @@ fr:
         "A new email has been sent to you. If the email doesn't show up in your inbox, be sure to check your spam folder.": "Un nouvel email vient de vous être envoyé. Si vous ne le trouvez pas dans votre boite de réception, vérifiez dans vos spams."
         "Unknown error": "Erreur inconnue"
         "Validation error": "Erreur de validation"
+        "Bad configuration": "Mauvaise configuration"
         "Match failed": "Erreur technique: données incorrectes"
         "Error, too many requests. Please slow down. You must wait 10 seconds before trying again.": "Trop d'essais en peu de temps. Veuillez réessayer dans 10 secondes"
         "Error, too many requests. Please slow down. You must wait 9 seconds before trying again.": "Trop d'essais en peu de temps. Veuillez réessayer dans 9 secondes"
@@ -328,5 +333,15 @@ fr:
       label: "Type de paramètre"
       description: "Ce sera un champ de type basique ou un Enum"
 
-
+  XlsExportColumnParam:
+    label:
+      label: "Label de la colonne"
+    key:
+      label: "Clé de l'aggrégat"
+    columnType:
+      label: "Type de la colonne"
+    enumType:
+      label: "Type d'Enum"
+    lifecycleType:
+      label: "Type de lifecycle"
 

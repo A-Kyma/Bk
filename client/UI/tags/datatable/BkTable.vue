@@ -255,11 +255,10 @@
         </slot>
         <template v-if="draggable">
            <Container @drop="onDrop"
-                      drag-class="card-ghost bg-primary"
+                      drag-class="card-ghost bg-warning"
                       drop-class="card-ghost-drop"
                       :tag="{value: 'tbody', props: {role: 'rowgroup'}}"
-                      lock-axis="y"
-                      :get-child-payload="getChildPayload">
+                      lock-axis="y">
              <Draggable v-for="(model,index) in items" :key="model._id" :tag="{value: 'tr', props: {role: 'row'}}">
                  <slot name="row()" v-bind="{model,index,fields: labeledFields, cardMode}">
                    <td role=cell :class="'align-middle ' + tdClass" style="cursor: pointer"><b-icon icon="arrows-move" aria-hidden="true"></b-icon></td>
@@ -495,9 +494,6 @@
     created() {
       window.addEventListener("resize", this.onResize);
     },
-    distroyed() {
-      window.removeEventListener("resize", this.onResize);
-    },
     computed: {
       getFileType(){
         return this.$props.importFileType
@@ -637,6 +633,7 @@
       }
     },
     destroyed() {
+      window.removeEventListener("resize", this.onResize);
       this.datatable.stopSubscription();
     }
   }

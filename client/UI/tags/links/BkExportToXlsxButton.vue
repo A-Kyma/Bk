@@ -37,8 +37,15 @@ export default {
   },
   computed: {
     xlsLink() {
-      if (Meteor.isCordova)
-        return this.xlsExportUrl({method: this.method, ...this.params})
+      if (Meteor.isCordova) {
+        let result = {
+          route: this.$route.name
+        }
+        if (this.method)
+          result.method = this.method
+
+        return this.xlsExportUrl({...result, ...this.params})
+      }
     }
   }
 }

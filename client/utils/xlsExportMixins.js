@@ -12,7 +12,10 @@ export default {
   },
   data() {
     return {
-      busy: false
+      busy: false,
+      locale: I18n.getLanguage(),
+      timeZone: DateTime.getTimeZone(),
+      route: this.$route.name,
     }
   },
   computed: {
@@ -20,18 +23,29 @@ export default {
       if (Meteor.isCordova) return "_system"
       return "_blank"
     },
+    defaultParams() {
+      return {
+        locale: this.locale,
+        timeZone: this.timeZone,
+        route: this.route
+      }
+    }
   },
   methods: {
     xlsExportUrl(params) {
-      const query = new URLSearchParams({
+      const query = {
         user: (Meteor.isCordova) ? Meteor.userId() : undefined,
         key: (Meteor.isCordova) ? Accounts._storedLoginToken() : undefined,
-        locale: I18n.getLanguage(),
-        timeZone: DateTime.getTimeZone(),
         exportName: this.exportName,
+        ...this.defaultParams,
         ...params
-      })
-      return Meteor.absoluteUrl("/webhook/xls/generate.xlsx?" + query.toString())
+      }
+      for (const [key, value] of Object.entries(query)) {
+        if (!value)
+          delete query[key]
+      }
+      const result = new URLSearchParams(query).toString()
+      return Meteor.absoluteUrl("/webhook/xls/generate.xlsx?" + result)
     },
     async openLink(e,link,params) {
       this.busy = true
@@ -40,14 +54,18 @@ export default {
         cordova.InAppBrowser.open(link, this.target)
         this.busy = false
       } else {
-        let rows
+        let result
         try {
-          rows = await Meteor.callAsync("BkXlsExportMethod", params)
+          result = await Meteor.callAsync(
+            "BkXlsExportMethod",
+            {...this.defaultParams,...params}
+          )
         } catch (e) {
-          return this.showError(e)
+          this.busy = false
+          return this.showMeteorError(e)
         }
-        if (rows) {
-          const workbook = XlsExportTreatment(rows,params)
+        if (result) {
+          const workbook = XlsExportTreatment(result,{...this.defaultParams,...params})
           XLSX.writeFile(workbook, `Export-${this.exportName}.xlsx`, {compression: true});
         }
         this.busy = false
