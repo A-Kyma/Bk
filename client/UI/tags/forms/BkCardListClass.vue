@@ -31,7 +31,11 @@
       :get-ghost-parent="getGhostParent"
     >
 
-      <Draggable v-for="(innerModel,index) in model[field]" :key="innerModel._id.valueOf()">
+      <Draggable
+        v-for="(innerModel,index) in model[field]"
+        :key="innerModel._id.valueOf()"
+        class="overflow-visible"
+      >
         <b-card
             class="border mb-2 drag-hover"
             body-class="pt-2 pl-2 pr-4 pb-0"
@@ -290,5 +294,9 @@ export default {
   transition: transform 0.18s ease-in-out;
   transform: rotateZ(0deg);
   cursor: grab;
+}
+/* Drag&Drop prevent drop down to be shown from BkBelongsToMany tag => VueMultiSelect */
+.overflow-visible {
+  overflow: visible !important;
 }
 </style>
