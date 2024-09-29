@@ -20,7 +20,7 @@
       <t>app.export</t>
     </b-button>
 
-    <bk-button-icon v-else-if="fromBkTable && isCordova"
+    <bk-button-icon v-else-if="fromBkTable && !isCordova"
                     label="app.export"
                     for="export"
                     v-bind="$attrs"

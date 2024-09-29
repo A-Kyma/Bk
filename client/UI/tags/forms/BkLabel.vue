@@ -22,6 +22,7 @@
       noRequired: Boolean,
       locale: String,
     },
+    inject: ["formModel"],
     computed: {
       computedClass() {
         if (this.noLabel) return "sr-only"
@@ -41,7 +42,7 @@
         if (this.$props.for === "view") return false;
         let optional
         if (typeof this.definition.optional === "function")
-          optional = this.definition.optional(this.model)
+          optional = this.definition.optional(this.model, this.formModel)
         else
           optional = this.definition.optional
         return !optional;

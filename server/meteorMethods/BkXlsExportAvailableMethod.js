@@ -30,7 +30,7 @@ const BkXlsExportAvailableMethod = async function({route,...params}) {
 
   const AstroClass = Class.get(parameterElement.collectionClass)
 
-  if (!AstroClass || !parameterElement.aggregate)
+  if (!AstroClass)
     return false
 
   // roles if multiple roles or role if only a single role checked

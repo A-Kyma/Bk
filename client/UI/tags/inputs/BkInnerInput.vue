@@ -65,6 +65,7 @@
           v-bind="{...$props,...$attrs,...uiComponentProps}"
           v-model="value"
           :name="formFieldComputed"
+          :key="formFieldComputed"
           :disabled="plaintextComputed"
           class="form-control-plaintext">
         <b-form-radio v-for="item in enumOptions"
@@ -260,7 +261,7 @@ import BkCardListClass from "../forms/BkCardListClass";
           let validateServerSide = this.definition.validateServerSide || this.validateServerSide
           if (value === null || value === "") { value = undefined }
           this.model.set(this.field, value, {cast: true})
-          this.model.isValid(this.field,{simulationOnly: !validateServerSide})
+          this.model.isValid(this.field,{simulationOnly: !validateServerSide, formModel: this.formModel})
           // Avoid emit input 2 times but still needed on BkBelongsToMany tags because of filter purpose
           if (!['ListRelation','Relation'].includes(this.definitionField))
             this.$emit("input",value)
@@ -353,7 +354,7 @@ import BkCardListClass from "../forms/BkCardListClass";
       },
       optional() {
         if (typeof this.definition.optional === "function")
-          return this.definition.optional(this.model)
+          return this.definition.optional(this.model, this.formModel)
         else
           return this.definition.optional
       },

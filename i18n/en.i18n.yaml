@@ -343,7 +343,7 @@ en:
       label: "Lifecycle type"
     classType:
       label: "Class type"
-      description: "Retrieve cached class in aggregate"
+      description: "Retrieve cached class in aggregate or its id or array of ids"
     classField:
       label: "Field to retrieve"
       placeholder: "defaultName()"

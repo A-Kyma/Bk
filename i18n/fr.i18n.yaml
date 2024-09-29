@@ -346,7 +346,7 @@ fr:
       label: "Type de lifecycle"
     classType:
       label: "Type de Classe"
-      description: "Récupérer la classe dans l'aggrégat"
+      description: "Récupérer la classe dans l'aggrégat ou l'id ou un tableau d'ids"
     classField:
       label: "Champ à récupérer"
       placeholder: "defaultName()"
