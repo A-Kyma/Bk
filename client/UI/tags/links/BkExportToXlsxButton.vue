@@ -79,7 +79,7 @@ export default {
       return Meteor.isCordova
     },
     xlsLink() {
-      if (true || Meteor.isCordova) {
+      if (Meteor.isCordova) {
         let result = {
           route: this.$route.name
         }
@@ -105,8 +105,8 @@ export default {
   methods: {
     xlsExportUrl(params) {
       const query = {
-        user: (true || Meteor.isCordova) ? Meteor.userId() : undefined,
-        key: (true || Meteor.isCordova) ? Accounts._storedLoginToken() : undefined,
+        user: (Meteor.isCordova) ? Meteor.userId() : undefined,
+        key: (Meteor.isCordova) ? Accounts._storedLoginToken() : undefined,
         exportName: this.exportName,
         ...this.defaultParams,
         ...params
@@ -120,9 +120,9 @@ export default {
     },
     async openLink(e,link,params) {
       this.busy = true
-      if (true || Meteor.isCordova && cordova?.InAppBrowser) {
-        //e.preventDefault()
-        //cordova.InAppBrowser.open(link, this.target)
+      if (Meteor.isCordova && cordova?.InAppBrowser) {
+        e.preventDefault()
+        cordova.InAppBrowser.open(link, this.target)
         this.busy = false
       } else {
         let result
