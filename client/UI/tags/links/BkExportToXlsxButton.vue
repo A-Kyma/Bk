@@ -32,6 +32,7 @@
 <script>
 import {Accounts} from "meteor/accounts-base"
 import {Meteor} from "meteor/meteor"
+import {EJSON} from "meteor/ejson"
 import {I18n, DateTime} from "meteor/akyma:bk"
 import XlsExportTreatment from "../../../../lib/utils/XlsExportTreatment";
 import {writeFile} from 'xlsx/xlsx.mjs'
@@ -78,7 +79,7 @@ export default {
       return Meteor.isCordova
     },
     xlsLink() {
-      if (Meteor.isCordova) {
+      if (true || Meteor.isCordova) {
         let result = {
           route: this.$route.name
         }
@@ -104,8 +105,8 @@ export default {
   methods: {
     xlsExportUrl(params) {
       const query = {
-        user: (Meteor.isCordova) ? Meteor.userId() : undefined,
-        key: (Meteor.isCordova) ? Accounts._storedLoginToken() : undefined,
+        user: (true || Meteor.isCordova) ? Meteor.userId() : undefined,
+        key: (true || Meteor.isCordova) ? Accounts._storedLoginToken() : undefined,
         exportName: this.exportName,
         ...this.defaultParams,
         ...params
@@ -114,14 +115,14 @@ export default {
         if (!value)
           delete query[key]
       }
-      const result = new URLSearchParams(query).toString()
+      const result = new URLSearchParams({filter: EJSON.stringify(query)}).toString()
       return Meteor.absoluteUrl("/webhook/xls/generate.xlsx?" + result)
     },
     async openLink(e,link,params) {
       this.busy = true
-      if (Meteor.isCordova && cordova?.InAppBrowser) {
-        e.preventDefault()
-        cordova.InAppBrowser.open(link, this.target)
+      if (true || Meteor.isCordova && cordova?.InAppBrowser) {
+        //e.preventDefault()
+        //cordova.InAppBrowser.open(link, this.target)
         this.busy = false
       } else {
         let result

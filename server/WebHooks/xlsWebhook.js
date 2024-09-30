@@ -1,5 +1,6 @@
 import { WebApp } from 'meteor/webapp'
 import {Meteor} from "meteor/meteor";
+import {EJSON} from "meteor/ejson"
 import {Accounts} from "meteor/accounts-base"
 import {check} from "meteor/check"
 import {write} from 'xlsx/xlsx.mjs'
@@ -15,7 +16,8 @@ Meteor.startup(() => {
   WebApp.connectHandlers.use(
     '/webhook/xls/generate.xlsx',
     async (req, res, next) => {
-      const { user, key, exportName, ...params } = req.query
+      const {filter} = req.query;
+      const { user, key, exportName, ...params } = EJSON.parse(filter)
 
       let token = Accounts._hashLoginToken(key)
       check(token,String)
