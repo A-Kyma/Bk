@@ -90,6 +90,7 @@ export default {
     },
     target() {
       if (Meteor.isCordova) return "_system"
+      if (Meteor.isDesktop) return ""
       return "_blank"
     },
     defaultParams() {
