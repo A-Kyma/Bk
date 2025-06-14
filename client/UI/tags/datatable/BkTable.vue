@@ -404,6 +404,7 @@
 </template>
 
 <script>
+  import { Tracker } from "meteor/tracker"
   import { Class, ValidationError } from "meteor/jagi:astronomy";
   import _omit from "lodash/omit";
   import { Container, Draggable } from "vue-smooth-dnd";
@@ -497,13 +498,20 @@
         datatable: new Datatable(this),
         tableModel: Class.getModel(this.model),
         width: window.innerWidth,
+        mainKey: 0,
+        items: []
       }
     },
     created() {
       window.addEventListener("resize", this.onResize);
+      Tracker.autorun(() => {
+        if (!this.datatable.handler || this.datatable.handler.ready()) {
+          this.items = this.datatable.getArray()
+        }
+      })
     },
     computed: {
-      getFileType(){
+      getFileType() {
         return this.$props.importFileType
       },
       tableClass() {
@@ -525,6 +533,16 @@
       cardMode() {
         return this.card || this.width < this.minTableWidth
       },
+    },
+    meteor: {
+      // items() {
+      //   //let selection = this.model.find(this.selector).fetch();
+      //   //return selection;
+      //   return this.datatable.getArray();
+      // },
+      count() {
+        return this.datatable.getCount()
+      }
     },
     watch: {
       routeQuery(newValue, oldValue) {
@@ -630,16 +648,7 @@
         this.datatable.setFilter(this.initialFilter)
       }
     },
-    meteor: {
-      items() {
-        //let selection = this.model.find(this.selector).fetch();
-        //return selection;
-        return this.datatable.getArray();
-      },
-      count() {
-        return this.datatable.getCount()
-      }
-    },
+
     destroyed() {
       window.removeEventListener("resize", this.onResize);
       this.datatable.stopSubscription();
