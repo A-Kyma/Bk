@@ -1,6 +1,16 @@
 {
   "lockfileVersion": 1,
   "dependencies": {
+    "@akyma/smooth-dnd": {
+      "version": "0.12.4",
+      "resolved": "https://registry.npmjs.org/@akyma/smooth-dnd/-/smooth-dnd-0.12.4.tgz",
+      "integrity": "sha512-3xQ5zjdsjSlPWYHgYun7wqPGrwqCTBRInQ66qR9JVhrNcGpKfsP468EUc6j2L64lbebYncCmZMeKCSKnVjCXgg=="
+    },
+    "@akyma/vue-smooth-dnd": {
+      "version": "0.8.6",
+      "resolved": "https://registry.npmjs.org/@akyma/vue-smooth-dnd/-/vue-smooth-dnd-0.8.6.tgz",
+      "integrity": "sha512-kg+68zOfPep7BFdAWEstvTsUmUbzo7ndtqlkpRJABQ4hLcOlT7UfLivTzZ4eUF0pNd7HmTiSZIru69QtrTGCow=="
+    },
     "@babel/code-frame": {
       "version": "7.27.1",
       "resolved": "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.27.1.tgz",
@@ -2515,11 +2525,6 @@
       "resolved": "https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.7.tgz",
       "integrity": "sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ=="
     },
-    "smooth-dnd": {
-      "version": "0.12.1",
-      "resolved": "https://registry.npmjs.org/smooth-dnd/-/smooth-dnd-0.12.1.tgz",
-      "integrity": "sha512-Dndj/MOG7VP83mvzfGCLGzV2HuK1lWachMtWl/Iuk6zV7noDycIBnflwaPuDzoaapEl3Pc4+ybJArkkx9sxPZg=="
-    },
     "snapdragon": {
       "version": "0.8.2",
       "resolved": "https://registry.npmjs.org/snapdragon/-/snapdragon-0.8.2.tgz",
@@ -2910,11 +2915,6 @@
       "version": "2.1.4",
       "resolved": "https://registry.npmjs.org/vue-multiselect/-/vue-multiselect-2.1.4.tgz",
       "integrity": "sha512-ryd2Ybl56LE81IxlwbZUo4gAWnUSG45iUGX4KgVwsteitK2R+cOLwJaJescobpIDJnVlVorRUnX5u7my1vBu2w=="
-    },
-    "vue-smooth-dnd": {
-      "version": "0.8.1",
-      "resolved": "https://registry.npmjs.org/vue-smooth-dnd/-/vue-smooth-dnd-0.8.1.tgz",
-      "integrity": "sha512-eZVVPTwz4A1cs0+CjXx/ihV+gAl3QBoWQnU6+23Gp59t0WBU99z7ducBQ4FvjBamqOlg8SDOE5eFHQedxwB4Wg=="
     },
     "vue-template-compiler": {
       "version": "2.7.16",

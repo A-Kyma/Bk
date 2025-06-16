@@ -16,7 +16,7 @@ Npm.depends({
   // to add meteor reactivity in vue : https://github.com/meteor-vue/vue-meteor-tracker
   "vue-meteor-tracker": "2.0.0",
   // For Drag & Drop usage : https://github.com/kutlugsahin/vue-smooth-dnd
-  "@akyma/vue-smooth-dnd": "0.8.3",
+  "@akyma/vue-smooth-dnd": "0.8.6",
   "vue-multiselect": "2.1.4",
   "gm": "1.23.1", // GraphicsMagick or ImageMagick for creating Thumbnails
   "chart.js": "2.9.4", // basic Chart js
