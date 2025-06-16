@@ -149,7 +149,7 @@ import BkFieldList from "./BkFieldList";
 import BkModal from "../modals/BkModal";
 import BkInput from "../inputs/BkInput";
 import BkViewClean from "../views/BkViewClean";
-import { Container, Draggable } from "vue-smooth-dnd";
+import { Container, Draggable } from "@akyma/vue-smooth-dnd";
 import applyDrag from "../../../utils/applyDrag";
 
 export default {

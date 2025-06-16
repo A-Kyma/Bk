@@ -79,7 +79,7 @@ import BkPagination from "./tags/datatable/BkPagination"
 import errorPopupMixin from "../utils/errorPopupMixin";
 import relationSubscriptionMixin from "../utils/relationSubscriptionMixin"
 
-import { Container, Draggable } from "vue-smooth-dnd";
+import { Container, Draggable } from "@akyma/vue-smooth-dnd";
 
 const BkUI = {
   applyDrag,
