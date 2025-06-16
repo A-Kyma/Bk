@@ -407,7 +407,7 @@
   import { Tracker } from "meteor/tracker"
   import { Class, ValidationError } from "meteor/jagi:astronomy";
   import _omit from "lodash/omit";
-  import { Container, Draggable } from "vue-smooth-dnd";
+  import { Container, Draggable } from "@akyma/vue-smooth-dnd";
   import I18n from "../../../../lib/classes/i18n";
   import Datatable from "../../../../lib/classes/datatable";
   import BkButtonIcon from "../links/BkButtonIcon";
