@@ -48,6 +48,9 @@
       </b-progress-bar>
     </b-progress>
 
+    <span v-else-if="classDefinitionName==='TextEditor'" v-html="value">
+    </span>
+
     <span v-else>{{value}}</span>
   </slot>
   </span>

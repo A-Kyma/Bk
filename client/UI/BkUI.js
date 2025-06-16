@@ -63,6 +63,7 @@ import BkChangePassword from "./tags/forms/BkChangePassword"
 import BkSubmit from "./tags/forms/BkSubmit"
 import BkSubscribe from "./tags/forms/BkSubscribe";
 import BkTable from "./tags/datatable/BkTable"
+import BkTextEditor from "./tags/inputs/BkTextEditor";
 import BkTranslate from "./tags/translation/BkTranslate";
 import BkTranslations from "./tags/views/BkTranslations";
 import LineChart from "./tags/charts/LineCharts";
@@ -112,6 +113,7 @@ const BkUI = {
   BkSubmit,
   BkSubscribe,
   BkTable,
+  BkTextEditor,
   BkTranslate,
   BkTranslations,
   BkView,

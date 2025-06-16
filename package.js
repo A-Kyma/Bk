@@ -14,7 +14,7 @@ Npm.depends({
   "fs.extra": "1.3.2", // Used for file system read. Needed for creating thumbnails
   lodash: '4.17.21', // JS Library
   // to add meteor reactivity in vue : https://github.com/meteor-vue/vue-meteor-tracker
-  "vue-meteor-tracker": "2.0.0-beta.5",
+  "vue-meteor-tracker": "2.0.0",
   // For Drag & Drop usage : https://github.com/kutlugsahin/vue-smooth-dnd
   "vue-smooth-dnd": "0.8.1",
   "vue-multiselect": "2.1.4",
@@ -25,7 +25,19 @@ Npm.depends({
   "@vuese/cli":"2.14.3", //create vue documentation
   "js-yaml":"4.1.0", // for BkTranslations
   "luxon":"2.4.0", // for Date creation using timezone => See DateTime
-  "chartjs-adapter-luxon":"1.1.0" // For chart js using date (axis type time)
+  "chartjs-adapter-luxon":"1.1.0", // For chart js using date (axis type time)
+  // // For rich text editor: https://tiptap.dev/docs/editor/getting-started/install/vue2
+  "@tiptap/vue-2": "2.14.0",
+  "@tiptap/pm": "2.14.0",
+  "@tiptap/starter-kit": "2.14.0",
+  "@tiptap/extension-image": "2.14.0",
+  "@tiptap/extension-text-align": "2.14.0",
+  "@tiptap/extension-link": "2.14.0",
+  "@tiptap/extension-color": "2.14.0",
+  "@tiptap/extension-text-style": "2.14.0",
+  "@tiptap/extension-list-item": "2.14.0",
+  //"quill": "2.0.3", // Rich text editor
+  //"vue2-editor": "2.10.3", // Vue wrapper for quill-editor
 });
 
 // See https://guide.meteor.com/writing-atmosphere-packages.html
@@ -68,6 +80,10 @@ Package.onUse(function(api) {
     'client/UI/ui.js',
   ],'client');
 
+  api.addFiles([
+    'client/UI/tags/inputs/BkTextEditor.vue',
+  ],'client')
+
   //api.addFiles('%.css','client'); For CSS or SCSS files
   //api.addAssets(['%.eot','%.svg','%.ttf','%.woff'],'client'); // For other types of files
   api.addAssets(['client/UI/flags/de.svg'],'client') // For svg flags
@@ -84,7 +100,7 @@ Package.onUse(function(api) {
   api.addAssets(['client/UI/flags/1x1/it.svg'],'client')
   api.addAssets(['client/UI/flags/1x1/nl.svg'],'client')
   // Load main modules
-  api.mainModule('lib/lib.js');
+  api.mainModule('lib/lib.js', ['client','server'])
   // Load client files
   api.addFiles('client/client.js','client');
   // Load server files

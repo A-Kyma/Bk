@@ -490,11 +490,18 @@ import BkCardListClass from "../forms/BkCardListClass";
         */
 
         if (fieldType === "DateTime") {
-          return "BkDatePicker";
+          return "BkDatePicker"
         }
 
         if (fieldType === "Textarea") {
           return "BFormTextarea"
+        }
+
+        if (fieldType === "TextEditor") {
+          if (Meteor.isClient && this["for"]!== "view")
+            return "BkTextEditor"
+          else
+            return "BkViewClean"
         }
 
         // Only if Scalar field. ListEnum and ListBoolean treated differently
@@ -502,19 +509,19 @@ import BkCardListClass from "../forms/BkCardListClass";
           if (this.plaintextComputed) {
             return "BkViewClean";
           } else {
-            return "BFormRadioGroup";
+            return "BFormRadioGroup"
           }
         }
 
         if (Lifecycle.includes(fieldClass)) {
-          return "BkViewClean";
+          return "BkViewClean"
         }
 
         if (fieldType === "Boolean") {
           return "BFormCheckbox"
         }
 
-        return "BFormInput";
+        return "BFormInput"
       },
       plaintextClass() {
         if (this.inputComponent === "BkViewClean")
