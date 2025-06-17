@@ -142,7 +142,7 @@
       <div v-if="datatable.firstReady">
         <slot name="pagination-top" v-bind="{datatable, scroll, perPage}">
           <bk-pagination
-              v-if="!full && !scroll && count!==0"
+              v-if="!full && !scroll && count!==0 && !noPagination"
               :datatable="datatable"
               :scroll="scroll"
               :perPage="datatable.perPage"
@@ -154,11 +154,11 @@
       </div>
       <div v-else>
         <slot name="loading-top">
-          <bk-loading/>
+          <div> </div>
         </slot>
       </div>
     </div>
-    <slot name="main" v-bind="{items,labeledFields,datatable, model, actions, filterModel: datatable.filterModel}">
+    <slot name="main" v-bind="{items,count,labeledFields,datatable, model, actions, filterModel: datatable.filterModel}">
       <div v-if="cardMode">
         <b-card
             v-for="(model,index) in items"
@@ -379,7 +379,7 @@
       <div v-if="datatable.firstReady">
         <slot name="pagination-bottom" v-bind="{datatable, scroll, perPage}">
           <bk-pagination
-              v-if="!full"
+              v-if="!full && !noPagination"
               :datatable="datatable"
               :scroll="scroll"
               :perPage="datatable.perPage"
@@ -395,7 +395,7 @@
       </div>
       <div v-else>
         <slot name="loading-bottom">
-          <bk-loading/>
+          <bk-loading type="dots"/>
         </slot>
       </div>
     </div>
@@ -451,6 +451,10 @@
       sortDesc: Boolean,
       sortValue: Object,
       perPage: Number,
+      noPagination: {
+        type: Boolean,
+        default: false
+      },
       page: Number,
       filter: Object, // default filter used, cannot be changer afterwards
       initialFilter: Object, // initial applied filter, can be changed at any time using table filters
