@@ -509,8 +509,11 @@
     created() {
       window.addEventListener("resize", this.onResize);
       Tracker.autorun(() => {
+        this.datatable.readydep.depend()
         if (!this.datatable.handler || this.datatable.handler.ready()) {
-          this.items = this.datatable.getArray()
+          if (this.datatable.ready === false)
+            this.items = this.datatable.getArray()
+          this.datatable.ready = true
         }
       })
     },
