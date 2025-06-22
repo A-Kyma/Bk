@@ -1,6 +1,6 @@
 Package.describe({
   name: 'akyma:bk',
-  version: '2.1.38', // Use 'meteor publish --release=2.16' to update this version number
+  version: '2.1.39', // Use 'meteor publish --release=2.16' to update this version number
   // Brief, one-line summary of the package.
   summary: 'Package which helps creating web applications',
   // URL to the Git repository containing the source code for this package.
@@ -16,7 +16,7 @@ Npm.depends({
   // to add meteor reactivity in vue : https://github.com/meteor-vue/vue-meteor-tracker
   "vue-meteor-tracker": "2.0.0",
   // For Drag & Drop usage : https://github.com/kutlugsahin/vue-smooth-dnd
-  "@akyma/vue-smooth-dnd": "0.8.6",
+  "@akyma/vue-smooth-dnd": "0.8.7",
   "vue-multiselect": "2.1.4",
   "gm": "1.23.1", // GraphicsMagick or ImageMagick for creating Thumbnails
   "chart.js": "2.9.4", // basic Chart js
