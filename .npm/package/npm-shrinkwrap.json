@@ -286,9 +286,9 @@
       "integrity": "sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag=="
     },
     "@types/node": {
-      "version": "24.0.3",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-24.0.3.tgz",
-      "integrity": "sha512-R4I/kzCYAdRLzfiCabn9hxWfbuHS573x+r0dJMkkzThEa7pbrcDWK+9zu3e7aBOouf+rQAciqPFMnxwr0aWgKg=="
+      "version": "24.0.4",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-24.0.4.tgz",
+      "integrity": "sha512-ulyqAkrhnuNq9pB76DRBTkcS6YsmDALy6Ua63V8OhrOBgbcYt6IOdzpw5P1+dyRIyMerzLkeYWBeOXPpA9GMAA=="
     },
     "@types/yauzl": {
       "version": "2.10.3",
@@ -3052,6 +3052,11 @@
       "version": "1.6.2",
       "resolved": "https://registry.npmjs.org/vue-ts-types/-/vue-ts-types-1.6.2.tgz",
       "integrity": "sha512-iOBe4oMoTeISs+Wxlt5E6q3W6lEX6UtkwWCPu6727IoweBE3O3Vp/2/BtO+Kf5pISQU7WpX71hXTeMGqHsmecA=="
+    },
+    "vue2-teleport": {
+      "version": "1.1.4",
+      "resolved": "https://registry.npmjs.org/vue2-teleport/-/vue2-teleport-1.1.4.tgz",
+      "integrity": "sha512-mGTszyQP6k3sSSk7MBq+PZdVojHYLwg5772hl3UVpu5uaLBqWIZ5eNP6/TjkDrf1XUTTxybvpXC6inpjwO+i/Q=="
     },
     "w3c-keyname": {
       "version": "2.2.8",

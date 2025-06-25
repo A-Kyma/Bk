@@ -1,6 +1,6 @@
 Package.describe({
   name: 'akyma:bk',
-  version: '2.1.41', // Use 'meteor publish --release=2.16' to update this version number
+  version: '2.1.42', // Use 'meteor publish --release=2.16' to update this version number
   // Brief, one-line summary of the package.
   summary: 'Package which helps creating web applications',
   // URL to the Git repository containing the source code for this package.
@@ -18,6 +18,7 @@ Npm.depends({
   // For Drag & Drop usage : https://github.com/kutlugsahin/vue-smooth-dnd
   "@akyma/vue-smooth-dnd": "0.8.9",
   "vue-multiselect": "2.1.4",
+  "vue2-teleport": "1.1.4", // Teleport for Vue 3 ported to Vue 2
   "gm": "1.23.1", // GraphicsMagick or ImageMagick for creating Thumbnails
   "chart.js": "2.9.4", // basic Chart js
   "vue-chartjs":"3.5.1", // Vue for Chart
