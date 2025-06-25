@@ -2,14 +2,14 @@
   "lockfileVersion": 1,
   "dependencies": {
     "@akyma/smooth-dnd": {
-      "version": "0.12.5",
-      "resolved": "https://registry.npmjs.org/@akyma/smooth-dnd/-/smooth-dnd-0.12.5.tgz",
-      "integrity": "sha512-gqy7C+q2IO7Nxd4cOATfhbN4FwGQs00IGxhH0M/v7r/8ZrEC7enifIGd4WGcfwetY8hOW4UzmSqrxWLdKKdQsA=="
+      "version": "0.12.7",
+      "resolved": "https://registry.npmjs.org/@akyma/smooth-dnd/-/smooth-dnd-0.12.7.tgz",
+      "integrity": "sha512-XC3K0md6wmyRrvY6o6efDRCHZeDPBMwxcSnFOLvbVn29aZb56dqh67Yt4+NNlM6dTqTghXEGkkQ2msmOaHKKcg=="
     },
     "@akyma/vue-smooth-dnd": {
-      "version": "0.8.7",
-      "resolved": "https://registry.npmjs.org/@akyma/vue-smooth-dnd/-/vue-smooth-dnd-0.8.7.tgz",
-      "integrity": "sha512-GW57OLWsR4p3+EDW0S7n6vqkFEpGGM+IW9Oa9yKz02FIfAv6ZoPq4njNL4P41vE7X5J6ognJlSRXgGlLVFZkCQ=="
+      "version": "0.8.9",
+      "resolved": "https://registry.npmjs.org/@akyma/vue-smooth-dnd/-/vue-smooth-dnd-0.8.9.tgz",
+      "integrity": "sha512-R4e61se3Cz+pKph06fNkxKDouwN/hRIKzaDKmHLPN/FlvlOp3yKQKKY/A0RUod3KLfmH0r+mICC+KLHnHdpgew=="
     },
     "@babel/code-frame": {
       "version": "7.27.1",
