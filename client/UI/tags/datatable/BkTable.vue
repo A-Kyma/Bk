@@ -511,8 +511,7 @@
       Tracker.autorun(() => {
         this.datatable.readydep.depend()
         if (!this.datatable.handler || this.datatable.handler.ready()) {
-          if (this.datatable.ready === false)
-            this.items = this.datatable.getArray()
+          this.items = this.datatable.getArray()
           this.datatable.ready = true
         }
       })
