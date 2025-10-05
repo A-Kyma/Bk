@@ -1,6 +1,6 @@
 Package.describe({
   name: 'akyma:bk',
-  version: '2.1.42', // Use 'meteor publish --release=2.16' to update this version number
+  version: '2.1.43', // Use 'meteor publish --release=2.16' to update this version number
   // Brief, one-line summary of the package.
   summary: 'Package which helps creating web applications',
   // URL to the Git repository containing the source code for this package.
