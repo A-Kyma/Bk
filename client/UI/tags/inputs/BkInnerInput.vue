@@ -240,7 +240,8 @@ import BkCardListClass from "../forms/BkCardListClass";
       validateServerSide: {
         type: Boolean,
         default: false
-      }
+      },
+      labelContext: Object,
     },
     inject: ["formModel"],
     data() {
@@ -591,10 +592,16 @@ import BkCardListClass from "../forms/BkCardListClass";
         let EnumClass = fieldDefinition.type.class
         if (! Enum.enums[fieldType]) { return }
 
-        return EnumClass.getOptions({
-          optional: this.optional && fieldDefinition instanceof ScalarField,
-          sort: fieldDefinition.sort
-        });
+        let getOptionsParam = {}
+        getOptionsParam.optional = this.optional && fieldDefinition instanceof ScalarField
+        getOptionsParam.sort = fieldDefinition.sort
+
+        if (this.labelContext ){
+          if (this.labelContext.name && this.labelContext.value){
+            getOptionsParam[this.labelContext.name] = this.labelContext.value
+          }
+        }
+        return EnumClass.getOptions(getOptionsParam);
         /*
         let identifiers = EnumClass.getIdentifiers(this.formModel || this.model)
 
