@@ -81,7 +81,7 @@
       >
         <template #label>
           <slot :name="formGenericFieldComputed + '-label'" v-bind="$props">
-            <bk-label v-bind="$props"/>
+            <bk-label v-bind="{...$props,...$attrs}"/>
           </slot>
         </template>
 

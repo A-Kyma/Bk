@@ -1,5 +1,5 @@
 <template>
-  <label :class="computedClass"><t :locale="locale">{{label}}</t>
+  <label :class="computedClass"><t :options="context" :locale="locale">{{label}}</t>
     <b-icon-asterisk
       v-if="required"
       variant="danger"
@@ -20,7 +20,7 @@
       for: String,
       noLabel: Boolean,
       noRequired: Boolean,
-      locale: String,
+      locale: String
     },
     inject: ["formModel"],
     computed: {
@@ -30,6 +30,16 @@
       },
       label() {
         return this.model.constructor.getLabelKey(this.field)
+      },
+      context(){
+        let value = {}
+        let labelContext = this.$attrs["label-context"]
+        if (labelContext === undefined) return
+        if(labelContext.name && labelContext.value){
+          value[labelContext.name] = labelContext.value
+          return value
+        }
+        return
       },
       definition() {
         return this.model.getDefinition(this.field);
