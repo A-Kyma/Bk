@@ -596,6 +596,7 @@ export default {
       let component = this
       component.error = null
       component.result = []
+      console.log(component.importFile)
 
       let csvFile = component.importFile
       if (csvFile === null){
@@ -728,6 +729,7 @@ export default {
           component.result = []
 
           fileArray.forEach(function (line){
+            console.log(line)
             if (line.length < 11) return
             param.data = line
             modelClass.callMethod('import',param,(err, result) => {
@@ -740,6 +742,7 @@ export default {
               }
             })
           })
+          component.importFile = null
         })
       }
     },
