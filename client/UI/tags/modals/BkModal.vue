@@ -1,5 +1,6 @@
 <template>
   <b-modal
+      ref="modal"
       :id="id"
       @ok="onOk"
       @show="onShow"
@@ -75,10 +76,23 @@ export default {
         this.$subscribe(this.subscription,[this.model._id])
     },
     show() {
-      this.$bvModal.show(this.id)
+      // bootstrap-vue-3 uses component instance methods; fallback to $bvModal for Vue2
+      if (this.$refs.modal && typeof this.$refs.modal.show === 'function') {
+        this.$refs.modal.show()
+        return
+      }
+      if (this.$bvModal && typeof this.$bvModal.show === 'function') {
+        this.$bvModal.show(this.id)
+      }
     },
     hide() {
-      this.$bvModal.hide(this.id)
+      if (this.$refs.modal && typeof this.$refs.modal.hide === 'function') {
+        this.$refs.modal.hide()
+        return
+      }
+      if (this.$bvModal && typeof this.$bvModal.hide === 'function') {
+        this.$bvModal.hide(this.id)
+      }
     }
   },
 }

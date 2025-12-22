@@ -10,8 +10,8 @@
       </b-modal>
       <div class="container mb-2">
         <ul class="justified-image-grid" :style="cssProps">
-          <template v-for="(file,index) in listFiles">
-            <li :key="file._id" :style="'--width: '+file.meta.width+'; --height: ' + file.meta.height + ';'">
+          <template v-for="(file,index) in listFiles" :key="file._id">
+            <li :style="'--width: '+file.meta.width+'; --height: ' + file.meta.height + ';'">
               <b-img
                   @click="openModal($event,file)"
                   :src="link(file,fileFormat)"
@@ -227,7 +227,7 @@
 import { Class, ListField } from "meteor/akyma:astronomy"
 import { Match } from "meteor/check"
 import { Files } from "meteor/akyma:bk"
-import { Container, Draggable } from "@akyma/vue-smooth-dnd";
+import { Container, Draggable } from "vue-smooth-dnd";
 import applyDrag from "../../../utils/applyDrag";
 import I18n from "../../../../lib/classes/i18n";
 

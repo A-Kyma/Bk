@@ -12,7 +12,7 @@
 <script>
 import { Class } from "meteor/akyma:astronomy"
 import { User } from "meteor/akyma:bk"
-import BkForm from "./BkForm"
+import BkForm from "./BkForm.vue"
 import { Accounts } from "meteor/accounts-base"
 
 export default {

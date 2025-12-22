@@ -144,12 +144,12 @@
 <script>
 import { Class } from "meteor/akyma:astronomy"
 import { Enum } from "meteor/akyma:bk"
-import BkButtonIcon from "../links/BkButtonIcon";
-import BkFieldList from "./BkFieldList";
-import BkModal from "../modals/BkModal";
-import BkInput from "../inputs/BkInput";
-import BkViewClean from "../views/BkViewClean";
-import { Container, Draggable } from "@akyma/vue-smooth-dnd";
+import BkButtonIcon from "../links/BkButtonIcon.vue";
+import BkFieldList from "./BkFieldList.vue";
+import BkModal from "../modals/BkModal.vue";
+import BkInput from "../inputs/BkInput.vue";
+import BkViewClean from "../views/BkViewClean.vue";
+import { Container, Draggable } from "vue-smooth-dnd";
 import applyDrag from "../../../utils/applyDrag";
 
 export default {

@@ -1,5 +1,5 @@
 import {Meteor} from "meteor/meteor";
-import {Class} from "meteor/jagi:astronomy"
+import {Class} from "meteor/akyma:astronomy"
 import {I18n,User,Role} from "meteor/akyma:bk"
 import config from "../../lib/core/config";
 

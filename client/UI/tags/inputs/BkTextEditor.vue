@@ -72,35 +72,34 @@
         </b-button-group>
       </Teleport>
     </div>
-    <component :is="editorComponentLoader" :editor="editor" class="tiptap"/>
+    <component :is="'EditorContent'" :editor="editor" class="tiptap"/>
   </div>
 </template>
 
 <script>
+import { Editor } from "@tiptap/core"
+import { EditorContent } from "@tiptap/vue-3"
 import StarterKit from "@tiptap/starter-kit"
 import Image from '@tiptap/extension-image'
 import TextAlign from '@tiptap/extension-text-align'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
 import ListItem from '@tiptap/extension-list-item'
-import Teleport from 'vue2-teleport'
-
-
 export default {
   name: "BkTextEditor",
+  emits: ['input','update:modelValue'],
   props: {
+    // Keep `value` for backward compatibility with Vue2 and `v-model` usage
     value: {
       type: String,
       default: '',
     },
   },
   components: {
-    Teleport,
-    EditorContent: () => import("@tiptap/vue-2").then(m => m.EditorContent),
+    EditorContent,
   },
   data() {
     return {
-      editorComponentLoader: "EditorContent",
       editor: null,
       width: window?.innerWidth,
     }
@@ -132,32 +131,33 @@ export default {
     window.addEventListener("resize", this.onResize);
   },
   mounted() {
-    import("@tiptap/vue-2").then(({ Editor }) => {
-      this.editor = new Editor({
-        content: this.value,
-        extensions: [
-          StarterKit,
-          // ListItem,
-          Image.configure({
-            inline: true,
-            allowBase64: true,
-          }),
-          TextAlign.configure({
-            types: ['heading', 'paragraph'],
-          }),
-          TextStyle,
-          Color.configure({
-            types: [TextStyle.name, ListItem.name],
-          }),
-        ],
-        onUpdate: () => {
-          // HTML
-          this.$emit('input', this.editor.getHTML())
+    // Create the editor instance with static imports (Vue 3)
+    this.editor = new Editor({
+      content: this.value,
+      extensions: [
+        StarterKit,
+        // ListItem,
+        Image.configure({
+          inline: true,
+          allowBase64: true,
+        }),
+        TextAlign.configure({
+          types: ['heading', 'paragraph'],
+        }),
+        TextStyle,
+        Color.configure({
+          types: [TextStyle.name, ListItem.name],
+        }),
+      ],
+      onUpdate: () => {
+        // HTML (Vue2 compatibility)
+        this.$emit('input', this.editor.getHTML())
+        // Vue3 style v-model compatibility
+        this.$emit('update:modelValue', this.editor.getHTML())
 
-          // JSON
-          // this.$emit('input', this.editor.getJSON())
-        },
-      })
+        // JSON
+        // this.$emit('input', this.editor.getJSON())
+      },
     })
   },
   methods: {
@@ -165,8 +165,12 @@ export default {
       this.width = window.innerWidth;
     },
   },
+  unmounted() {
+    this.editor && this.editor.destroy();
+  },
   beforeDestroy() {
-    this.editor.destroy()
+    // Vue 2 compatibility
+    if (typeof this.unmounted === 'function') this.unmounted();
   },
 }
 </script>

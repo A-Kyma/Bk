@@ -36,7 +36,7 @@
 
 <script>
 import {Class} from "meteor/akyma:astronomy"
-import BkForm from "./BkForm"
+import BkForm from "./BkForm.vue"
 import { User } from "meteor/akyma:bk"
 import { Accounts } from "meteor/accounts-base"
 

@@ -23,13 +23,13 @@
 <script>
 import { Class } from "meteor/akyma:astronomy"
 import { I18n, DateTime } from "meteor/akyma:bk"
-import LineChart from './LineCharts'
-import PieChart from './PieCharts'
-import BarChart from './BarCharts'
-import DoughnutChart from './DoughnutCharts'
-import PolarChart from "./PolarAreaCharts";
-import RadarChart from './RadarCharts'
-import BulletChart from './BulletCharts'
+import LineChart from './LineCharts.vue'
+import PieChart from './PieCharts.vue'
+import BarChart from './BarCharts.vue'
+import DoughnutChart from './DoughnutCharts.vue'
+import PolarChart from "./PolarAreaCharts.vue";
+import RadarChart from './RadarCharts.vue'
+import BulletChart from './BulletCharts.vue'
 // Needed to be able to use Luxon date formatting and chart axis of type time -->
 import {Chart} from 'chart.js';
 import 'chartjs-adapter-luxon';

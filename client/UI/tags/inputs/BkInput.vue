@@ -111,7 +111,7 @@
 <script>
   import {Class} from 'meteor/akyma:astronomy';
   import _ from "lodash";
-  import BkLabel from "../forms/BkLabel";
+  import BkLabel from "../forms/BkLabel.vue";
   import { I18n } from "meteor/akyma:bk"
 
   export default {

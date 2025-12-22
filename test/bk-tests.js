@@ -2,10 +2,9 @@
 import { Tinytest } from "meteor/tinytest";
 
 // Import and rename a variable exported by bk.js.
-import { name as packageName } from "meteor/akyma:bk";
+import { Bk } from "meteor/akyma:bk";
 
-// Write your tests here!
-// Here is an example.
+// Simple existence test
 Tinytest.add('bk - example', function (test) {
-  test.equal(packageName, "bk");
+  test.isTrue(!!Bk, 'Bk should be exported by the package');
 });

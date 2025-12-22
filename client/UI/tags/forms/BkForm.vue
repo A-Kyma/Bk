@@ -55,8 +55,8 @@
 <script>
 import {Class} from "meteor/akyma:astronomy";
 import {I18n} from "meteor/akyma:bk"
-import BkFieldList from "./BkFieldList";
-import BkSubmit from "./BkSubmit";
+import BkFieldList from "./BkFieldList.vue";
+import BkSubmit from "./BkSubmit.vue";
 
 export default {
     name: "BkForm",

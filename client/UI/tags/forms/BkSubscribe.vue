@@ -27,7 +27,7 @@
 import { Class } from "meteor/akyma:astronomy"
 import I18n from "../../../../lib/classes/i18n"
 import { User } from "meteor/akyma:bk"
-import BkSubmit from "./BkSubmit";
+import BkSubmit from "./BkSubmit.vue";
 
 export default {
   name: "BkSubscribe",

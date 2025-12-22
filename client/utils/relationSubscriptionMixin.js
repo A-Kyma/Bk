@@ -35,8 +35,16 @@ export default {
     if (!_.isEmpty(this.oldValue) || this.selectInput)
       this.activateSubscription(!this.readonly)
   },
-  destroyed() {
+  unmounted() {
     this.handler && this.handler.stop();
+  },
+  destroyed() {
+    // backward compatibility for Vue2
+    if (typeof this.unmounted === 'function') {
+      this.unmounted();
+    } else {
+      this.handler && this.handler.stop();
+    }
   },
 
   computed: {

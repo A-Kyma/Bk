@@ -10,7 +10,7 @@
 
 <script>
   import { Class } from "meteor/akyma:astronomy"
-  import BkViewInner from "./BkViewInner";
+  import BkViewInner from "./BkViewInner.vue";
   export default {
     name: "BkView",
     components: {BkViewInner},

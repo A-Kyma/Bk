@@ -189,11 +189,11 @@
 
 <script>
 import {Class, ValidationError, ScalarField, ObjectField, ListField, Union} from 'meteor/akyma:astronomy'
-import {I18n,DateTime,Enum,Lifecycle,Image} from "meteor/akyma:bk"
+import {I18n,DateTime,Enum,Lifecycle} from "meteor/akyma:bk"
 import _ from "lodash";
-import BkBelongsToInput from "./BkBelongsToInput";
-import BkFieldList from "../forms/BkFieldList";
-import BkCardListClass from "../forms/BkCardListClass";
+import BkBelongsToInput from "./BkBelongsToInput.vue";
+import BkFieldList from "../forms/BkFieldList.vue";
+import BkCardListClass from "../forms/BkCardListClass.vue";
 
   function isGenericInputType(originalFieldType = "") {
     let fieldType = originalFieldType.toLowerCase();
@@ -248,7 +248,18 @@ import BkCardListClass from "../forms/BkCardListClass";
       return {
         oldValue: null,
         invalidTagText: "Tag is invalid",
+        isMounted: false,
       }
+    },
+    mounted() {
+      this.isMounted = true;
+    },
+    unmounted() {
+      this.isMounted = false;
+    },
+    destroyed() {
+      // Vue 2 compatibility
+      if (typeof this.unmounted === 'function') this.unmounted();
     },
 
     created() {
@@ -631,7 +642,7 @@ import BkCardListClass from "../forms/BkCardListClass";
           this.$emit("state", false);
           return false
         } else {
-          if (_.isEqual(this.value, this.oldValue) || !this._isMounted) {
+          if (_.isEqual(this.value, this.oldValue) || !this.isMounted) {
             this.$emit("state", null)
             return null
           } else {

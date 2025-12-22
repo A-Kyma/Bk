@@ -320,8 +320,8 @@
          </template>
         <template v-else>
           <tbody role="rowgroup">
-            <template v-for="(model,index) in items">
-              <tr :class="trClass" role="row" :key="model._id" @click="$emit('row-clicked',model)">
+            <template v-for="(model,index) in items" :key="model._id">
+              <tr :class="trClass" role="row" @click="$emit('row-clicked',model)">
                 <slot name="row()" v-bind="{model,index,fields: labeledFields}">
                   <td v-for="cell in labeledFields" :key="cell.key" role="cell" :class="'align-middle ' + tdClass">
                     <bk-button-icon
@@ -407,15 +407,15 @@
   import { Tracker } from "meteor/tracker"
   import { Class, ValidationError } from "meteor/akyma:astronomy";
   import _omit from "lodash/omit";
-  import { Container, Draggable } from "@akyma/vue-smooth-dnd";
+  import { Container, Draggable } from "vue-smooth-dnd";
   import I18n from "../../../../lib/classes/i18n";
   import Datatable from "../../../../lib/classes/datatable";
-  import BkButtonIcon from "../links/BkButtonIcon";
-  import BkModal from "../modals/BkModal";
-  import BkForm from "../forms/BkForm";
-  import BkViewInner from "../views/BkViewInner";
-  import BkPagination from "./BkPagination";
-  import BkLoading from "../loading/BkLoading";
+  import BkButtonIcon from "../links/BkButtonIcon.vue";
+  import BkModal from "../modals/BkModal.vue";
+  import BkForm from "../forms/BkForm.vue";
+  import BkViewInner from "../views/BkViewInner.vue";
+  import BkPagination from "./BkPagination.vue";
+  import BkLoading from "../loading/BkLoading.vue";
   import {EJSON} from "meteor/ejson";
   import errorPopupMixin from "../../../utils/errorPopupMixin";
   import BkExportToXlsxButton from "../links/BkExportToXlsxButton.vue";
@@ -655,9 +655,13 @@
       }
     },
 
-    destroyed() {
+    unmounted() {
       window.removeEventListener("resize", this.onResize);
       this.datatable.stopSubscription();
+    },
+    destroyed() {
+      // Vue 2 compatibility
+      if (typeof this.unmounted === 'function') this.unmounted();
     }
   }
 </script>

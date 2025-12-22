@@ -9,7 +9,7 @@
           <div v-if="viewScrollButton">
             <div class="text-center">
               <div v-if="datatable.handler.ready()" class="btn btn-primary">
-                <a @click="seeMore()" v-b-visible.once.50="seeMoreIfVisible">
+                <a @click="seeMore()" ref="seeMoreLink">
                   <t key="app.seeMore">app.seeMore</t>
                 </a>
               </div>
@@ -85,17 +85,33 @@ export default {
       return (this.datatable.getCount() > this.datatable.getCountLocal())
     },
   },
+  data(){
+    return { observer: null }
+  },
+  mounted() {
+    // set up an IntersectionObserver to detect visibility of the "see more" link
+    const el = this.$refs.seeMoreLink
+    if (el && typeof IntersectionObserver !== 'undefined') {
+      this.observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) this.seeMore()
+        })
+      }, { threshold: 0.5 })
+      this.observer.observe(el)
+    }
+  },
+  unmounted() {
+    if (this.observer) {
+      this.observer.disconnect()
+      this.observer = null
+    }
+  },
   methods: {
     // @vuese
     // set a new page in case of scroll
     seeMore(){
       let page = this.datatable.page
       this.datatable.setPage(page + 1)
-    },
-    // See https://bootstrap-vue.org/docs/directives/visible
-    seeMoreIfVisible(isVisible) {
-      if (isVisible)
-        this.seeMore()
     },
     // @vuese
     // set a new page in case of pagination

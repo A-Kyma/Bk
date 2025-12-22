@@ -1,7 +1,6 @@
 Package.describe({
   name: 'akyma:bk',
   version: '3.0.0',
-  version: '3.0.0',
   // Brief, one-line summary of the package.
   summary: 'Package which helps creating web applications',
   // URL to the Git repository containing the source code for this package.
@@ -29,7 +28,6 @@ Npm.depends({
   "chartjs-adapter-luxon":"1.3.1", // For chart js using date (axis type time)
   //"vite": "5.4.1",
   // // For rich text editor: https://tiptap.dev/docs/editor/getting-started/install/vue2
-  "@tiptap/vue-2": "2.14.0",
   "@tiptap/pm": "2.14.0",
   "@tiptap/starter-kit": "2.14.0",
   "@tiptap/extension-image": "2.14.0",
@@ -47,9 +45,9 @@ Npm.depends({
 // See https://guide.meteor.com/writing-atmosphere-packages.html
 // Do a meteor update on the project while adding this package
 Package.onUse(function(api) {
-  api.versionsFrom(['2.16','3.0']);
+  api.versionsFrom('3.3');
   api.use('ecmascript'); // For ES6 javascript
-  api.use('deps', 'client');
+  api.use('deps@1.0.0', 'client');
   api.use('tracker', 'client');
   api.use('meteor');
   api.use('mongo');
@@ -69,7 +67,6 @@ Package.onUse(function(api) {
   api.use('fetch'); // make http calls
   api.use('pfafman:filesaver@1.3.2'); // use SaveAs()
   api.use('jkuester:http@2.0.1') // to do http call (used for Deepl, radar)
-  api.use('jorgenvatle:vite-bundler@2.0.1')
 
   // VueJS
   //api.use('akryum:vue'); // Vue and imported in NPM
@@ -85,9 +82,8 @@ Package.onUse(function(api) {
   //   'client/UI/ui.js',
   // ],'client');
 
-  api.addFiles([
-    'client/UI/tags/inputs/BkTextEditor.vue',
-  ],'client')
+  // Vue files are now handled by Vite bundler via dynamic imports
+  // No need to addFiles for .vue components
 
   //api.addFiles('%.css','client'); For CSS or SCSS files
   //api.addAssets(['%.eot','%.svg','%.ttf','%.woff'],'client'); // For other types of files
@@ -111,7 +107,6 @@ Package.onUse(function(api) {
   // api.addFiles('client/UI/BkUI.js','client',{lazy:true});
   // Load server files
   api.addFiles('server/server.js','server');
-  api.addAssets(['client/UI/tags/forms/BkLabel.vue'],'client')
 });
 
 Package.onTest(function(api) {

@@ -11,8 +11,8 @@
 
 <script>
   import {Class} from "meteor/akyma:astronomy"
-  import BkLabel from "../forms/BkLabel";
-  import BkViewClean from "./BkViewClean";
+  import BkLabel from "../forms/BkLabel.vue";
+  import BkViewClean from "./BkViewClean.vue";
 
   export default {
     name: "BkViewInner",

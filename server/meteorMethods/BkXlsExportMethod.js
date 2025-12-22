@@ -1,5 +1,5 @@
 import {Meteor} from "meteor/meteor";
-import {Class} from "meteor/jagi:astronomy"
+import {Class} from "meteor/akyma:astronomy"
 import {check} from "meteor/check"
 import {I18n,Lifecycle,Enum,User,Role} from "meteor/akyma:bk"
 import { EJSON } from 'meteor/ejson';

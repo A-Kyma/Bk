@@ -73,7 +73,19 @@ export default {
       handler: undefined,
       relationList: [],
       relationOne: "",
+      isMounted: false,
     }
+  },
+  mounted() {
+    this.isMounted = true;
+  },
+  unmounted() {
+    this.handler && this.handler.stop();
+    this.isMounted = false;
+  },
+  destroyed() {
+    // Vue 2 compatibility
+    if (typeof this.unmounted === 'function') this.unmounted();
   },
   created() {
     let fieldDefinition = this.model.getDefinition(this.field)
@@ -81,10 +93,6 @@ export default {
 
     if (this.oldValue || this.selectInput)
       this.activateSubscription()
-  },
-
-  destroyed() {
-    this.handler && this.handler.stop();
   },
 
   computed: {
@@ -201,7 +209,7 @@ export default {
         this.$emit("state", false);
         return false
       } else {
-        if (_.isEqual(this.getId, this.oldValue) || !this._isMounted) {
+        if (_.isEqual(this.getId, this.oldValue) || !this.isMounted) {
           this.$emit("state", null)
           return null
         } else {
