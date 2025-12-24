@@ -1,13 +1,20 @@
 Package.describe({
   name: 'akyma:bk',
-  version: '3.0.0',
-  // Brief, one-line summary of the package.
+    version: '3.0.13',
   summary: 'Package which helps creating web applications',
   // URL to the Git repository containing the source code for this package.
   git: 'https://github.com/A-Kyma/Bk',
   // By default, Meteor will default to using README.md for documentation.
   // To avoid submitting documentation, set this field to null.
   documentation: 'README.md'
+
+  /*** Compilation - publication:
+   *   In Bk directory, run:
+    npm run build:vue # to generate .vue.js files
+
+    meteor publish # to publish to atmosphere.js meteor packages library
+  ***/
+
 });
 
 Npm.depends({
@@ -100,13 +107,17 @@ Package.onUse(function(api) {
   api.addAssets(['client/UI/flags/1x1/gb.svg'],'client')
   api.addAssets(['client/UI/flags/1x1/it.svg'],'client')
   api.addAssets(['client/UI/flags/1x1/nl.svg'],'client')
-  // Load main modules
-  api.mainModule('lib/lib.js')
-  // Load client files
-  api.addFiles('client/client.js','client');
-  // api.addFiles('client/UI/BkUI.js','client',{lazy:true});
-  // Load server files
-  api.addFiles('server/server.js','server');
+  
+  // Load main modules - separate client and server entry points
+  api.mainModule('lib/lib.js'); // Shared: classes, utilities (no .vue imports)
+  api.addFiles('client/client.js', 'client'); // Client: includes BkUI with .vue components
+  api.addFiles('server/server.js', 'server'); // Server: server-side code
+
+  // Export BkUI as a Meteor package export for both client and server
+  api.addFiles('client/export-bkui.js', 'client');
+  api.addFiles('server/export-bkui.js', 'server');
+  api.export('BkUI', ['client','server']);
+  api.export('UI', ['client','server']); // legacy alias
 });
 
 Package.onTest(function(api) {

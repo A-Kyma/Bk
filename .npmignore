@@ -1,0 +1,13 @@
+# Include everything by default (inverse .gitignore logic)
+# Only exclude dev/build artifacts
+
+# Exclude dev artifacts
+node_modules/
+.meteor/
+dist/
+*.log
+package-lock.json
+
+# Include all source files including .vue
+!client/**/*.vue
+!imports/**/*.vue
