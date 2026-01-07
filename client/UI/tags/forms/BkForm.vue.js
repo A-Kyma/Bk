@@ -200,7 +200,7 @@ import { renderSlot as _renderSlot, createTextVNode as _createTextVNode, resolve
 
 const _hoisted_1 = { key: 0 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_t = _resolveComponent("t")
   const _component_b_alert = _resolveComponent("b-alert")
   const _component_bk_field_list = _resolveComponent("bk-field-list")
@@ -209,26 +209,26 @@ function render(_ctx, _cache) {
   const _component_b_form = _resolveComponent("b-form")
 
   return (_openBlock(), _createBlock(_component_b_form, _mergeProps({ ref: "form" }, _ctx.$attrs, {
-    inline: _ctx.inline,
-    onSubmit: _ctx.onSubmit,
+    inline: $props.inline,
+    onSubmit: $options.onSubmit,
     onKeyup: [
-      _withKeys(_withModifiers(_ctx.onSubmit, ["ctrl"]), ["enter"]),
-      _withKeys(_withModifiers(_ctx.onSubmit, ["meta"]), ["enter"])
+      _withKeys(_withModifiers($options.onSubmit, ["ctrl"]), ["enter"]),
+      _withKeys(_withModifiers($options.onSubmit, ["meta"]), ["enter"])
     ],
-    onReset: _ctx.onReset
+    onReset: $options.onReset
   }), {
     default: _withCtx(() => [
-      _createVNode(_component_b_overlay, { show: _ctx.isOverlay }, {
+      _createVNode(_component_b_overlay, { show: $data.isOverlay }, {
         overlay: _withCtx(() => [
           _renderSlot(_ctx.$slots, "overlay")
         ]),
         default: _withCtx(() => [
           _createVNode(_component_b_alert, {
-            show: _ctx.showAlert,
+            show: $data.showAlert,
             variant: "danger",
             fade: "",
             dismissible: "",
-            onDismissed: _cache[0] || (_cache[0] = $event => (_ctx.showAlert=false))
+            onDismissed: _cache[0] || (_cache[0] = $event => ($data.showAlert=false))
           }, {
             default: _withCtx(() => [
               _createVNode(_component_t, null, {
@@ -267,13 +267,13 @@ function render(_ctx, _cache) {
             ]),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["show"]),
-          _renderSlot(_ctx.$slots, "default", _mergeProps({..._ctx.$props,..._ctx.$attrs}, { model: _ctx.formModel }), () => [
+          _renderSlot(_ctx.$slots, "default", _mergeProps({..._ctx.$props,..._ctx.$attrs}, { model: $data.formModel }), () => [
             _createVNode(_component_bk_field_list, _mergeProps(_ctx.$attrs, {
-              model: _ctx.formModel,
+              model: $data.formModel,
               for: _ctx.$props['for'],
-              onChange: _ctx.onChangeInput,
+              onChange: $options.onChangeInput,
               onTag: _cache[1] || (_cache[1] = $event => (_ctx.$emit('tag',$event))),
-              "validate-server-side": _ctx.validateServerSide
+              "validate-server-side": $props.validateServerSide
             }), _createSlots({ _: 2 /* DYNAMIC */ }, [
               _renderList(_ctx.$scopedSlots, (_, slot) => {
                 return {
@@ -285,13 +285,13 @@ function render(_ctx, _cache) {
               })
             ]), 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["model", "for", "onChange", "validate-server-side"])
           ]),
-          _renderSlot(_ctx.$slots, "after-form", _normalizeProps(_guardReactiveProps({..._ctx.$props,..._ctx.$attrs, model: _ctx.formModel}))),
-          _renderSlot(_ctx.$slots, "formButtons", _normalizeProps(_guardReactiveProps({..._ctx.$props,..._ctx.$attrs, model: _ctx.formModel})), () => [
-            (!_ctx.modal)
+          _renderSlot(_ctx.$slots, "after-form", _normalizeProps(_guardReactiveProps({..._ctx.$props,..._ctx.$attrs, model: $data.formModel}))),
+          _renderSlot(_ctx.$slots, "formButtons", _normalizeProps(_guardReactiveProps({..._ctx.$props,..._ctx.$attrs, model: $data.formModel})), () => [
+            (!$props.modal)
               ? (_openBlock(), _createBlock(_component_bk_submit, _mergeProps({ key: 0 }, _ctx.$attrs, {
-                  for: _ctx.submitFor,
-                  toast: _ctx.toast,
-                  onCancel: _ctx.onCancel
+                  for: $options.submitFor,
+                  toast: $props.toast,
+                  onCancel: $options.onCancel
                 }), _createSlots({ _: 2 /* DYNAMIC */ }, [
                   _renderList(_ctx.$scopedSlots, (_, slot) => {
                     return {

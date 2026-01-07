@@ -119,17 +119,17 @@ import { renderSlot as _renderSlot, resolveComponent as _resolveComponent, creat
 const _hoisted_1 = { key: 0 }
 const _hoisted_2 = { key: 1 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_bk_loading = _resolveComponent("bk-loading")
 
-  return (!_ctx.ready)
+  return (!$options.ready)
     ? (_openBlock(), _createElementBlock("div", _hoisted_1, [
         _renderSlot(_ctx.$slots, "title"),
-        _createVNode(_component_bk_loading, { type: _ctx.type }, null, 8 /* PROPS */, ["type"])
+        _createVNode(_component_bk_loading, { type: $props.type }, null, 8 /* PROPS */, ["type"])
       ]))
     : (_openBlock(), _createElementBlock("div", _hoisted_2, [
         _renderSlot(_ctx.$slots, "title"),
-        _renderSlot(_ctx.$slots, "default", _normalizeProps(_guardReactiveProps({model: _ctx.findModel, params: _ctx.$route.params, ready: _ctx.ready})))
+        _renderSlot(_ctx.$slots, "default", _normalizeProps(_guardReactiveProps({model: $options.findModel, params: _ctx.$route.params, ready: $options.ready})))
       ]))
 }
 _sfc_main.render = render;

@@ -148,7 +148,7 @@ const _hoisted_1 = { key: 0 }
 const _hoisted_2 = { key: 1 }
 const _hoisted_3 = { key: 2 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_t = _resolveComponent("t")
   const _component_b_form_select_option = _resolveComponent("b-form-select-option")
   const _component_b_form_select = _resolveComponent("b-form-select")
@@ -161,18 +161,18 @@ function render(_ctx, _cache) {
   const _component_bullet_chart = _resolveComponent("bullet-chart")
 
   return (_openBlock(), _createElementBlock("div", {
-    class: _normalizeClass(_ctx.sizeClass)
+    class: _normalizeClass($options.sizeClass)
   }, [
-    (_ctx.hasSelect)
+    ($options.hasSelect)
       ? (_openBlock(), _createElementBlock("div", _hoisted_1, [
           _createVNode(_component_b_form_select, {
-            onChange: _ctx.updateDataCollection,
+            onChange: $options.updateDataCollection,
             modelValue: _ctx.selected,
             "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => ((_ctx.selected) = $event)),
             class: "mb-3"
           }, {
             default: _withCtx(() => [
-              (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.selectableItems, (item) => {
+              (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($options.selectableItems, (item) => {
                 return (_openBlock(), _createBlock(_component_b_form_select_option, {
                   value: item.value
                 }, {
@@ -192,61 +192,61 @@ function render(_ctx, _cache) {
           }, 8 /* PROPS */, ["onChange", "modelValue"])
         ]))
       : _createCommentVNode("v-if", true),
-    (_ctx.dataCollection)
+    ($data.dataCollection)
       ? (_openBlock(), _createElementBlock("div", _hoisted_2, [
-          (_ctx.type=='line')
+          ($props.type=='line')
             ? (_openBlock(), _createBlock(_component_line_chart, {
                 key: 0,
-                class: _normalizeClass(_ctx.height),
-                "chart-data": _ctx.data || _ctx.dataCollection,
-                options: _ctx.dataOptions
+                class: _normalizeClass($props.height),
+                "chart-data": $props.data || $data.dataCollection,
+                options: $data.dataOptions
               }, null, 8 /* PROPS */, ["class", "chart-data", "options"]))
             : _createCommentVNode("v-if", true),
-          (_ctx.type=='pie')
+          ($props.type=='pie')
             ? (_openBlock(), _createBlock(_component_pie_chart, {
                 key: 1,
-                class: _normalizeClass(_ctx.height),
-                "chart-data": _ctx.data || _ctx.dataCollection,
-                options: _ctx.dataOptions
+                class: _normalizeClass($props.height),
+                "chart-data": $props.data || $data.dataCollection,
+                options: $data.dataOptions
               }, null, 8 /* PROPS */, ["class", "chart-data", "options"]))
             : _createCommentVNode("v-if", true),
-          (_ctx.type=='bar')
+          ($props.type=='bar')
             ? (_openBlock(), _createBlock(_component_bar_chart, {
                 key: 2,
-                class: _normalizeClass(_ctx.height),
-                "chart-data": _ctx.data || _ctx.dataCollection,
-                options: _ctx.dataOptions
+                class: _normalizeClass($props.height),
+                "chart-data": $props.data || $data.dataCollection,
+                options: $data.dataOptions
               }, null, 8 /* PROPS */, ["class", "chart-data", "options"]))
             : _createCommentVNode("v-if", true),
-          (_ctx.type=='doughnut')
+          ($props.type=='doughnut')
             ? (_openBlock(), _createBlock(_component_doughnut_chart, {
                 key: 3,
-                class: _normalizeClass(_ctx.height),
-                "chart-data": _ctx.data || _ctx.dataCollection,
-                options: _ctx.dataOptions
+                class: _normalizeClass($props.height),
+                "chart-data": $props.data || $data.dataCollection,
+                options: $data.dataOptions
               }, null, 8 /* PROPS */, ["class", "chart-data", "options"]))
             : _createCommentVNode("v-if", true),
-          (_ctx.type=='polar')
+          ($props.type=='polar')
             ? (_openBlock(), _createBlock(_component_polar_chart, {
                 key: 4,
-                class: _normalizeClass(_ctx.height),
-                "chart-data": _ctx.data || _ctx.dataCollection,
-                options: _ctx.dataOptions
+                class: _normalizeClass($props.height),
+                "chart-data": $props.data || $data.dataCollection,
+                options: $data.dataOptions
               }, null, 8 /* PROPS */, ["class", "chart-data", "options"]))
             : _createCommentVNode("v-if", true),
-          (_ctx.type=='radar')
+          ($props.type=='radar')
             ? (_openBlock(), _createBlock(_component_radar_chart, {
                 key: 5,
-                class: _normalizeClass(_ctx.height),
-                "chart-data": _ctx.data || _ctx.dataCollection,
-                options: _ctx.dataOptions
+                class: _normalizeClass($props.height),
+                "chart-data": $props.data || $data.dataCollection,
+                options: $data.dataOptions
               }, null, 8 /* PROPS */, ["class", "chart-data", "options"]))
             : _createCommentVNode("v-if", true),
-          (_ctx.type=='bullet')
+          ($props.type=='bullet')
             ? (_openBlock(), _createBlock(_component_bullet_chart, {
                 key: 6,
-                class: _normalizeClass(_ctx.height),
-                "chart-data": _ctx.data || _ctx.dataCollection
+                class: _normalizeClass($props.height),
+                "chart-data": $props.data || $data.dataCollection
               }, null, 8 /* PROPS */, ["class", "chart-data"]))
             : _createCommentVNode("v-if", true)
         ]))

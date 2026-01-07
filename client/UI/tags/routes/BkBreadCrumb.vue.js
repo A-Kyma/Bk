@@ -42,7 +42,7 @@ export default _sfc_main;
 
 import { resolveComponent as _resolveComponent, createVNode as _createVNode, createTextVNode as _createTextVNode, withCtx as _withCtx, renderList as _renderList, Fragment as _Fragment, openBlock as _openBlock, createElementBlock as _createElementBlock, toDisplayString as _toDisplayString, createBlock as _createBlock } from "vue/dist/vue.runtime.esm-bundler.js"
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_icon = _resolveComponent("b-icon")
   const _component_t = _resolveComponent("t")
   const _component_b_breadcrumb_item = _resolveComponent("b-breadcrumb-item")
@@ -67,7 +67,7 @@ function render(_ctx, _cache) {
         ]),
         _: 1 /* STABLE */
       }),
-      (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.RouteArray, (item) => {
+      (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($options.RouteArray, (item) => {
         return (_openBlock(), _createBlock(_component_b_breadcrumb_item, { active: "" }, {
           default: _withCtx(() => [
             _createVNode(_component_t, null, {

@@ -84,7 +84,7 @@ const _hoisted_5 = {
   class: "form-control-plaintext"
 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_form_radio = _resolveComponent("b-form-radio")
   const _component_b_form_radio_group = _resolveComponent("b-form-radio-group")
   const _component_t = _resolveComponent("t")
@@ -97,7 +97,7 @@ function render(_ctx, _cache) {
     ? (_openBlock(), _createBlock(_component_b_form_radio_group, _mergeProps({ key: 0 }, {..._ctx.$props,..._ctx.$attrs,..._ctx.uiComponentProps}, {
         modelValue: _ctx.model[_ctx.field],
         "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => ((_ctx.model[_ctx.field]) = $event)),
-        name: _ctx.formFieldComputed,
+        name: $options.formFieldComputed,
         disabled: _ctx.plaintext,
         class: "form-control-plaintext",
         onChange: _cache[1] || (_cache[1] = $event => (_ctx.onSelectRow({value: $event})))
@@ -120,7 +120,7 @@ function render(_ctx, _cache) {
     : (!_ctx.plaintext && _ctx.$props['for'] !== 'view')
       ? (_openBlock(), _createElementBlock("div", {
           key: 1,
-          class: _normalizeClass('input-group ' + _ctx.classSingleOrTag)
+          class: _normalizeClass('input-group ' + $options.classSingleOrTag)
         }, [
           _createVNode(_component_multiselect, _mergeProps({
             ref: "select",
@@ -132,17 +132,17 @@ function render(_ctx, _cache) {
             label: "text",
             "track-by": "value",
             "show-labels": false,
-            disabled: _ctx.disabledData,
+            disabled: $data.disabledData,
             placeholder: _ctx.placeholder,
             tagPlaceholder: _ctx.tagPlaceholder,
             loading: !_ctx.ready,
-            taggable: _ctx.taggable,
+            taggable: $props.taggable,
             "close-on-select": !_ctx.isArray,
             "clear-on-select": !_ctx.isArray,
-            limit: _ctx.limit,
+            limit: $props.limit,
             multiple: _ctx.isArray,
-            searchable: _ctx.searchableData,
-            max: _ctx.maxTags,
+            searchable: $data.searchableData,
+            max: $props.maxTags,
             onSearchChange: _ctx.search,
             onSelect: _ctx.onSelectRow,
             onTag: _cache[5] || (_cache[5] = $event => (_ctx.$emit('tag',{model: _ctx.model,field: _ctx.field,value: $event}))),
@@ -152,17 +152,17 @@ function render(_ctx, _cache) {
             onBlur: _withModifiers($event => (false), ["prevent"])
           }), {
             option: _withCtx((data) => [
-              _renderSlot(_ctx.$slots, _ctx.formFieldComputed + '-option', _normalizeProps(_guardReactiveProps(data)))
+              _renderSlot(_ctx.$slots, $options.formFieldComputed + '-option', _normalizeProps(_guardReactiveProps(data)))
             ]),
             tag: _withCtx((data) => [
-              _renderSlot(_ctx.$slots, _ctx.formFieldComputed + '-tag', _normalizeProps(_guardReactiveProps(data)))
+              _renderSlot(_ctx.$slots, $options.formFieldComputed + '-tag', _normalizeProps(_guardReactiveProps(data)))
             ]),
             singleLabel: _withCtx((data) => [
-              _renderSlot(_ctx.$slots, _ctx.formFieldComputed + '-single', _normalizeProps(_guardReactiveProps(data)))
+              _renderSlot(_ctx.$slots, $options.formFieldComputed + '-single', _normalizeProps(_guardReactiveProps(data)))
             ]),
             maxElements: _withCtx(() => [
               _createVNode(_component_t, {
-                options: {'count': _ctx.maxTags}
+                options: {'count': $props.maxTags}
               }, {
                 default: _withCtx(() => [...(_cache[6] || (_cache[6] = [
                   _createTextVNode("app.maxTags", -1 /* CACHED */)
@@ -172,7 +172,7 @@ function render(_ctx, _cache) {
             ]),
             noResult: _withCtx(() => [
               _createElementVNode("span", null, [
-                _renderSlot(_ctx.$slots, _ctx.formFieldComputed + '-noResult', {}, () => [
+                _renderSlot(_ctx.$slots, $options.formFieldComputed + '-noResult', {}, () => [
                   _createVNode(_component_t, null, {
                     default: _withCtx(() => [...(_cache[7] || (_cache[7] = [
                       _createTextVNode("app.notFound", -1 /* CACHED */)
@@ -211,7 +211,7 @@ function render(_ctx, _cache) {
                       ]))]),
                       _: 1 /* STABLE */
                     }, 8 /* PROPS */, ["options"])),
-                (_ctx.limit===0)
+                ($props.limit===0)
                   ? (_openBlock(), _createElementBlock("i", {
                       key: 2,
                       slot: "clear",
@@ -220,7 +220,7 @@ function render(_ctx, _cache) {
                     }, null, 32 /* NEED_HYDRATION */))
                   : _createCommentVNode("v-if", true)
               ]),
-              (_ctx.taggable && !_ctx.disabledData)
+              ($props.taggable && !$data.disabledData)
                 ? (_openBlock(), _createElementBlock("i", {
                     key: 0,
                     slot: "clear",
@@ -228,7 +228,7 @@ function render(_ctx, _cache) {
                     onMousedown: _cache[3] || (_cache[3] = _withModifiers((...args) => (_ctx.onRemoveAllTags && _ctx.onRemoveAllTags(...args)), ["prevent"]))
                   }, null, 32 /* NEED_HYDRATION */))
                 : _createCommentVNode("v-if", true),
-              (_ctx.disabledData)
+              ($data.disabledData)
                 ? (_openBlock(), _createElementBlock("span", _hoisted_3))
                 : _createCommentVNode("v-if", true),
               (_ctx.isArray)
@@ -239,7 +239,7 @@ function render(_ctx, _cache) {
           }, 16 /* FULL_PROPS */, ["modelValue", "options", "disabled", "placeholder", "tagPlaceholder", "loading", "taggable", "close-on-select", "clear-on-select", "limit", "multiple", "searchable", "max", "onSearchChange", "onSelect", "onRemove", "onOpen", "onClose"]),
           _createVNode(_component_b_input_group_append, null, {
             default: _withCtx(() => [
-              (_ctx.searchableComputed && _ctx.selectInput && !_ctx.disabledData)
+              ($options.searchableComputed && _ctx.selectInput && !$data.disabledData)
                 ? (_openBlock(), _createBlock(_component_b_button, {
                     key: 0,
                     size: "sm",
@@ -253,11 +253,11 @@ function render(_ctx, _cache) {
                     _: 1 /* STABLE */
                   }, 8 /* PROPS */, ["onClick"]))
                 : _createCommentVNode("v-if", true),
-              _renderSlot(_ctx.$slots, _ctx.formFieldComputed + '-append', _normalizeProps(_guardReactiveProps({..._ctx.$props, ...{oldValue: _ctx.oldValue, value: _ctx.getId}})))
+              _renderSlot(_ctx.$slots, $options.formFieldComputed + '-append', _normalizeProps(_guardReactiveProps({..._ctx.$props, ...{oldValue: _ctx.oldValue, value: _ctx.getId}})))
             ]),
             _: 3 /* FORWARDED */
           }),
-          _renderSlot(_ctx.$slots, _ctx.formFieldComputed+'-after', _normalizeProps(_guardReactiveProps({..._ctx.$props, oldValue: _ctx.oldValue, value: _ctx.getId, options: _ctx.relationList, ready: _ctx.ready, removeId: _ctx.removeId, removeAll: _ctx.removeAll})))
+          _renderSlot(_ctx.$slots, $options.formFieldComputed+'-after', _normalizeProps(_guardReactiveProps({..._ctx.$props, oldValue: _ctx.oldValue, value: _ctx.getId, options: _ctx.relationList, ready: _ctx.ready, removeId: _ctx.removeId, removeAll: _ctx.removeAll})))
         ], 2 /* CLASS */))
       : (_openBlock(), _createElementBlock("span", _hoisted_5, _toDisplayString(_ctx.viewInputRelation), 1 /* TEXT */))
 }

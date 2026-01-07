@@ -286,7 +286,7 @@ const _hoisted_15 = { key: 1 }
 const _hoisted_16 = { key: 0 }
 const _hoisted_17 = { key: 1 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_bk_button_icon = _resolveComponent("bk-button-icon")
   const _component_b_icon = _resolveComponent("b-icon")
   const _component_b_button = _resolveComponent("b-button")
@@ -308,16 +308,16 @@ function render(_ctx, _cache) {
   const _directive_b_toggle = _resolveDirective("b-toggle")
 
   return (_openBlock(), _createElementBlock("div", _hoisted_1, [
-    _renderSlot(_ctx.$slots, "header", _normalizeProps(_guardReactiveProps({datatable: _ctx.datatable, model: _ctx.model, actions: _ctx.actions})), () => [
-      _renderSlot(_ctx.$slots, "customFrontHeader", _normalizeProps(_guardReactiveProps({datatable: _ctx.datatable, model: _ctx.model, actions: _ctx.actions}))),
-      (_ctx.actions.includes('back'))
+    _renderSlot(_ctx.$slots, "header", _normalizeProps(_guardReactiveProps({datatable: $data.datatable, model: $props.model, actions: $props.actions})), () => [
+      _renderSlot(_ctx.$slots, "customFrontHeader", _normalizeProps(_guardReactiveProps({datatable: $data.datatable, model: $props.model, actions: $props.actions}))),
+      ($props.actions.includes('back'))
         ? (_openBlock(), _createBlock(_component_bk_button_icon, _mergeProps({
             key: 0,
             label: "app.back",
             for: "back"
           }, _ctx.$attrs), null, 16 /* FULL_PROPS */))
         : _createCommentVNode("v-if", true),
-      (_ctx.filterButton && _ctx.filterFields)
+      ($props.filterButton && $props.filterFields)
         ? _withDirectives((_openBlock(), _createBlock(_component_b_button, {
             key: 1,
             size: "md",
@@ -339,15 +339,15 @@ function render(_ctx, _cache) {
             ]
           ])
         : _createCommentVNode("v-if", true),
-      (_ctx.actions.includes('add'))
+      ($props.actions.includes('add'))
         ? (_openBlock(), _createBlock(_component_bk_button_icon, _mergeProps({
             key: 2,
             label: "app.add",
             for: "add",
-            model: _ctx.model,
-            params: _ctx.filter,
-            fields: _ctx.modalFields,
-            exclude: _ctx.modalExclude,
+            model: $props.model,
+            params: $props.filter,
+            fields: $props.modalFields,
+            exclude: $props.modalExclude,
             onTag: _cache[0] || (_cache[0] = $event => (_ctx.$emit('tag',$event)))
           }, _ctx.$attrs), _createSlots({ _: 2 /* DYNAMIC */ }, [
             _renderList(_ctx.$scopedSlots, (_, slot) => {
@@ -360,12 +360,12 @@ function render(_ctx, _cache) {
             })
           ]), 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["model", "params", "fields", "exclude"]))
         : _createCommentVNode("v-if", true),
-      (_ctx.actions.includes('export'))
+      ($props.actions.includes('export'))
         ? (_openBlock(), _createBlock(_component_bk_export_to_xlsx_button, _mergeProps({
             key: 3,
             "from-bk-table": "",
-            params: {..._ctx.filter,..._ctx.datatable.filters},
-            onExport: _cache[1] || (_cache[1] = $event => (_ctx.datatable.exportToCsv()))
+            params: {...$props.filter,...$data.datatable.filters},
+            onExport: _cache[1] || (_cache[1] = $event => ($data.datatable.exportToCsv()))
           }, _ctx.$attrs), null, 16 /* FULL_PROPS */, ["params"]))
         : _createCommentVNode("v-if", true),
       _createCommentVNode("      <bk-button-icon v-if=\"actions.includes('export')\""),
@@ -373,48 +373,48 @@ function render(_ctx, _cache) {
       _createCommentVNode("                      for=\"export\""),
       _createCommentVNode("                      v-bind=\"$attrs\""),
       _createCommentVNode("      />"),
-      (_ctx.actions.includes('import'))
+      ($props.actions.includes('import'))
         ? (_openBlock(), _createBlock(_component_bk_button_icon, _mergeProps({
             key: 4,
             label: "app.import.btn.label",
             for: "import"
           }, _ctx.$attrs, {
-            model: _ctx.model,
-            "import-file-type": _ctx.importFileType
+            model: $props.model,
+            "import-file-type": $props.importFileType
           }), null, 16 /* FULL_PROPS */, ["model", "import-file-type"]))
         : _createCommentVNode("v-if", true)
     ]),
-    _renderSlot(_ctx.$slots, "customHeader", _normalizeProps(_guardReactiveProps({datatable: _ctx.datatable, model: _ctx.model, actions: _ctx.actions}))),
-    _renderSlot(_ctx.$slots, "filterHeader", _normalizeProps(_guardReactiveProps({datatable: _ctx.datatable,model: _ctx.model,actions: _ctx.actions})), () => [
-      _renderSlot(_ctx.$slots, "beforeFilter", _normalizeProps(_guardReactiveProps({datatable: _ctx.datatable,model: _ctx.model,actions: _ctx.actions}))),
-      (_ctx.filterButton && _ctx.filterFields)
+    _renderSlot(_ctx.$slots, "customHeader", _normalizeProps(_guardReactiveProps({datatable: $data.datatable, model: $props.model, actions: $props.actions}))),
+    _renderSlot(_ctx.$slots, "filterHeader", _normalizeProps(_guardReactiveProps({datatable: $data.datatable,model: $props.model,actions: $props.actions})), () => [
+      _renderSlot(_ctx.$slots, "beforeFilter", _normalizeProps(_guardReactiveProps({datatable: $data.datatable,model: $props.model,actions: $props.actions}))),
+      ($props.filterButton && $props.filterFields)
         ? (_openBlock(), _createBlock(_component_b_collapse, {
             key: 0,
             id: "filter-collapse"
           }, {
             default: _withCtx(() => [
-              (_ctx.filterFields)
+              ($props.filterFields)
                 ? (_openBlock(), _createBlock(_component_b_form, {
                     key: 0,
-                    onSubmit: _ctx.onSubmitFormFilter,
-                    onReset: _ctx.onResetFormFilter,
+                    onSubmit: $options.onSubmitFormFilter,
+                    onReset: $options.onResetFormFilter,
                     id: "filter-header",
                     inline: "",
                     class: "mt-2 mb-1"
                   }, {
                     default: _withCtx(() => [
-                      (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.filterFields, (field) => {
+                      (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($props.filterFields, (field) => {
                         return (_openBlock(), _createBlock(_component_b_input_group, { class: "mb-2 mr-sm-2 mb-sm-0 flex-nowrap max100vw" }, _createSlots({
                           default: _withCtx(() => [
                             _createVNode(_component_bk_inner_input, {
-                              model: _ctx.datatable.filterModel,
+                              model: $data.datatable.filterModel,
                               field: field,
                               for: "filter",
                               "form-field": "filter",
                               buttons: true,
                               "button-variant": "outline-primary",
-                              onChange: $event => (_ctx.onAutoFilterSubmit($event,field)),
-                              onInput: $event => (_ctx.onAutoFilterSubmit($event,field)),
+                              onChange: $event => ($options.onAutoFilterSubmit($event,field)),
+                              onInput: $event => ($options.onAutoFilterSubmit($event,field)),
                               onReady: $event => (_ctx.$emit('filterReady',field)),
                               debounce: "250"
                             }, _createSlots({ _: 2 /* DYNAMIC */ }, [
@@ -430,17 +430,17 @@ function render(_ctx, _cache) {
                           ]),
                           _: 2 /* DYNAMIC */
                         }, [
-                          (!_ctx.noFilterLabel)
+                          (!$props.noFilterLabel)
                             ? {
                                 name: "prepend",
                                 fn: _withCtx(() => [
-                                  _renderSlot(_ctx.$slots, 'prependFilter-'+field, _mergeProps({ ref_for: true }, {datatable: _ctx.datatable,model: _ctx.model,field,label:_ctx.datatable.filterModel.constructor.getLabelKey(field)}), () => [
-                                    _renderSlot(_ctx.$slots, "prependFilter", _mergeProps({ ref_for: true }, {datatable: _ctx.datatable,model: _ctx.model,field,label: _ctx.datatable.filterModel.constructor.getLabelKey(field)}), () => [
+                                  _renderSlot(_ctx.$slots, 'prependFilter-'+field, _mergeProps({ ref_for: true }, {datatable: $data.datatable,model: $props.model,field,label:$data.datatable.filterModel.constructor.getLabelKey(field)}), () => [
+                                    _renderSlot(_ctx.$slots, "prependFilter", _mergeProps({ ref_for: true }, {datatable: $data.datatable,model: $props.model,field,label: $data.datatable.filterModel.constructor.getLabelKey(field)}), () => [
                                       _createVNode(_component_b_input_group_text, null, {
                                         default: _withCtx(() => [
                                           _createVNode(_component_t, null, {
                                             default: _withCtx(() => [
-                                              _createTextVNode(_toDisplayString(_ctx.datatable.filterModel.constructor.getLabelKey(field)), 1 /* TEXT */)
+                                              _createTextVNode(_toDisplayString($data.datatable.filterModel.constructor.getLabelKey(field)), 1 /* TEXT */)
                                             ]),
                                             _: 2 /* DYNAMIC */
                                           }, 1024 /* DYNAMIC_SLOTS */)
@@ -455,7 +455,7 @@ function render(_ctx, _cache) {
                             : undefined
                         ]), 1024 /* DYNAMIC_SLOTS */))
                       }), 256 /* UNKEYED_FRAGMENT */)),
-                      (!_ctx.noFilterReset)
+                      (!$props.noFilterReset)
                         ? (_openBlock(), _createBlock(_component_b_button, {
                             key: 0,
                             type: "reset",
@@ -473,7 +473,7 @@ function render(_ctx, _cache) {
                             _: 1 /* STABLE */
                           }))
                         : _createCommentVNode("v-if", true),
-                      (!_ctx.autoFilterSubmit)
+                      (!$props.autoFilterSubmit)
                         ? (_openBlock(), _createBlock(_component_b_button, {
                             key: 1,
                             type: "submit",
@@ -490,7 +490,7 @@ function render(_ctx, _cache) {
                             _: 1 /* STABLE */
                           }))
                         : _createCommentVNode("v-if", true),
-                      _renderSlot(_ctx.$slots, "afterFilterButtons", _normalizeProps(_guardReactiveProps({datatable: _ctx.datatable,model: _ctx.model})))
+                      _renderSlot(_ctx.$slots, "afterFilterButtons", _normalizeProps(_guardReactiveProps({datatable: $data.datatable,model: $props.model})))
                     ]),
                     _: 3 /* FORWARDED */
                   }, 8 /* PROPS */, ["onSubmit", "onReset"]))
@@ -499,28 +499,28 @@ function render(_ctx, _cache) {
             _: 3 /* FORWARDED */
           }))
         : (_openBlock(), _createElementBlock("div", _hoisted_2, [
-            (_ctx.filterFields)
+            ($props.filterFields)
               ? (_openBlock(), _createBlock(_component_b_form, {
                   key: 0,
-                  onSubmit: _ctx.onSubmitFormFilter,
-                  onReset: _ctx.onResetFormFilter,
+                  onSubmit: $options.onSubmitFormFilter,
+                  onReset: $options.onResetFormFilter,
                   id: "filter-header",
                   inline: "",
                   class: "mt-2 mb-1"
                 }, {
                   default: _withCtx(() => [
-                    (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.filterFields, (field) => {
+                    (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($props.filterFields, (field) => {
                       return (_openBlock(), _createBlock(_component_b_input_group, { class: "mb-2 mr-sm-2 mb-sm-0 flex-nowrap max100vw" }, _createSlots({
                         default: _withCtx(() => [
                           _createVNode(_component_bk_inner_input, {
-                            model: _ctx.datatable.filterModel,
+                            model: $data.datatable.filterModel,
                             field: field,
                             for: "filter",
                             "form-field": "filter",
                             buttons: true,
                             "button-variant": "outline-primary",
-                            onChange: $event => (_ctx.onAutoFilterSubmit($event,field)),
-                            onInput: $event => (_ctx.onAutoFilterSubmit($event,field)),
+                            onChange: $event => ($options.onAutoFilterSubmit($event,field)),
+                            onInput: $event => ($options.onAutoFilterSubmit($event,field)),
                             onReady: $event => (_ctx.$emit('filterReady',field)),
                             debounce: "250"
                           }, _createSlots({ _: 2 /* DYNAMIC */ }, [
@@ -536,17 +536,17 @@ function render(_ctx, _cache) {
                         ]),
                         _: 2 /* DYNAMIC */
                       }, [
-                        (!_ctx.noFilterLabel)
+                        (!$props.noFilterLabel)
                           ? {
                               name: "prepend",
                               fn: _withCtx(() => [
-                                _renderSlot(_ctx.$slots, 'prependFilter-'+field, _mergeProps({ ref_for: true }, {datatable: _ctx.datatable,model: _ctx.model,field,label:_ctx.datatable.filterModel.constructor.getLabelKey(field)}), () => [
-                                  _renderSlot(_ctx.$slots, "prependFilter", _mergeProps({ ref_for: true }, {datatable: _ctx.datatable,model: _ctx.model,field,label: _ctx.datatable.filterModel.constructor.getLabelKey(field)}), () => [
+                                _renderSlot(_ctx.$slots, 'prependFilter-'+field, _mergeProps({ ref_for: true }, {datatable: $data.datatable,model: $props.model,field,label:$data.datatable.filterModel.constructor.getLabelKey(field)}), () => [
+                                  _renderSlot(_ctx.$slots, "prependFilter", _mergeProps({ ref_for: true }, {datatable: $data.datatable,model: $props.model,field,label: $data.datatable.filterModel.constructor.getLabelKey(field)}), () => [
                                     _createVNode(_component_b_input_group_text, null, {
                                       default: _withCtx(() => [
                                         _createVNode(_component_t, null, {
                                           default: _withCtx(() => [
-                                            _createTextVNode(_toDisplayString(_ctx.datatable.filterModel.constructor.getLabelKey(field)), 1 /* TEXT */)
+                                            _createTextVNode(_toDisplayString($data.datatable.filterModel.constructor.getLabelKey(field)), 1 /* TEXT */)
                                           ]),
                                           _: 2 /* DYNAMIC */
                                         }, 1024 /* DYNAMIC_SLOTS */)
@@ -561,7 +561,7 @@ function render(_ctx, _cache) {
                           : undefined
                       ]), 1024 /* DYNAMIC_SLOTS */))
                     }), 256 /* UNKEYED_FRAGMENT */)),
-                    (!_ctx.noFilterReset)
+                    (!$props.noFilterReset)
                       ? (_openBlock(), _createBlock(_component_b_button, {
                           key: 0,
                           type: "reset",
@@ -579,7 +579,7 @@ function render(_ctx, _cache) {
                           _: 1 /* STABLE */
                         }))
                       : _createCommentVNode("v-if", true),
-                    (!_ctx.autoFilterSubmit)
+                    (!$props.autoFilterSubmit)
                       ? (_openBlock(), _createBlock(_component_b_button, {
                           key: 1,
                           type: "submit",
@@ -596,25 +596,25 @@ function render(_ctx, _cache) {
                           _: 1 /* STABLE */
                         }))
                       : _createCommentVNode("v-if", true),
-                    _renderSlot(_ctx.$slots, "afterFilterButtons", _normalizeProps(_guardReactiveProps({datatable: _ctx.datatable,model: _ctx.model})))
+                    _renderSlot(_ctx.$slots, "afterFilterButtons", _normalizeProps(_guardReactiveProps({datatable: $data.datatable,model: $props.model})))
                   ]),
                   _: 3 /* FORWARDED */
                 }, 8 /* PROPS */, ["onSubmit", "onReset"]))
               : _createCommentVNode("v-if", true)
           ]))
     ]),
-    (_ctx.datatable.handler)
+    ($data.datatable.handler)
       ? (_openBlock(), _createElementBlock("div", _hoisted_3, [
-          (_ctx.datatable.firstReady)
+          ($data.datatable.firstReady)
             ? (_openBlock(), _createElementBlock("div", _hoisted_4, [
-                _renderSlot(_ctx.$slots, "pagination-top", _normalizeProps(_guardReactiveProps({datatable: _ctx.datatable, scroll: _ctx.scroll, perPage: _ctx.perPage})), () => [
-                  (!_ctx.full && !_ctx.scroll && _ctx.count!==0 && !_ctx.noPagination)
+                _renderSlot(_ctx.$slots, "pagination-top", _normalizeProps(_guardReactiveProps({datatable: $data.datatable, scroll: $props.scroll, perPage: $props.perPage})), () => [
+                  (!$props.full && !$props.scroll && _ctx.count!==0 && !$props.noPagination)
                     ? (_openBlock(), _createBlock(_component_bk_pagination, {
                         key: 0,
-                        datatable: _ctx.datatable,
-                        scroll: _ctx.scroll,
-                        perPage: _ctx.datatable.perPage,
-                        updateRoute: _ctx.updateRoute,
+                        datatable: $data.datatable,
+                        scroll: $props.scroll,
+                        perPage: $data.datatable.perPage,
+                        updateRoute: $props.updateRoute,
                         count: _ctx.count,
                         onPageClick: _cache[2] || (_cache[2] = $event => (_ctx.$emit('page-click',$event)))
                       }, null, 8 /* PROPS */, ["datatable", "scroll", "perPage", "updateRoute", "count"]))
@@ -628,10 +628,10 @@ function render(_ctx, _cache) {
               ]))
         ]))
       : _createCommentVNode("v-if", true),
-    _renderSlot(_ctx.$slots, "main", _normalizeProps(_guardReactiveProps({items: _ctx.items,count: _ctx.count,labeledFields: _ctx.labeledFields,datatable: _ctx.datatable, model: _ctx.model, actions: _ctx.actions, filterModel: _ctx.datatable.filterModel})), () => [
-      (_ctx.cardMode)
+    _renderSlot(_ctx.$slots, "main", _normalizeProps(_guardReactiveProps({items: $data.items,count: _ctx.count,labeledFields: $options.labeledFields,datatable: $data.datatable, model: $props.model, actions: $props.actions, filterModel: $data.datatable.filterModel})), () => [
+      ($options.cardMode)
         ? (_openBlock(), _createElementBlock("div", _hoisted_6, [
-            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.items, (model, index) => {
+            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($data.items, (model, index) => {
               return (_openBlock(), _createBlock(_component_b_card, {
                 class: "mt-2 mb-2",
                 onClick: $event => (_ctx.$emit('row-clicked',model)),
@@ -639,18 +639,18 @@ function render(_ctx, _cache) {
               }, {
                 header: _withCtx(() => [
                   _createElementVNode("span", _hoisted_7, [
-                    _renderSlot(_ctx.$slots, "cardheader", _mergeProps({ ref_for: true }, {model,index,fields: _ctx.labeledFields}), () => [
+                    _renderSlot(_ctx.$slots, "cardheader", _mergeProps({ ref_for: true }, {model,index,fields: $options.labeledFields}), () => [
                       _createTextVNode(_toDisplayString(model.defaultName()), 1 /* TEXT */)
                     ])
                   ]),
-                  (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.actions.filter(x=>!['add','back','export','import','custom'].includes(x)), (action) => {
+                  (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($props.actions.filter(x=>!['add','back','export','import','custom'].includes(x)), (action) => {
                     return (_openBlock(), _createBlock(_component_bk_button_icon, _mergeProps({
                       for: action,
                       model: model,
-                      fields: _ctx.modalFields,
-                      exclude: _ctx.modalExclude
+                      fields: $props.modalFields,
+                      exclude: $props.modalExclude
                     }, { ref_for: true }, _ctx.$attrs, {
-                      onRemove: _ctx.onRemove,
+                      onRemove: $options.onRemove,
                       onTag: _cache[3] || (_cache[3] = $event => (_ctx.$emit('tag',$event))),
                       class: "float-right"
                     }), _createSlots({ _: 2 /* DYNAMIC */ }, [
@@ -664,7 +664,7 @@ function render(_ctx, _cache) {
                       })
                     ]), 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["for", "model", "fields", "exclude", "onRemove"]))
                   }), 256 /* UNKEYED_FRAGMENT */)),
-                  _renderSlot(_ctx.$slots, "customActions", _mergeProps({ ref_for: true }, {model, index, cardMode: _ctx.cardMode}))
+                  _renderSlot(_ctx.$slots, "customActions", _mergeProps({ ref_for: true }, {model, index, cardMode: $options.cardMode}))
                 ]),
                 default: _withCtx(() => [
                   (_openBlock(), _createBlock(_component_b_card_text, {
@@ -672,8 +672,8 @@ function render(_ctx, _cache) {
                     key: model._id
                   }, {
                     default: _withCtx(() => [
-                      _renderSlot(_ctx.$slots, "row()", _mergeProps({ ref_for: true }, {model,index,fields: _ctx.labeledFields, cardMode: _ctx.cardMode}), () => [
-                        (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.labeledFields, (cell) => {
+                      _renderSlot(_ctx.$slots, "row()", _mergeProps({ ref_for: true }, {model,index,fields: $options.labeledFields, cardMode: $options.cardMode}), () => [
+                        (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($options.labeledFields, (cell) => {
                           return (_openBlock(), _createElementBlock("div", {
                             key: cell.key,
                             role: "cell",
@@ -683,19 +683,19 @@ function render(_ctx, _cache) {
                               ? _renderSlot(_ctx.$slots, 'cell('+cell.key+')', _mergeProps({
                                   key: 0,
                                   ref_for: true
-                                }, {model, index, field: cell.key, cardMode: _ctx.cardMode}), () => [
-                                  _renderSlot(_ctx.$slots, "cell()", _mergeProps({ ref_for: true }, {model,index,field: cell.key, cardMode: _ctx.cardMode}), () => [
-                                    (!_ctx.datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions')
+                                }, {model, index, field: cell.key, cardMode: $options.cardMode}), () => [
+                                  _renderSlot(_ctx.$slots, "cell()", _mergeProps({ ref_for: true }, {model,index,field: cell.key, cardMode: $options.cardMode}), () => [
+                                    (!$data.datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions')
                                       ? (_openBlock(), _createElementBlock("span", _hoisted_8, [
                                           _createVNode(_component_bk_view_inner, {
-                                            "no-label": !_ctx.cardWithLabel,
+                                            "no-label": !$props.cardWithLabel,
                                             model: model,
                                             field: cell.key
                                           }, null, 8 /* PROPS */, ["no-label", "model", "field"])
                                         ]))
-                                      : (_ctx.datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions')
+                                      : ($data.datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions')
                                         ? (_openBlock(), _createElementBlock("span", _hoisted_9, [
-                                            (_ctx.cardWithLabel)
+                                            ($props.cardWithLabel)
                                               ? (_openBlock(), _createBlock(_component_bk_input, {
                                                   key: 0,
                                                   model: model,
@@ -704,7 +704,7 @@ function render(_ctx, _cache) {
                                                   "is-complete-form-generic-field": "",
                                                   "label-cols": "",
                                                   debounce: "500",
-                                                  onInput: $event => (_ctx.onAutoFieldSubmit(model,cell.key))
+                                                  onInput: $event => ($options.onAutoFieldSubmit(model,cell.key))
                                                 }, _createSlots({ _: 2 /* DYNAMIC */ }, [
                                                   _renderList(_ctx.$scopedSlots, (_, slot) => {
                                                     return {
@@ -722,7 +722,7 @@ function render(_ctx, _cache) {
                                                   "form-generic-field": 'cell('+cell.key+')',
                                                   "is-complete-form-generic-field": "",
                                                   debounce: "500",
-                                                  onInput: $event => (_ctx.onAutoFieldSubmit(model,cell.key))
+                                                  onInput: $event => ($options.onAutoFieldSubmit(model,cell.key))
                                                 }, _createSlots({ _: 2 /* DYNAMIC */ }, [
                                                   _renderList(_ctx.$scopedSlots, (_, slot) => {
                                                     return {
@@ -753,12 +753,12 @@ function render(_ctx, _cache) {
         : (_openBlock(), _createElementBlock("table", {
             key: 1,
             role: "table",
-            class: _normalizeClass('table b-table table-hover mt-3 ' + _ctx.tblClass)
+            class: _normalizeClass('table b-table table-hover mt-3 ' + $props.tblClass)
           }, [
-            _renderSlot(_ctx.$slots, "tableHead", _normalizeProps(_guardReactiveProps({items: _ctx.items,labeledFields: _ctx.labeledFields,datatable: _ctx.datatable, model: _ctx.model, actions: _ctx.actions})), () => [
+            _renderSlot(_ctx.$slots, "tableHead", _normalizeProps(_guardReactiveProps({items: $data.items,labeledFields: $options.labeledFields,datatable: $data.datatable, model: $props.model, actions: $props.actions})), () => [
               _createElementVNode("thead", null, [
                 _createElementVNode("tr", _hoisted_10, [
-                  (_ctx.draggable)
+                  ($props.draggable)
                     ? (_openBlock(), _createElementBlock("th", _hoisted_11, [
                         _createVNode(_component_t, null, {
                           default: _withCtx(() => [...(_cache[12] || (_cache[12] = [
@@ -768,13 +768,13 @@ function render(_ctx, _cache) {
                         })
                       ]))
                     : _createCommentVNode("v-if", true),
-                  (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.labeledFields, (data) => {
+                  (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($options.labeledFields, (data) => {
                     return (_openBlock(), _createElementBlock("th", {
                       key: data.key,
                       role: "columnheader",
                       class: _normalizeClass('b-table-sort-icon-left align-middle ' + data.key),
-                      "aria-sort": _ctx.datatable.getAriaSort(data.key),
-                      onClick: $event => (_ctx.onSort(data.key))
+                      "aria-sort": $data.datatable.getAriaSort(data.key),
+                      onClick: $event => ($options.onSort(data.key))
                     }, [
                       _renderSlot(_ctx.$slots, 'head('+data.key+')', _mergeProps({ ref_for: true }, {field:data.key}), () => [
                         _renderSlot(_ctx.$slots, "head()", _mergeProps({ ref_for: true }, {field:data.key}), () => [
@@ -791,26 +791,26 @@ function render(_ctx, _cache) {
                 ])
               ])
             ]),
-            (_ctx.draggable)
+            ($props.draggable)
               ? (_openBlock(), _createBlock(_component_Container, {
                   key: 0,
-                  onDrop: _ctx.onDrop,
+                  onDrop: $options.onDrop,
                   "drag-class": "card-ghost bg-warning",
                   "drop-class": "card-ghost-drop",
                   tag: {value: 'tbody', props: {role: 'rowgroup'}},
                   "lock-axis": "y"
                 }, {
                   default: _withCtx(() => [
-                    (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.items, (model, index) => {
+                    (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($data.items, (model, index) => {
                       return (_openBlock(), _createBlock(_component_Draggable, {
                         key: model._id,
                         tag: {value: 'tr', props: {role: 'row'}}
                       }, {
                         default: _withCtx(() => [
-                          _renderSlot(_ctx.$slots, "row()", _mergeProps({ ref_for: true }, {model,index,fields: _ctx.labeledFields, cardMode: _ctx.cardMode}), () => [
+                          _renderSlot(_ctx.$slots, "row()", _mergeProps({ ref_for: true }, {model,index,fields: $options.labeledFields, cardMode: $options.cardMode}), () => [
                             _createElementVNode("td", {
                               role: "cell",
-                              class: _normalizeClass('align-middle ' + _ctx.tdClass),
+                              class: _normalizeClass('align-middle ' + $props.tdClass),
                               style: {"cursor":"pointer"}
                             }, [
                               _createVNode(_component_b_icon, {
@@ -818,22 +818,22 @@ function render(_ctx, _cache) {
                                 "aria-hidden": "true"
                               })
                             ], 2 /* CLASS */),
-                            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.labeledFields, (cell) => {
+                            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($options.labeledFields, (cell) => {
                               return (_openBlock(), _createElementBlock("td", {
                                 key: cell.key,
                                 role: "cell",
-                                class: _normalizeClass('align-middle ' + _ctx.tdClass)
+                                class: _normalizeClass('align-middle ' + $props.tdClass)
                               }, [
                                 (cell.key==='buttonActions')
-                                  ? (_openBlock(true), _createElementBlock(_Fragment, { key: 0 }, _renderList(_ctx.actions.filter(x=>!['add','back','export','import','custom'].includes(x)), (action) => {
+                                  ? (_openBlock(true), _createElementBlock(_Fragment, { key: 0 }, _renderList($props.actions.filter(x=>!['add','back','export','import','custom'].includes(x)), (action) => {
                                       return (_openBlock(), _createBlock(_component_bk_button_icon, _mergeProps({
                                         for: action,
                                         model: model,
-                                        fields: _ctx.modalFields,
-                                        exclude: _ctx.modalExclude
+                                        fields: $props.modalFields,
+                                        exclude: $props.modalExclude
                                       }, { ref_for: true }, _ctx.$attrs, {
                                         onTag: _cache[4] || (_cache[4] = $event => (_ctx.$emit('tag',$event))),
-                                        onRemove: _ctx.onRemove
+                                        onRemove: $options.onRemove
                                       }), _createSlots({ _: 2 /* DYNAMIC */ }, [
                                         _renderList(_ctx.$scopedSlots, (_, slot) => {
                                           return {
@@ -850,22 +850,22 @@ function render(_ctx, _cache) {
                                   ? _renderSlot(_ctx.$slots, "customActions", _mergeProps({
                                       key: 1,
                                       ref_for: true
-                                    }, {model, index, field: cell.key, cardMode: _ctx.cardMode}))
+                                    }, {model, index, field: cell.key, cardMode: $options.cardMode}))
                                   : _createCommentVNode("v-if", true),
                                 (cell.key!=='buttonActions')
                                   ? _renderSlot(_ctx.$slots, 'cell('+cell.key+')', _mergeProps({
                                       key: 2,
                                       ref_for: true
-                                    }, {model, index, field: cell.key, cardMode: _ctx.cardMode}), () => [
-                                      _renderSlot(_ctx.$slots, "cell()", _mergeProps({ ref_for: true }, {model,index,field: cell.key, cardMode: _ctx.cardMode}), () => [
-                                        (!_ctx.datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions')
+                                    }, {model, index, field: cell.key, cardMode: $options.cardMode}), () => [
+                                      _renderSlot(_ctx.$slots, "cell()", _mergeProps({ ref_for: true }, {model,index,field: cell.key, cardMode: $options.cardMode}), () => [
+                                        (!$data.datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions')
                                           ? (_openBlock(), _createBlock(_component_bk_view_inner, {
                                               key: 0,
                                               "no-label": "",
                                               model: model,
                                               field: cell.key
                                             }, null, 8 /* PROPS */, ["model", "field"]))
-                                          : (_ctx.datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions')
+                                          : ($data.datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions')
                                             ? (_openBlock(), _createBlock(_component_bk_inner_input, {
                                                 key: 1,
                                                 model: model,
@@ -873,7 +873,7 @@ function render(_ctx, _cache) {
                                                 "form-generic-field": 'cell('+cell.key+')',
                                                 "is-complete-form-generic-field": "",
                                                 debounce: "500",
-                                                onInput: $event => (_ctx.onAutoFieldSubmit(model,cell.key))
+                                                onInput: $event => ($options.onAutoFieldSubmit(model,cell.key))
                                               }, _createSlots({ _: 2 /* DYNAMIC */ }, [
                                                 _renderList(_ctx.$scopedSlots, (_, slot) => {
                                                   return {
@@ -896,37 +896,37 @@ function render(_ctx, _cache) {
                         _: 2 /* DYNAMIC */
                       }, 1024 /* DYNAMIC_SLOTS */))
                     }), 128 /* KEYED_FRAGMENT */)),
-                    _renderSlot(_ctx.$slots, "afterAllRows", _normalizeProps(_guardReactiveProps({datatable: _ctx.datatable,items: _ctx.items})))
+                    _renderSlot(_ctx.$slots, "afterAllRows", _normalizeProps(_guardReactiveProps({datatable: $data.datatable,items: $data.items})))
                   ]),
                   _: 3 /* FORWARDED */
                 }, 8 /* PROPS */, ["onDrop"]))
               : (_openBlock(), _createElementBlock("tbody", _hoisted_13, [
-                  (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.items, (model, index) => {
+                  (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($data.items, (model, index) => {
                     return (_openBlock(), _createElementBlock(_Fragment, {
                       key: model._id
                     }, [
                       _createElementVNode("tr", {
-                        class: _normalizeClass(_ctx.trClass),
+                        class: _normalizeClass($props.trClass),
                         role: "row",
                         onClick: $event => (_ctx.$emit('row-clicked',model))
                       }, [
-                        _renderSlot(_ctx.$slots, "row()", _mergeProps({ ref_for: true }, {model,index,fields: _ctx.labeledFields}), () => [
-                          (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.labeledFields, (cell) => {
+                        _renderSlot(_ctx.$slots, "row()", _mergeProps({ ref_for: true }, {model,index,fields: $options.labeledFields}), () => [
+                          (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($options.labeledFields, (cell) => {
                             return (_openBlock(), _createElementBlock("td", {
                               key: cell.key,
                               role: "cell",
-                              class: _normalizeClass('align-middle ' + _ctx.tdClass)
+                              class: _normalizeClass('align-middle ' + $props.tdClass)
                             }, [
                               (cell.key==='buttonActions')
-                                ? (_openBlock(true), _createElementBlock(_Fragment, { key: 0 }, _renderList(_ctx.actions.filter(x=>!['add','back','export','import','custom'].includes(x)), (action) => {
+                                ? (_openBlock(true), _createElementBlock(_Fragment, { key: 0 }, _renderList($props.actions.filter(x=>!['add','back','export','import','custom'].includes(x)), (action) => {
                                     return (_openBlock(), _createBlock(_component_bk_button_icon, _mergeProps({
                                       for: action,
                                       model: model,
-                                      fields: _ctx.modalFields,
-                                      exclude: _ctx.modalExclude
+                                      fields: $props.modalFields,
+                                      exclude: $props.modalExclude
                                     }, { ref_for: true }, _ctx.$attrs, {
                                       onTag: _cache[5] || (_cache[5] = $event => (_ctx.$emit('tag',$event))),
-                                      onRemove: _ctx.onRemove
+                                      onRemove: $options.onRemove
                                     }), _createSlots({ _: 2 /* DYNAMIC */ }, [
                                       _renderList(_ctx.$scopedSlots, (_, slot) => {
                                         return {
@@ -943,7 +943,7 @@ function render(_ctx, _cache) {
                                 ? _renderSlot(_ctx.$slots, "customActions", _mergeProps({
                                     key: 1,
                                     ref_for: true
-                                  }, {model, index, field: cell.key, cardMode: _ctx.cardMode}))
+                                  }, {model, index, field: cell.key, cardMode: $options.cardMode}))
                                 : _createCommentVNode("v-if", true),
                               (cell.key!=='buttonActions')
                                 ? _renderSlot(_ctx.$slots, 'cell('+cell.key+')', _mergeProps({
@@ -951,14 +951,14 @@ function render(_ctx, _cache) {
                                     ref_for: true
                                   }, {model, index, field: cell.key}), () => [
                                     _renderSlot(_ctx.$slots, "cell()", _mergeProps({ ref_for: true }, {model,index,field: cell.key}), () => [
-                                      (!_ctx.datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions')
+                                      (!$data.datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions')
                                         ? (_openBlock(), _createBlock(_component_bk_view_inner, {
                                             key: 0,
                                             "no-label": "",
                                             model: model,
                                             field: cell.key
                                           }, null, 8 /* PROPS */, ["model", "field"]))
-                                        : (_ctx.datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions')
+                                        : ($data.datatable.fieldsEditable.includes(cell.key) && cell.key!=='buttonActions')
                                           ? (_openBlock(), _createBlock(_component_bk_inner_input, {
                                               key: 1,
                                               model: model,
@@ -966,7 +966,7 @@ function render(_ctx, _cache) {
                                               "form-generic-field": 'cell('+cell.key+')',
                                               "is-complete-form-generic-field": "",
                                               debounce: "500",
-                                              onInput: $event => (_ctx.onAutoFieldSubmit(model,cell.key))
+                                              onInput: $event => ($options.onAutoFieldSubmit(model,cell.key))
                                             }, _createSlots({ _: 2 /* DYNAMIC */ }, [
                                               _renderList(_ctx.$scopedSlots, (_, slot) => {
                                                 return {
@@ -988,22 +988,22 @@ function render(_ctx, _cache) {
                       _renderSlot(_ctx.$slots, "afterRow", _mergeProps({ ref_for: true }, {model, index}))
                     ], 64 /* STABLE_FRAGMENT */))
                   }), 128 /* KEYED_FRAGMENT */)),
-                  _renderSlot(_ctx.$slots, "afterAllRows", _normalizeProps(_guardReactiveProps({datatable: _ctx.datatable,items: _ctx.items})))
+                  _renderSlot(_ctx.$slots, "afterAllRows", _normalizeProps(_guardReactiveProps({datatable: $data.datatable,items: $data.items})))
                 ]))
           ], 2 /* CLASS */))
     ]),
-    (_ctx.datatable.handler)
+    ($data.datatable.handler)
       ? (_openBlock(), _createElementBlock("div", _hoisted_15, [
-          (_ctx.datatable.firstReady)
+          ($data.datatable.firstReady)
             ? (_openBlock(), _createElementBlock("div", _hoisted_16, [
-                _renderSlot(_ctx.$slots, "pagination-bottom", _normalizeProps(_guardReactiveProps({datatable: _ctx.datatable, scroll: _ctx.scroll, perPage: _ctx.perPage})), () => [
-                  (!_ctx.full && !_ctx.noPagination)
+                _renderSlot(_ctx.$slots, "pagination-bottom", _normalizeProps(_guardReactiveProps({datatable: $data.datatable, scroll: $props.scroll, perPage: $props.perPage})), () => [
+                  (!$props.full && !$props.noPagination)
                     ? (_openBlock(), _createBlock(_component_bk_pagination, {
                         key: 0,
-                        datatable: _ctx.datatable,
-                        scroll: _ctx.scroll,
-                        perPage: _ctx.datatable.perPage,
-                        updateRoute: _ctx.updateRoute,
+                        datatable: $data.datatable,
+                        scroll: $props.scroll,
+                        perPage: $data.datatable.perPage,
+                        updateRoute: $props.updateRoute,
                         count: _ctx.count,
                         onPageClick: _cache[6] || (_cache[6] = $event => (_ctx.$emit('page-click',$event)))
                       }, _createSlots({ _: 2 /* DYNAMIC */ }, [

@@ -60,13 +60,13 @@ const _hoisted_4 = {
   class: "form-control-plaintext"
 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_badge = _resolveComponent("b-badge")
 
-  return (_ctx.readonly && !_ctx.isArray && !_ctx.options)
+  return ($options.readonly && !$options.isArray && !$props.options)
     ? (_openBlock(), _createElementBlock("span", _hoisted_1, [
         _createVNode(_component_b_badge, {
-          variant: _ctx.value,
+          variant: $props.value,
           class: "p-1"
         }, {
           default: _withCtx(() => [
@@ -78,9 +78,9 @@ function render(_ctx, _cache) {
         }, 8 /* PROPS */, ["variant"]),
         _renderSlot(_ctx.$slots, "after")
       ]))
-    : (_ctx.readonly && _ctx.options)
+    : ($options.readonly && $props.options)
       ? (_openBlock(), _createElementBlock("div", _hoisted_2, [
-          (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.options, (item) => {
+          (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($props.options, (item) => {
             return (_openBlock(), _createBlock(_component_b_badge, {
               key: item._id,
               variant: item.variant,
@@ -96,9 +96,9 @@ function render(_ctx, _cache) {
           }), 128 /* KEYED_FRAGMENT */)),
           _renderSlot(_ctx.$slots, "after")
         ]))
-      : (_ctx.readonly && _ctx.isArray && !_ctx.options)
+      : ($options.readonly && $options.isArray && !$props.options)
         ? (_openBlock(), _createElementBlock("div", _hoisted_3, [
-            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.value, (variant) => {
+            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($props.value, (variant) => {
               return (_openBlock(), _createBlock(_component_b_badge, {
                 key: variant,
                 variant: variant,
@@ -115,17 +115,17 @@ function render(_ctx, _cache) {
             _renderSlot(_ctx.$slots, "after")
           ]))
         : (_openBlock(), _createElementBlock("div", _hoisted_4, [
-            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.options, (item, index) => {
+            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($props.options, (item, index) => {
               return (_openBlock(), _createBlock(_component_b_badge, {
                 key: item.value,
-                class: _normalizeClass('ml-1 mr-1 ' + _ctx.getClass(item.value)),
+                class: _normalizeClass('ml-1 mr-1 ' + $options.getClass(item.value)),
                 variant: item.value,
                 href: "#",
-                onClick: $event => (_ctx.onClick(item))
+                onClick: $event => ($options.onClick(item))
               }, {
                 default: _withCtx(() => [
                   _renderSlot(_ctx.$slots, "default", {}, () => [
-                    _createTextVNode(_toDisplayString((index+1).toLocaleString('en', {minimumIntegerDigits: _ctx.options.length.toString().length})), 1 /* TEXT */)
+                    _createTextVNode(_toDisplayString((index+1).toLocaleString('en', {minimumIntegerDigits: $props.options.length.toString().length})), 1 /* TEXT */)
                   ])
                 ]),
                 _: 2 /* DYNAMIC */

@@ -28,26 +28,26 @@ import { createCommentVNode as _createCommentVNode, resolveComponent as _resolve
 
 const _hoisted_1 = ["href"]
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_bk_label = _resolveComponent("bk-label")
   const _component_bk_view_clean = _resolveComponent("bk-view-clean")
 
   return (_openBlock(), _createElementBlock(_Fragment, null, [
     _createCommentVNode(" one root element only ! "),
     _createElementVNode("span", null, [
-      (!_ctx.noLabel)
+      (!$props.noLabel)
         ? (_openBlock(), _createBlock(_component_bk_label, {
             key: 0,
             for: "view",
-            model: _ctx.model,
-            field: _ctx.field,
-            locale: _ctx.locale
+            model: $props.model,
+            field: $props.field,
+            locale: $props.locale
           }, null, 8 /* PROPS */, ["model", "field", "locale"]))
         : _createCommentVNode("v-if", true),
-      (_ctx.url !== undefined)
+      ($options.url !== undefined)
         ? (_openBlock(), _createElementBlock("a", {
             key: 1,
-            href: _ctx.url
+            href: $options.url
           }, [
             _createVNode(_component_bk_view_clean, _normalizeProps(_guardReactiveProps({..._ctx.$props,..._ctx.$attrs})), null, 16 /* FULL_PROPS */)
           ], 8 /* PROPS */, _hoisted_1))

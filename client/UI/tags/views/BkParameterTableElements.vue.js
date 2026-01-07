@@ -27,7 +27,7 @@ import { toDisplayString as _toDisplayString, openBlock as _openBlock, createEle
 const _hoisted_1 = { key: 0 }
 const _hoisted_2 = { key: 1 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_bk_view_inner = _resolveComponent("bk-view-inner")
   const _component_bk_table = _resolveComponent("bk-table")
   const _component_bk_page = _resolveComponent("bk-page")
@@ -42,8 +42,8 @@ function render(_ctx, _cache) {
         model: 'ParameterTableElement' + _ctx.$route.params.name,
         actions: ['add','view','update','delete','back'],
         subscription: "BkParameterTableElementsPublish",
-        exclude: _ctx.exclude(model),
-        "modal-exclude": _ctx.exclude(model),
+        exclude: $options.exclude(model),
+        "modal-exclude": $options.exclude(model),
         "label-cols-sm": "3",
         size: "lg",
         "update-route": "",
@@ -55,7 +55,7 @@ function render(_ctx, _cache) {
         sort: {'name': 1}
       }, {
         "cell()": _withCtx(({model,index,field}) => [
-          (Array.isArray(model[field]) && _ctx.isSubClass(model,field))
+          (Array.isArray(model[field]) && $options.isSubClass(model,field))
             ? (_openBlock(), _createElementBlock("span", _hoisted_1, _toDisplayString(model[field].length), 1 /* TEXT */))
             : (typeof model[field] === 'string' && model[field].length > 25)
               ? (_openBlock(), _createElementBlock("span", _hoisted_2, _toDisplayString(model[field].substring(0,20)) + "... ", 1 /* TEXT */))

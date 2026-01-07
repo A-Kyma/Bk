@@ -52,14 +52,14 @@ export default _sfc_main;
 
 import { toDisplayString as _toDisplayString, createTextVNode as _createTextVNode, resolveComponent as _resolveComponent, withCtx as _withCtx, createVNode as _createVNode, createElementVNode as _createElementVNode, mergeProps as _mergeProps, openBlock as _openBlock, createBlock as _createBlock } from "vue/dist/vue.runtime.esm-bundler.js"
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_t = _resolveComponent("t")
   const _component_bk_field_list = _resolveComponent("bk-field-list")
   const _component_bk_form = _resolveComponent("bk-form")
 
   return (_openBlock(), _createBlock(_component_bk_form, _mergeProps({..._ctx.$props,..._ctx.$attrs}, {
-    model: _ctx.user,
-    onSubmit: _ctx.onSubmit,
+    model: $data.user,
+    onSubmit: $options.onSubmit,
     excludeButtons: ['reset'],
     class: "col-lg-10 col-xl-8"
   }), {
@@ -67,13 +67,13 @@ function render(_ctx, _cache) {
       _createElementVNode("h2", null, [
         _createVNode(_component_t, null, {
           default: _withCtx(() => [
-            _createTextVNode(_toDisplayString(_ctx.title), 1 /* TEXT */)
+            _createTextVNode(_toDisplayString($options.title), 1 /* TEXT */)
           ]),
           _: 1 /* STABLE */
         })
       ]),
       _createVNode(_component_bk_field_list, _mergeProps(_ctx.$attrs, {
-        model: _ctx.user.profile,
+        model: $data.user.profile,
         fields: "oldPassword,password,passwordConfirmation"
       }), null, 16 /* FULL_PROPS */, ["model"])
     ]),

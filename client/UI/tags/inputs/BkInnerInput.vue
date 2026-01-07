@@ -191,6 +191,7 @@
 import {Class, ValidationError, ScalarField, ObjectField, ListField, Union} from 'meteor/akyma:astronomy'
 import {I18n,DateTime,Enum,Lifecycle} from "meteor/akyma:bk"
 import _ from "lodash";
+import { defineAsyncComponent } from 'vue';
 import BkBelongsToInput from "./BkBelongsToInput.vue";
 import BkFieldList from "../forms/BkFieldList.vue";
 import BkCardListClass from "../forms/BkCardListClass.vue";
@@ -510,10 +511,12 @@ import BkCardListClass from "../forms/BkCardListClass.vue";
         }
 
         if (fieldType === "TextEditor") {
-          if (Meteor.isClient && this["for"]!== "view")
-            return "BkTextEditor"
-          else
+          if (Meteor.isClient && this["for"]!== "view") {
+            // Lazy load BkTextEditor to avoid Meteor bundling @tiptap deps
+            return defineAsyncComponent(() => import('./BkTextEditor.vue'));
+          } else {
             return "BkViewClean"
+          }
         }
 
         // Only if Scalar field. ListEnum and ListBoolean treated differently

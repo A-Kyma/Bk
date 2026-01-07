@@ -90,7 +90,7 @@ const _hoisted_1 = {
   class: "ml-3"
 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_t = _resolveComponent("t")
   const _component_bk_chart = _resolveComponent("bk-chart")
   const _component_b_card_text = _resolveComponent("b-card-text")
@@ -98,16 +98,16 @@ function render(_ctx, _cache) {
   const _component_b_col = _resolveComponent("b-col")
   const _component_b_row = _resolveComponent("b-row")
 
-  return (_ctx.chartsData && _ctx.chartsData.length > 0)
+  return ($data.chartsData && $data.chartsData.length > 0)
     ? (_openBlock(), _createBlock(_component_b_row, {
         key: 0,
         "align-content": "center"
       }, {
         default: _withCtx(() => [
-          (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.chartsData, (chartData) => {
+          (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($data.chartsData, (chartData) => {
             return _renderSlot(_ctx.$slots, "default", _mergeProps({ ref_for: true }, chartData), () => [
               _createVNode(_component_b_col, {
-                class: _normalizeClass(_ctx.size)
+                class: _normalizeClass($props.size)
               }, {
                 default: _withCtx(() => [
                   _createVNode(_component_b_card, {
@@ -115,7 +115,7 @@ function render(_ctx, _cache) {
                     "body-class": "p-2 p-sm-3 p-m-5"
                   }, {
                     header: _withCtx(() => [
-                      _createVNode(_component_t, { options: _ctx.translationOptions }, {
+                      _createVNode(_component_t, { options: $props.translationOptions }, {
                         default: _withCtx(() => [
                           _createTextVNode(_toDisplayString(chartData.title), 1 /* TEXT */)
                         ]),
@@ -130,9 +130,9 @@ function render(_ctx, _cache) {
                               type: chartData.type,
                               data: chartData.data,
                               options: chartData.options,
-                              "query-param": _ctx.queryParam,
-                              size: _ctx.size,
-                              height: _ctx.height
+                              "query-param": $props.queryParam,
+                              size: $props.size,
+                              height: $props.height
                             }, null, 8 /* PROPS */, ["type", "data", "options", "query-param", "size", "height"])
                           ])
                         ]),

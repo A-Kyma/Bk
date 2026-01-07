@@ -1,5 +1,6 @@
 
   import {Class} from "meteor/akyma:astronomy"
+  import {BNavItemDropdown, BRow, BCol, BDropdown, BDropdownItem, BLink, BNavbarNav} from 'bootstrap-vue-next'
   import I18n from "../../../../lib/classes/i18n";
   import Languages from "../../../../lib/modules/customFields/types/language";
   import config from "../../../../lib/core/config";
@@ -7,6 +8,7 @@
 
   const _sfc_main = {
     name: "BkLanguage",
+    components: {BNavItemDropdown, BRow, BCol, BDropdown, BDropdownItem, BLink, BNavbarNav},
     props: {
       view: {
         type: String,
@@ -51,7 +53,7 @@ import { resolveComponent as _resolveComponent, createVNode as _createVNode, ren
 
 const _hoisted_1 = { key: 2 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_icon = _resolveComponent("b-icon")
   const _component_t = _resolveComponent("t")
   const _component_b_dropdown_item = _resolveComponent("b-dropdown-item")
@@ -61,7 +63,7 @@ function render(_ctx, _cache) {
   const _component_b_row = _resolveComponent("b-row")
   const _component_b_navbar_nav = _resolveComponent("b-navbar-nav")
 
-  return (_ctx.view==='dropdown')
+  return ($props.view==='dropdown')
     ? (_openBlock(), _createBlock(_component_b_nav_item_dropdown, {
         key: 0,
         right: ""
@@ -70,15 +72,15 @@ function render(_ctx, _cache) {
           _createVNode(_component_b_icon, { icon: "flag-fill" })
         ]),
         default: _withCtx(() => [
-          (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.locales, (lang) => {
+          (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($options.locales, (lang) => {
             return (_openBlock(), _createBlock(_component_b_dropdown_item, {
-              active: _ctx.isActive(lang),
-              onClick: $event => (_ctx.onClick(lang))
+              active: $options.isActive(lang),
+              onClick: $event => ($options.onClick(lang))
             }, {
               default: _withCtx(() => [
                 _createVNode(_component_t, null, {
                   default: _withCtx(() => [
-                    _createTextVNode(_toDisplayString(_ctx.translate(lang)), 1 /* TEXT */)
+                    _createTextVNode(_toDisplayString($options.translate(lang)), 1 /* TEXT */)
                   ]),
                   _: 2 /* DYNAMIC */
                 }, 1024 /* DYNAMIC_SLOTS */)
@@ -89,14 +91,14 @@ function render(_ctx, _cache) {
         ]),
         _: 1 /* STABLE */
       }))
-    : (_ctx.view==='flags')
+    : ($props.view==='flags')
       ? (_openBlock(), _createBlock(_component_b_row, { key: 1 }, {
           default: _withCtx(() => [
-            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.locales, (lang) => {
+            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($options.locales, (lang) => {
               return (_openBlock(), _createBlock(_component_b_col, { class: "p-0" }, {
                 default: _withCtx(() => [
                   _createVNode(_component_b_link, {
-                    onClick: $event => (_ctx.onClick(lang,true))
+                    onClick: $event => ($options.onClick(lang,true))
                   }, {
                     default: _withCtx(() => [
                       _createElementVNode("span", {
@@ -112,7 +114,7 @@ function render(_ctx, _cache) {
           ]),
           _: 1 /* STABLE */
         }))
-      : (_ctx.view==='nav')
+      : ($props.view==='nav')
         ? (_openBlock(), _createElementBlock("div", _hoisted_1, [
             _createVNode(_component_b_navbar_nav, null, {
               default: _withCtx(() => [
@@ -122,14 +124,14 @@ function render(_ctx, _cache) {
                 }, {
                   "button-content": _withCtx(() => [
                     _createElementVNode("span", {
-                      class: _normalizeClass('flags rounded-circle flags fi-1x1-'+_ctx.active)
+                      class: _normalizeClass('flags rounded-circle flags fi-1x1-'+$data.active)
                     }, null, 2 /* CLASS */)
                   ]),
                   default: _withCtx(() => [
-                    (_ctx.lang !== _ctx.active)
-                      ? (_openBlock(true), _createElementBlock(_Fragment, { key: 0 }, _renderList(_ctx.locales, (lang) => {
+                    (_ctx.lang !== $data.active)
+                      ? (_openBlock(true), _createElementBlock(_Fragment, { key: 0 }, _renderList($options.locales, (lang) => {
                           return (_openBlock(), _createBlock(_component_b_dropdown_item, {
-                            onClick: $event => (_ctx.onClick(lang)),
+                            onClick: $event => ($options.onClick(lang)),
                             class: "flag-item"
                           }, {
                             default: _withCtx(() => [

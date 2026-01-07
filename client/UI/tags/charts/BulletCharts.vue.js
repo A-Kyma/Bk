@@ -43,7 +43,7 @@ const _hoisted_2 = {
 }
 const _hoisted_3 = { style: {"font-size":"2rem"} }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_icon = _resolveComponent("b-icon")
   const _component_t = _resolveComponent("t")
   const _component_b_tooltip = _resolveComponent("b-tooltip")
@@ -51,7 +51,7 @@ function render(_ctx, _cache) {
 
   return (_openBlock(), _createElementBlock("div", null, [
     _createElementVNode("div", _hoisted_1, [
-      (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.chartData.labels, (label) => {
+      (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($props.chartData.labels, (label) => {
         return (_openBlock(), _createElementBlock(_Fragment, null, [
           _createElementVNode("div", {
             class: "chartLabels",
@@ -65,7 +65,7 @@ function render(_ctx, _cache) {
     _createVNode(_component_b_card, null, {
       default: _withCtx(() => [
         _createElementVNode("div", _hoisted_3, [
-          (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.chartData.data, (item) => {
+          (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($props.chartData.data, (item) => {
             return (_openBlock(), _createElementBlock(_Fragment, null, [
               (item.tooltip)
                 ? (_openBlock(), _createBlock(_component_b_icon, {
@@ -73,14 +73,14 @@ function render(_ctx, _cache) {
                     onClick: _cache[0] || (_cache[0] = $event => (_ctx.show = !_ctx.show)),
                     id: 'tooltip-' + item._id,
                     icon: item.icon,
-                    style: _normalizeStyle('background:'+_ctx.getVariant(item)),
+                    style: _normalizeStyle('background:'+$options.getVariant(item)),
                     class: "rounded-circle p-2",
                     variant: "white"
                   }, null, 8 /* PROPS */, ["id", "icon", "style"]))
                 : (_openBlock(), _createBlock(_component_b_icon, {
                     key: 1,
                     icon: item.icon,
-                    style: _normalizeStyle('background:'+_ctx.getVariant(item)),
+                    style: _normalizeStyle('background:'+$options.getVariant(item)),
                     class: "rounded-circle p-2",
                     variant: "white"
                   }, null, 8 /* PROPS */, ["icon", "style"])),

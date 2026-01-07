@@ -36,6 +36,7 @@
 
 <script>
   import {Class} from "meteor/akyma:astronomy"
+  import {BNavItemDropdown, BRow, BCol, BDropdown, BDropdownItem, BLink, BNavbarNav} from 'bootstrap-vue-next'
   import I18n from "../../../../lib/classes/i18n";
   import Languages from "../../../../lib/modules/customFields/types/language";
   import config from "../../../../lib/core/config";
@@ -43,6 +44,7 @@
 
   export default {
     name: "BkLanguage",
+    components: {BNavItemDropdown, BRow, BCol, BDropdown, BDropdownItem, BLink, BNavbarNav},
     props: {
       view: {
         type: String,

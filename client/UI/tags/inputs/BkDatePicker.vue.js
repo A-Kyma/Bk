@@ -89,15 +89,15 @@ const _hoisted_2 = {
   class: "form-control-plaintext"
 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_form_datepicker = _resolveComponent("b-form-datepicker")
   const _component_b_col = _resolveComponent("b-col")
   const _component_b_form_timepicker = _resolveComponent("b-form-timepicker")
   const _component_b_row = _resolveComponent("b-row")
 
   return (_openBlock(), _createElementBlock("div", _hoisted_1, [
-    (_ctx.readonly)
-      ? (_openBlock(), _createElementBlock("div", _hoisted_2, _toDisplayString(_ctx.readonlyValue), 1 /* TEXT */))
+    ($options.readonly)
+      ? (_openBlock(), _createElementBlock("div", _hoisted_2, _toDisplayString($options.readonlyValue), 1 /* TEXT */))
       : (_openBlock(), _createBlock(_component_b_row, { key: 1 }, {
           default: _withCtx(() => [
             _createVNode(_component_b_col, {
@@ -108,14 +108,14 @@ function render(_ctx, _cache) {
               default: _withCtx(() => [
                 _createVNode(_component_b_form_datepicker, {
                   ref: "datepicker",
-                  modelValue: _ctx.dateValue,
-                  "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => ((_ctx.dateValue) = $event)),
+                  modelValue: $options.dateValue,
+                  "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => (($options.dateValue) = $event)),
                   locale: _ctx.locale,
-                  placeholder: _ctx.placeholder,
-                  state: _ctx.state,
-                  disabled: _ctx.plaintext,
+                  placeholder: $props.placeholder,
+                  state: $props.state,
+                  disabled: $props.plaintext,
                   "start-weekday": "1",
-                  onHidden: _ctx.selectTime
+                  onHidden: $options.selectTime
                 }, null, 8 /* PROPS */, ["modelValue", "locale", "placeholder", "state", "disabled", "onHidden"])
               ]),
               _: 1 /* STABLE */
@@ -124,13 +124,13 @@ function render(_ctx, _cache) {
               default: _withCtx(() => [
                 _createVNode(_component_b_form_timepicker, {
                   ref: "timepicker",
-                  modelValue: _ctx.timeValue,
-                  "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => ((_ctx.timeValue) = $event)),
+                  modelValue: $options.timeValue,
+                  "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => (($options.timeValue) = $event)),
                   locale: _ctx.locale,
                   placeholder: "HH:mm",
                   "minutes-step": "5",
-                  state: _ctx.state,
-                  disabled: _ctx.plaintext || _ctx.dateValue===undefined,
+                  state: $props.state,
+                  disabled: $props.plaintext || $options.dateValue===undefined,
                   "label-close-button": _ctx.labelClose
                 }, null, 8 /* PROPS */, ["modelValue", "locale", "state", "disabled", "label-close-button"])
               ]),

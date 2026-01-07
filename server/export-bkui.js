@@ -1,7 +1,7 @@
-// Server bridge to expose BkUI for SSR/PDF rendering
-// Ensures `import { BkUI } from 'meteor/akyma:bk'` works on server.
+// Server-side exports for akyma:bk
+// Use server-only version of BkUI (no bootstrap-vue-3 or other client-only dependencies)
 
-import BkUIDefault from '../client/UI/BkUI';
+import BkUIDefault from './BkUI-server';
 
 /* global BkUI, UI */
 // Assign to package-scoped globals so `api.export()` can expose them
@@ -9,3 +9,4 @@ BkUI = BkUIDefault;
 UI = BkUIDefault; // legacy alias
 
 export {};
+

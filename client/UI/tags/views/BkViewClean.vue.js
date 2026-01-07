@@ -63,7 +63,7 @@ const _hoisted_2 = { key: 0 }
 const _hoisted_3 = ["innerHTML"]
 const _hoisted_4 = { key: 9 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_t = _resolveComponent("t")
   const _component_b_button = _resolveComponent("b-button")
   const _component_b_icon = _resolveComponent("b-icon")
@@ -74,20 +74,20 @@ function render(_ctx, _cache) {
   const _component_b_progress = _resolveComponent("b-progress")
 
   return (_openBlock(), _createElementBlock("span", null, [
-    _renderSlot(_ctx.$slots, "lifecycle", _normalizeProps(_guardReactiveProps({classDefinition: _ctx.classDefinition, model: _ctx.model,field: _ctx.field, value: _ctx.value})), () => [
-      (_ctx.classDefinitionName === 'Lifecycle')
+    _renderSlot(_ctx.$slots, "lifecycle", _normalizeProps(_guardReactiveProps({classDefinition: $options.classDefinition, model: $props.model,field: $props.field, value: _ctx.value})), () => [
+      ($options.classDefinitionName === 'Lifecycle')
         ? (_openBlock(), _createBlock(_component_b_button, {
             key: 0,
             name: "lifecycle",
-            variant: _ctx.classDefinition.getStateVariant(_ctx.model[_ctx.field]),
+            variant: $options.classDefinition.getStateVariant($props.model[$props.field]),
             pill: "",
             disabled: ""
           }, {
             default: _withCtx(() => [
               (_openBlock(), _createBlock(_component_t, {
                 key: _ctx.value,
-                locale: _ctx.locale,
-                options: _ctx.options
+                locale: $props.locale,
+                options: $props.options
               }, {
                 default: _withCtx(() => [
                   _createTextVNode(_toDisplayString(_ctx.value), 1 /* TEXT */)
@@ -97,7 +97,7 @@ function render(_ctx, _cache) {
             ]),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["variant"]))
-        : (_ctx.classDefinitionName === 'ListEnum')
+        : ($options.classDefinitionName === 'ListEnum')
           ? (_openBlock(true), _createElementBlock(_Fragment, { key: 1 }, _renderList(_ctx.value, (text, index) => {
               return (_openBlock(), _createElementBlock("span", null, [
                 (index !== 0)
@@ -105,7 +105,7 @@ function render(_ctx, _cache) {
                   : _createCommentVNode("v-if", true),
                 (_openBlock(), _createBlock(_component_t, {
                   key: text,
-                  locale: _ctx.locale
+                  locale: $props.locale
                 }, {
                   default: _withCtx(() => [
                     _createTextVNode(_toDisplayString(text), 1 /* TEXT */)
@@ -114,33 +114,33 @@ function render(_ctx, _cache) {
                 }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["locale"]))
               ]))
             }), 256 /* UNKEYED_FRAGMENT */))
-          : (_ctx.classDefinitionName === 'Enum')
+          : ($options.classDefinitionName === 'Enum')
             ? (_openBlock(), _createBlock(_component_t, {
                 key: _ctx.value,
-                locale: _ctx.locale,
-                options: _ctx.options
+                locale: $props.locale,
+                options: $props.options
               }, {
                 default: _withCtx(() => [
                   _createTextVNode(_toDisplayString(_ctx.value), 1 /* TEXT */)
                 ]),
                 _: 1 /* STABLE */
               }, 8 /* PROPS */, ["locale", "options"]))
-            : (_ctx.classDefinitionName === 'Color')
+            : ($options.classDefinitionName === 'Color')
               ? (_openBlock(), _createBlock(_component_b_icon, {
                   key: 3,
                   icon: "circle-fill",
                   color: _ctx.value
                 }, null, 8 /* PROPS */, ["color"]))
-              : (_ctx.classDefinitionName === 'Boolean')
+              : ($options.classDefinitionName === 'Boolean')
                 ? (_openBlock(), _createBlock(_component_b_form_checkbox, {
                     key: 4,
                     modelValue: _ctx.value,
                     "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => ((_ctx.value) = $event)),
                     disabled: ""
                   }, null, 8 /* PROPS */, ["modelValue"]))
-                : (_ctx.classDefinitionName === 'Avatar')
+                : ($options.classDefinitionName === 'Avatar')
                   ? (_openBlock(), _createBlock(_component_b_avatar, _mergeProps({ key: 5 }, _ctx.$attrs, {
-                      src: _ctx.staticLink(_ctx.fileFormat),
+                      src: $options.staticLink($props.fileFormat),
                       key: _ctx.value
                     }), _createSlots({ _: 2 /* DYNAMIC */ }, [
                       _renderList(_ctx.$scopedSlots, (_, slot) => {
@@ -152,14 +152,14 @@ function render(_ctx, _cache) {
                         }
                       })
                     ]), 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["src"]))
-                  : (_ctx.classDefinitionName === 'Rating')
+                  : ($options.classDefinitionName === 'Rating')
                     ? (_openBlock(), _createBlock(_component_b_form_rating, _mergeProps({
                         key: 6,
                         modelValue: _ctx.value,
                         "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => ((_ctx.value) = $event)),
                         readonly: ""
                       }, _ctx.$attrs), null, 16 /* FULL_PROPS */, ["modelValue"]))
-                    : (_ctx.classDefinitionName === 'Percentage')
+                    : ($options.classDefinitionName === 'Percentage')
                       ? (_openBlock(), _createBlock(_component_b_progress, {
                           key: 7,
                           max: "100",
@@ -178,7 +178,7 @@ function render(_ctx, _cache) {
                           ]),
                           _: 1 /* STABLE */
                         }))
-                      : (_ctx.classDefinitionName==='TextEditor')
+                      : ($options.classDefinitionName==='TextEditor')
                         ? (_openBlock(), _createElementBlock("span", {
                             key: 8,
                             innerHTML: _ctx.value

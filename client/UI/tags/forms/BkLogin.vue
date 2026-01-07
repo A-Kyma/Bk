@@ -37,12 +37,13 @@
 <script>
 import {Class} from "meteor/akyma:astronomy"
 import BkForm from "./BkForm.vue"
+import BkTranslate from "../translation/BkTranslate.vue"
 import { User } from "meteor/akyma:bk"
 import { Accounts } from "meteor/accounts-base"
 
 export default {
   name: "BkLogin",
-  components: {BkForm},
+  components: {BkForm, t: BkTranslate},
   data() {
     return {
       user: new User(),

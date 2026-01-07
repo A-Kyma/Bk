@@ -43,21 +43,21 @@ export default _sfc_main;
 
 import { resolveComponent as _resolveComponent, mergeProps as _mergeProps, createVNode as _createVNode, createCommentVNode as _createCommentVNode, openBlock as _openBlock, createElementBlock as _createElementBlock } from "vue/dist/vue.runtime.esm-bundler.js"
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_form_input = _resolveComponent("b-form-input")
   const _component_b_form_datalist = _resolveComponent("b-form-datalist")
 
   return (_openBlock(), _createElementBlock("div", null, [
     _createVNode(_component_b_form_input, _mergeProps(_ctx.$attrs, {
-      modelValue: _ctx.inputValue,
-      "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => ((_ctx.inputValue) = $event)),
+      modelValue: $options.inputValue,
+      "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => (($options.inputValue) = $event)),
       state: _ctx.state,
-      list: _ctx.datalistId
+      list: $options.datalistId
     }), null, 16 /* FULL_PROPS */, ["modelValue", "state", "list"]),
     _createCommentVNode(" TODO use collapse + selectable table instead "),
     _createVNode(_component_b_form_datalist, {
-      id: _ctx.datalistId,
-      options: _ctx.options
+      id: $options.datalistId,
+      options: $data.options
     }, null, 8 /* PROPS */, ["id", "options"])
   ]))
 }

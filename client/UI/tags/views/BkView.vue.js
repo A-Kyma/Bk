@@ -31,12 +31,12 @@ const _hoisted_2 = {
   class: "form-group is-focused row"
 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_bk_view_inner = _resolveComponent("bk-view-inner")
 
-  return (_ctx.noDiv)
+  return ($props.noDiv)
     ? (_openBlock(), _createBlock(_component_bk_view_inner, _normalizeProps(_mergeProps({ key: 0 }, _ctx.$props)), null, 16 /* FULL_PROPS */))
-    : (_ctx.noFormGroup)
+    : ($props.noFormGroup)
       ? (_openBlock(), _createElementBlock("div", _hoisted_1, [
           _createVNode(_component_bk_view_inner, _normalizeProps(_guardReactiveProps(_ctx.$props)), null, 16 /* FULL_PROPS */)
         ]))

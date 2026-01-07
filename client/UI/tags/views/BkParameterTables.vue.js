@@ -16,7 +16,7 @@ export default _sfc_main;
 
 import { resolveComponent as _resolveComponent, createVNode as _createVNode, withCtx as _withCtx, openBlock as _openBlock, createBlock as _createBlock } from "vue/dist/vue.runtime.esm-bundler.js"
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_bk_button_icon = _resolveComponent("bk-button-icon")
   const _component_bk_table = _resolveComponent("bk-table")
 
@@ -37,7 +37,7 @@ function render(_ctx, _cache) {
         variant: "primary",
         route: "AdminParameterTableElements",
         params: {'name': data.model.name},
-        title: _ctx.getI18n('ParameterTableOption.summary.label'),
+        title: $options.getI18n('ParameterTableOption.summary.label'),
         class: "float-right"
       }, null, 8 /* PROPS */, ["model", "params", "title"])
     ]),

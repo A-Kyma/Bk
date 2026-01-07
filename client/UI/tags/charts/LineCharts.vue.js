@@ -31,7 +31,7 @@ import { createElementVNode as _createElementVNode, openBlock as _openBlock, cre
 
 const _hoisted_1 = ["chart-data", "options"]
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (_openBlock(), _createElementBlock("div", null, [
     _createElementVNode("line", {
       "chart-data": _ctx.chartData,

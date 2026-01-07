@@ -59,7 +59,10 @@ import BkChangePassword from "./tags/forms/BkChangePassword.vue.js"
 import BkSubmit from "./tags/forms/BkSubmit.vue.js"
 import BkSubscribe from "./tags/forms/BkSubscribe.vue.js";
 import BkTable from "./tags/datatable/BkTable.vue.js"
-import BkTextEditor from "./tags/inputs/BkTextEditor.vue.js";
+// BkTextEditor requires @tiptap which has subpath exports that Meteor can't resolve
+// Only import it if we're in a Vite context (import.meta.env exists)
+// In production/Meteor-only context, BkTextEditor will be undefined and components will handle gracefully
+const BkTextEditor = null; // Disabled for Meteor bundle - use Vite lazy import instead
 import BkTranslate from "./tags/translation/BkTranslate.vue.js";
 import BkTranslations from "./tags/views/BkTranslations.vue.js";
 import LineChart from "./tags/charts/LineCharts.vue.js";

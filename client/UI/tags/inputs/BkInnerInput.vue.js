@@ -2,6 +2,7 @@
 import {Class, ValidationError, ScalarField, ObjectField, ListField, Union} from 'meteor/akyma:astronomy'
 import {I18n,DateTime,Enum,Lifecycle} from "meteor/akyma:bk"
 import _ from "lodash";
+import { defineAsyncComponent } from "vue/dist/vue.runtime.esm-bundler.js";
 import BkBelongsToInput from "./BkBelongsToInput.vue.js";
 import BkFieldList from "../forms/BkFieldList.vue.js";
 import BkCardListClass from "../forms/BkCardListClass.vue.js";
@@ -321,10 +322,12 @@ import BkCardListClass from "../forms/BkCardListClass.vue.js";
         }
 
         if (fieldType === "TextEditor") {
-          if (Meteor.isClient && this["for"]!== "view")
-            return "BkTextEditor"
-          else
+          if (Meteor.isClient && this["for"]!== "view") {
+            // Lazy load BkTextEditor to avoid Meteor bundling @tiptap deps
+            return defineAsyncComponent(() => import('./BkTextEditor.vue'));
+          } else {
             return "BkViewClean"
+          }
         }
 
         // Only if Scalar field. ListEnum and ListBoolean treated differently
@@ -470,7 +473,7 @@ export default _sfc_main;
 
 import { normalizeProps as _normalizeProps, guardReactiveProps as _guardReactiveProps, renderSlot as _renderSlot, resolveComponent as _resolveComponent, mergeProps as _mergeProps, withCtx as _withCtx, renderList as _renderList, createSlots as _createSlots, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, Fragment as _Fragment, createElementBlock as _createElementBlock, toDisplayString as _toDisplayString, createTextVNode as _createTextVNode, createVNode as _createVNode, createElementVNode as _createElementVNode, resolveDynamicComponent as _resolveDynamicComponent, resolveDirective as _resolveDirective, withDirectives as _withDirectives } from "vue/dist/vue.runtime.esm-bundler.js"
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_bk_field_list = _resolveComponent("bk-field-list")
   const _component_bk_card_list_class = _resolveComponent("bk-card-list-class")
   const _component_t = _resolveComponent("t")
@@ -488,17 +491,17 @@ function render(_ctx, _cache) {
   return _withDirectives((_openBlock(), _createBlock(_component_b_input_group, _mergeProps(_ctx.$attrs, {
     prepend: _ctx.prepend,
     append: _ctx.append,
-    class: _ctx.inputGroupClass,
-    key: _ctx.definitionKey
+    class: $options.inputGroupClass,
+    key: $options.definitionKey
   }), {
     default: _withCtx(() => [
-      _renderSlot(_ctx.$slots, 'before-'+_ctx.formGenericFieldComputed, _normalizeProps(_guardReactiveProps({..._ctx.$props, ...{value: _ctx.value,oldValue: _ctx.oldValue}}))),
-      _renderSlot(_ctx.$slots, _ctx.formGenericFieldComputed, _normalizeProps(_guardReactiveProps({..._ctx.$props,formModel: _ctx.formModel, plaintext: _ctx.plaintextComputed, required: !_ctx.optional, placeholder: _ctx.placeholder, value: _ctx.value, oldValue: _ctx.oldValue, append: _ctx.append, prepend: _ctx.prepend, state: _ctx.state, options: _ctx.enumOptions, class: _ctx.plaintextClass})), () => [
-        (_ctx.definitionField === 'Object')
-          ? (_openBlock(), _createBlock(_component_bk_field_list, _mergeProps({ key: 0 }, {..._ctx.$props,..._ctx.$attrs,..._ctx.uiComponentProps, plaintext: _ctx.plaintextComputed }, {
+      _renderSlot(_ctx.$slots, 'before-'+$options.formGenericFieldComputed, _normalizeProps(_guardReactiveProps({..._ctx.$props, ...{value: $options.value,oldValue: $data.oldValue}}))),
+      _renderSlot(_ctx.$slots, $options.formGenericFieldComputed, _normalizeProps(_guardReactiveProps({..._ctx.$props,formModel: $options.formModel, plaintext: $options.plaintextComputed, required: !$options.optional, placeholder: _ctx.placeholder, value: $options.value, oldValue: $data.oldValue, append: _ctx.append, prepend: _ctx.prepend, state: _ctx.state, options: _ctx.enumOptions, class: $options.plaintextClass})), () => [
+        ($options.definitionField === 'Object')
+          ? (_openBlock(), _createBlock(_component_bk_field_list, _mergeProps({ key: 0 }, {..._ctx.$props,..._ctx.$attrs,...$options.uiComponentProps, plaintext: $options.plaintextComputed }, {
               class: "col-12",
-              model: _ctx.model.get(_ctx.field),
-              "form-field": _ctx.formFieldComputed,
+              model: $props.model.get($props.field),
+              "form-field": $options.formFieldComputed,
               onChange: _cache[0] || (_cache[0] = $event => (_ctx.$emit('change'))),
               fields: ""
             }), _createSlots({ _: 2 /* DYNAMIC */ }, [
@@ -511,11 +514,11 @@ function render(_ctx, _cache) {
                 }
               })
             ]), 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["model", "form-field"]))
-          : (_ctx.definitionField === 'ListClass')
-            ? (_openBlock(), _createBlock(_component_bk_card_list_class, _mergeProps({ key: 1 }, {..._ctx.$props,..._ctx.$attrs,..._ctx.uiComponentProps}, {
-                model: _ctx.model,
-                field: _ctx.field,
-                "form-field": _ctx.formFieldComputed
+          : ($options.definitionField === 'ListClass')
+            ? (_openBlock(), _createBlock(_component_bk_card_list_class, _mergeProps({ key: 1 }, {..._ctx.$props,..._ctx.$attrs,...$options.uiComponentProps}, {
+                model: $props.model,
+                field: $props.field,
+                "form-field": $options.formFieldComputed
               }), _createSlots({ _: 2 /* DYNAMIC */ }, [
                 _renderList(_ctx.$scopedSlots, (_, slot) => {
                   return {
@@ -526,12 +529,12 @@ function render(_ctx, _cache) {
                   }
                 })
               ]), 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["model", "field", "form-field"]))
-            : (_ctx.definitionField === 'ListEnum' && !_ctx.ui.template)
-              ? (_openBlock(), _createBlock(_component_b_form_checkbox_group, _mergeProps({ key: 2 }, {..._ctx.$props,..._ctx.$attrs,..._ctx.uiComponentProps}, {
-                  modelValue: _ctx.value,
-                  "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => ((_ctx.value) = $event)),
-                  name: _ctx.field,
-                  disabled: _ctx.plaintextComputed,
+            : ($options.definitionField === 'ListEnum' && !$options.ui.template)
+              ? (_openBlock(), _createBlock(_component_b_form_checkbox_group, _mergeProps({ key: 2 }, {..._ctx.$props,..._ctx.$attrs,...$options.uiComponentProps}, {
+                  modelValue: $options.value,
+                  "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => (($options.value) = $event)),
+                  name: $props.field,
+                  disabled: $options.plaintextComputed,
                   class: "form-control-plaintext"
                 }), {
                   default: _withCtx(() => [
@@ -554,20 +557,20 @@ function render(_ctx, _cache) {
                   ]),
                   _: 1 /* STABLE */
                 }, 16 /* FULL_PROPS */, ["modelValue", "name", "disabled"]))
-              : (_ctx.definitionField === 'Image')
+              : ($options.definitionField === 'Image')
                 ? (_openBlock(), _createBlock(_component_b_img, {
                     key: 3,
-                    src: _ctx.value
+                    src: $options.value
                   }, null, 8 /* PROPS */, ["src"]))
-                : (_ctx.inputComponent === 'BFormRadioGroup' && _ctx.definitionField === 'Enum')
+                : ($options.inputComponent === 'BFormRadioGroup' && $options.definitionField === 'Enum')
                   ? (_openBlock(), _createElementBlock(_Fragment, { key: 4 }, [
                       _createCommentVNode("\n      Issue with radio group badly linked together when shouldn't\n      So we need to set \"name\" attribute as different value for each radio-group\n      "),
-                      (_openBlock(), _createBlock(_component_b_form_radio_group, _mergeProps({..._ctx.$props,..._ctx.$attrs,..._ctx.uiComponentProps}, {
-                        modelValue: _ctx.value,
-                        "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => ((_ctx.value) = $event)),
-                        name: _ctx.formFieldComputed,
-                        key: _ctx.formFieldComputed,
-                        disabled: _ctx.plaintextComputed,
+                      (_openBlock(), _createBlock(_component_b_form_radio_group, _mergeProps({..._ctx.$props,..._ctx.$attrs,...$options.uiComponentProps}, {
+                        modelValue: $options.value,
+                        "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => (($options.value) = $event)),
+                        name: $options.formFieldComputed,
+                        key: $options.formFieldComputed,
+                        disabled: $options.plaintextComputed,
                         class: "form-control-plaintext"
                       }), {
                         default: _withCtx(() => [
@@ -591,17 +594,17 @@ function render(_ctx, _cache) {
                         _: 1 /* STABLE */
                       }, 16 /* FULL_PROPS */, ["modelValue", "name", "disabled"]))
                     ], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))
-                  : (_ctx.definitionField === 'ListString')
-                    ? (_openBlock(), _createBlock(_component_b_form_tags, _mergeProps({ key: 5 }, _ctx.uiComponentProps, {
-                        modelValue: _ctx.value,
-                        "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => ((_ctx.value) = $event)),
+                  : ($options.definitionField === 'ListString')
+                    ? (_openBlock(), _createBlock(_component_b_form_tags, _mergeProps({ key: 5 }, $options.uiComponentProps, {
+                        modelValue: $options.value,
+                        "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => (($options.value) = $event)),
                         state: _ctx.state,
                         "remove-on-delete": "",
                         separator: " ",
-                        "tag-validator": _ctx.tagValidator,
-                        "invalid-tag-text": _ctx.invalidTagText,
+                        "tag-validator": $options.tagValidator,
+                        "invalid-tag-text": $data.invalidTagText,
                         placeholder: _ctx.placeholder,
-                        disabled: _ctx.plaintextComputed
+                        disabled: $options.plaintextComputed
                       }), {
                         "add-button-text": _withCtx(() => [
                           _createVNode(_component_t, null, {
@@ -613,30 +616,30 @@ function render(_ctx, _cache) {
                         ]),
                         _: 1 /* STABLE */
                       }, 16 /* FULL_PROPS */, ["modelValue", "state", "tag-validator", "invalid-tag-text", "placeholder", "disabled"]))
-                    : (_ctx.definitionField === 'Rating')
-                      ? (_openBlock(), _createBlock(_component_b_form_rating, _mergeProps({ key: 6 }, _ctx.uiComponentProps, {
-                          modelValue: _ctx.value,
-                          "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => ((_ctx.value) = $event)),
-                          variant: _ctx.ui.variant,
+                    : ($options.definitionField === 'Rating')
+                      ? (_openBlock(), _createBlock(_component_b_form_rating, _mergeProps({ key: 6 }, $options.uiComponentProps, {
+                          modelValue: $options.value,
+                          "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => (($options.value) = $event)),
+                          variant: $options.ui.variant,
                           color: _ctx.color,
-                          readonly: _ctx.plaintextComputed,
+                          readonly: $options.plaintextComputed,
                           size: _ctx.size,
                           "show-clear": "",
                           "icon-clear": "x-circle"
                         }), null, 16 /* FULL_PROPS */, ["modelValue", "variant", "color", "readonly", "size"]))
-                      : (_ctx.definitionField === 'Relation')
-                        ? (_openBlock(), _createBlock(_component_bk_belongs_to_many, _mergeProps({ key: 7 }, {..._ctx.$attrs,..._ctx.uiComponentProps}, {
-                            modelValue: _ctx.value,
-                            "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => ((_ctx.value) = $event)),
-                            model: _ctx.model,
-                            field: _ctx.field,
-                            "form-field": _ctx.formFieldComputed,
+                      : ($options.definitionField === 'Relation')
+                        ? (_openBlock(), _createBlock(_component_bk_belongs_to_many, _mergeProps({ key: 7 }, {..._ctx.$attrs,...$options.uiComponentProps}, {
+                            modelValue: $options.value,
+                            "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => (($options.value) = $event)),
+                            model: $props.model,
+                            field: $props.field,
+                            "form-field": $options.formFieldComputed,
                             for: _ctx.$props['for'],
                             placeholder: _ctx.placeholder,
-                            plaintext: _ctx.plaintextComputed,
-                            readonly: _ctx.plaintextComputed,
-                            disabled: _ctx.plaintextComputed,
-                            "max-tags": _ctx.maxTags,
+                            plaintext: $options.plaintextComputed,
+                            readonly: $options.plaintextComputed,
+                            disabled: $options.plaintextComputed,
+                            "max-tags": $options.maxTags,
                             onSelect: _cache[6] || (_cache[6] = $event => (_ctx.$emit('select',$event))),
                             onInput: _cache[7] || (_cache[7] = $event => (_ctx.$emit('input'))),
                             onReady: _cache[8] || (_cache[8] = $event => (_ctx.$emit('ready'))),
@@ -651,16 +654,16 @@ function render(_ctx, _cache) {
                               }
                             })
                           ]), 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["modelValue", "model", "field", "form-field", "for", "placeholder", "plaintext", "readonly", "disabled", "max-tags"]))
-                        : (_ctx.definitionField === 'ListRelation')
-                          ? (_openBlock(), _createBlock(_component_bk_belongs_to_many, _mergeProps({ key: 8 }, {..._ctx.$attrs,..._ctx.uiComponentProps}, {
-                              model: _ctx.model,
-                              field: _ctx.field,
-                              "form-field": _ctx.formFieldComputed,
+                        : ($options.definitionField === 'ListRelation')
+                          ? (_openBlock(), _createBlock(_component_bk_belongs_to_many, _mergeProps({ key: 8 }, {..._ctx.$attrs,...$options.uiComponentProps}, {
+                              model: $props.model,
+                              field: $props.field,
+                              "form-field": $options.formFieldComputed,
                               for: _ctx.$props['for'],
-                              plaintext: _ctx.plaintextComputed,
-                              readonly: _ctx.plaintextComputed,
-                              disabled: _ctx.plaintextComputed,
-                              "max-tags": _ctx.maxTags,
+                              plaintext: $options.plaintextComputed,
+                              readonly: $options.plaintextComputed,
+                              disabled: $options.plaintextComputed,
+                              "max-tags": $options.maxTags,
                               onSelect: _cache[10] || (_cache[10] = $event => (_ctx.$emit('select',$event))),
                               onInput: _cache[11] || (_cache[11] = $event => (_ctx.$emit('input'))),
                               onReady: _cache[12] || (_cache[12] = $event => (_ctx.$emit('ready'))),
@@ -675,39 +678,39 @@ function render(_ctx, _cache) {
                                 }
                               })
                             ]), 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["model", "field", "form-field", "for", "plaintext", "readonly", "disabled", "max-tags"]))
-                          : (_ctx.definitionField === 'ListValue')
+                          : ($options.definitionField === 'ListValue')
                             ? (_openBlock(), _createElementBlock(_Fragment, { key: 9 }, [
                                 _createCommentVNode(" TODO: is span OK ?"),
-                                _createElementVNode("span", null, _toDisplayString(_ctx.model[_ctx.field].join(', ')), 1 /* TEXT */)
+                                _createElementVNode("span", null, _toDisplayString($props.model[$props.field].join(', ')), 1 /* TEXT */)
                               ], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))
                             : (_openBlock(), _createElementBlock(_Fragment, { key: 10 }, [
                                 _createCommentVNode(" inputText + view + ... "),
-                                (_openBlock(), _createBlock(_resolveDynamicComponent(_ctx.inputComponent), _mergeProps({..._ctx.$attrs,..._ctx.uiComponentProps}, {
-                                  class: _ctx.plaintextClass,
-                                  type: _ctx.inputType,
-                                  modelValue: _ctx.value,
-                                  "onUpdate:modelValue": _cache[14] || (_cache[14] = $event => ((_ctx.value) = $event)),
-                                  onPaste: _ctx.onPaste,
-                                  model: _ctx.model,
-                                  field: _ctx.field,
+                                (_openBlock(), _createBlock(_resolveDynamicComponent($options.inputComponent), _mergeProps({..._ctx.$attrs,...$options.uiComponentProps}, {
+                                  class: $options.plaintextClass,
+                                  type: $options.inputType,
+                                  modelValue: $options.value,
+                                  "onUpdate:modelValue": _cache[14] || (_cache[14] = $event => (($options.value) = $event)),
+                                  onPaste: $options.onPaste,
+                                  model: $props.model,
+                                  field: $props.field,
                                   state: _ctx.state,
                                   for: _ctx.$props['for'],
                                   placeholder: _ctx.placeholder,
-                                  name: _ctx.field,
-                                  plaintext: _ctx.plaintextComputed,
-                                  readonly: _ctx.plaintextComputed,
-                                  disabled: _ctx.plaintextComputed,
+                                  name: $props.field,
+                                  plaintext: $options.plaintextComputed,
+                                  readonly: $options.plaintextComputed,
+                                  disabled: $options.plaintextComputed,
                                   options: _ctx.enumOptions,
-                                  switch: _ctx.uiSwitch,
-                                  "max-tags": _ctx.maxTags,
-                                  debounce: _ctx.debounce,
-                                  step: _ctx.step,
+                                  switch: $options.uiSwitch,
+                                  "max-tags": $options.maxTags,
+                                  debounce: $options.debounce,
+                                  step: $options.step,
                                   rows: "3",
                                   "max-rows": "8"
                                 }), null, 16 /* FULL_PROPS */, ["class", "type", "modelValue", "onPaste", "model", "field", "state", "for", "placeholder", "name", "plaintext", "readonly", "disabled", "options", "switch", "max-tags", "debounce", "step"]))
                               ], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))
       ]),
-      _renderSlot(_ctx.$slots, 'after-'+_ctx.formGenericFieldComputed, _normalizeProps(_guardReactiveProps({..._ctx.$props, ...{value: _ctx.value,oldValue: _ctx.oldValue}})))
+      _renderSlot(_ctx.$slots, 'after-'+$options.formGenericFieldComputed, _normalizeProps(_guardReactiveProps({..._ctx.$props, ...{value: $options.value,oldValue: $data.oldValue}})))
     ]),
     _: 3 /* FORWARDED */
   }, 16 /* FULL_PROPS */, ["prepend", "append", "class"])), [

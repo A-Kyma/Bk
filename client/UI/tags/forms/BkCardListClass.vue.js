@@ -142,7 +142,7 @@ const _hoisted_1 = {
   class: "col-12 d-block"
 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_t = _resolveComponent("t")
   const _component_b_form_select_option = _resolveComponent("b-form-select-option")
   const _component_b_form_select = _resolveComponent("b-form-select")
@@ -166,15 +166,15 @@ function render(_ctx, _cache) {
           class: "mb-2"
         }, {
           default: _withCtx(() => [
-            (_ctx.getTypeField)
+            ($options.getTypeField)
               ? (_openBlock(), _createBlock(_component_b_col, { key: 0 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_form_select, {
-                      modelValue: _ctx.insertModel.selected,
-                      "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => ((_ctx.insertModel.selected) = $event))
+                      modelValue: $data.insertModel.selected,
+                      "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => (($data.insertModel.selected) = $event))
                     }, {
                       default: _withCtx(() => [
-                        (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.enumOptions, (option) => {
+                        (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($options.enumOptions, (option) => {
                           return (_openBlock(), _createBlock(_component_b_form_select_option, {
                             key: option.key,
                             value: option.value
@@ -202,8 +202,8 @@ function render(_ctx, _cache) {
                   default: _withCtx(() => [
                     _createVNode(_component_b_form_input, {
                       type: "number",
-                      modelValue: _ctx.insertModel.number,
-                      "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => ((_ctx.insertModel.number) = $event))
+                      modelValue: $data.insertModel.number,
+                      "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => (($data.insertModel.number) = $event))
                     }, null, 8 /* PROPS */, ["modelValue"])
                   ]),
                   _: 1 /* STABLE */
@@ -213,7 +213,7 @@ function render(_ctx, _cache) {
               default: _withCtx(() => [
                 _createVNode(_component_b_button, {
                   variant: "outline-secondary",
-                  onClick: _cache[2] || (_cache[2] = $event => (_ctx.onAddSubClass(0)))
+                  onClick: _cache[2] || (_cache[2] = $event => ($options.onAddSubClass(0)))
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_t, null, {
@@ -237,11 +237,11 @@ function render(_ctx, _cache) {
       behaviour: "move",
       "drag-class": "card-ghost bg-warning",
       "drop-class": "card-ghost-drop",
-      onDrop: _ctx.onDrop,
-      "get-ghost-parent": _ctx.getGhostParent
+      onDrop: $options.onDrop,
+      "get-ghost-parent": $options.getGhostParent
     }, {
       default: _withCtx(() => [
-        (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.model[_ctx.field], (innerModel, index) => {
+        (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($props.model[$props.field], (innerModel, index) => {
           return (_openBlock(), _createBlock(_component_Draggable, {
             key: innerModel._id.valueOf(),
             class: "overflow-visible"
@@ -252,19 +252,19 @@ function render(_ctx, _cache) {
                 "body-class": "pt-2 pl-2 pr-4 pb-0"
               }, {
                 default: _withCtx(() => [
-                  (_ctx.getTypeField)
+                  ($options.getTypeField)
                     ? (_openBlock(), _createBlock(_component_b_card_header, { key: 0 }, {
                         default: _withCtx(() => [
                           _createVNode(_component_bk_view_clean, _mergeProps({ ref_for: true }, _ctx.$attrs, {
                             model: innerModel,
-                            field: _ctx.getTypeField,
-                            "form-field": _ctx.formField + '.' + index,
-                            "form-generic-field": _ctx.formField
+                            field: $options.getTypeField,
+                            "form-field": $props.formField + '.' + index,
+                            "form-generic-field": $props.formField
                           }), null, 16 /* FULL_PROPS */, ["model", "field", "form-field", "form-generic-field"]),
-                          (_ctx.canDelete)
+                          ($options.canDelete)
                             ? (_openBlock(), _createBlock(_component_bk_button_icon, {
                                 key: 0,
-                                onClick: $event => (_ctx.onRemove(index)),
+                                onClick: $event => ($options.onRemove(index)),
                                 icon: "trash-fill",
                                 variant: "danger"
                               }, null, 8 /* PROPS */, ["onClick"]))
@@ -276,8 +276,8 @@ function render(_ctx, _cache) {
                                 model: innerModel,
                                 field: "isActive",
                                 for: _ctx.$props['for'],
-                                "form-field": _ctx.formField + '.' + index,
-                                "form-generic-field": _ctx.formField
+                                "form-field": $props.formField + '.' + index,
+                                "form-generic-field": $props.formField
                               }, null, 8 /* PROPS */, ["model", "for", "form-field", "form-generic-field"]))
                             : _createCommentVNode("v-if", true)
                         ]),
@@ -291,9 +291,9 @@ function render(_ctx, _cache) {
                       }, _ctx.$attrs, {
                         for: _ctx.$props['for'],
                         model: innerModel,
-                        "form-field": _ctx.formField + '.' + index,
-                        "form-generic-field": _ctx.formField,
-                        exclude: ['isActive',_ctx.getTypeField]
+                        "form-field": $props.formField + '.' + index,
+                        "form-generic-field": $props.formField,
+                        exclude: ['isActive',$options.getTypeField]
                       }), _createSlots({ _: 2 /* DYNAMIC */ }, [
                         _renderList(_ctx.$scopedSlots, (_, slot) => {
                           return {
@@ -305,10 +305,10 @@ function render(_ctx, _cache) {
                         })
                       ]), 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["for", "model", "form-field", "form-generic-field", "exclude"]))
                     : _createCommentVNode("v-if", true),
-                  (!_ctx.getTypeField && _ctx.canDelete)
+                  (!$options.getTypeField && $options.canDelete)
                     ? (_openBlock(), _createBlock(_component_bk_button_icon, {
                         key: 2,
-                        onClick: $event => (_ctx.onRemove(index)),
+                        onClick: $event => ($options.onRemove(index)),
                         icon: "trash-fill",
                         variant: "danger",
                         class: "remove-button"
@@ -326,21 +326,21 @@ function render(_ctx, _cache) {
       _: 3 /* FORWARDED */
     }, 8 /* PROPS */, ["onDrop", "get-ghost-parent"]),
     _createCommentVNode("\n    <b-button\n        v-if=\"model[field].length === 0 && $props['for'] !== 'view'\"\n        variant=\"outline-secondary\"\n        @click=\"onAdd(0)\">\n      <t>app.add</t>\n    </b-button>\n\n    <bk-modal :id=\"modalId\" v-if=\"getTypeField\" @ok=\"onSubmitModal\">\n      <bk-input :model=\"modalModel\" :field=\"getTypeField\"/>\n    </bk-modal>\n    "),
-    (_ctx.model[_ctx.field].length>0 && _ctx.$props['for'] !== 'view')
+    ($props.model[$props.field].length>0 && _ctx.$props['for'] !== 'view')
       ? (_openBlock(), _createBlock(_component_b_row, {
           key: 1,
           class: "mt-2"
         }, {
           default: _withCtx(() => [
-            (_ctx.getTypeField)
+            ($options.getTypeField)
               ? (_openBlock(), _createBlock(_component_b_col, { key: 0 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_form_select, {
-                      modelValue: _ctx.insertModel.selected,
-                      "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => ((_ctx.insertModel.selected) = $event))
+                      modelValue: $data.insertModel.selected,
+                      "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => (($data.insertModel.selected) = $event))
                     }, {
                       default: _withCtx(() => [
-                        (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.enumOptions, (option) => {
+                        (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($options.enumOptions, (option) => {
                           return (_openBlock(), _createBlock(_component_b_form_select_option, {
                             key: option.key,
                             value: option.value
@@ -368,8 +368,8 @@ function render(_ctx, _cache) {
                   default: _withCtx(() => [
                     _createVNode(_component_b_form_input, {
                       type: "number",
-                      modelValue: _ctx.insertModel.number,
-                      "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => ((_ctx.insertModel.number) = $event))
+                      modelValue: $data.insertModel.number,
+                      "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => (($data.insertModel.number) = $event))
                     }, null, 8 /* PROPS */, ["modelValue"])
                   ]),
                   _: 1 /* STABLE */
@@ -379,7 +379,7 @@ function render(_ctx, _cache) {
               default: _withCtx(() => [
                 _createVNode(_component_b_button, {
                   variant: "outline-secondary",
-                  onClick: _cache[5] || (_cache[5] = $event => (_ctx.onAddSubClass(-1)))
+                  onClick: _cache[5] || (_cache[5] = $event => ($options.onAddSubClass(-1)))
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_t, null, {

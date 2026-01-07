@@ -309,65 +309,65 @@ const _hoisted_1 = {
   class: "col-12 no-padding-left no-padding-right"
 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_form_select = _resolveComponent("b-form-select")
   const _component_b_form_input = _resolveComponent("b-form-input")
   const _component_b_table = _resolveComponent("b-table")
   const _component_b_collapse = _resolveComponent("b-collapse")
 
-  return (_ctx.selectInput)
+  return ($options.selectInput)
     ? (_openBlock(), _createBlock(_component_b_form_select, _mergeProps({
         key: 0,
         ref: "select"
       }, _ctx.$attrs, {
-        modelValue: _ctx.selectValue,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => ((_ctx.selectValue) = $event)),
-        placeholder: _ctx.placeholder,
-        options: _ctx.relationList,
+        modelValue: $options.selectValue,
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => (($options.selectValue) = $event)),
+        placeholder: $props.placeholder,
+        options: $data.relationList,
         state: _ctx.state
       }), null, 16 /* FULL_PROPS */, ["modelValue", "placeholder", "options", "state"]))
     : (_openBlock(), _createElementBlock("div", _hoisted_1, [
         _createCommentVNode(" if we are on the search input "),
-        (_ctx.model[_ctx.field]===undefined)
+        ($props.model[$props.field]===undefined)
           ? (_openBlock(), _createBlock(_component_b_form_input, _mergeProps({ key: 0 }, _ctx.$attrs, {
-              modelValue: _ctx.inputValue,
-              "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => ((_ctx.inputValue) = $event)),
+              modelValue: $options.inputValue,
+              "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => (($options.inputValue) = $event)),
               type: "search",
               state: _ctx.state,
-              placeholder: _ctx.placeholder,
+              placeholder: $props.placeholder,
               onKeydown: [
-                _withKeys(_ctx.onKeyUp, ["arrow-up"]),
-                _withKeys(_ctx.onKeyDown, ["arrow-down"])
+                _withKeys($options.onKeyUp, ["arrow-up"]),
+                _withKeys($options.onKeyDown, ["arrow-down"])
               ]
             }), null, 16 /* FULL_PROPS */, ["modelValue", "state", "placeholder", "onKeydown"]))
           : (_openBlock(), _createElementBlock(_Fragment, { key: 1 }, [
               _createCommentVNode(" if we are on the relation defaultName input "),
               _createVNode(_component_b_form_input, _mergeProps({ ref: "relationInput" }, _ctx.$attrs, {
-                modelValue: _ctx.inputRelation,
-                "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => ((_ctx.inputRelation) = $event)),
+                modelValue: $options.inputRelation,
+                "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => (($options.inputRelation) = $event)),
                 type: "search",
                 state: _ctx.state,
-                onKeydown: _ctx.onKeyDownRelation
+                onKeydown: $options.onKeyDownRelation
               }), null, 16 /* FULL_PROPS */, ["modelValue", "state", "onKeydown"])
             ], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)),
         _createVNode(_component_b_collapse, {
-          id: _ctx.dropDownId,
+          id: $options.dropDownId,
           class: "mt-2"
         }, {
           default: _withCtx(() => [
-            (_ctx.dropDownVisible)
+            ($data.dropDownVisible)
               ? (_openBlock(), _createBlock(_component_b_table, {
                   key: 0,
                   hover: "",
                   borderless: "",
                   "thead-class": "d-none",
                   "value-td-class": "d-none",
-                  items: _ctx.relationList,
+                  items: $data.relationList,
                   fields: ["value","text"],
                   selectable: "",
                   "select-mode": "single",
                   ref: "selectableTable",
-                  onRowClicked: _ctx.onSelectRow
+                  onRowClicked: $options.onSelectRow
                 }, {
                   "cell(value)": _withCtx((data) => [...(_cache[3] || (_cache[3] = []))]),
                   _: 1 /* STABLE */

@@ -18,7 +18,7 @@ export default _sfc_main;
 
 import { resolveComponent as _resolveComponent, createVNode as _createVNode, openBlock as _openBlock, createElementBlock as _createElementBlock } from "vue/dist/vue.runtime.esm-bundler.js"
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_doughnut = _resolveComponent("doughnut")
 
   return (_openBlock(), _createElementBlock("div", null, [

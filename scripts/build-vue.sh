@@ -3,14 +3,17 @@ set -e
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-echo "Installing dependencies..."
 cd "$ROOT_DIR"
-npm install
+
+# Create node_modules if it doesn't exist
+if [ ! -d "node_modules" ]; then
+  echo "Installing dependencies..."
+  npm install
+else
+  echo "node_modules already exists, skipping npm install..."
+fi
 
 echo -e "\nCompiling Vue components..."
 node "$ROOT_DIR/scripts/compile-vue.js"
 
-echo -e "\nCleaning up node_modules..."
-rm -rf "$ROOT_DIR/node_modules"
-
-echo -e "\n✅ Done! Vue components compiled and node_modules cleaned."
+echo -e "\n✅ Done! Vue components compiled."

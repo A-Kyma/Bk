@@ -25,21 +25,21 @@ const _hoisted_4 = { class: "text-center" }
 const _hoisted_5 = { key: 2 }
 const _hoisted_6 = { class: "text-center" }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_icon = _resolveComponent("b-icon")
   const _component_b_spinner = _resolveComponent("b-spinner")
 
-  return (_ctx.type==='dots')
+  return ($props.type==='dots')
     ? (_openBlock(), _createElementBlock("div", _hoisted_1, [
         _createElementVNode("div", _hoisted_2, [
           _createVNode(_component_b_icon, {
             icon: "three-dots",
             animation: "cylon",
-            "font-scale": _ctx.fontScale
+            "font-scale": $props.fontScale
           }, null, 8 /* PROPS */, ["font-scale"])
         ])
       ]))
-    : (_ctx.type==='loading')
+    : ($props.type==='loading')
       ? (_openBlock(), _createElementBlock("div", _hoisted_3, [
           _cache[0] || (_cache[0] = _createElementVNode("div", { class: "text-center" }, "LOADING", -1 /* CACHED */)),
           _createElementVNode("div", _hoisted_4, [
@@ -65,7 +65,7 @@ function render(_ctx, _cache) {
             _createVNode(_component_b_icon, {
               icon: "circle-fill",
               animation: "throb",
-              "font-scale": _ctx.fontScale
+              "font-scale": $props.fontScale
             }, null, 8 /* PROPS */, ["font-scale"])
           ])
         ]))

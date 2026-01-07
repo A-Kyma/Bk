@@ -538,7 +538,7 @@ const _hoisted_5 = {
 }
 const _hoisted_6 = { key: 1 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_icon = _resolveComponent("b-icon")
   const _component_t = _resolveComponent("t")
   const _component_b_button = _resolveComponent("b-button")
@@ -561,15 +561,15 @@ function render(_ctx, _cache) {
 
   return (_ctx.$props.for==='lifecycle')
     ? (_openBlock(), _createElementBlock("span", _hoisted_1, [
-        (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.transitions, (transition) => {
+        (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($options.transitions, (transition) => {
           return (_openBlock(), _createBlock(_component_b_link, {
-            onClick: $event => (_ctx.onClick(transition,$event)),
+            onClick: $event => ($options.onClick(transition,$event)),
             class: _normalizeClass((transition.label) ? 'btn':''),
             alt: transition.alt
           }, {
             default: _withCtx(() => [
               _renderSlot(_ctx.$slots, "default", {}, () => [
-                (_ctx.button)
+                ($props.button)
                   ? (_openBlock(), _createBlock(_component_b_button, {
                       key: 0,
                       class: _normalizeClass(transition.class),
@@ -596,12 +596,12 @@ function render(_ctx, _cache) {
                     }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["class", "variant"]))
                   : (_openBlock(), _createBlock(_component_b_icon, {
                       key: 1,
-                      class: _normalizeClass('BkButton ' + _ctx.iconClass),
-                      "font-scale": _ctx.fontScale,
+                      class: _normalizeClass('BkButton ' + $props.iconClass),
+                      "font-scale": $props.fontScale,
                       icon: transition.icon,
                       variant: transition.variant
                     }, null, 8 /* PROPS */, ["class", "font-scale", "icon", "variant"])),
-                (!_ctx.button && transition.label)
+                (!$props.button && transition.label)
                   ? (_openBlock(), _createBlock(_component_t, {
                       key: transition.label
                     }, {
@@ -620,69 +620,69 @@ function render(_ctx, _cache) {
     : (_ctx.computedPermission)
       ? (_openBlock(), _createBlock(_component_b_link, {
           key: 1,
-          onClick: _cache[16] || (_cache[16] = $event => (_ctx.onClick(null,$event))),
-          alt: _ctx.label,
-          title: _ctx.title
+          onClick: _cache[16] || (_cache[16] = $event => ($options.onClick(null,$event))),
+          alt: $props.label,
+          title: $props.title
         }, {
           default: _withCtx(() => [
             _renderSlot(_ctx.$slots, "default", {}, () => [
-              (_ctx.computedIcon && !_ctx.button && !_ctx.buttonIcon)
+              ($options.computedIcon && !$props.button && !$props.buttonIcon)
                 ? (_openBlock(), _createElementBlock("span", {
                     key: 0,
-                    class: _normalizeClass(_ctx.textNoWrap)
+                    class: _normalizeClass($options.textNoWrap)
                   }, [
-                    (_ctx.noTransform)
+                    ($props.noTransform)
                       ? (_openBlock(), _createBlock(_component_b_icon, {
                           key: 0,
-                          class: _normalizeClass('mr-1' + _ctx.iconClass),
-                          scale: _ctx.scale,
-                          "font-scale": _ctx.fontScale,
-                          icon: _ctx.computedIcon,
-                          variant: _ctx.computedVariant
+                          class: _normalizeClass('mr-1' + $props.iconClass),
+                          scale: $props.scale,
+                          "font-scale": $props.fontScale,
+                          icon: $options.computedIcon,
+                          variant: $options.computedVariant
                         }, null, 8 /* PROPS */, ["class", "scale", "font-scale", "icon", "variant"]))
                       : (_openBlock(), _createBlock(_component_b_icon, {
                           key: 1,
-                          class: _normalizeClass('BkButton ' + _ctx.iconClass),
-                          scale: _ctx.scale,
-                          "font-scale": _ctx.fontScale,
-                          icon: _ctx.computedIcon,
-                          variant: _ctx.computedVariant
+                          class: _normalizeClass('BkButton ' + $props.iconClass),
+                          scale: $props.scale,
+                          "font-scale": $props.fontScale,
+                          icon: $options.computedIcon,
+                          variant: $options.computedVariant
                         }, null, 8 /* PROPS */, ["class", "scale", "font-scale", "icon", "variant"])),
-                    (_ctx.label)
-                      ? (_openBlock(), _createBlock(_component_t, { key: _ctx.label }, {
+                    ($props.label)
+                      ? (_openBlock(), _createBlock(_component_t, { key: $props.label }, {
                           default: _withCtx(() => [
-                            _createTextVNode(_toDisplayString(_ctx.label), 1 /* TEXT */)
+                            _createTextVNode(_toDisplayString($props.label), 1 /* TEXT */)
                           ]),
                           _: 1 /* STABLE */
                         }))
                       : _createCommentVNode("v-if", true)
                   ], 2 /* CLASS */))
-                : (_ctx.computedIcon && _ctx.buttonIcon)
+                : ($options.computedIcon && $props.buttonIcon)
                   ? (_openBlock(), _createBlock(_component_b_button, {
                       key: 1,
-                      class: _normalizeClass(_ctx.iconClass)
+                      class: _normalizeClass($props.iconClass)
                     }, {
                       default: _withCtx(() => [
-                        (_ctx.noTransform)
+                        ($props.noTransform)
                           ? (_openBlock(), _createBlock(_component_b_icon, {
                               key: 0,
-                              class: _normalizeClass('mr-1' + _ctx.iconClass),
-                              scale: _ctx.scale,
-                              "font-scale": _ctx.fontScale,
-                              icon: _ctx.computedIcon,
-                              variant: _ctx.computedVariant
+                              class: _normalizeClass('mr-1' + $props.iconClass),
+                              scale: $props.scale,
+                              "font-scale": $props.fontScale,
+                              icon: $options.computedIcon,
+                              variant: $options.computedVariant
                             }, null, 8 /* PROPS */, ["class", "scale", "font-scale", "icon", "variant"]))
                           : (_openBlock(), _createBlock(_component_b_icon, {
                               key: 1,
-                              class: _normalizeClass('BkButton ' + _ctx.iconClass),
-                              scale: _ctx.scale,
-                              "font-scale": _ctx.fontScale,
-                              icon: _ctx.computedIcon,
-                              variant: _ctx.computedVariant
+                              class: _normalizeClass('BkButton ' + $props.iconClass),
+                              scale: $props.scale,
+                              "font-scale": $props.fontScale,
+                              icon: $options.computedIcon,
+                              variant: $options.computedVariant
                             }, null, 8 /* PROPS */, ["class", "scale", "font-scale", "icon", "variant"])),
-                        (_openBlock(), _createBlock(_component_t, { key: _ctx.label }, {
+                        (_openBlock(), _createBlock(_component_t, { key: $props.label }, {
                           default: _withCtx(() => [
-                            _createTextVNode(_toDisplayString(_ctx.label), 1 /* TEXT */)
+                            _createTextVNode(_toDisplayString($props.label), 1 /* TEXT */)
                           ]),
                           _: 1 /* STABLE */
                         }))
@@ -691,13 +691,13 @@ function render(_ctx, _cache) {
                     }, 8 /* PROPS */, ["class"]))
                   : (_openBlock(), _createBlock(_component_b_button, {
                       key: 2,
-                      class: _normalizeClass(_ctx.iconClass),
-                      variant: _ctx.computedVariant
+                      class: _normalizeClass($props.iconClass),
+                      variant: $options.computedVariant
                     }, {
                       default: _withCtx(() => [
-                        (_openBlock(), _createBlock(_component_t, { key: _ctx.label }, {
+                        (_openBlock(), _createBlock(_component_t, { key: $props.label }, {
                           default: _withCtx(() => [
-                            _createTextVNode(_toDisplayString(_ctx.label), 1 /* TEXT */)
+                            _createTextVNode(_toDisplayString($props.label), 1 /* TEXT */)
                           ]),
                           _: 1 /* STABLE */
                         }))
@@ -707,25 +707,25 @@ function render(_ctx, _cache) {
               (_ctx.$props['for'] === 'import')
                 ? (_openBlock(), _createBlock(_component_bk_modal, _mergeProps({
                     key: 3,
-                    id: _ctx.modalImportId,
-                    model: _ctx.model,
+                    id: $options.modalImportId,
+                    model: $props.model,
                     "ok-only": "",
                     size: "lg"
                   }, _ctx.$attrs), {
                     title: _withCtx(() => [
                       _createVNode(_component_t, null, {
                         default: _withCtx(() => [
-                          _createTextVNode(_toDisplayString(_ctx.model) + ".import.title", 1 /* TEXT */)
+                          _createTextVNode(_toDisplayString($props.model) + ".import.title", 1 /* TEXT */)
                         ]),
                         _: 1 /* STABLE */
                       })
                     ]),
                     default: _withCtx(() => [
                       _createVNode(_component_b_button, {
-                        class: _normalizeClass(_ctx.visible ? null : 'collapsed'),
-                        "aria-expanded": _ctx.visible ? 'true' : 'false',
+                        class: _normalizeClass($data.visible ? null : 'collapsed'),
+                        "aria-expanded": $data.visible ? 'true' : 'false',
                         "aria-controls": "collapse-1",
-                        onClick: _cache[0] || (_cache[0] = $event => (_ctx.visible = !_ctx.visible)),
+                        onClick: _cache[0] || (_cache[0] = $event => ($data.visible = !$data.visible)),
                         variant: "primary",
                         size: "sm"
                       }, {
@@ -743,8 +743,8 @@ function render(_ctx, _cache) {
                       _createVNode(_component_b_collapse, {
                         visible: "",
                         id: "collapse-1",
-                        modelValue: _ctx.visible,
-                        "onUpdate:modelValue": _cache[12] || (_cache[12] = $event => ((_ctx.visible) = $event))
+                        modelValue: $data.visible,
+                        "onUpdate:modelValue": _cache[12] || (_cache[12] = $event => (($data.visible) = $event))
                       }, {
                         default: _withCtx(() => [
                           _createElementVNode("div", null, [
@@ -761,36 +761,36 @@ function render(_ctx, _cache) {
                               inline: ""
                             }, {
                               default: _withCtx(() => [
-                                (_ctx.getImportFileType !== 'xls')
+                                ($options.getImportFileType !== 'xls')
                                   ? (_openBlock(), _createBlock(_component_b_input_group, {
                                       key: 0,
-                                      prepend: _ctx.getI18n('app.import.column.separator'),
+                                      prepend: $options.getI18n('app.import.column.separator'),
                                       class: "mb-2 mr-sm-2"
                                     }, {
                                       default: _withCtx(() => [
                                         _createVNode(_component_b_form_input, {
                                           style: {"width":"70px"},
-                                          modelValue: _ctx.separator,
-                                          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => ((_ctx.separator) = $event)),
+                                          modelValue: $data.separator,
+                                          "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => (($data.separator) = $event)),
                                           id: "inline-form-input-separator",
-                                          placeholder: _ctx.getI18n('app.import.column.default.placeholder')
+                                          placeholder: $options.getI18n('app.import.column.default.placeholder')
                                         }, null, 8 /* PROPS */, ["modelValue", "placeholder"])
                                       ]),
                                       _: 1 /* STABLE */
                                     }, 8 /* PROPS */, ["prepend"]))
                                   : _createCommentVNode("v-if", true),
                                 _createVNode(_component_b_input_group, {
-                                  prepend: _ctx.getI18n('app.import.list.separator'),
+                                  prepend: $options.getI18n('app.import.list.separator'),
                                   class: "mb-2 mr-sm-2"
                                 }, {
                                   default: _withCtx(() => [
                                     _createVNode(_component_b_form_input, {
                                       style: {"width":"70px"},
-                                      modelValue: _ctx.listSeparator,
-                                      "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => ((_ctx.listSeparator) = $event)),
+                                      modelValue: $data.listSeparator,
+                                      "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => (($data.listSeparator) = $event)),
                                       id: "inline-form-input-listseparator",
-                                      placeholder: _ctx.getI18n('app.import.list.default.placeholder'),
-                                      readonly: _ctx.getImportFileType === 'xls'
+                                      placeholder: $options.getI18n('app.import.list.default.placeholder'),
+                                      readonly: $options.getImportFileType === 'xls'
                                     }, null, 8 /* PROPS */, ["modelValue", "placeholder", "readonly"])
                                   ]),
                                   _: 1 /* STABLE */
@@ -799,8 +799,8 @@ function render(_ctx, _cache) {
                                   default: _withCtx(() => [
                                     _createVNode(_component_b_form_checkbox, {
                                       id: "inline-form-checkbox-oneDateTimeFormat",
-                                      modelValue: _ctx.oneDateTime,
-                                      "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => ((_ctx.oneDateTime) = $event)),
+                                      modelValue: $data.oneDateTime,
+                                      "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => (($data.oneDateTime) = $event)),
                                       name: "checkbox-1",
                                       value: "accepted",
                                       "unchecked-value": "not_accepted"
@@ -818,25 +818,25 @@ function render(_ctx, _cache) {
                                   ]),
                                   _: 1 /* STABLE */
                                 }),
-                                (_ctx.oneDateTime === 'accepted')
+                                ($data.oneDateTime === 'accepted')
                                   ? (_openBlock(), _createBlock(_component_b_input_group, {
                                       key: 1,
-                                      prepend: _ctx.getI18n('app.import.datetime.format'),
+                                      prepend: $options.getI18n('app.import.datetime.format'),
                                       class: "mb-2 mr-sm-2"
                                     }, {
                                       default: _withCtx(() => [
                                         _createVNode(_component_b_form_input, {
                                           style: {"width":"200px"},
-                                          modelValue: _ctx.dateTimeFormat,
-                                          "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => ((_ctx.dateTimeFormat) = $event)),
+                                          modelValue: $data.dateTimeFormat,
+                                          "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => (($data.dateTimeFormat) = $event)),
                                           id: "inline-form-input-dateTimeFormat",
-                                          placeholder: _ctx.getI18n('app.import.datetime.default.placeholder')
+                                          placeholder: $options.getI18n('app.import.datetime.default.placeholder')
                                         }, null, 8 /* PROPS */, ["modelValue", "placeholder"])
                                       ]),
                                       _: 1 /* STABLE */
                                     }, 8 /* PROPS */, ["prepend"]))
                                   : _createCommentVNode("v-if", true),
-                                (_ctx.oneDateTime !== 'accepted')
+                                ($data.oneDateTime !== 'accepted')
                                   ? (_openBlock(), _createBlock(_component_b_input_group, {
                                       key: 2,
                                       class: "mb-2 mr-sm-2 w-100"
@@ -854,47 +854,47 @@ function render(_ctx, _cache) {
                                       _: 1 /* STABLE */
                                     }))
                                   : _createCommentVNode("v-if", true),
-                                (_ctx.oneDateTime !== 'accepted')
+                                ($data.oneDateTime !== 'accepted')
                                   ? (_openBlock(), _createBlock(_component_b_input_group, {
                                       key: 3,
-                                      prepend: _ctx.getI18n('app.import.date.format'),
+                                      prepend: $options.getI18n('app.import.date.format'),
                                       class: "mb-2 mr-sm-2"
                                     }, {
                                       default: _withCtx(() => [
                                         _createVNode(_component_b_form_input, {
                                           style: {"width":"150px"},
-                                          modelValue: _ctx.dateFormat,
-                                          "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => ((_ctx.dateFormat) = $event)),
+                                          modelValue: $data.dateFormat,
+                                          "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => (($data.dateFormat) = $event)),
                                           id: "inline-form-input-dateFormat",
-                                          placeholder: _ctx.getI18n('app.import.date.default.placeholder')
+                                          placeholder: $options.getI18n('app.import.date.default.placeholder')
                                         }, null, 8 /* PROPS */, ["modelValue", "placeholder"])
                                       ]),
                                       _: 1 /* STABLE */
                                     }, 8 /* PROPS */, ["prepend"]))
                                   : _createCommentVNode("v-if", true),
-                                (_ctx.oneDateTime !== 'accepted')
+                                ($data.oneDateTime !== 'accepted')
                                   ? (_openBlock(), _createBlock(_component_b_input_group, {
                                       key: 4,
-                                      prepend: _ctx.getI18n('app.import.time.format'),
+                                      prepend: $options.getI18n('app.import.time.format'),
                                       class: "mb-2 mr-sm-2"
                                     }, {
                                       default: _withCtx(() => [
                                         _createVNode(_component_b_form_input, {
                                           style: {"width":"150px"},
-                                          modelValue: _ctx.timeFormat,
-                                          "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => ((_ctx.timeFormat) = $event)),
+                                          modelValue: $data.timeFormat,
+                                          "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => (($data.timeFormat) = $event)),
                                           id: "inline-form-input-timeFormat",
-                                          placeholder: _ctx.getI18n('app.import.time.default.placeholder')
+                                          placeholder: $options.getI18n('app.import.time.default.placeholder')
                                         }, null, 8 /* PROPS */, ["modelValue", "placeholder"])
                                       ]),
                                       _: 1 /* STABLE */
                                     }, 8 /* PROPS */, ["prepend"]))
                                   : _createCommentVNode("v-if", true),
                                 _createVNode(_component_b_button, {
-                                  class: _normalizeClass(_ctx.visibleDateFormat ? 'mb-2' : 'collapsed mb-2'),
-                                  "aria-expanded": _ctx.visibleDateFormat ? 'true' : 'false',
+                                  class: _normalizeClass($data.visibleDateFormat ? 'mb-2' : 'collapsed mb-2'),
+                                  "aria-expanded": $data.visibleDateFormat ? 'true' : 'false',
                                   "aria-controls": "collapse-2",
-                                  onClick: _cache[7] || (_cache[7] = $event => (_ctx.visibleDateFormat = !_ctx.visibleDateFormat)),
+                                  onClick: _cache[7] || (_cache[7] = $event => ($data.visibleDateFormat = !$data.visibleDateFormat)),
                                   variant: "primary",
                                   size: "sm"
                                 }, {
@@ -911,8 +911,8 @@ function render(_ctx, _cache) {
                                 _createVNode(_component_b_collapse, {
                                   visible: "",
                                   id: "collapse-2",
-                                  modelValue: _ctx.visibleDateFormat,
-                                  "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => ((_ctx.visibleDateFormat) = $event))
+                                  modelValue: $data.visibleDateFormat,
+                                  "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => (($data.visibleDateFormat) = $event))
                                 }, {
                                   default: _withCtx(() => [
                                     _createVNode(_component_b_alert, {
@@ -1057,8 +1057,8 @@ function render(_ctx, _cache) {
                                   default: _withCtx(() => [
                                     _createVNode(_component_b_form_checkbox, {
                                       id: "inline-form-checkbox-testOnly",
-                                      modelValue: _ctx.testOnly,
-                                      "onUpdate:modelValue": _cache[9] || (_cache[9] = $event => ((_ctx.testOnly) = $event)),
+                                      modelValue: $data.testOnly,
+                                      "onUpdate:modelValue": _cache[9] || (_cache[9] = $event => (($data.testOnly) = $event)),
                                       name: "checkbox-1",
                                       value: "accepted",
                                       "unchecked-value": "not_accepted"
@@ -1092,8 +1092,8 @@ function render(_ctx, _cache) {
                                     default: _withCtx(() => [
                                       _createVNode(_component_b_form_input, {
                                         style: {"width":"120px"},
-                                        modelValue: _ctx.csvColumns[item.name],
-                                        "onUpdate:modelValue": $event => ((_ctx.csvColumns[item.name]) = $event),
+                                        modelValue: $data.csvColumns[item.name],
+                                        "onUpdate:modelValue": $event => (($data.csvColumns[item.name]) = $event),
                                         id: 'inline-form-input-'+item.name,
                                         type: "number",
                                         placeholder: item.placeholder
@@ -1110,17 +1110,17 @@ function render(_ctx, _cache) {
                             default: _withCtx(() => [
                               _createVNode(_component_b_form_file, {
                                 ref: "file-input",
-                                accept: _ctx.getExtension,
-                                "browse-text": _ctx.getI18n('app.import.file.browse'),
-                                modelValue: _ctx.importFile,
-                                "onUpdate:modelValue": _cache[10] || (_cache[10] = $event => ((_ctx.importFile) = $event)),
-                                placeholder: _ctx.getI18n('app.import.file.placeholder'),
-                                "drop-placeholder": _ctx.getI18n('app.import.file.drop')
+                                accept: $options.getExtension,
+                                "browse-text": $options.getI18n('app.import.file.browse'),
+                                modelValue: $data.importFile,
+                                "onUpdate:modelValue": _cache[10] || (_cache[10] = $event => (($data.importFile) = $event)),
+                                placeholder: $options.getI18n('app.import.file.placeholder'),
+                                "drop-placeholder": $options.getI18n('app.import.file.drop')
                               }, null, 8 /* PROPS */, ["accept", "browse-text", "modelValue", "placeholder", "drop-placeholder"]),
                               _createVNode(_component_b_form_checkbox, {
                                 id: "headerPresent",
-                                modelValue: _ctx.header,
-                                "onUpdate:modelValue": _cache[11] || (_cache[11] = $event => ((_ctx.header) = $event)),
+                                modelValue: $data.header,
+                                "onUpdate:modelValue": _cache[11] || (_cache[11] = $event => (($data.header) = $event)),
                                 name: "headerPresent",
                                 value: "accepted",
                                 "unchecked-value": "not_accepted"
@@ -1147,21 +1147,21 @@ function render(_ctx, _cache) {
                         id: "result-import"
                       }, {
                         default: _withCtx(() => [
-                          (_ctx.error !== null)
+                          ($data.error !== null)
                             ? (_openBlock(), _createElementBlock("div", _hoisted_4, [
                                 _createVNode(_component_b_alert, {
                                   show: "",
                                   variant: "danger"
                                 }, {
                                   default: _withCtx(() => [
-                                    _createTextVNode(_toDisplayString(_ctx.error), 1 /* TEXT */)
+                                    _createTextVNode(_toDisplayString($data.error), 1 /* TEXT */)
                                   ]),
                                   _: 1 /* STABLE */
                                 })
                               ]))
                             : _createCommentVNode("v-if", true),
-                          (_ctx.result.length > 0)
-                            ? (_openBlock(true), _createElementBlock(_Fragment, { key: 1 }, _renderList(_ctx.result, (item) => {
+                          ($data.result.length > 0)
+                            ? (_openBlock(true), _createElementBlock(_Fragment, { key: 1 }, _renderList($data.result, (item) => {
                                 return (_openBlock(), _createBlock(_component_b_alert, {
                                   show: "",
                                   variant: "light"
@@ -1222,12 +1222,12 @@ function render(_ctx, _cache) {
                         ]),
                         _: 1 /* STABLE */
                       }),
-                      (_ctx.importFile !== null)
+                      ($data.importFile !== null)
                         ? (_openBlock(), _createBlock(_component_b_button, {
                             key: 0,
                             class: "mt-2",
                             variant: "success",
-                            onClick: _ctx.onSubmitImportModal
+                            onClick: $options.onSubmitImportModal
                           }, {
                             default: _withCtx(() => [
                               _createVNode(_component_t, null, {
@@ -1244,52 +1244,52 @@ function render(_ctx, _cache) {
                     _: 1 /* STABLE */
                   }, 16 /* FULL_PROPS */, ["id", "model"]))
                 : _createCommentVNode("v-if", true),
-              (_ctx.$props['for'] === 'add' && _ctx.getTypeField)
+              (_ctx.$props['for'] === 'add' && $options.getTypeField)
                 ? (_openBlock(), _createBlock(_component_bk_modal, {
                     key: 4,
-                    id: _ctx.modalAddId,
-                    onOk: _ctx.onSubmitModal
+                    id: $options.modalAddId,
+                    onOk: $options.onSubmitModal
                   }, {
                     default: _withCtx(() => [
                       _createVNode(_component_bk_form, _mergeProps({
                         ref: "modalAddForm",
-                        model: _ctx.modalModel,
-                        fields: _ctx.getTypeField,
-                        modal: _ctx.modalAddId,
+                        model: $data.modalModel,
+                        fields: $options.getTypeField,
+                        modal: $options.modalAddId,
                         for: "add"
-                      }, _ctx.$attrs, { onChange: _ctx.onChange }), null, 16 /* FULL_PROPS */, ["model", "fields", "modal", "onChange"])
+                      }, _ctx.$attrs, { onChange: $options.onChange }), null, 16 /* FULL_PROPS */, ["model", "fields", "modal", "onChange"])
                     ]),
                     _: 1 /* STABLE */
                   }, 8 /* PROPS */, ["id", "onOk"]))
                 : _createCommentVNode("v-if", true),
-              (_ctx.model && !_ctx.getRoute && _ctx.$props['for'] !== 'delete')
+              ($props.model && !$options.getRoute && _ctx.$props['for'] !== 'delete')
                 ? (_openBlock(), _createBlock(_component_bk_modal, {
                     key: 5,
-                    id: _ctx.modalFormId,
-                    onOk: _ctx.onSubmitModalForm,
+                    id: $options.modalFormId,
+                    onOk: $options.onSubmitModalForm,
                     onShown: _cache[14] || (_cache[14] = $event => (_ctx.$emit('shown'))),
                     onHide: _cache[15] || (_cache[15] = $event => (_ctx.$emit('hide'))),
-                    size: _ctx.size,
-                    title: _ctx.title || 'app.' + _ctx.$props['for']
+                    size: $props.size,
+                    title: $props.title || 'app.' + _ctx.$props['for']
                   }, _createSlots({
                     default: _withCtx(() => [
                       _createVNode(_component_bk_form, _mergeProps({
                         ref: "modalForm",
-                        model: _ctx.modalModel,
+                        model: $data.modalModel,
                         "form-field": "modal",
-                        fields: _ctx.fields,
-                        exclude: _ctx.computedExclude,
-                        modal: _ctx.modalFormId,
+                        fields: $props.fields,
+                        exclude: $options.computedExclude,
+                        modal: $options.modalFormId,
                         for: _ctx.$props['for']
                       }, _ctx.$attrs, {
-                        onChange: _ctx.onChange,
+                        onChange: $options.onChange,
                         onTag: _cache[13] || (_cache[13] = $event => (_ctx.$emit('tag',$event)))
                       }), _createSlots({ _: 2 /* DYNAMIC */ }, [
                         _renderList(_ctx.$scopedSlots, (_, slot) => {
                           return {
                             name: slot,
                             fn: _withCtx((props) => [
-                              _renderSlot(_ctx.$slots, slot, _normalizeProps(_guardReactiveProps({...props,model: _ctx.modalModel})))
+                              _renderSlot(_ctx.$slots, slot, _normalizeProps(_guardReactiveProps({...props,model: $data.modalModel})))
                             ])
                           }
                         })
@@ -1301,7 +1301,7 @@ function render(_ctx, _cache) {
                       return {
                         name: slot,
                         fn: _withCtx((props) => [
-                          _renderSlot(_ctx.$slots, slot, _normalizeProps(_guardReactiveProps({...props,model: _ctx.modalModel})))
+                          _renderSlot(_ctx.$slots, slot, _normalizeProps(_guardReactiveProps({...props,model: $data.modalModel})))
                         ])
                       }
                     })

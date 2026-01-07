@@ -66,16 +66,16 @@ export default _sfc_main;
 
 import { renderSlot as _renderSlot, toDisplayString as _toDisplayString, createTextVNode as _createTextVNode, resolveComponent as _resolveComponent, withCtx as _withCtx, createVNode as _createVNode, normalizeProps as _normalizeProps, guardReactiveProps as _guardReactiveProps, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, mergeProps as _mergeProps, renderList as _renderList, createSlots as _createSlots } from "vue/dist/vue.runtime.esm-bundler.js"
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_t = _resolveComponent("t")
   const _component_bk_loading = _resolveComponent("bk-loading")
   const _component_b_modal = _resolveComponent("b-modal")
 
   return (_openBlock(), _createBlock(_component_b_modal, _mergeProps({
     ref: "modal",
-    id: _ctx.id,
-    onOk: _ctx.onOk,
-    onShow: _ctx.onShow
+    id: $props.id,
+    onOk: $options.onOk,
+    onShow: $options.onShow
   }, _ctx.$attrs, {
     onShown: _cache[0] || (_cache[0] = $event => (_ctx.$emit('shown'))),
     onHide: _cache[1] || (_cache[1] = $event => (_ctx.$emit('hide')))
@@ -84,7 +84,7 @@ function render(_ctx, _cache) {
       _renderSlot(_ctx.$slots, "title", {}, () => [
         _createVNode(_component_t, null, {
           default: _withCtx(() => [
-            _createTextVNode(_toDisplayString(_ctx.title), 1 /* TEXT */)
+            _createTextVNode(_toDisplayString($props.title), 1 /* TEXT */)
           ]),
           _: 1 /* STABLE */
         })
@@ -109,12 +109,12 @@ function render(_ctx, _cache) {
       })
     ]),
     default: _withCtx((props) => [
-      (!!_ctx.subscription && !_ctx.$subReady[_ctx.subscription]  && !_ctx.firstSubReady)
+      (!!$props.subscription && !_ctx.$subReady[$props.subscription]  && !$data.firstSubReady)
         ? (_openBlock(), _createBlock(_component_bk_loading, {
             key: 0,
             type: "dots"
           }))
-        : _renderSlot(_ctx.$slots, "default", _normalizeProps(_mergeProps({ key: 1 }, {model: _ctx.findModel})))
+        : _renderSlot(_ctx.$slots, "default", _normalizeProps(_mergeProps({ key: 1 }, {model: $options.findModel})))
     ]),
     _: 2 /* DYNAMIC */
   }, [

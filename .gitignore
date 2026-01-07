@@ -1,1 +1,4 @@
+dist/
+.meteor/local/
+.npm/
 node_modules

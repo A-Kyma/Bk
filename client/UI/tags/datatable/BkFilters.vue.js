@@ -12,7 +12,7 @@ const _hoisted_1 = { class: "row p-3 bg-secondary filters" }
 const _hoisted_2 = { class: "col-md-10 offset-md-1 filter-form" }
 const _hoisted_3 = { class: "justify-content-md-center mt-1 form-inline" }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_button = _resolveComponent("b-button")
 
   return (_openBlock(), _createElementBlock("div", _hoisted_1, [

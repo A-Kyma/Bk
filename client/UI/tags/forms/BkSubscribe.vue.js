@@ -111,7 +111,7 @@ import { createTextVNode as _createTextVNode, resolveComponent as _resolveCompon
 
 const _hoisted_1 = { key: 0 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_t = _resolveComponent("t")
   const _component_b_alert = _resolveComponent("b-alert")
   const _component_bk_field_list = _resolveComponent("bk-field-list")
@@ -121,17 +121,17 @@ function render(_ctx, _cache) {
 
   return (_openBlock(), _createBlock(_component_b_form, {
     ref: "form",
-    onSubmit: _ctx.onSubmit
+    onSubmit: $options.onSubmit
   }, {
     default: _withCtx(() => [
-      _createVNode(_component_b_overlay, { show: _ctx.showOverlay }, {
+      _createVNode(_component_b_overlay, { show: $data.showOverlay }, {
         default: _withCtx(() => [
           _createVNode(_component_b_alert, {
-            show: _ctx.showAlert,
+            show: $data.showAlert,
             variant: "danger",
             fade: "",
             dismissible: "",
-            onDismissed: _cache[0] || (_cache[0] = $event => (_ctx.showAlert=false))
+            onDismissed: _cache[0] || (_cache[0] = $event => ($data.showAlert=false))
           }, {
             default: _withCtx(() => [
               _createVNode(_component_t, null, {
@@ -155,14 +155,14 @@ function render(_ctx, _cache) {
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["show"]),
           _createVNode(_component_bk_field_list, _mergeProps({..._ctx.$props,..._ctx.$attrs}, {
-            model: _ctx.formModel.profile,
-            fields: _ctx.requiredFields,
+            model: $data.formModel.profile,
+            fields: $options.requiredFields,
             for: "new",
             variant: "secondary",
             size: "sm",
             "label-cols-sm": "4"
           }), null, 16 /* FULL_PROPS */, ["model", "fields"]),
-          _createVNode(_component_bk_submit, _mergeProps({ onCancel: _ctx.onCancel }, _ctx.$attrs), null, 16 /* FULL_PROPS */, ["onCancel"])
+          _createVNode(_component_bk_submit, _mergeProps({ onCancel: $options.onCancel }, _ctx.$attrs), null, 16 /* FULL_PROPS */, ["onCancel"])
         ]),
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["show"])

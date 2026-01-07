@@ -105,12 +105,12 @@ const _hoisted_7 = {
 }
 const _hoisted_8 = { key: 1 }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_t = _resolveComponent("t")
   const _component_bk_loading = _resolveComponent("bk-loading")
   const _component_b_pagination = _resolveComponent("b-pagination")
 
-  return (_ctx.datatable.getCount()===0)
+  return ($props.datatable.getCount()===0)
     ? (_openBlock(), _createElementBlock("div", _hoisted_1, [
         _createElementVNode("div", _hoisted_2, [
           _createElementVNode("p", null, [
@@ -124,15 +124,15 @@ function render(_ctx, _cache) {
         ])
       ]))
     : (_openBlock(), _createElementBlock("div", _hoisted_3, [
-        (_ctx.scroll)
+        ($props.scroll)
           ? (_openBlock(), _createElementBlock("div", _hoisted_4, [
               (_ctx.viewScrollButton)
                 ? (_openBlock(), _createElementBlock("div", _hoisted_5, [
                     _createElementVNode("div", _hoisted_6, [
-                      (_ctx.datatable.handler.ready())
+                      ($props.datatable.handler.ready())
                         ? (_openBlock(), _createElementBlock("div", _hoisted_7, [
                             _createElementVNode("a", {
-                              onClick: _cache[0] || (_cache[0] = $event => (_ctx.seeMore())),
+                              onClick: _cache[0] || (_cache[0] = $event => ($options.seeMore())),
                               ref: "seeMoreLink"
                             }, [
                               _createVNode(_component_t, { key: "app.seeMore" }, {
@@ -143,7 +143,7 @@ function render(_ctx, _cache) {
                               })
                             ], 512 /* NEED_PATCH */)
                           ]))
-                        : _renderSlot(_ctx.$slots, "loading-bottom", _normalizeProps(_mergeProps({ key: 1 }, {datatable: _ctx.datatable, scroll: _ctx.scroll, perPage: _ctx.perPage})), () => [
+                        : _renderSlot(_ctx.$slots, "loading-bottom", _normalizeProps(_mergeProps({ key: 1 }, {datatable: $props.datatable, scroll: $props.scroll, perPage: $props.perPage})), () => [
                             _createVNode(_component_bk_loading)
                           ])
                     ])
@@ -152,12 +152,12 @@ function render(_ctx, _cache) {
             ]))
           : (_openBlock(), _createElementBlock("div", _hoisted_8, [
               (_openBlock(), _createBlock(_component_b_pagination, {
-                key: _ctx.datatable.page,
-                onInput: _ctx.paginate,
-                modelValue: _ctx.datatable.page,
-                "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => ((_ctx.datatable.page) = $event)),
-                "total-rows": _ctx.total,
-                "per-page": _ctx.perPage,
+                key: $props.datatable.page,
+                onInput: $options.paginate,
+                modelValue: $props.datatable.page,
+                "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => (($props.datatable.page) = $event)),
+                "total-rows": $options.total,
+                "per-page": $props.perPage,
                 class: "mt-1 mb-1"
               }, null, 8 /* PROPS */, ["onInput", "modelValue", "total-rows", "per-page"]))
             ]))

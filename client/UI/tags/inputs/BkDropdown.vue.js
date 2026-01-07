@@ -33,16 +33,16 @@ export default _sfc_main;
 
 import { renderList as _renderList, Fragment as _Fragment, openBlock as _openBlock, createElementBlock as _createElementBlock, toDisplayString as _toDisplayString, createTextVNode as _createTextVNode, resolveComponent as _resolveComponent, withCtx as _withCtx, createBlock as _createBlock } from "vue/dist/vue.runtime.esm-bundler.js"
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_dropdown_item = _resolveComponent("b-dropdown-item")
   const _component_b_dropdown = _resolveComponent("b-dropdown")
 
-  return (_openBlock(), _createBlock(_component_b_dropdown, { text: _ctx.dropdownText }, {
+  return (_openBlock(), _createBlock(_component_b_dropdown, { text: $options.dropdownText }, {
     default: _withCtx(() => [
-      (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.options, (item) => {
+      (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($props.options, (item) => {
         return (_openBlock(), _createBlock(_component_b_dropdown_item, {
           "data-value": item.value,
-          onClick: _ctx.onClick
+          onClick: $options.onClick
         }, {
           default: _withCtx(() => [
             _createTextVNode(_toDisplayString(item.text), 1 /* TEXT */)

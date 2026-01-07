@@ -362,7 +362,7 @@ const _hoisted_16 = {
 const _hoisted_17 = { class: "draggable-item" }
 const _hoisted_18 = ["href", "alt", "target", "onClick"]
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_img = _resolveComponent("b-img")
   const _component_b_modal = _resolveComponent("b-modal")
   const _component_bk_button_icon = _resolveComponent("bk-button-icon")
@@ -394,14 +394,14 @@ function render(_ctx, _cache) {
           }, {
             default: _withCtx(() => [
               _createElementVNode("button", {
-                onClick: _cache[0] || (_cache[0] = $event => (_ctx.closeModal())),
+                onClick: _cache[0] || (_cache[0] = $event => ($options.closeModal())),
                 type: "button",
                 "aria-label": "Close",
                 class: "close"
               }, "×"),
               _createVNode(_component_b_img, {
-                src: _ctx.activeImageSrc,
-                text: _ctx.activeImageText
+                src: $data.activeImageSrc,
+                text: $data.activeImageText
               }, null, 8 /* PROPS */, ["src", "text"])
             ]),
             _: 1 /* STABLE */
@@ -409,16 +409,16 @@ function render(_ctx, _cache) {
           _createElementVNode("div", _hoisted_2, [
             _createElementVNode("ul", {
               class: "justified-image-grid",
-              style: _normalizeStyle(_ctx.cssProps)
+              style: _normalizeStyle($options.cssProps)
             }, [
-              (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.listFiles, (file, index) => {
+              (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($data.listFiles, (file, index) => {
                 return (_openBlock(), _createElementBlock("li", {
                   key: file._id,
                   style: _normalizeStyle('--width: '+file.meta.width+'; --height: ' + file.meta.height + ';')
                 }, [
                   _createVNode(_component_b_img, {
-                    onClick: $event => (_ctx.openModal($event,file)),
-                    src: _ctx.link(file,_ctx.fileFormat),
+                    onClick: $event => ($options.openModal($event,file)),
+                    src: $options.link(file,$props.fileFormat),
                     text: file.name
                   }, null, 8 /* PROPS */, ["onClick", "src", "text"])
                 ], 4 /* STYLE */))
@@ -427,49 +427,49 @@ function render(_ctx, _cache) {
           ])
         ]))
       : (_openBlock(), _createElementBlock("div", _hoisted_3, [
-          (_ctx.showFilesCards)
+          ($props.showFilesCards)
             ? (_openBlock(), _createElementBlock("div", {
                 key: 0,
-                onTouchend: _cache[4] || (_cache[4] = (...args) => (_ctx.fixActionRestriction && _ctx.fixActionRestriction(...args)))
+                onTouchend: _cache[4] || (_cache[4] = (...args) => ($options.fixActionRestriction && $options.fixActionRestriction(...args)))
               }, [
-                (!_ctx.isFieldArray)
+                (!$options.isFieldArray)
                   ? (_openBlock(), _createElementBlock("div", _hoisted_4, [
                       (_ctx.$props['for'] !== 'view')
                         ? (_openBlock(), _createElementBlock("div", _hoisted_5))
                         : _createCommentVNode("v-if", true),
-                      (_ctx.listFiles[0])
+                      ($data.listFiles[0])
                         ? (_openBlock(), _createElementBlock("a", {
                             key: 1,
-                            href: _ctx.link(_ctx.listFiles[0]),
-                            alt: _ctx.listFiles[0].name,
-                            target: _ctx.target,
-                            onClick: _cache[1] || (_cache[1] = $event => (_ctx.openLink(_ctx.link(_ctx.listFiles[0]),$event)))
+                            href: $options.link($data.listFiles[0]),
+                            alt: $data.listFiles[0].name,
+                            target: $props.target,
+                            onClick: _cache[1] || (_cache[1] = $event => ($options.openLink($options.link($data.listFiles[0]),$event)))
                           }, [
                             _createVNode(_component_b_img, {
                               thumbnail: "",
-                              src: _ctx.link(_ctx.listFiles[0],'thumbnail'),
-                              alt: _ctx.listFiles[0].name,
+                              src: $options.link($data.listFiles[0],'thumbnail'),
+                              alt: $data.listFiles[0].name,
                               class: "crop-height"
                             }, null, 8 /* PROPS */, ["src", "alt"])
                           ], 8 /* PROPS */, _hoisted_6))
                         : (_openBlock(), _createElementBlock("a", {
                             key: 2,
-                            href: _ctx.staticLink(),
+                            href: $options.staticLink(),
                             alt: "",
-                            target: _ctx.target,
-                            onClick: _cache[2] || (_cache[2] = $event => (_ctx.openLink(_ctx.staticLink(),$event)))
+                            target: $props.target,
+                            onClick: _cache[2] || (_cache[2] = $event => ($options.openLink($options.staticLink(),$event)))
                           }, [
                             _createVNode(_component_b_img, {
                               thumbnail: "",
-                              src: _ctx.staticLink('thumbnail'),
+                              src: $options.staticLink('thumbnail'),
                               alt: "",
                               class: "crop-height"
                             }, null, 8 /* PROPS */, ["src"])
                           ], 8 /* PROPS */, _hoisted_7)),
-                      (_ctx.$props['for'] !== 'view' && _ctx.listFiles[0])
+                      (_ctx.$props['for'] !== 'view' && $data.listFiles[0])
                         ? (_openBlock(), _createElementBlock("div", _hoisted_8, [
                             _createVNode(_component_bk_button_icon, {
-                              onClick: _cache[3] || (_cache[3] = $event => (_ctx.onRemove(_ctx.listFiles[0],_ctx.index))),
+                              onClick: _cache[3] || (_cache[3] = $event => ($options.onRemove($data.listFiles[0],_ctx.index))),
                               icon: "trash-fill",
                               variant: "danger",
                               class: "ml-auto mr-2"
@@ -483,21 +483,21 @@ function render(_ctx, _cache) {
                     }, {
                       default: _withCtx(() => [
                         _createVNode(_component_Container, {
-                          onDrop: _ctx.onDrop,
+                          onDrop: $options.onDrop,
                           orientation: "horizontal",
                           behaviour: "contain",
                           "drag-class": "card-ghost bg-info",
                           "drop-class": "card-ghost-drop"
                         }, {
                           default: _withCtx(() => [
-                            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.listFiles, (file, index) => {
+                            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($data.listFiles, (file, index) => {
                               return (_openBlock(), _createBlock(_component_Draggable, {
                                 key: file._id,
                                 class: "mt-2"
                               }, {
                                 default: _withCtx(() => [
                                   _createElementVNode("div", _hoisted_9, [
-                                    (_ctx.$props['for'] !== 'view' && _ctx.isFieldArray)
+                                    (_ctx.$props['for'] !== 'view' && $options.isFieldArray)
                                       ? (_openBlock(), _createElementBlock("div", _hoisted_10, [
                                           _createVNode(_component_b_icon, {
                                             class: "dragicon",
@@ -509,14 +509,14 @@ function render(_ctx, _cache) {
                                       ? (_openBlock(), _createElementBlock("div", _hoisted_11))
                                       : _createCommentVNode("v-if", true),
                                     _createElementVNode("a", {
-                                      href: _ctx.link(file),
+                                      href: $options.link(file),
                                       alt: file.name,
-                                      target: _ctx.target,
-                                      onClick: $event => (_ctx.openLink(_ctx.link(file),$event))
+                                      target: $props.target,
+                                      onClick: $event => ($options.openLink($options.link(file),$event))
                                     }, [
                                       _createVNode(_component_b_img, {
                                         thumbnail: "",
-                                        src: _ctx.link(file,'thumbnail'),
+                                        src: $options.link(file,'thumbnail'),
                                         alt: file.name,
                                         class: "crop-height"
                                       }, null, 8 /* PROPS */, ["src", "alt"])
@@ -524,7 +524,7 @@ function render(_ctx, _cache) {
                                     (_ctx.$props['for'] !== 'view')
                                       ? (_openBlock(), _createElementBlock("div", _hoisted_13, [
                                           _createVNode(_component_bk_button_icon, {
-                                            onClick: $event => (_ctx.onRemove(file,index)),
+                                            onClick: $event => ($options.onRemove(file,index)),
                                             icon: "trash-fill",
                                             variant: "danger",
                                             class: "ml-auto mr-2"
@@ -544,9 +544,9 @@ function render(_ctx, _cache) {
                     }))
               ], 32 /* NEED_HYDRATION */))
             : _createCommentVNode("v-if", true),
-          (_ctx.isAvatar && _ctx.$props['for'] === 'view')
+          ($options.isAvatar && _ctx.$props['for'] === 'view')
             ? (_openBlock(), _createBlock(_component_b_avatar, _mergeProps({ key: 1 }, _ctx.$attrs, {
-                src: _ctx.staticLink(_ctx.fileFormat)
+                src: $options.staticLink($props.fileFormat)
               }), _createSlots({ _: 2 /* DYNAMIC */ }, [
                 _renderList(_ctx.$scopedSlots, (_, slot) => {
                   return {
@@ -561,19 +561,19 @@ function render(_ctx, _cache) {
           (_ctx.$props['for'] !== 'view')
             ? (_openBlock(), _createBlock(_component_b_overlay, {
                 key: 2,
-                show: _ctx.currentUpload
+                show: $data.currentUpload
               }, {
                 default: _withCtx(() => [
                   _createCommentVNode(" Avatar management .. "),
-                  (_ctx.isAvatar)
+                  ($options.isAvatar)
                     ? (_openBlock(), _createElementBlock("a", {
                         key: 0,
                         href: "#",
                         onClick: _cache[5] || (_cache[5] = $event => (_ctx.$refs.inputFile.$el.firstElementChild.click()))
                       }, [
-                        (_ctx.isAvatar)
+                        ($options.isAvatar)
                           ? (_openBlock(), _createBlock(_component_b_avatar, _mergeProps({ key: 0 }, _ctx.$attrs, {
-                              src: _ctx.link(_ctx.listFiles[0]) || _ctx.staticLink(_ctx.fileFormat)
+                              src: $options.link($data.listFiles[0]) || $options.staticLink($props.fileFormat)
                             }), {
                               badge: _withCtx(() => [
                                 _renderSlot(_ctx.$slots, "badge", _normalizeProps(_guardReactiveProps({$props: _ctx.$props})), () => [
@@ -587,19 +587,19 @@ function render(_ctx, _cache) {
                     : _createCommentVNode("v-if", true),
                   _createCommentVNode(" .. avatar management "),
                   _withDirectives(_createVNode(_component_b_form_file, _mergeProps({ ref: "inputFile" }, _ctx.$attrs, {
-                    modelValue: _ctx.inputFiles,
-                    "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => ((_ctx.inputFiles) = $event)),
-                    multiple: _ctx.isFieldArray,
-                    accept: _ctx.accept,
+                    modelValue: $data.inputFiles,
+                    "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => (($data.inputFiles) = $event)),
+                    multiple: $options.isFieldArray,
+                    accept: $props.accept,
                     placeholder: _ctx.placeholderTranslated,
-                    onInput: _ctx.onFilesAdded,
+                    onInput: $options.onFilesAdded,
                     class: "b-form-file"
                   }), {
                     default: _withCtx(() => [
                       _createElementVNode("template", _hoisted_14, [
                         _createVNode(_component_t, null, {
                           default: _withCtx(() => [
-                            _createTextVNode(_toDisplayString(_ctx.dropPlaceholder), 1 /* TEXT */)
+                            _createTextVNode(_toDisplayString($props.dropPlaceholder), 1 /* TEXT */)
                           ]),
                           _: 1 /* STABLE */
                         })
@@ -633,28 +633,28 @@ function render(_ctx, _cache) {
                     ]),
                     _: 1 /* STABLE */
                   }, 16 /* FULL_PROPS */, ["modelValue", "multiple", "accept", "placeholder", "onInput"]), [
-                    [_vShow, !_ctx.isAvatar]
+                    [_vShow, !$options.isAvatar]
                   ])
                 ]),
                 _: 3 /* FORWARDED */
               }, 8 /* PROPS */, ["show"]))
             : _createCommentVNode("v-if", true),
-          (_ctx.currentUpload)
+          ($data.currentUpload)
             ? (_openBlock(), _createBlock(_component_b_progress, {
                 key: 3,
-                value: _ctx.progress,
+                value: $data.progress,
                 "show-progress": "",
                 animated: "",
                 striped: "",
                 class: "mt-2 mb-2"
               }, null, 8 /* PROPS */, ["value"]))
             : _createCommentVNode("v-if", true),
-          (_ctx.showFilesList)
+          ($props.showFilesList)
             ? (_openBlock(), _createElementBlock("div", {
                 key: 4,
-                onTouchend: _cache[8] || (_cache[8] = (...args) => (_ctx.fixActionRestriction && _ctx.fixActionRestriction(...args)))
+                onTouchend: _cache[8] || (_cache[8] = (...args) => ($options.fixActionRestriction && $options.fixActionRestriction(...args)))
               }, [
-                (_ctx.showFilesCounter)
+                ($props.showFilesCounter)
                   ? (_openBlock(), _createBlock(_component_b_list_group, { key: 0 }, {
                       default: _withCtx(() => [
                         _createVNode(_component_b_list_group_item, null, {
@@ -662,28 +662,28 @@ function render(_ctx, _cache) {
                             _createElementVNode("div", null, [
                               _createVNode(_component_b_avatar_group, { size: "4rem" }, {
                                 default: _withCtx(() => [
-                                  (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.listFiles, (file, index) => {
+                                  (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($data.listFiles, (file, index) => {
                                     return (_openBlock(), _createBlock(_component_b_avatar, {
                                       key: file._id,
-                                      src: _ctx.link(file,'car'),
+                                      src: $options.link(file,'car'),
                                       text: file.ext
                                     }, null, 8 /* PROPS */, ["src", "text"]))
                                   }), 128 /* KEYED_FRAGMENT */)),
                                   _createVNode(_component_b_avatar, {
                                     variant: "primary",
-                                    text: _ctx.listFiles.length.toString()
+                                    text: $data.listFiles.length.toString()
                                   }, null, 8 /* PROPS */, ["text"])
                                 ]),
                                 _: 1 /* STABLE */
                               })
                             ]),
-                            (_ctx.listFiles.length > 0)
+                            ($data.listFiles.length > 0)
                               ? (_openBlock(), _createElementBlock("div", _hoisted_16, [
                                   _createVNode(_component_b_button, {
-                                    class: _normalizeClass(_ctx.visible ? 'collapsed': null),
-                                    "aria-expanded": _ctx.visible ? 'true' : 'false',
+                                    class: _normalizeClass($data.visible ? 'collapsed': null),
+                                    "aria-expanded": $data.visible ? 'true' : 'false',
                                     "aria-controls": "collapse-1",
-                                    onClick: _cache[7] || (_cache[7] = $event => (_ctx.visible = !_ctx.visible))
+                                    onClick: _cache[7] || (_cache[7] = $event => ($data.visible = !$data.visible))
                                   }, {
                                     default: _withCtx(() => [
                                       _createVNode(_component_t, null, {
@@ -706,16 +706,16 @@ function render(_ctx, _cache) {
                   : _createCommentVNode("v-if", true),
                 _createVNode(_component_b_list_group, {
                   id: "collapse-1",
-                  class: _normalizeClass(_ctx.visible ? 'filesListShow': 'filesListHide')
+                  class: _normalizeClass($data.visible ? 'filesListShow': 'filesListHide')
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_Container, {
-                      onDrop: _ctx.onDrop,
+                      onDrop: $options.onDrop,
                       "drag-class": "card-ghost bg-info",
                       "drop-class": "card-ghost-drop"
                     }, {
                       default: _withCtx(() => [
-                        (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.listFiles, (file, index) => {
+                        (_openBlock(true), _createElementBlock(_Fragment, null, _renderList($data.listFiles, (file, index) => {
                           return (_openBlock(), _createBlock(_component_Draggable, {
                             key: file._id,
                             class: "mt-2"
@@ -725,23 +725,23 @@ function render(_ctx, _cache) {
                                 _createVNode(_component_b_list_group_item, { class: "d-flex align-items-center" }, {
                                   default: _withCtx(() => [
                                     _createVNode(_component_b_avatar, {
-                                      src: _ctx.link(file,'thumbnail'),
+                                      src: $options.link(file,'thumbnail'),
                                       text: file.ext,
                                       class: "mr-3"
                                     }, null, 8 /* PROPS */, ["src", "text"]),
                                     _createElementVNode("a", {
-                                      href: _ctx.link(file),
+                                      href: $options.link(file),
                                       alt: file.name,
-                                      target: _ctx.target,
-                                      onClick: $event => (_ctx.openLink(_ctx.link(file),$event))
+                                      target: $props.target,
+                                      onClick: $event => ($options.openLink($options.link(file),$event))
                                     }, _toDisplayString(file.name), 9 /* TEXT, PROPS */, _hoisted_18),
                                     _createVNode(_component_bk_button_icon, {
-                                      onClick: $event => (_ctx.onRemove(file,index)),
+                                      onClick: $event => ($options.onRemove(file,index)),
                                       icon: "trash-fill",
                                       variant: "danger",
                                       class: "ml-auto mr-2"
                                     }, null, 8 /* PROPS */, ["onClick"]),
-                                    (_ctx.isFieldArray)
+                                    ($options.isFieldArray)
                                       ? (_openBlock(), _createBlock(_component_b_icon, {
                                           key: 0,
                                           icon: "arrows-move"

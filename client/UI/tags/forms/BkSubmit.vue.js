@@ -36,21 +36,21 @@ import { toDisplayString as _toDisplayString, createTextVNode as _createTextVNod
 
 const _hoisted_1 = { class: "mt-2" }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_t = _resolveComponent("t")
   const _component_b_button = _resolveComponent("b-button")
 
   return (_openBlock(), _createElementBlock("div", _hoisted_1, [
-    (_ctx.$props['for'] !== 'view' && !_ctx.excludeButtons.includes('submit'))
+    (_ctx.$props['for'] !== 'view' && !$props.excludeButtons.includes('submit'))
       ? (_openBlock(), _createBlock(_component_b_button, {
           key: 0,
           type: "submit",
           variant: "outline-primary"
         }, {
           default: _withCtx(() => [
-            (_openBlock(), _createBlock(_component_t, { key: _ctx.submit }, {
+            (_openBlock(), _createBlock(_component_t, { key: $options.submit }, {
               default: _withCtx(() => [
-                _createTextVNode(_toDisplayString(_ctx.submit), 1 /* TEXT */)
+                _createTextVNode(_toDisplayString($options.submit), 1 /* TEXT */)
               ]),
               _: 1 /* STABLE */
             }))
@@ -58,7 +58,7 @@ function render(_ctx, _cache) {
           _: 1 /* STABLE */
         }))
       : _createCommentVNode("v-if", true),
-    (_ctx.$props['for'] !== 'view' && !_ctx.toast && !_ctx.excludeButtons.includes('reset'))
+    (_ctx.$props['for'] !== 'view' && !$props.toast && !$props.excludeButtons.includes('reset'))
       ? (_openBlock(), _createBlock(_component_b_button, {
           key: 1,
           type: "reset",
@@ -75,11 +75,11 @@ function render(_ctx, _cache) {
           _: 1 /* STABLE */
         }))
       : _createCommentVNode("v-if", true),
-    (!_ctx.toast && !_ctx.excludeButtons.includes('cancel'))
+    (!$props.toast && !$props.excludeButtons.includes('cancel'))
       ? (_openBlock(), _createBlock(_component_b_button, {
           key: 2,
           type: "button",
-          onClick: _ctx.onCancel,
+          onClick: $options.onCancel,
           variant: "outline-secondary"
         }, {
           default: _withCtx(() => [

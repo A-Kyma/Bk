@@ -96,7 +96,7 @@ import { createTextVNode as _createTextVNode, resolveComponent as _resolveCompon
 
 const _hoisted_1 = { class: "translationkey" }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_button = _resolveComponent("b-button")
   const _component_b_form_input = _resolveComponent("b-form-input")
   const _component_b_icon_translate = _resolveComponent("b-icon-translate")
@@ -110,7 +110,7 @@ function render(_ctx, _cache) {
   return (_openBlock(), _createElementBlock("div", null, [
     _createVNode(_component_b_button, {
       variant: "primary",
-      onClick: _ctx.generateYml
+      onClick: $options.generateYml
     }, {
       default: _withCtx(() => [...(_cache[0] || (_cache[0] = [
         _createTextVNode(" Generate YAML ", -1 /* CACHED */)
@@ -119,8 +119,8 @@ function render(_ctx, _cache) {
     }, 8 /* PROPS */, ["onClick"]),
     _createVNode(_component_bk_table, {
       model: "I18n",
-      array: _ctx.array,
-      fields: _ctx.fields,
+      array: $options.array,
+      fields: $options.fields,
       "per-page": 1000
     }, {
       "head()": _withCtx(({field}) => [
@@ -143,13 +143,13 @@ function render(_ctx, _cache) {
                 _createVNode(_component_b_form_input, {
                   id: field + '.' + model._id,
                   ref: 'input-'+field+'.'+model._id,
-                  tabindex: _ctx.locales.indexOf(field)+1,
+                  tabindex: $props.locales.indexOf(field)+1,
                   type: "text",
                   modelValue: model[field],
                   "onUpdate:modelValue": $event => ((model[field]) = $event),
                   lazy: "",
-                  onFocus: $event => (_ctx.toggleState(model,field,null)),
-                  onBlur: $event => (_ctx.saveTranslation(model,field,$event))
+                  onFocus: $event => ($options.toggleState(model,field,null)),
+                  onBlur: $event => ($options.saveTranslation(model,field,$event))
                 }, null, 8 /* PROPS */, ["id", "tabindex", "modelValue", "onUpdate:modelValue", "onFocus", "onBlur"]),
                 (field!=='fr')
                   ? (_openBlock(), _createBlock(_component_b_input_group_append, { key: 0 }, {
@@ -158,7 +158,7 @@ function render(_ctx, _cache) {
                           default: _withCtx(() => [
                             _createVNode(_component_b_link, {
                               alt: "translate",
-                              onClick: $event => (_ctx.onTranslate(model,field))
+                              onClick: $event => ($options.onTranslate(model,field))
                             }, {
                               default: _withCtx(() => [
                                 _createVNode(_component_b_icon_translate, { variant: "primary" })

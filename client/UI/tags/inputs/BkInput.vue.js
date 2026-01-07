@@ -116,7 +116,7 @@ const _hoisted_3 = ["id"]
 const _hoisted_4 = ["innerHTML"]
 const _hoisted_5 = ["innerHTML"]
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_bk_label = _resolveComponent("bk-label")
   const _component_b_button = _resolveComponent("b-button")
   const _component_b_card_header = _resolveComponent("b-card-header")
@@ -132,13 +132,13 @@ function render(_ctx, _cache) {
     appear: ""
   }, {
     default: _withCtx(() => [
-      _renderSlot(_ctx.$slots, _ctx.formGenericFieldComputed + '-form-group', _normalizeProps(_guardReactiveProps(_ctx.$props)), () => [
-        (_ctx.ui.collapsible || _ctx.ui.accordion)
+      _renderSlot(_ctx.$slots, $options.formGenericFieldComputed + '-form-group', _normalizeProps(_guardReactiveProps(_ctx.$props)), () => [
+        ($options.ui.collapsible || $options.ui.accordion)
           ? (_openBlock(), _createBlock(_component_b_card, {
               key: 0,
               "no-body": "",
               class: _normalizeClass('mb-1 ' + this.model.constructor.getName()),
-              id: _ctx.field
+              id: $props.field
             }, {
               default: _withCtx(() => [
                 _createVNode(_component_b_card_header, {
@@ -149,10 +149,10 @@ function render(_ctx, _cache) {
                   default: _withCtx(() => [
                     _createVNode(_component_b_button, _mergeProps({
                       block: "",
-                      onClick: _ctx.toggleAccordion
+                      onClick: $options.toggleAccordion
                     }, _ctx.$attrs), {
                       default: _withCtx(() => [
-                        _renderSlot(_ctx.$slots, _ctx.formFieldComputed + '-label', _normalizeProps(_guardReactiveProps(_ctx.$props)), () => [
+                        _renderSlot(_ctx.$slots, $options.formFieldComputed + '-label', _normalizeProps(_guardReactiveProps(_ctx.$props)), () => [
                           _createVNode(_component_bk_label, _mergeProps(_ctx.$props, { noRequired: "" }), null, 16 /* FULL_PROPS */)
                         ])
                       ]),
@@ -162,18 +162,18 @@ function render(_ctx, _cache) {
                   _: 3 /* FORWARDED */
                 }),
                 _createVNode(_component_b_collapse, {
-                  id: _ctx.accordionId,
+                  id: $options.accordionId,
                   visible: "",
-                  accordion: _ctx.accordionGroupId,
+                  accordion: $options.accordionGroupId,
                   role: "tabpanel"
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_card_body, null, {
                       default: _withCtx(() => [
                         _createVNode(_component_bk_inner_input, _mergeProps({..._ctx.$parent.$attrs,..._ctx.$props, ..._ctx.$attrs}, {
-                          onState: _ctx.onState,
-                          onValidationError: _ctx.onError,
-                          model: _ctx.inputModel,
+                          onState: $options.onState,
+                          onValidationError: $options.onError,
+                          model: $options.inputModel,
                           onInput: _cache[0] || (_cache[0] = $event => (_ctx.$emit('input'))),
                           onChange: _cache[1] || (_cache[1] = $event => (_ctx.$emit('change'))),
                           onSelect: _cache[2] || (_cache[2] = $event => (_ctx.$emit('select',$event))),
@@ -188,9 +188,9 @@ function render(_ctx, _cache) {
                             }
                           })
                         ]), 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["onState", "onValidationError", "model"]),
-                        _createVNode(_component_b_form_invalid_feedback, { state: _ctx.state }, {
+                        _createVNode(_component_b_form_invalid_feedback, { state: $data.state }, {
                           default: _withCtx(() => [
-                            _createElementVNode("span", { innerHTML: _ctx.invalidFeedback }, null, 8 /* PROPS */, _hoisted_1)
+                            _createElementVNode("span", { innerHTML: $data.invalidFeedback }, null, 8 /* PROPS */, _hoisted_1)
                           ]),
                           _: 1 /* STABLE */
                         }, 8 /* PROPS */, ["state"])
@@ -203,24 +203,24 @@ function render(_ctx, _cache) {
               ]),
               _: 3 /* FORWARDED */
             }, 8 /* PROPS */, ["class", "id"]))
-          : (_ctx.ui.basic)
+          : ($options.ui.basic)
             ? (_openBlock(), _createElementBlock("div", _hoisted_2, [
                 _createElementVNode("div", {
-                  class: _normalizeClass(["col-lg-12 basic-group", _ctx.accordionGroupId]),
-                  id: _ctx.field
+                  class: _normalizeClass(["col-lg-12 basic-group", $options.accordionGroupId]),
+                  id: $props.field
                 }, [
-                  _renderSlot(_ctx.$slots, _ctx.formFieldComputed + '-label', _normalizeProps(_guardReactiveProps(_ctx.$props)), () => [
+                  _renderSlot(_ctx.$slots, $options.formFieldComputed + '-label', _normalizeProps(_guardReactiveProps(_ctx.$props)), () => [
                     _createVNode(_component_bk_label, _mergeProps(_ctx.$props, { noRequired: "" }), null, 16 /* FULL_PROPS */)
                   ])
                 ], 10 /* CLASS, PROPS */, _hoisted_3),
                 _createVNode(_component_bk_inner_input, _mergeProps({..._ctx.$parent.$attrs,..._ctx.$props, ..._ctx.$attrs}, {
-                  onState: _ctx.onState,
-                  onValidationError: _ctx.onError,
+                  onState: $options.onState,
+                  onValidationError: $options.onError,
                   onInput: _cache[4] || (_cache[4] = $event => (_ctx.$emit('input'))),
                   onChange: _cache[5] || (_cache[5] = $event => (_ctx.$emit('change'))),
                   onSelect: _cache[6] || (_cache[6] = $event => (_ctx.$emit('select',$event))),
                   onTag: _cache[7] || (_cache[7] = $event => (_ctx.$emit('tag',$event))),
-                  model: _ctx.inputModel
+                  model: $options.inputModel
                 }), _createSlots({ _: 2 /* DYNAMIC */ }, [
                   _renderList(_ctx.$scopedSlots, (_, slot) => {
                     return {
@@ -231,33 +231,33 @@ function render(_ctx, _cache) {
                     }
                   })
                 ]), 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["onState", "onValidationError", "model"]),
-                _createVNode(_component_b_form_invalid_feedback, { state: _ctx.state }, {
+                _createVNode(_component_b_form_invalid_feedback, { state: $data.state }, {
                   default: _withCtx(() => [
-                    _createElementVNode("span", { innerHTML: _ctx.invalidFeedback }, null, 8 /* PROPS */, _hoisted_4)
+                    _createElementVNode("span", { innerHTML: $data.invalidFeedback }, null, 8 /* PROPS */, _hoisted_4)
                   ]),
                   _: 1 /* STABLE */
                 }, 8 /* PROPS */, ["state"])
               ]))
-            : (_ctx.canView)
+            : ($options.canView)
               ? (_openBlock(), _createBlock(_component_b_form_group, _mergeProps({ key: 2 }, {..._ctx.$parent.$attrs,..._ctx.$attrs}, {
-                  "valid-feedback": _ctx.validFeedback,
-                  "label-class": _ctx.ui.labelClass,
-                  "label-size": _ctx.ui.labelSize,
+                  "valid-feedback": $options.validFeedback,
+                  "label-class": $options.ui.labelClass,
+                  "label-size": $options.ui.labelSize,
                   description: _ctx.description
                 }), {
                   label: _withCtx(() => [
-                    _renderSlot(_ctx.$slots, _ctx.formGenericFieldComputed + '-label', _normalizeProps(_guardReactiveProps(_ctx.$props)), () => [
+                    _renderSlot(_ctx.$slots, $options.formGenericFieldComputed + '-label', _normalizeProps(_guardReactiveProps(_ctx.$props)), () => [
                       _createVNode(_component_bk_label, _normalizeProps(_guardReactiveProps({..._ctx.$props,..._ctx.$attrs})), null, 16 /* FULL_PROPS */)
                     ])
                   ]),
                   default: _withCtx(() => [
                     _createVNode(_component_bk_inner_input, _mergeProps({..._ctx.$parent.$attrs,..._ctx.$props, ..._ctx.$attrs}, {
-                      onState: _ctx.onState,
-                      onValidationError: _ctx.onError,
+                      onState: $options.onState,
+                      onValidationError: $options.onError,
                       onInput: _cache[8] || (_cache[8] = $event => (_ctx.$emit('input'))),
                       onSelect: _cache[9] || (_cache[9] = $event => (_ctx.$emit('select',$event))),
                       onTag: _cache[10] || (_cache[10] = $event => (_ctx.$emit('tag',$event))),
-                      model: _ctx.inputModel
+                      model: $options.inputModel
                     }), _createSlots({ _: 2 /* DYNAMIC */ }, [
                       _renderList(_ctx.$scopedSlots, (_, slot) => {
                         return {
@@ -268,9 +268,9 @@ function render(_ctx, _cache) {
                         }
                       })
                     ]), 1040 /* FULL_PROPS, DYNAMIC_SLOTS */, ["onState", "onValidationError", "model"]),
-                    _createVNode(_component_b_form_invalid_feedback, { state: _ctx.state }, {
+                    _createVNode(_component_b_form_invalid_feedback, { state: $data.state }, {
                       default: _withCtx(() => [
-                        _createElementVNode("span", { innerHTML: _ctx.invalidFeedback }, null, 8 /* PROPS */, _hoisted_5)
+                        _createElementVNode("span", { innerHTML: $data.invalidFeedback }, null, 8 /* PROPS */, _hoisted_5)
                       ]),
                       _: 1 /* STABLE */
                     }, 8 /* PROPS */, ["state"])

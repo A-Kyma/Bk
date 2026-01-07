@@ -107,7 +107,7 @@ const _hoisted_1 = {
 }
 const _hoisted_2 = { class: "control-group" }
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_icon_type_bold = _resolveComponent("b-icon-type-bold")
   const _component_b_button = _resolveComponent("b-button")
   const _component_b_icon_type_italic = _resolveComponent("b-icon-type-italic")
@@ -125,22 +125,22 @@ function render(_ctx, _cache) {
   const _component_b_icon_arrow90deg_right = _resolveComponent("b-icon-arrow90deg-right")
   const _component_b_button_group = _resolveComponent("b-button-group")
 
-  return (_ctx.editor)
+  return ($data.editor)
     ? (_openBlock(), _createElementBlock("div", _hoisted_1, [
         _createElementVNode("div", _hoisted_2, [
           (_openBlock(), _createBlock(_Teleport, {
             to: "body",
-            disabled: !_ctx.isMobile
+            disabled: !$options.isMobile
           }, [
             _createVNode(_component_b_button_group, {
               size: "sm",
-              class: _normalizeClass(_ctx.editorToolbarClass)
+              class: _normalizeClass($options.editorToolbarClass)
             }, {
               default: _withCtx(() => [
                 _createVNode(_component_b_button, {
-                  onClick: _cache[0] || (_cache[0] = $event => (_ctx.editor.chain().focus().toggleBold().run())),
-                  disabled: !_ctx.editor.can().chain().focus().toggleBold().run(),
-                  class: _normalizeClass({ 'is-active': _ctx.editor.isActive('bold') })
+                  onClick: _cache[0] || (_cache[0] = $event => ($data.editor.chain().focus().toggleBold().run())),
+                  disabled: !$data.editor.can().chain().focus().toggleBold().run(),
+                  class: _normalizeClass({ 'is-active': $data.editor.isActive('bold') })
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_icon_type_bold)
@@ -148,9 +148,9 @@ function render(_ctx, _cache) {
                   _: 1 /* STABLE */
                 }, 8 /* PROPS */, ["disabled", "class"]),
                 _createVNode(_component_b_button, {
-                  onClick: _cache[1] || (_cache[1] = $event => (_ctx.editor.chain().focus().toggleItalic().run())),
-                  disabled: !_ctx.editor.can().chain().focus().toggleItalic().run(),
-                  class: _normalizeClass({ 'is-active': _ctx.editor.isActive('italic') })
+                  onClick: _cache[1] || (_cache[1] = $event => ($data.editor.chain().focus().toggleItalic().run())),
+                  disabled: !$data.editor.can().chain().focus().toggleItalic().run(),
+                  class: _normalizeClass({ 'is-active': $data.editor.isActive('italic') })
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_icon_type_italic)
@@ -158,9 +158,9 @@ function render(_ctx, _cache) {
                   _: 1 /* STABLE */
                 }, 8 /* PROPS */, ["disabled", "class"]),
                 _createVNode(_component_b_button, {
-                  onClick: _cache[2] || (_cache[2] = $event => (_ctx.editor.chain().focus().toggleStrike().run())),
-                  disabled: !_ctx.editor.can().chain().focus().toggleStrike().run(),
-                  class: _normalizeClass({ 'is-active': _ctx.editor.isActive('strike') })
+                  onClick: _cache[2] || (_cache[2] = $event => ($data.editor.chain().focus().toggleStrike().run())),
+                  disabled: !$data.editor.can().chain().focus().toggleStrike().run(),
+                  class: _normalizeClass({ 'is-active': $data.editor.isActive('strike') })
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_icon_type_strikethrough)
@@ -168,9 +168,9 @@ function render(_ctx, _cache) {
                   _: 1 /* STABLE */
                 }, 8 /* PROPS */, ["disabled", "class"]),
                 _createVNode(_component_b_button, {
-                  onClick: _cache[3] || (_cache[3] = $event => (_ctx.editor.chain().focus().toggleCode().run())),
-                  disabled: !_ctx.editor.can().chain().focus().toggleCode().run(),
-                  class: _normalizeClass({ 'is-active': _ctx.editor.isActive('code') })
+                  onClick: _cache[3] || (_cache[3] = $event => ($data.editor.chain().focus().toggleCode().run())),
+                  disabled: !$data.editor.can().chain().focus().toggleCode().run(),
+                  class: _normalizeClass({ 'is-active': $data.editor.isActive('code') })
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_icon_code)
@@ -178,7 +178,7 @@ function render(_ctx, _cache) {
                   _: 1 /* STABLE */
                 }, 8 /* PROPS */, ["disabled", "class"]),
                 _createVNode(_component_b_button, {
-                  onClick: _cache[4] || (_cache[4] = $event => (_ctx.editor.chain().focus().unsetAllMarks().run()))
+                  onClick: _cache[4] || (_cache[4] = $event => ($data.editor.chain().focus().unsetAllMarks().run()))
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_icon_x_lg)
@@ -192,8 +192,8 @@ function render(_ctx, _cache) {
                 _createCommentVNode("          Paragraph"),
                 _createCommentVNode("        </button>"),
                 _createVNode(_component_b_button, {
-                  onClick: _cache[5] || (_cache[5] = $event => (_ctx.editor.chain().focus().toggleHeading({ level: 1 }).run())),
-                  class: _normalizeClass({ 'is-active': _ctx.editor.isActive('heading', { level: 1 }) })
+                  onClick: _cache[5] || (_cache[5] = $event => ($data.editor.chain().focus().toggleHeading({ level: 1 }).run())),
+                  class: _normalizeClass({ 'is-active': $data.editor.isActive('heading', { level: 1 }) })
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_icon_type_h1)
@@ -201,8 +201,8 @@ function render(_ctx, _cache) {
                   _: 1 /* STABLE */
                 }, 8 /* PROPS */, ["class"]),
                 _createVNode(_component_b_button, {
-                  onClick: _cache[6] || (_cache[6] = $event => (_ctx.editor.chain().focus().toggleHeading({ level: 2 }).run())),
-                  class: _normalizeClass({ 'is-active': _ctx.editor.isActive('heading', { level: 2 }) })
+                  onClick: _cache[6] || (_cache[6] = $event => ($data.editor.chain().focus().toggleHeading({ level: 2 }).run())),
+                  class: _normalizeClass({ 'is-active': $data.editor.isActive('heading', { level: 2 }) })
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_icon_type_h2)
@@ -210,8 +210,8 @@ function render(_ctx, _cache) {
                   _: 1 /* STABLE */
                 }, 8 /* PROPS */, ["class"]),
                 _createVNode(_component_b_button, {
-                  onClick: _cache[7] || (_cache[7] = $event => (_ctx.editor.chain().focus().toggleHeading({ level: 3 }).run())),
-                  class: _normalizeClass({ 'is-active': _ctx.editor.isActive('heading', { level: 3 }) })
+                  onClick: _cache[7] || (_cache[7] = $event => ($data.editor.chain().focus().toggleHeading({ level: 3 }).run())),
+                  class: _normalizeClass({ 'is-active': $data.editor.isActive('heading', { level: 3 }) })
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_icon_type_h3)
@@ -228,8 +228,8 @@ function render(_ctx, _cache) {
                 _createCommentVNode("          H6"),
                 _createCommentVNode("        </button>"),
                 _createVNode(_component_b_button, {
-                  onClick: _cache[8] || (_cache[8] = $event => (_ctx.editor.chain().focus().toggleBulletList().run())),
-                  class: _normalizeClass({ 'is-active': _ctx.editor.isActive('bulletList') })
+                  onClick: _cache[8] || (_cache[8] = $event => ($data.editor.chain().focus().toggleBulletList().run())),
+                  class: _normalizeClass({ 'is-active': $data.editor.isActive('bulletList') })
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_icon_list_ul)
@@ -237,8 +237,8 @@ function render(_ctx, _cache) {
                   _: 1 /* STABLE */
                 }, 8 /* PROPS */, ["class"]),
                 _createVNode(_component_b_button, {
-                  onClick: _cache[9] || (_cache[9] = $event => (_ctx.editor.chain().focus().toggleOrderedList().run())),
-                  class: _normalizeClass({ 'is-active': _ctx.editor.isActive('orderedList') })
+                  onClick: _cache[9] || (_cache[9] = $event => ($data.editor.chain().focus().toggleOrderedList().run())),
+                  class: _normalizeClass({ 'is-active': $data.editor.isActive('orderedList') })
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_icon_list_ol)
@@ -246,8 +246,8 @@ function render(_ctx, _cache) {
                   _: 1 /* STABLE */
                 }, 8 /* PROPS */, ["class"]),
                 _createVNode(_component_b_button, {
-                  onClick: _cache[10] || (_cache[10] = $event => (_ctx.editor.chain().focus().toggleCodeBlock().run())),
-                  class: _normalizeClass({ 'is-active': _ctx.editor.isActive('codeBlock') })
+                  onClick: _cache[10] || (_cache[10] = $event => ($data.editor.chain().focus().toggleCodeBlock().run())),
+                  class: _normalizeClass({ 'is-active': $data.editor.isActive('codeBlock') })
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_icon_code_slash)
@@ -255,8 +255,8 @@ function render(_ctx, _cache) {
                   _: 1 /* STABLE */
                 }, 8 /* PROPS */, ["class"]),
                 _createVNode(_component_b_button, {
-                  onClick: _cache[11] || (_cache[11] = $event => (_ctx.editor.chain().focus().toggleBlockquote().run())),
-                  class: _normalizeClass({ 'is-active': _ctx.editor.isActive('blockquote') })
+                  onClick: _cache[11] || (_cache[11] = $event => ($data.editor.chain().focus().toggleBlockquote().run())),
+                  class: _normalizeClass({ 'is-active': $data.editor.isActive('blockquote') })
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_icon_chat_square_quote)
@@ -270,8 +270,8 @@ function render(_ctx, _cache) {
                 _createCommentVNode("          Hard break"),
                 _createCommentVNode("        </button>"),
                 _createVNode(_component_b_button, {
-                  onClick: _cache[12] || (_cache[12] = $event => (_ctx.editor.chain().focus().undo().run())),
-                  disabled: !_ctx.editor.can().chain().focus().undo().run()
+                  onClick: _cache[12] || (_cache[12] = $event => ($data.editor.chain().focus().undo().run())),
+                  disabled: !$data.editor.can().chain().focus().undo().run()
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_icon_arrow90deg_left)
@@ -279,8 +279,8 @@ function render(_ctx, _cache) {
                   _: 1 /* STABLE */
                 }, 8 /* PROPS */, ["disabled"]),
                 _createVNode(_component_b_button, {
-                  onClick: _cache[13] || (_cache[13] = $event => (_ctx.editor.chain().focus().redo().run())),
-                  disabled: !_ctx.editor.can().chain().focus().redo().run()
+                  onClick: _cache[13] || (_cache[13] = $event => ($data.editor.chain().focus().redo().run())),
+                  disabled: !$data.editor.can().chain().focus().redo().run()
                 }, {
                   default: _withCtx(() => [
                     _createVNode(_component_b_icon_arrow90deg_right)
@@ -296,7 +296,7 @@ function render(_ctx, _cache) {
           ], 8 /* PROPS */, ["disabled"]))
         ]),
         (_openBlock(), _createBlock(_resolveDynamicComponent('EditorContent'), {
-          editor: _ctx.editor,
+          editor: $data.editor,
           class: "tiptap"
         }, null, 8 /* PROPS */, ["editor"]))
       ]))

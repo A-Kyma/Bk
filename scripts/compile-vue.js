@@ -40,11 +40,18 @@ function compileVueFile(filePath) {
   let output = '';
 
   // Compile script and normalize default export to _sfc_main
+  let scriptBindings = undefined;
   if (descriptor.script || descriptor.scriptSetup) {
     const script = compileScript(descriptor, {
       id: filePath,
-      inlineTemplate: false
+      inlineTemplate: false,
+      templateOptions: {
+        compilerOptions: {
+          mode: 'module'
+        }
+      }
     });
+    scriptBindings = script.bindings; // Save bindings for template compilation
     let code = script.content + '\n';
     if (code.includes('export default')) {
       code = code.replace('export default', 'const _sfc_main =');
@@ -63,7 +70,10 @@ function compileVueFile(filePath) {
       id: filePath,
       scoped: descriptor.styles.some(s => s.scoped),
       compilerOptions: {
-        mode: 'module'
+        mode: 'module',
+        // Force inline mode to use imported components directly instead of resolveComponent()
+        inline: false,
+        bindingMetadata: scriptBindings // Use saved bindings from script compilation
       }
     });
     
@@ -89,13 +99,23 @@ function compileVueFile(filePath) {
 }
 
 // Main execution
-console.log('Starting Vue SFC compilation...\n');
+const args = process.argv.slice(2);
+const targetFile = args[0]; // Optional: path to specific .vue file to compile
 
-const clientDir = join(rootDir, 'client');
-const vueFiles = getAllVueFiles(clientDir);
-
-console.log(`Found ${vueFiles.length} .vue files\n`);
-
-vueFiles.forEach(compileVueFile);
-
-console.log(`\nCompilation complete! ${vueFiles.length} files compiled.`);
+if (targetFile) {
+  // Single file mode
+  const absolutePath = join(rootDir, targetFile);
+  console.log(`Compiling single file...\n`);
+  compileVueFile(absolutePath);
+  console.log(`\n✅ Compilation complete!`);
+} else {
+  // All files mode
+  console.log('Starting Vue SFC compilation...\n');
+  const clientDir = join(rootDir, 'client');
+  const vueFiles = getAllVueFiles(clientDir);
+  
+  console.log(`Found ${vueFiles.length} .vue files\n`);
+  vueFiles.forEach(compileVueFile);
+  
+  console.log(`\nCompilation complete! ${vueFiles.length} files compiled.`);
+}

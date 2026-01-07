@@ -1,6 +1,6 @@
 Package.describe({
   name: 'akyma:bk',
-    version: '3.0.15',
+    version: '3.0.18',
   summary: 'Package which helps creating web applications',
   // URL to the Git repository containing the source code for this package.
   git: 'https://github.com/A-Kyma/Bk',
@@ -35,14 +35,16 @@ Npm.depends({
   "chartjs-adapter-luxon":"1.3.1", // For chart js using date (axis type time)
   //"vite": "5.4.1",
   // // For rich text editor: https://tiptap.dev/docs/editor/getting-started/install/vue2
-  "@tiptap/pm": "2.14.0",
-  "@tiptap/starter-kit": "2.14.0",
-  "@tiptap/extension-image": "2.14.0",
-  "@tiptap/extension-text-align": "2.14.0",
-  "@tiptap/extension-link": "2.14.0",
-  "@tiptap/extension-color": "2.14.0",
-  "@tiptap/extension-text-style": "2.14.0",
-  "@tiptap/extension-list-item": "2.14.0",
+  "@tiptap/core": "3.14.0",
+  "@tiptap/extension-color": "3.14.0",
+  "@tiptap/extension-image": "3.14.0",
+  "@tiptap/extension-link": "3.14.0",
+  "@tiptap/extension-list-item": "3.14.0",
+  "@tiptap/extension-text-align": "3.14.0",
+  "@tiptap/extension-text-style": "3.14.0",
+  "@tiptap/pm": "3.14.0",
+  "@tiptap/starter-kit": "3.14.0",
+  "@tiptap/vue-3": "3.14.0",
   //"quill": "2.0.3", // Rich text editor
   //"vue2-editor": "2.10.3", // Vue wrapper for quill-editor
   "vue": "3.3.9"
@@ -65,12 +67,12 @@ Package.onUse(function(api) {
   api.use('reywood:publish-composite@1.8.9'); // To enable multiple send in one subscription
   //api.use('ejson'); // Needed to .json files
   api.use('akyma:yaml@2.0.1'); // Needed to manage .yml files (for I18n) replaced by ViteJS YAML plugin on client side
-  api.use('akyma:astronomy@3.0.2'); // Model management
+  api.use('akyma:astronomy@3.0.3'); // Model management
   api.use('jagi:reactive-map@2.0.0'); // Used in errors management
   api.use('reactive-var'); // For clickTo... components and other thinks
   api.use('reactive-dict')
   api.use('webapp@2.0.0','server')
-  api.use('ostrio:files@3.0.0-beta.4') // For file upload
+  api.use('ostrio:files@3.0.1') // For file upload
   api.use('fetch'); // make http calls
   api.use('pfafman:filesaver@1.3.2'); // use SaveAs()
   api.use('jkuester:http@2.0.1') // to do http call (used for Deepl, radar)
@@ -113,11 +115,15 @@ Package.onUse(function(api) {
   api.addFiles('client/client.js', 'client'); // Client: includes BkUI with .vue components
   api.addFiles('server/server.js', 'server'); // Server: server-side code
 
-  // Export BkUI as a Meteor package export for both client and server
+  // Export BkUI ONLY to client (not server, as it depends on Vue and Bootstrap Vue)
   api.addFiles('client/export-bkui.js', 'client');
+  api.export('BkUI', 'client');
+  api.export('UI', 'client'); // legacy alias
+  
+  // Export server-side code only to server
   api.addFiles('server/export-bkui.js', 'server');
-  api.export('BkUI', ['client','server']);
-  api.export('UI', ['client','server']); // legacy alias
+  api.export('BkUI', 'server');
+  api.export('UI', 'server');
 });
 
 Package.onTest(function(api) {

@@ -119,7 +119,7 @@ export default _sfc_main;
 
 import { resolveComponent as _resolveComponent, createVNode as _createVNode, createTextVNode as _createTextVNode, withCtx as _withCtx, withModifiers as _withModifiers, mergeProps as _mergeProps, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode } from "vue/dist/vue.runtime.esm-bundler.js"
 
-function render(_ctx, _cache) {
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_icon_file_earmark_excel = _resolveComponent("b-icon-file-earmark-excel")
   const _component_t = _resolveComponent("t")
   const _component_b_button = _resolveComponent("b-button")
@@ -127,22 +127,22 @@ function render(_ctx, _cache) {
   const _component_b_overlay = _resolveComponent("b-overlay")
 
   return (_openBlock(), _createBlock(_component_b_overlay, {
-    show: _ctx.busy,
+    show: $data.busy,
     rounded: "",
     opacity: "0.6",
     "spinner-small": "",
-    "spinner-variant": _ctx.variant,
+    "spinner-variant": $props.variant,
     class: "d-inline-block"
   }, {
     default: _withCtx(() => [
-      (_ctx.isAvailable)
+      ($data.isAvailable)
         ? (_openBlock(), _createBlock(_component_b_button, _mergeProps({
             key: 0,
-            disabled: _ctx.busy,
-            variant: _ctx.variant,
-            target: _ctx.target,
-            href: _ctx.xlsLink,
-            onClick: _cache[0] || (_cache[0] = _withModifiers($event => (_ctx.openLink($event,_ctx.xlsLink,{method: _ctx.method,..._ctx.params})), ["prevent"]))
+            disabled: $data.busy,
+            variant: $props.variant,
+            target: $options.target,
+            href: $options.xlsLink,
+            onClick: _cache[0] || (_cache[0] = _withModifiers($event => ($options.openLink($event,$options.xlsLink,{method: $props.method,...$props.params})), ["prevent"]))
           }, _ctx.$attrs), {
             default: _withCtx(() => [
               _createVNode(_component_b_icon_file_earmark_excel, { "aria-hidden": "true" }),
@@ -155,7 +155,7 @@ function render(_ctx, _cache) {
             ]),
             _: 1 /* STABLE */
           }, 16 /* FULL_PROPS */, ["disabled", "variant", "target", "href"]))
-        : (_ctx.fromBkTable && !_ctx.isCordova)
+        : ($props.fromBkTable && !$options.isCordova)
           ? (_openBlock(), _createBlock(_component_bk_button_icon, _mergeProps({
               key: 1,
               label: "app.export",
