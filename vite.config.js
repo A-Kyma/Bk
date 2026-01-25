@@ -32,7 +32,7 @@ export default defineConfig({
           if (id.includes('node_modules')) {
             // Separate TipTap dependencies
             if (id.includes('@tiptap')) {
-              return 'tiptap'
+              //return 'tiptap'
             }
             // Separate Chart.js and vue-chartjs
             if (id.includes('chart.js') || id.includes('vue-chartjs')) {

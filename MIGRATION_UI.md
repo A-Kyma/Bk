@@ -117,3 +117,195 @@ Si tu veux, je peux maintenant :
 - Ou préparer un plan détaillé avec liste des composants à migrer (fichier checklist par composant) et estimation fine (option B). 
 
 Dis-moi quelle action suivante tu préfères et je l’exécute. (Je peux faire les deux.)
+
+
+Tableau de migration BoostrapVue vers Quasar
+# Tableau de Migration — BootstrapVue → Quasar
+
+## Composants de Base
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| `BButton` | `QBtn` | `variant` → `color`, `size`, `disabled`, `loading` | Remplacer `<b-button>` par `<q-btn>` |
+| `BIcon` | `QIcon` | `icon`, `size`, `color` | Utiliser Material Icons ou Font Awesome |
+| `BBadge` | `QBadge` | `variant` → `color`, `floating`, `rounded` | Peut être utilisé avec `QBtn` ou `QChip` |
+| `BSpinner` | `QSpinner` | `type` → `type`, `size`, `color` | Support des animations natives |
+
+---
+
+## Navigation & Layout
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| `BNavbar` | `QHeader` ou `QToolbar` | `sticky-top` → `sticky`, `dark` → `dark` | `QHeader` pour layout app-level |
+| `BNavbarNav` | `QTabs` ou `div` flex | — | Dépend du layout (horizontal vs vertical) |
+| `BNavItem` | `QBtn` ou `QItem` | `active`, `to`, `href` | Utiliser `QBtn` pour menu ou `QItem` pour liste |
+| `BNavItemDropdown` | `QBtn` + `QMenu` | `right` → `anchor="top right"` | Combiner QBtn + QMenu pour dropdown |
+| `BDropdown` | `QMenu` | `right`, `split`, `toggle` | Menu déroulant natif |
+| `BDropdownItem` | `QItem` | `active`, `clickable`, `href` | Item dans QMenu ou QList |
+| `BDropdownDivider` | `QSeparator` | — | Divider dans QMenu |
+| `BBreadcrumb` | `QBreadcrumbs` | `items` (array) | Format : `[{label, icon, to}]` |
+| `BBreadcrumbItem` | `QBreadcrumbsEl` | `active`, `to`, `href` | Enfant de QBreadcrumbs |
+
+---
+
+## Grille & Espacement
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| `BRow` | `div class="row"` ou flex | — | Quasar utilise flexbox par défaut |
+| `BCol` | `div class="col-*"` ou `class="q-col-*"` | `cols`, `md`, `lg`, `xl`, `sm` | Classes `q-col-12`, `q-col-md-6`, etc. |
+| `BContainer` | `div class="q-px-md"` | — | Utiliser padding/margin utilities |
+
+---
+
+## Formulaires
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| `BForm` | `<form>` natif | — | Quasar n'a pas de wrapper spécifique |
+| `BFormInput` | `QInput` | `type`, `placeholder`, `dense`, `outlined` | Support `v-model`, validation |
+| `BFormTextarea` | `QInput` type="textarea" | `type="textarea"`, `rows`, `autogrow` | Autogrow disponible |
+| `BFormSelect` | `QSelect` | `options`, `multiple`, `clearable`, `searchable` | Format : `[{label, value}]` |
+| `BFormCheckbox` | `QCheckbox` | `checked`, `label`, `disable` | Validation intégrée |
+| `BFormRadio` | `QRadio` | `val`, `label`, `disable` | Utiliser avec `QOptionGroup` pour groupes |
+| `BFormGroup` | `div` ou `<fieldset>` | `label` → label manuel | Pas d'équivalent exact |
+| `BFormInvalidFeedback` | `QLinearProgress` + validation | — | Afficher erreurs avec `error` + `error-message` |
+| `BInputGroup` | `div` flex ou `QInput` avec slots | `prepend`, `append` | Utiliser slots `before`, `after` |
+| `BInputGroupText` | `div` ou `QIcon` | — | Mettre en slot QInput |
+
+---
+
+## Contenu & Cartes
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| `BCard` | `QCard` | `flat`, `bordered`, `shadow` | Conteneur principal |
+| `BCardBody` | `QCardSection` | — | Section corps de la carte |
+| `BCardHeader` | `QCardSection` + classe | — | Utiliser QCardSection avec classe custom |
+| `BCardFooter` | `QCardSection` | — | Section footer |
+| `BCardImg` | `<img>` dans QCard | — | Image native |
+| `BAlert` | `QBanner` | `variant` → `color`, `dismissible` | Banneau d'alerte/info |
+| `BAlertHeading` | `<strong>` | — | Titre simple |
+
+---
+
+## Tableau & Données
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| `BTable` | `QTable` | `items`, `columns`, `dense`, `flat`, `bordered` | Composant très puissant |
+| `BTableSimple` | `<table>` natif | — | Pas d'équivalent, utiliser HTML brut |
+| `BTbody` | `<tbody>` natif | — | HTML natif |
+| `BThead` | `<thead>` natif | — | HTML natif |
+| `BTr` | `<tr>` natif | — | HTML natif |
+| `BTd` | `<td>` natif | — | HTML natif |
+| `BTh` | `<th>` natif | — | HTML natif |
+| `BPagination` | Pagination intégrée QTable ou `QPagination` | `v-model`, `max-pages`, `direction-links` | Pagination native |
+
+---
+
+## Dialogs & Modals
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| `BModal` | `QDialog` | `v-model`, `size` → `dark`, `fullscreen` | Utiliser composable `useDialogPluginComponent` |
+| `BModalTitle` | `<div>` dans header | — | Structure custom |
+| `BModalBody` | `<div>` dans dialog | — | Structure custom |
+| `BModalHeader` | Header implicit | — | Partie du dialog |
+| `BModalFooter` | Footer implicit | — | Partie du dialog |
+
+---
+
+## Collapse & Accordéon
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| `BCollapse` | `QExpansionItem` | `v-model`, `visible`, `icon` | Accordéon/collapse natif |
+| `BButton` (toggle collapse) | Intégré à QExpansionItem | — | Pas d'action externe nécessaire |
+
+---
+
+## Tabs
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| `BTabs` | `QTabs` | `v-model`, `active-bg-color`, `active-text-color` | Onglets modernes |
+| `BTab` | `QTab` | `name`, `label`, `icon`, `disable` | Tab individuelle |
+| `BTabPane` | `QTabPanels` + `QTabPanel` | `name` | Contenu des onglets |
+
+---
+
+## Listes
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| `BListGroup` | `QList` | `bordered`, `separator`, `dense` | Conteneur de liste |
+| `BListGroupItem` | `QItem` | `active`, `clickable`, `href`, `to` | Élément de liste |
+
+---
+
+## Notifs & Toasts
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| `BToast` | `useQuasar().notify()` ou composant custom | `position`, `type`, `timeout` | API composable recommandée |
+| `BToastContainer` | — | — | Non nécessaire avec Quasar |
+| `BTooltip` | `QTooltip` | `content`, `position`, `delay` | Tooltip natif |
+
+---
+
+## Popover & Menus
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| `BPopover` | `QMenu` | `content`, `trigger`, `placement` → `anchor`, `self` | Menu contextuel |
+| `BVModalDirective` | — | — | Utiliser composables |
+
+---
+
+## Utilitaires & Spacing
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| Classes `m-*`, `p-*` | Classes `q-m-*`, `q-p-*` | `m-1` → `q-m-xs` | Mêmes valeurs (xs, sm, md, lg, xl) |
+| Classes `text-*` | Classes `text-*` | `text-center`, `text-primary` | Quasar conserve aussi les classes Bootstrap |
+| Classes `d-*` | Classes `q-d-*` ou `display` | `d-none` → `hidden` | Utilities Quasar natives |
+| Classes `flex` | Classes `q-display-flex` ou flex utilities | — | Flexbox intégré |
+
+---
+
+## Autres Composants
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| `BCarousel` | — | — | Utiliser `quasar-carousel` (lib externe) |
+| `BProgressBar` | `QLinearProgress` ou `QCircularProgress` | `value`, `color`, `size` | Barre de progression |
+| `BJumbotron` | `<div class="q-pa-lg">` | — | Conteneur avec padding |
+| `BPageItem` | — | — | Utiliser `QPagination` |
+| `BMedia` | — | — | Utiliser flexbox custom |
+
+---
+
+## Directives
+
+| Bootstrap Vue | Quasar | Propriétés équivalentes | Notes |
+|---|---|---|---|
+| `v-b-modal` | Dialog via composable | — | Utiliser `useDialogPluginComponent` |
+| `v-b-tooltip` | `v-ripple` ou `QTooltip` | — | Tooltip avec slot ou directive |
+| `v-b-popover` | `QMenu` | — | Menu au lieu de popover |
+
+---
+
+## Migration Checklist pour BkLanguage.vue.js
+
+- [ ] `BNavItemDropdown` → `QBtn` + `QMenu`
+- [ ] `BDropdownItem` → `QItem`
+- [ ] `BIcon` → `QIcon`
+- [ ] `BRow` → `div class="row"` ou flex
+- [ ] `BCol` → `div class="col-*"`
+- [ ] `BLink` → `QBtn flat` ou `<a>`
+- [ ] `BNavbarNav` → `QTabs` ou `QToolbar`
+- [ ] Adapter slots et événements (@click, etc.)
+- [ ] Tester en responsive mobile
+- [ ] Valider icônes et colors

@@ -9,7 +9,7 @@ import { autorun } from 'vue-meteor-tracker'
 import { Class } from "meteor/akyma:astronomy"
 import { Role } from "meteor/akyma:bk"
 import I18n from "../../../../lib/classes/i18n"
-import BkForm from "../forms/BkForm.vue"
+//import BkForm from "../forms/BkForm.vue"
 
 const props = defineProps({
   model: [Class, String],
@@ -24,7 +24,7 @@ const props = defineProps({
 const slots = useSlots()
 let toast
 if (Meteor.isClient) {
-  toast = require('bootstrap-vue-next').useToast
+  toast = require('quasar').useToast
 }
 
 // Compute the translation key from model/field or slot content

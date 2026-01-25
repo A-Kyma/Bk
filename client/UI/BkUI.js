@@ -31,7 +31,7 @@ import configure from "./configure";
 All tags has to be imported here and should begins with "Bk".
 
  */
-
+/*
 import applyDrag from "../utils/applyDrag";
 import BkActionableBadges from "./tags/inputs/BkActionableBadges.vue.js";
 import BkBelongsToInput from "./tags/inputs/BkBelongsToInput.vue.js"
@@ -59,11 +59,15 @@ import BkChangePassword from "./tags/forms/BkChangePassword.vue.js"
 import BkSubmit from "./tags/forms/BkSubmit.vue.js"
 import BkSubscribe from "./tags/forms/BkSubscribe.vue.js";
 import BkTable from "./tags/datatable/BkTable.vue.js"
+*/
 // BkTextEditor requires @tiptap which has subpath exports that Meteor can't resolve
 // Only import it if we're in a Vite context (import.meta.env exists)
 // In production/Meteor-only context, BkTextEditor will be undefined and components will handle gracefully
+/*
 const BkTextEditor = null; // Disabled for Meteor bundle - use Vite lazy import instead
-import BkTranslate from "./tags/translation/BkTranslate.vue.js";
+*/
+import BkTranslate from "./tags/translation/BkTranslate.vue";
+/*
 import BkTranslations from "./tags/views/BkTranslations.vue.js";
 import LineChart from "./tags/charts/LineCharts.vue.js";
 import PieChart from "./tags/charts/PieCharts.vue.js";
@@ -80,7 +84,10 @@ import errorPopupMixin from "../utils/errorPopupMixin";
 import relationSubscriptionMixin from "../utils/relationSubscriptionMixin"
 
 import { Container, Draggable } from "vue-smooth-dnd";
-
+*/
+//const BkUI = { BkTranslate }
+const BkUI = { }
+/*
 const BkUI = {
   applyDrag,
   Container,
@@ -128,7 +135,7 @@ const BkUI = {
   RadarChart,
   BkChart
 }
-
+*/
 BkUI.install = function (app, config = {}) {
   // Register helper that works for Vue2 constructor or Vue3 app instance
   const registerComponent = (Component) => {
