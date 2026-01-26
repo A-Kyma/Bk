@@ -3,40 +3,40 @@
     <template #button-content>
       <b-icon icon="flag-fill"/>
     </template>
-    <QItem
+    <b-dropdown-item
         v-for="lang in locales"
         :active="isActive(lang)"
         @click="onClick(lang)"
     >
       <t>{{translate(lang)}}</t>
-    </QItem>
+    </b-dropdown-item>
   </b-nav-item-dropdown>
 
   <b-row v-else-if="view==='flags'">
-    <div v-for="lang in locales" class="row p-0">
+    <b-col v-for="lang in locales" class="p-0">
       <b-link @click="onClick(lang,true)">
           <span :class="'fi fi-'+lang"> </span>
       </b-link>
-    </div>
+    </b-col>
   </b-row>
 
   <div v-else-if="view==='nav'" >
-    <QToolbar>
+    <b-navbar-nav>
       <b-nav-item-dropdown ref="flagdropdown" class="flag-dropdown">
         <template #button-content>
           <span :class="'flags rounded-circle flags fi-1x1-'+active"> </span>
         </template>
-        <QItem v-for="lang in locales" v-if="lang !== active" @click="onClick(lang)" class="flag-item">
+        <b-dropdown-item v-for="lang in locales" v-if="lang !== active" @click="onClick(lang)" class="flag-item">
           <span :class="'rounded-circle flags fi-1x1-'+lang"> </span>
-        </QItem>
+        </b-dropdown-item>
       </b-nav-item-dropdown>
-    </QToolbar>
+    </b-navbar-nav>
   </div>
 </template>
 
 <script>
   import {Class} from "meteor/akyma:astronomy"
-  import {QBtn,QMenu, QItem, QBtn, QToolbar} from 'quasar'
+  import {BNavItemDropdown, BRow, BCol, BDropdown, BDropdownItem, BLink, BNavbarNav} from 'bootstrap-vue-next'
   import I18n from "../../../../lib/classes/i18n";
   import Languages from "../../../../lib/modules/customFields/types/language";
   import config from "../../../../lib/core/config";
@@ -44,7 +44,7 @@
 
   export default {
     name: "BkLanguage",
-    components: {QBtn,QMenu, QItem, QBtn, QToolbar},
+    components: {BNavItemDropdown, BRow, BCol, BDropdown, BDropdownItem, BLink, BNavbarNav},
     props: {
       view: {
         type: String,

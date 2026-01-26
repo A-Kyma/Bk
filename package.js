@@ -114,18 +114,7 @@ Package.onUse(function(api) {
   api.mainModule('lib/lib.js'); // Shared: classes, utilities (no .vue imports)
   api.addFiles('client/client.js', 'client'); // Client: includes BkUI with .vue components
   api.addFiles('server/server.js', 'server'); // Server: server-side code
-
-  // Export BkUI ONLY to client (not server, as it depends on Vue and Bootstrap Vue)
-  api.addFiles('client/export-bkui.js', 'client');
-  api.export('BkUI', 'client');
-  api.export('UI', 'client'); // legacy alias
-  
-  // Export server-side code only to server
-  //api.addFiles('server/export-bkui.js', 'server');
-  //api.export('BkUI', 'server');
-  //api.export('UI', 'server');
 });
-
 Package.onTest(function(api) {
   api.use('ecmascript');
   api.use('tinytest');

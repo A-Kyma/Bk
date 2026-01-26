@@ -9,9 +9,6 @@ export default defineConfig({
       usePolling: true,
     },
   },
-  meteor: {
-    clientEntry: 'imports/ui/main.js',
-  },
   resolve: {
     alias: [
       { find: 'meteor/meteor', replacement: '/src/vite-shims/meteor-meteor.js' },

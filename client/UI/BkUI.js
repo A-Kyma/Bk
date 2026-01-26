@@ -66,7 +66,7 @@ import BkTable from "./tags/datatable/BkTable.vue.js"
 /*
 const BkTextEditor = null; // Disabled for Meteor bundle - use Vite lazy import instead
 */
-import BkTranslate from "./tags/translation/BkTranslate.vue";
+import BkTranslate from "./tags/translation/BkTranslate.vue.js";
 /*
 import BkTranslations from "./tags/views/BkTranslations.vue.js";
 import LineChart from "./tags/charts/LineCharts.vue.js";
@@ -85,8 +85,7 @@ import relationSubscriptionMixin from "../utils/relationSubscriptionMixin"
 
 import { Container, Draggable } from "vue-smooth-dnd";
 */
-//const BkUI = { BkTranslate }
-const BkUI = { }
+const BkUI = { BkTranslate }
 /*
 const BkUI = {
   applyDrag,
