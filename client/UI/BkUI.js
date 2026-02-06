@@ -48,7 +48,10 @@ import BkFile from "./tags/files/BkFile.vue.js"
 import BkForm from "./tags/forms/BkForm.vue.js";
 import BkInput from "./tags/inputs/BkInput.vue.js";
 import BkInnerInput from "./tags/inputs/BkInnerInput.vue.js";
+*/
+//import BkLabel from "./tags/forms/BkLabel.vue.js";
 import BkLabel from "./tags/forms/BkLabel.vue.js";
+/*
 import BkLanguage from "./tags/translation/BkLanguage.vue.js"
 import BkLoading from "./tags/loading/BkLoading.vue.js"
 import BkLogin from "./tags/forms/BkLogin.vue.js"
@@ -85,7 +88,7 @@ import relationSubscriptionMixin from "../utils/relationSubscriptionMixin"
 
 import { Container, Draggable } from "vue-smooth-dnd";
 */
-const BkUI = { BkTranslate }
+const BkUI = { BkTranslate,BkLabel}
 /*
 const BkUI = {
   applyDrag,

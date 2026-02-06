@@ -33,7 +33,7 @@ Npm.depends({
   "js-yaml":"4.1.0", // for BkTranslations
   "luxon":"3.5.0", // for Date creation using timezone => See DateTime
   "chartjs-adapter-luxon":"1.3.1", // For chart js using date (axis type time)
-  "vite": "5.4.1",
+  //"vite": "5.4.1",
   // // For rich text editor: https://tiptap.dev/docs/editor/getting-started/install/vue2
   //"@tiptap/core": "3.14.0",
   //"@tiptap/extension-color": "3.14.0",
@@ -47,7 +47,9 @@ Npm.depends({
   //"@tiptap/vue-3": "3.14.0",
   //"quill": "2.0.3", // Rich text editor
   //"vue2-editor": "2.10.3", // Vue wrapper for quill-editor
-  "vue": "3.3.9"
+  "vue": "3.4.18",
+  "quasar": "2.12.4", // Quasar framework,
+  "@quasar/extras": "1.14.2" // Quasar icons
 });
 
 

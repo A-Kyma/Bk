@@ -1,19 +1,20 @@
 <template>
-  <label :class="computedClass"><t :options="context" :locale="locale">{{label}}</t>
-    <b-icon-asterisk
-      v-if="required"
-      variant="danger"
-      font-scale="0.5"
-      shift-v="10"
-    />
+  <label :class="computedClass">
+    <!--<t :options="context" :locale="fr">{{label}}</t>-->
+    <QIcon name="fas fa-check" />
   </label>
 </template>
 
 <script>
   import { Class } from "meteor/akyma:astronomy";
-
+  //import BkTranslate from "../translation/BkTranslate.vue";
+ 
   export default {
     name: "BkLabel",
+    components: {
+      //QIcon
+      //,t: BkTranslate
+    },
     props: {
       model: Class,
       field: String,
@@ -22,7 +23,7 @@
       noRequired: Boolean,
       locale: String
     },
-    inject: ["formModel"],
+    //inject: ["formModel"],
     computed: {
       computedClass() {
         if (this.noLabel) return "sr-only"

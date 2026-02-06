@@ -40,7 +40,9 @@
     "@tiptap/extension-text-align": "^2.0.0",
     "@tiptap/extension-text-style": "^2.0.0",
     "@tiptap/extension-color": "^2.0.0",
-    "@tiptap/extension-list-item": "^2.0.0"
+    "@tiptap/extension-list-item": "^2.0.0",
+    "quasar": "2.12.4",
+    "@quasar/extras": "1.14.2"
   },
   "devDependencies": {
     "@vuese/cli": "^2.14.3",

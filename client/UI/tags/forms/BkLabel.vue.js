@@ -1,8 +1,14 @@
 
   import { Class } from "meteor/akyma:astronomy";
-
+  import { QIcon } from "quasar";
+  //import BkTranslate from "../translation/BkTranslate.vue.js";
+ 
   const _sfc_main = {
     name: "BkLabel",
+    components: {
+      QIcon
+      //,t: BkTranslate
+    },
     props: {
       model: Class,
       field: String,
@@ -11,7 +17,7 @@
       noRequired: Boolean,
       locale: String
     },
-    inject: ["formModel"],
+    //inject: ["formModel"],
     computed: {
       computedClass() {
         if (this.noLabel) return "sr-only"
@@ -52,32 +58,16 @@
 
 export default _sfc_main;
 
-import { toDisplayString as _toDisplayString, createTextVNode as _createTextVNode, resolveComponent as _resolveComponent, withCtx as _withCtx, createVNode as _createVNode, openBlock as _openBlock, createBlock as _createBlock, createCommentVNode as _createCommentVNode, normalizeClass as _normalizeClass, createElementBlock as _createElementBlock } from "vue/dist/vue.runtime.esm-bundler.js"
+import { createCommentVNode as _createCommentVNode, resolveComponent as _resolveComponent, createVNode as _createVNode, normalizeClass as _normalizeClass, openBlock as _openBlock, createElementBlock as _createElementBlock } from "vue/dist/vue.runtime.esm-bundler.js"
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_t = _resolveComponent("t")
-  const _component_b_icon_asterisk = _resolveComponent("b-icon-asterisk")
+  const _component_QIcon = _resolveComponent("QIcon")
 
   return (_openBlock(), _createElementBlock("label", {
     class: _normalizeClass($options.computedClass)
   }, [
-    _createVNode(_component_t, {
-      options: $options.context,
-      locale: $props.locale
-    }, {
-      default: _withCtx(() => [
-        _createTextVNode(_toDisplayString($options.label), 1 /* TEXT */)
-      ]),
-      _: 1 /* STABLE */
-    }, 8 /* PROPS */, ["options", "locale"]),
-    ($options.required)
-      ? (_openBlock(), _createBlock(_component_b_icon_asterisk, {
-          key: 0,
-          variant: "danger",
-          "font-scale": "0.5",
-          "shift-v": "10"
-        }))
-      : _createCommentVNode("v-if", true)
+    _createCommentVNode("<t :options=\"context\" :locale=\"fr\">{{label}}</t>"),
+    _createVNode(_component_QIcon, { name: "fas fa-check" })
   ], 2 /* CLASS */))
 }
 _sfc_main.render = render;
