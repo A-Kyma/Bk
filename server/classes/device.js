@@ -22,12 +22,12 @@ Device.extend({
     }
 })
 
-Device.sendNotification = function(data) {
+Device.sendNotification = function(data, authorization) {
     //no callback. error handled here
     const api = new Api()
     api.url = 'https://onesignal.com/api/v1/notifications'
     api.method = 'POST'
-    api.authorization = Meteor.settings.oneSignal.authorisation
+    api.authorization = authorization || Meteor.settings?.oneSignal?.authorisation
 
     api.callService(data)
       .then(result => {
