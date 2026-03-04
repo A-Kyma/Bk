@@ -10,8 +10,6 @@ Package.describe({
 
   /*** Compilation - publication:
    *   In Bk directory, run:
-    npm run build:vue # to generate .vue.js files
-
     meteor publish # to publish to atmosphere.js meteor packages library
   ***/
 
