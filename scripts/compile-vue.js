@@ -86,14 +86,14 @@ function compileVueFile(filePath) {
   
   // Write compiled .js file
   const outPath = filePath.replace('.vue', '.vue.js');
-  // Ensure Vue runtime import is explicit to avoid missing index.js resolution in Meteor
-  // Rewrite imports for vue runtime and js-yaml ESM to avoid resolution issues in Meteor
-  // Normalize imports for Vue runtime and js-yaml ESM (handle both quote styles)
+  // Normalize imports for js-yaml ESM (handle both quote styles)
   // Also rewrite local component imports (.vue -> .vue.js), including relative paths like ../
+  // And rewrite dynamic imports/requires to point to compiled .vue.js files
   const fixed = output
-    .replace(/from ["']vue["']/g, 'from "vue/dist/vue.runtime.esm-bundler.js"')
     .replace(/from ["']js-yaml["']/g, 'from "js-yaml/dist/js-yaml.mjs"')
-    .replace(/from ["']((?:\.\.|\.)\/.+?)\.vue["']/g, 'from "$1.vue.js"');
+    .replace(/from ["']((?:\.\.|\.)\/.+?)\.vue["']/g, 'from "$1.vue.js"')
+    .replace(/import\(\s*["']((?:\.\.|\.)\/.+?)\.vue["']\s*\)/g, 'import("$1.vue.js")')
+    .replace(/require\(\s*["']((?:\.\.|\.)\/.+?)\.vue["']\s*\)/g, 'require("$1.vue.js")');
   writeFileSync(outPath, fixed, 'utf-8');
   console.log(`  → ${relative(rootDir, outPath)}`);
 }

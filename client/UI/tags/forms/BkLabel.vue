@@ -1,19 +1,20 @@
 <template>
   <label :class="computedClass">
-    <!--<t :options="context" :locale="fr">{{label}}</t>-->
-    <QIcon name="fas fa-check" />
+    <t :options="context" :locale="fr">{{label}}</t>
+    <QIcon name="fas fa-check"/>
   </label>
 </template>
 
 <script>
   import { Class } from "meteor/akyma:astronomy";
-  //import BkTranslate from "../translation/BkTranslate.vue";
+  import BkTranslate from "../translation/BkTranslate.vue";
+  import { QIcon } from 'quasar'
  
   export default {
     name: "BkLabel",
     components: {
-      //QIcon
-      //,t: BkTranslate
+      QIcon,
+      t: BkTranslate
     },
     props: {
       model: Class,

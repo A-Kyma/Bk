@@ -14,7 +14,7 @@ const _sfc_main = {
 
 export default _sfc_main;
 
-import { resolveComponent as _resolveComponent, createVNode as _createVNode, withCtx as _withCtx, openBlock as _openBlock, createBlock as _createBlock } from "vue/dist/vue.runtime.esm-bundler.js"
+import { resolveComponent as _resolveComponent, createVNode as _createVNode, withCtx as _withCtx, openBlock as _openBlock, createBlock as _createBlock } from "vue"
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_bk_button_icon = _resolveComponent("bk-button-icon")

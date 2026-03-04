@@ -20,7 +20,7 @@
 
 export default _sfc_main;
 
-import { resolveComponent as _resolveComponent, normalizeProps as _normalizeProps, guardReactiveProps as _guardReactiveProps, openBlock as _openBlock, createBlock as _createBlock, mergeProps as _mergeProps, createCommentVNode as _createCommentVNode, createVNode as _createVNode, createElementBlock as _createElementBlock } from "vue/dist/vue.runtime.esm-bundler.js"
+import { resolveComponent as _resolveComponent, normalizeProps as _normalizeProps, guardReactiveProps as _guardReactiveProps, openBlock as _openBlock, createBlock as _createBlock, mergeProps as _mergeProps, createCommentVNode as _createCommentVNode, createVNode as _createVNode, createElementBlock as _createElementBlock } from "vue"
 
 const _hoisted_1 = {
   key: 1,

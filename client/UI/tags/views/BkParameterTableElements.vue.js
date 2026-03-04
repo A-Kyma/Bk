@@ -22,7 +22,7 @@ const _sfc_main = {
 
 export default _sfc_main;
 
-import { toDisplayString as _toDisplayString, openBlock as _openBlock, createElementBlock as _createElementBlock, createCommentVNode as _createCommentVNode, resolveComponent as _resolveComponent, createBlock as _createBlock, withCtx as _withCtx, createVNode as _createVNode } from "vue/dist/vue.runtime.esm-bundler.js"
+import { toDisplayString as _toDisplayString, openBlock as _openBlock, createElementBlock as _createElementBlock, createCommentVNode as _createCommentVNode, resolveComponent as _resolveComponent, createBlock as _createBlock, withCtx as _withCtx, createVNode as _createVNode } from "vue"
 
 const _hoisted_1 = { key: 0 }
 const _hoisted_2 = { key: 1 }

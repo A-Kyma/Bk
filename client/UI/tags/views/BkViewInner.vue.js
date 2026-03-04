@@ -24,7 +24,7 @@
 
 export default _sfc_main;
 
-import { createCommentVNode as _createCommentVNode, resolveComponent as _resolveComponent, openBlock as _openBlock, createBlock as _createBlock, normalizeProps as _normalizeProps, guardReactiveProps as _guardReactiveProps, createVNode as _createVNode, createElementBlock as _createElementBlock, mergeProps as _mergeProps, createElementVNode as _createElementVNode, Fragment as _Fragment } from "vue/dist/vue.runtime.esm-bundler.js"
+import { createCommentVNode as _createCommentVNode, resolveComponent as _resolveComponent, openBlock as _openBlock, createBlock as _createBlock, normalizeProps as _normalizeProps, guardReactiveProps as _guardReactiveProps, createVNode as _createVNode, createElementBlock as _createElementBlock, mergeProps as _mergeProps, createElementVNode as _createElementVNode, Fragment as _Fragment } from "vue"
 
 const _hoisted_1 = ["href"]
 

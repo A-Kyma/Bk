@@ -114,7 +114,7 @@ const _sfc_main = {
 
 export default _sfc_main;
 
-import { renderSlot as _renderSlot, resolveComponent as _resolveComponent, createVNode as _createVNode, openBlock as _openBlock, createElementBlock as _createElementBlock, createCommentVNode as _createCommentVNode, normalizeProps as _normalizeProps, guardReactiveProps as _guardReactiveProps } from "vue/dist/vue.runtime.esm-bundler.js"
+import { renderSlot as _renderSlot, resolveComponent as _resolveComponent, createVNode as _createVNode, openBlock as _openBlock, createElementBlock as _createElementBlock, createCommentVNode as _createCommentVNode, normalizeProps as _normalizeProps, guardReactiveProps as _guardReactiveProps } from "vue"
 
 const _hoisted_1 = { key: 0 }
 const _hoisted_2 = { key: 1 }
