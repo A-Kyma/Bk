@@ -36,7 +36,7 @@
       :max="maxTags"
       @search-change="search"
       @select="onSelectRow"
-      @tag="$emit('tag',{model,field,value: $event})"
+      @tag="onAddTag"
       @remove="onRemoveTag"
       @open="onOpenDropdown"
       @close="onCloseDropdown"

@@ -1,4 +1,5 @@
 import {I18n} from "meteor/akyma:bk";
+import { Match } from "meteor/check"
 import {_} from "lodash";
 import {Class, ValidationError, ScalarField, ObjectField, ListField, Union} from 'meteor/jagi:astronomy';
 import errorPopupMixin from "./errorPopupMixin";
@@ -369,7 +370,6 @@ export default {
         this.ready = true
         this.$emit("ready")
       }
-
     },
     populate(records) {
       if (this.options) {
@@ -396,14 +396,18 @@ export default {
       let where = this.where
       if (!where && !records) return;
       if (records)
-        return records.map(record => {
-          let relation = new relationClass(record)
-          return {
-            'value': relation._id,
-            'text': relation.defaultName && relation.defaultName() || relation._id,
-            'record': record
-          }
-        }).sort((a,b) => (a.text <= b.text) ? -1 : 1)
+        if (!!relationClass) {
+          return records.map(record => {
+            let relation = new relationClass(record)
+            return {
+              'value': relation._id,
+              'text': relation.defaultName && relation.defaultName() || relation._id,
+              'record': record
+            }
+          }).sort((a, b) => (a.text <= b.text) ? -1 : 1)
+        } else {
+          return records
+        }
 
       // else (if subscription or readonly (maybe already subscribed))
       return relationClass && relationClass.find(where.search).map(record => {
@@ -431,6 +435,16 @@ export default {
       //this.relationList = [];
       this.model.isValid(this.field);
       this.$emit("input",this.model[this.field])
+    },
+    onAddTag(value) {
+      this.$emit('tag',{model: this.model, field: this.field,value})
+      let definition = this.model.getDefinition(this.field);
+      if (!definition.relation && this.meteorMethod && definition.type.name === "String") {
+        this.relationList.unshift({
+          text: value,
+          value: value
+        })
+      }
     },
     onRemoveTag(row) {
       this.$emit("remove",row)
